@@ -1,0 +1,20 @@
+Trabalho 01
+Andre Guedes Linhares
+
+1)
+- 2.53 GHz
+
+- 2 núcleos físicos e 0 virtuais
+
+- 2 níveis de cache (L1 e L2). As memórias estão localizadas no chip do processador.
+
+- Intel Smart Cache
+
+- Algumas instruções
+	- CAS: compara e faz swap
+	- BTS, BTR, BTC: testa a modifica bits
+	- INC, DEC, NOT, NEG: incrementa, decrementa, inverte e nega
+
+- O processador tem frequência igual a 2,53 GHz enquanto a memória principal tem 1067 MHz. Portanto a memória não é rápida o suficiente para o processador.
+
+2) O subsistema de Bluetooth do kernel do Linux apresenta um certo grau de paralelismo. Diferentes threads (algumas em contexto de processo, outras em contexto de interrupção) podem executar paralelamente. Para sincronizar essas threads são utilizadas algumas primitivas como spinlock, mutex, RCU e variáveis atômicas.
