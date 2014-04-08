@@ -1,0 +1,62 @@
+1. Descreva a arquitetura do seu computador pessoal em termos dos seguintes itens:
+	- Frequência de clock
+		2.1GHZ de clock e 3.1GHZ no modo turbo max
+		
+	- Número de núcleos (físicos e virtuais) do processador
+		NÚCLEOS FÍSICOS (cores)  = 4 
+		NÚCLEOS VIRTUAIS(threads)= 8 
+	
+	- Número de níveis de cache e onde as memórias cache estão localizadas
+		CACHE L1 = 4 × 32KB para instrução e 4 × 32KB para dados = 256 KB [Localizada em cada core]
+		CACHE L2 = 4 × 256 KB = 1MB [Localizada em cada core]
+		CACHE L3 = 6MB [Compartilhada por todos os cores - fora dos cores]
+	
+		FONTE: Mobile 3rd Generation Intel® Core™ Processor Family, Mobile Intel® Pentium® Processor Family, and Mobile Intel® Celeron® Processor Family Datasheet, Volume 1 of 2 [http://www.intel.com/content/dam/www/public/us/en/documents/datasheets/3rd-gen-core-family-mobile-vol-1-datasheet.pdf]
+	
+	- Como o processador mantém coerência das memórias cache
+		If a core tries to access a data item and it’s not present in the Level 3 cache, there’s no need to look in the other cores’ private caches—the data item won’t be there either. Conversely, if the data are present, four bits associated with each line of the cache memory (one bit per core) show whether or not the data are potentially present (potentially, but not with certainty) in the lower-level cache of another core, and which one.
+		
+		FONTE: http://www.tomshardware.com/reviews/Intel-i7-nehalem-cpu,2041-10.html
+	
+	- As instruções atômicas não-triviais (por exemplo, um LOAD ou um STOR são instruções "triviais" por fazerem apenas uma coisa) que estão disponíveis e o que elas fazem.
+		ADC = Adds the destination operand (first operand), the sourceoperand (second operand), and the carry (CF) flag and stores the result in the destination operand.		
+		ADD = Adds the destination operand (first operand) and the source operand (second operand) and then stores the result in the destination operand.		
+		AND = Performs a bitwise AND operation on the destination (first) and source (second) operands and stores the result in the destination operand location.
+		BTC = Selects the bit in a bit string (specified with the first operand, called the bit base) at the bit-position designated by the bit offset operand (second operand),stores the value of the bit in the CF flag, and complements the selected bit in the bit string.
+		BTR = Selects the bit in a bit string (specified with the first operand, called the bit base) at the bit-position designated by the bit offset operand (second operand), stores the value of the bit in the CF flag, and clears the selected bit in the bit string to 0.
+		BTS = Selects the bit in a bit string (specified with the first operand, called the bit base) at the bit-position designated by the bit offset operand (second operand), stores the value of the bit in the CF flag, and sets the selected bit in the bit string to 1.
+		CMPXCHG = Compares the value in the AL, AX, EAX, or RAX register with the first operand (destination operand). If the two values are equal, the second operand (source operand) isloaded into the destination operand. Otherwise, the destination operand is loaded into the AL, AX, EAX or RAX register.
+		CMPXCHG8B/CMPXCHG16B = Compares the 64-bit value in EDX:EAX (or 128-bit value inRDX:RAX if operand size is 128 bits) with the operand (destination operand). If the values are equal, the 64-bit value in ECX:EBX (or 128-bit value in RCX:RBX) is stored in the destination operand. Otherwise, the value in the destination operand is loadedinto EDX:EAX (or RDX:RAX).
+		DEC = Subtracts 1 from the destination operand, while preserving the state of the CF flag.
+		INC = Adds 1 to the destination operand, while preserving the state of the CF flag.
+		NEG = Replaces the value of operand (the destination operand) with its two's complement. (This operation is equivalent to subtracting the operand from 0.)
+		OR = Performs a bitwise inclusive OR operation between the destination (first) and source (second) operands and stores the result in the destination operand location.		
+		SBB = Adds the source operand (second operand) and the carry (CF) flag, and subtracts the result from the destination operand (first operand). The result of the subtraction is stored in the destination operand.
+		SUB = Subtracts the second operand (source operand) from the first operand (destination operand) and stores the result in the destination operand.
+		XADD = Exchanges the first operand (destination operand) with the second operand (source operand), then loads the sum of the two values into the destination operand.
+		XOR = Performs a bitwise exclusive OR (XOR) operation on the destination (first) and source (second) operands and stores the result in the destination operand location.
+		
+		OBSERVAÇÃO: As instruções citadas só são executadas atomicamente caso utilizem o prefixo LOCK.
+		
+		FONTE: http://download.intel.com/products/processor/manual/325383.pdf
+				
+	- A velocidade da memória que está rodando na sua máquina. Ela é rápida o suficiente para o processador? Sim? Não? Por quê?
+		Frequência da DRAM = 800Mhz
+		FSB:DRAM: 1:6      = 133Mhz
+		CPU Bus Speed      = 100Mhz
+		CPU Multiplier     =  12-31
+		
+		A memória é rápida o suficiente pois o FSB:DRAM é de 133Mhz e o CPU Bus Speed é de 100Mhz, não havendo gargalos dado que a memória é mais rápida que o clock externo do processador.
+		
+		FONTES: http://en.wikipedia.org/wiki/CPU_multiplier e uso do programa CPU-z (http://www.cpuid.com/softwares/cpu-z.html)
+		
+	
+2. Você já precisou construir programas paralelos, seja por motivos de estudo, seja por motivos profissionais? Escolha o mais complexo desses programas e descreva-o. Explique porque ele precisa realizar várias atividades ao mesmo tempo e em que consistiam essas atividades. Esse programa era "embaraçosamente" paralelo ou exigia sincronização entre as tarefas? Que problemas você enfrentou ao construi-lo (ou ajudar a construi-lo)?
+
+Nunca precisei construir programas necessariamente paralelos, mas sim concorrentes. Um exemplo recente de programa concorrente é o de uma ferramenta para condução de revisões sistemáticas. Uma de suas features é a busca em bibliotecas digitais científicas. A primeira implementação efetuava a busca nas bibliotecas digitais de maneira sequencial, ou seja, caso o usuário selecionasse três bibliotecas digitais, a ferramenta só iniciaria a busca da segunda após o término da primeira, assim como da terceira após o término da segunda. Para evitar que a ferramenta ficasse parada muito tempo esperando pela respota de IO das requisições HTTP, cada biblioteca digital passou a operar com sua própria thread. Como a maioria das bibliotecas digitais não ofereciam web-services para busca de artigos científicos, optamos por realizar requisições HTTP seguidas de parsing do HTML retornado para navegar na estrutura de resultados e extrair as informações dos artigos. Assim sendo, vislumbramos uma nova oportunidade de otimização via introdução de concorrência nos cenários em que a ferramenta precisava "caminhar" nas páginas de resultados, fazendo tantas requisições quantas fossem o número de páginas do resultado. Dessa forma, uma terceira implementação definiu um pool de threads compartilhado, com número máximo de threads parametrizável, em que as threads de cada biblioteca digital requisitava threads ao pool para efetuar a análise em cada uma de suas páginas. Com isso as thredas de cada biblioteca digital não precisavam ficar paradas enquanto esperavam o retorno da requisição HTTP para uma página em específico, adiantando-se chamando as páginas seguintes. 
+
+A ferramenta precisava realizar atividades concorrentes para contornar gargalos gerados por IO. Quanto às atividades, estas consistiam apenas de requisições HTTP parsing de HTML. 
+
+"Afrouxando" a definição de tarefas "embaraçosamente paralelas" para incluir àquelas atividades que demandam POUCO ou nenhum esforço de serem quebradas em atividades paralelas (http://en.wikipedia.org/wiki/Embarrassingly_parallel), pode-se dizer que o problema era embaraçosamente paralelo pois só precisava de sincronização ao final das buscas em cada biblioteca digital, no momento de acrescentar todos os artigos encontrados numa lista compartilhada que posteriormente seria persistida. Dado a simplicidade da solução, não tivemos problemas quanto à introdução da concorrência em si, mas sim com o uso de concorrência dentro da plataforma que estávamos utilizando, o Eclipse RCP. Tal paltaforma define restrições de criação de threads e acesso a objetos protegidos por meio de threads não criadas pela própria plataforma, como foi o nosso caso. Mas esses problemas não diziam respeito a concorrência em si.
+
+OBS: Já tive que lidar com problemas profissionais mais complexos que o apresentado, mas não lembro dos detalhes. Um foi quando solucionei problemas de deadlock e starvation numa implementação de um scheduler de jobs para um sistema de informação de apoio a decisão. Outro foi a implementação de um scheduler de impressoras, num servidor que recebia requisições HTTP de todas as impressoras fiscais (ECF) do Brasil e precisava escaloná-las de acordo com algumas restrições de regra de negócio, do contrário o sistema não suportaria a carga. Um outro foi por conta de condição de corrida num sistema de informação que estava embaralhando os comandos de multiplos usuários dentro de uma transação de banco de dados. Esses são os problemas que lembro, mas não em detalhes a solução que implementei.
