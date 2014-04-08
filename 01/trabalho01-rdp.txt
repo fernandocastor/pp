@@ -1,0 +1,48 @@
+1. Descreva a arquitetura do seu computador pessoal em termos dos seguintes itens:
+	1.1 - Frequência de clock
+	R=> 2.2 Ghz em cada CPU (máximo pode chegar a 3.2Ghz).
+	
+	1.2 - Número de núcleos (físicos e virtuais) do processador.
+	R=> 7 núcleos, onde, 4 são físicos e 3 são virtuais.
+	
+	1.3 - Número de níveis de cache e onde as memórias cache estão localizadas.
+	R=> 3 níveis de cache. Existe a cache L1 e L2 alocadas para cada core, e a L3 está dividada entre todos os cores.
+	
+	1.4 - Como o processador mantém coerência das memórias cache?
+	R=> O core procura o dado em sua cache "pessoal". Se não encontrar, vai até a cache L3. Caso não encontre, ele não perde tempo procurando nas caches dos outros cores, porém, se encontrar, ele verifica o endereço e busca na cache privada do core que tem o dado, fazendo a cópia para L3, apagando o dado da cache pessoal do outro core e copia para a sua cache.
+	
+	1.5 - As instruções atómicas não-triviais (por exemplo, um LOAD ou um STOR são instruções triviais" por fazerem apenas uma coisa) que estão disponíveis e o que elas fazem.
+	R=> usa instruções SIMD MMX, SSE, SSE2, SSE3, SSSE3, SSE4.1, SSE4.2, EM64T, VT-x, AES e AVX. Abaixo estão algumas instruções:
+	
+	*XADD - Exchanges the first operand (destination operand) with the second operand (source operand), then loads the sum of the two values into the destination operand. The destination operand can be a register or a memory location; the source operand is a register.In 64-bit mode, the instruction’s default operation size is 32 bits. Using a REX prefix in the form of REX.R permits access to additional registers (R8-R15). Using a REX prefix in the form of REX.W promotes operation to 64 bits. See the summary chart at the beginning of this section for encoding data and limits.
+	
+	*CMPXCHG - Compares the value in the AL, AX, EAX, or RAX register with the first operand (destination operand). If the two values are equal, the second operand (source operand) is loaded into the destination operand. Otherwise, the destination operand is loaded into the AL, AX, EAX or RAX register. RAX register is available only in 64-bit mode.
+	To simplify the interface to the processor’s bus, the destination operand receives a write cycle without regard to the result of the comparison. The destination operand is written back if the comparison fails; otherwise, the source perand is written into the destination. (The processor never produces a locked read without also producing a locked write.)
+
+	*DEC - Subtracts 1 from the destination operand, while preserving the state of the CF flag. The destination operand can be a register or a memory location. This instruction allows a loop counter to be updated without disturbing the CF flag. (To perform a decrement operation that updates the CF flag, use a SUB instruction with an immediate operand of 1.)
+
+	In 64-bit mode, DEC r16 and DEC r32 are not encodable (because opcodes 48H through 4FH are REX prefixes). Otherwise, the instruction’s 64-bit mode default operation size is 32 bits. Use of the REX.R prefix permits access to additional registers (R8-R15). Use of the REX.W prefix promotes operation to 64 bits. 
+
+	PS1: Todas as instruções podem ser usadas com o prefixo LOCK para permitir a instrução ser excecutada atomicamente.
+	PS2: O processador tem muitas instruções (Óbvio), por isso so coloquei 3.
+	PS3: Os textos foram copiados e colados, espero que isso não corte/anule a questão.
+	
+	1.6 - A velocidade da memória que está rodando na sua máquina. Ela é rápida o sufíciente para o processador? Sim? Não? Por quê?
+	R=> Sim. 
+	Calculo usado: 
+	FSB:DRAM ratio é 6 e DRAM 798MHz.
+	FSB:DRAM / 6 = 133Mhz
+	como 133 < 99.76 então eu não tenho "bottlenecks".
+	
+2. Você já precisou construir programas paralelos, seja por motivos de estudo, seja por motivos profissionais? Escolha o mais complexo desses programas e descreva-o. Explique porque ele precisa realizar várias atividades ao mesmo tempo e em que consistiam essas atividades. Esse programa era "embaraçosamente" paralelo ou exigia sincronização entre as tarefas? Que problemas você enfrentou ao construi-lo (ou ajudar a construi-lo)?
+	R=>Sim. No mais complexo, tive que ler uma planilha excel com mais de 45 mil linhas para ganhar performace. Separei a planilha em blocos processando-os através de threads. Uma thread pegava a quantidade de linhas lidas e outras 2 threads concorriam para ler o excel. Esse programa era "embaraçosamente" paralelo, pois, pela minha falta de experiência na área, comitia muitos erros esdrúxulos fazendo que o programa não utilizasse realmente o conceito de concorrencia quisá paralelismo. Meu maior problema era a falta de conhecimento. Se eu tivesse o conhecimento adiquirido nessas últimas semanas, mudaria muita coisa neste código. A começar pela atomicidade das variáveis e de alguns blocos/trechos de código.
+
+Referências: 
+-http://www.intel.com
+-http://www.intel.com/content/dam/www/public/us/en/documents/datasheets/3rd-gen-core-family-mobile-vol-1-datasheet.pdf
+-http://www.intel.com/content/dam/www/public/us/en/documents/white-papers/ia-introduction-basics-paper.pdf
+-http://www.intel.com/content/dam/www/public/us/en/documents/manuals/64-ia-32-architectures-software-developer-instruction-set-reference-manual-325383.pdf
+-http://www.cpuid.com/downloads/cpu-z/1.69-en.zip
+-https://www.kernel.org/pub/linux/kernel/people/paulmck/perfbook/perfbook-e1.pdf (Capítulo 3)
+-http://www.tomshardware.com
+-http://arstechnica.com/civis/viewtopic.php?f=8&t=157439
