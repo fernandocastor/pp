@@ -1,0 +1,29 @@
+1)
+	- frequência de clock: 2.26 GHz
+	- Número de núcleos: 4 núcleos. Dois físicos e dois virtuais.
+	- Número de níveis de cache e onde estão localizadas: Três níveis de cache. Nível L1 privado, localizada no núcleo do processador. L2 e L3 compartilhados,
+		localizados no processador, porém, fora dos núcleos.
+	- Como o processador mantém a coerência de memória: Quick Path. Os processadores podem acessar diretamente a cache do outro. O problema  disso é
+		que uma cópia de dado pode ser alterada localmente numa cache não refletindo nas outras cópias. Assim gerando inconscistência nos dados.
+	- Instruções atômicas não triviais: 
+	- Velocidade da memória: 800MHz. Não é suficiente: DDR3 800 = 800*64/8 = Taxa de transferência = 6400MB/s ou 6,4GB/s. O Core i3 tem taxa
+		de transferência de 17,1 GB/s.
+
+2) 
+	Algoritmo K-Means.
+	
+	O usuário informa uma quantidade n de centros e uma quantidade k de elementos, instâncias a serem classificadas.
+	A partir da segunda classificação n threads são criadas e executadas, cada uma classificando os elementos de acordo
+	com a nova média de cada centro atribuido a cada thread. A necessidade do uso de threads surgiu devido ao fato do 
+	usuário ter permissão para informar uma quantidade incontável de centros e elementos. Caso o algoritmo não fosse
+	sequencial poderia levar muito tempo para classificar todos os elementos. O problema não exigia sincronização, visto
+	que cada thread acessava exclusivamente seu conjunto de elementos. Portanto não é um problema embaraçosamente paralelo.
+
+
+--
+
+Referências
+	
+	http://ark.intel.com
+	http://software.intel.com/en-us/articles/software-techniques-for-shared-cache-multi-core-systems/?wapkw=smart+cache
+
