@@ -1,0 +1,51 @@
+================================
+ Trabalho 01 [Respostas] [gumn]
+================================
+
+1. Descreva a arquitetura do seu computador pessoal em termos dos seguintes itens:
+	- Modelo do Processador:
+		Intel Core i7 3517U
+	
+	- Frequência de clock:
+		1.9 GHz com turbo boost até 3.0 GHz
+	
+	- Número do núcleos:
+		FÍSICOS: 2
+		VIRTUAIS: 2
+	
+	- Níveis de cache:
+		L1-D: 2 x 32 KB [para cada núcleo] = 64 KB
+		L1-I: 2 x 32 KB [para cada núcleo] = 64 KB
+		L2: 2 x 256 KB [para cada núcleo] = 512 KB
+		L3: 4096 KB [compartilhado entre os núcleos]
+	
+	- Coerência de cache:
+		É feito um pedido de um bloco à cache L1: caso não encontrado é feita uma busca na L2. Após a busca na L2: caso encontrado, o bloco é carregado na L1; do contrário é feita uma busca na L3. Após a busca na L3: caso não encontrado, é feita uma busca na RAM e registrado na L3 e na L1; caso encontrado, o bloco é marcado como Partilhado se estiver presente nas cache de outros núcleos, carregado na L1, e as outras cópias do mesmo bloco nas outras cache são marcadas como Partilhado. Caso o bloco Partilhado precise ser escrito, é emitida uma requisição e o núcleo escreve no bloco e seu estado fica Modificado. As cópias do bloco em outras cache são marcadas como Inválidas. No momento em que qualquer núcleo quiser ler/escrever numa cópia com estado inválido, é realizado um write back e o valor modificado é copiado para a cópia do bloco, mudando seu estado para Partilhado.
+	
+	- Instruções atômicas não triviais:
+		ADC: Adds the destination operand (first operand), the source operand (second operand), and the carry (CF) flag and stores the result in the destination operand.
+		ADD: Adds the destination operand (first operand) and the source operand (second operand) and then stores the result in the destination operand.
+		AND: Performs a bitwise AND operation on the destination (first) and source (second) operands and stores the result in the destination operand location.
+		BTC: Selects the bit in a bit string (specified with the first operand, called the bit base) at the bit-position designated by the bit offset operand (second operand), stores the value of the bit in the CF flag, and complements the selected bit in the bit string.
+		BTR: Selects the bit in a bit string (specified with the first operand, called the bit base) at the bit-position designated by the bit offset operand (second operand), stores the value of the bit in the CF flag, and clears the selected bit in the bit string to 0.
+		BTS: Selects the bit in a bit string (specified with the first operand, called the bit base) at the bit-position designated by the bit offset operand (second operand), stores the value of the bit in the CF flag, and sets the selected bit in the bit string to 1.
+		CMPXCHG: Compares the value in the AL, AX, EAX, or RAX register with the first operand (destination operand). If the two values are equal, the second operand (source operand) is loaded into the destination operand. Otherwise, the destination operand is loaded into the AL, AX, EAX or RAX register.
+		CMPXCHG8B/CMPXCHG16B: Compares the 64-bit value in EDX:EAX (or 128-bit value in RDX:RAX if operand size is 128 bits) with the operand (destination operand). If the values are equal, the 64-bit value in ECX:EBX (or 128-bit value in RCX:RBX) is stored in the destination operand. Otherwise, the value in the destination operand is loaded into EDX:EAX (or RDX:RAX).
+		DEC: Subtracts 1 from the destination operand, while preserving the state of the CF flag.
+		INC: Adds 1 to the destination operand, while preserving the state of the CF flag.
+		NEG: Replaces the value of operand (the destination operand) with its two's complement. (This operation is equivalent to subtracting the operand from 0.)
+		NOT: Performs a bitwise NOT operation (each 1 is set to 0, and each 0 is set to 1) on the destination operand and stores the result in the destination operand location.
+		OR: Performs a bitwise inclusive OR operation between the destination (first) and source (second) operands and stores the result in the destination operand location.		
+		SBB: Adds the source operand (second operand) and the carry (CF) flag, and subtracts the result from the destination operand (first operand). The result of the subtraction is stored in the destination operand.
+		SUB: Subtracts the second operand (source operand) from the first operand (destination operand) and stores the result in the destination operand.
+		XADD: Exchanges the first operand (destination operand) with the second operand (source operand), then loads the sum of the two values into the destination operand.
+		XOR: Performs a bitwise exclusive OR (XOR) operation on the destination (first) and source (second) operands and stores the result in the destination operand location.
+	
+	- Memória RAM:
+		Frequência: 1333 MHz [DDR3-1333]
+		Ela é rápida o suficiente para o processador, pois a frequência do barramento do processador é menor que a frequência do barramento da memória e frontal.
+	
+	
+2. Você já precisou construir programas paralelos, seja por motivos de estudo, seja por motivos profissionais? Escolha o mais complexo desses programas e descreva-o. Explique porque ele precisa realizar várias atividades ao mesmo tempo e em que consistiam essas atividades. Esse programa era "embaraçosamente" paralelo ou exigia sincronização entre as tarefas? Que problemas você enfrentou ao construi-lo (ou ajudar a construi-lo)?
+
+	Construi um software, por motivos profissionais, que utiliza paralelismo e concorrência. O sistema automatiza o planejamento e execução de auditorias de objetos públicos na web. As funcionalidades do sistema geram relatórios usando a API do OpenOffice, fazendo merge de documentos ODT, e por esse motivo, são abertos e fechados vários documentos durante a geração do relatório, tornando o processo demorado. A API do OpenOffice usa um SDK incluído na instalação do aplicativo na máquina para manipular o aplicativo externamente, aparecendo em tela todas as atividades em tempo de execução. Logo, fiz com que a geração desses relatórios acontecesse em background utilizando threads, liberando o usuário para executar outras tarefas na aplicação. No entanto, o SDK do OpenOffice não está apto a ser utilizado paralelamente, apenas concorrentemente, tornando a geração do relatório instável. Para solucionar este problema, tive de utilizar-me de técnicas de exclusão mútua e travas para fazer com que o SDK seja usado por uma única solicitação de geração por vez.
