@@ -1,0 +1,61 @@
+*** Trabalho 01 ***
+
+> 1) Quesito
+
+>> 1.1) Frequência de clock: 
+
+>>> 2,53 GHz
+
+>> 1.2) Número de núcleos (físicos e virtuais) do processador. 
+
+>>> 2 (of cores) e 4 (of threads) respectivamente
+
+>> 1.3) Número de níveis de cache e onde as memôrias cache estão localizadas.
+
+>>> 3 níveis; L3 (processador fora do núcleo)com 3MB, 
+>>> L1 (núcleo do processador) e L2 (processador fora do núcleo) tem 256kb por core.
+
+>> 1.4) Como o processador mantêm coerência das memôrias cache
+
+>>> QuickPath interconnect:  Trata-se de uma interconexão de alta velocidade ponto a ponto. 
+>>> Cada processador possui seu controlador de memória fazendo com que os processadores 
+>>> comuniquem-se diretamente com o controlador de entrada e saída. Os processadores podem 
+>>> acessar diretamente a cache do outro, devido às interconexões entre eles.
+
+>> 1.5) As instruções atômicas não-triviais (por exemplo, um LOAD ou um STOR são instruções "triviais" por fazerem
+>> apenas uma coisa) que estão disponíveis e o que elas fazem.
+
+>>> Large Number Arithmetic Throughput Enhancements
+>>> Realiza processamento de grandes números em uma única instrução
+
+>> 1.6) A velocidade da memôria que está rodando na sua máquina. Ela é rápida o suficiente para o processador?
+>> Sim? Não? Por quê?
+
+>>> Não é suficiente
+>>> Memória: 4 GB 1600 MHz DDR3, ou seja,
+>>> (1600 * 64 / 8 = 12,8Gb/s) < (17,1 Gb/s do Processador) 
+
+> 2) Quesito
+
+>> Algoritmo K-Means
+
+>>> O algoritmo faz uma classificação dos N elementos de acordo com  a proximidade dos M centros. Como N poderia 
+>>> se tornar extremamente grande resolvemos fazer uso de threads para que a classificação dos N elementos fossem feitas
+>>> mais rapidamente. Como cada thread acessa apenas sua classe de elementos não tivemos problemas com sincronização. 
+>>> Portanto não é um problema embaraçosamente paralelo.
+
+** Passos K-Means **
+1. Primeiro passo apenas a thread principal (main) classifica os elementos de acordo com o centro mais próximo
+2. N centros e N threads: Cada thread realiza a re-classificação de cada elemento da classe e após re-classificar, 
+calcula a média dos pontos para que o centro mova-se.
+3. Os centros são Re-classificados até que não haja mais mudanças significativas.  
+****
+
+> References:
+
+http://ark.intel.com
+http://software.intel.com/en-us/articles/software-techniques-for-shared-cache-multi-core-systems
+http://ark.intel.com/products/43544/Intel-Core-i5-540M-Processor-3M-Cache-2_53-GHz
+http://www.intel.com/content/www/us/en/io/quickpath-technology/quickpath-technology-general.html
+http://www.hotchips.org/wp-content/uploads/hc_archives/hc23/HC23.19.9-Desktop-CPUs/HC23.19.911-Sandy-Bridge-Lempel-Intel-Rev%207.pdf
+http://www.intel.com/content/dam/doc/white-paper/signal-processing-on-intel-architecture.pdf
