@@ -1,0 +1,79 @@
+Trabalho de Sistemas Distribuídos - Programação paralela
+Aluna:Maria Silvia Ito
+
+Trabalho 1:
+
+1. Descreva a arquitetura do seu computador pessoal em termos dos seguintes itens:
+
+Processador:
+Intel(R) Core(TM) i7-3610QM CPU @ 2.30GHz
+	_Frequencia de clock: 
+		2.3GHz, 3.3 GHz de Max turbo Frequency
+
+	_Numero de nucleos (fisicos e virtuais) do processador:
+		4 nucleos fisicos e 8 virtuais
+
+	_Numero de niveis de cache e onde as memorias cache estao localizadas:
+		L1: 32KB (instrucao) e 32KB (dados) cache de primeiro nivel (L1) para cada núcleo
+		L2: 256KB compartilhada (instrucao/dados)  cache de segundo nivel (L2) para cada núcleo
+		L3: 6MB compartilhada (instrucao/dados) cache de terceiro nivel, compartilhada entre todos os nucleos
+	
+	_Como o processador mantem coerencia das memorias cache: 
+		Por meio de Snooping (protocolo MESI). Ou seja, quando um lugar de memória é atualizado, ele envia uma mensagem para para os outros para informar que os dados armazenados neles estão desatualizados, e que precisam acessar o lugar que enviou a mensagem pra atualizar esse valor. ("All “SNOOP semantic” PCI Express transactions are kept coherent with processor caches. All “Snoop not required semantic” cycles must reference the main DRAM address range. PCI Express non-snoop initiated cycles are not snooped.")
+	
+	_As instruçoes atomicas nao-triviais que estao disponiveis e o que elas fazem: 
+		Existem operações que se tornam atômicas com o uso de lock: ADD, ADC, AND, BTC, BTR, BTS, CMPXCHG, CMPXCH8B,
+CMPXCHG16B, DEC, INC, NEG, NOT, OR, SBB, SUB, XOR, XADD, and XCHG
+		As não triviais são:
+		_BTC: Selects the bit in a bit string (specified with the first operand, called the bit base) at the bit-position designated by
+the bit offset operand (second operand), stores the value of the bit in the CF flag, and complements the selected
+bit in the bit string
+		_BTR: Selects the bit in a bit string (specified with the first operand, called the bit base) at the bit-position designated by
+the bit offset operand (second operand), stores the value of the bit in the CF flag, and clears the selected bit in the
+bit string to 0
+		_BTS: Selects the bit in a bit string (specified with the first operand, called the bit base) at the bit-position designated by
+the bit offset operand (second operand), stores the value of the bit in the CF flag, and sets the selected bit in the
+bit string to 1
+		_CMPXCHG: Compares the value in the AL, AX, EAX, or RAX register with the first operand (destination operand). If the two
+values are equal, the second operand (source operand) is loaded into the destination operand. Otherwise, the
+destination operand is loaded into the AL, AX, EAX or RAX register. RAX register is available only in 64-bit mode.
+		_CMPXCHG8B/CMPXCHG16B: Compares the 64-bit value in EDX:EAX (or 128-bit value in RDX:RAX if operand size is 128 bits) with the operand (destination operand). If the values are equal, the 64-bit value in ECX:EBX (or 128-bit value in RCX:RBX) is stored
+in the destination operand. Otherwise, the value in the destination operand is loaded into EDX:EAX (or RDX:RAX).
+The destination operand is an 8-byte memory location (or 16-byte memory location if operand size is 128 bits). For
+the EDX:EAX and ECX:EBX register pairs, EDX and ECX contain the high-order 32 bits and EAX and EBX contain the
+low-order 32 bits of a 64-bit value. For the RDX:RAX and RCX:RBX register pairs, RDX and RCX contain the high-
+order 64 bits and RAX and RBX contain the low-order 64bits of a 128-bit value.
+		_SBB: Adds the source operand (second operand) and the carry (CF) flag, and subtracts the result from the destination
+operand (first operand)
+		_XADD: Exchanges the first operand (destination operand) with the second operand (source operand), then loads the sum
+of the two values into the destination operand. 
+		
+
+		No entanto, existem aquelas em que o processador utiliza o lock automaticamente. São elas: 
+		_a função exchange XCHG que faz referência a memória
+		_ao se setar a flag de BUSY em um descritor TSS
+		_ao se atualizar descritores de segmentos
+		_ao se atualizar entradas de page-directories e page-tables
+		_ao se reconhecer um interrupt
+
+	_A velocidade da memoria que esta rodando na sua maquina. Ela e rapida o suficiente para o processador? Sim? Nao? Por que?
+		_DDR3, 1600MHz. Como existem dois pentes em dual channel, a taxa total DMI é de 3.2GT/s. O processador Intel(R) Core(TM) i7-3610QM CPU @ 2.30GHz apresenta DMI de 5GT/s, o que leva à conclusão de que a memória existente em meu computador é insuficiente para o processador.
+
+2. Voce ja precisou construir programas paralelos, seja por motivos de estudo, seja por motivos profissionais? Escolha o mais complexo desses programas e descreva-o. Explique porque ele precisa realizar varias atividades ao mesmo tempo e em que consistiam essas atividades. Esse programa era “embaracosamente” paralelo ou exigia sincronizacao entre as tarefas? Que problemas voce enfrentou ao construi-lo (ou ajudar a construi-lo)?
+Não
+Existem vários tipos de programação paralela, sendo que algumas podem ser executadas em qualquer hardware, outras devem ser executadas em arquiteturas específicas
+Alguns paradigmas:
+	_Memória compartilhada: várias unidades de processamento acessam o mesmo espaço de memória (ex: desktop/notebook com vários núcleos)
+	_Memória distribuída: várias unidades de processamento possuem sua própria localização de memória (ex:um cluster de computadores)
+
+Tipos de tarefas em paralelo
+	_Problemas embaraçosamente paralelos: são os mais facilmente paraleláveis e conseguem alcançar velocidades altas. Cada processamento pode ser realizado independentemente dos outros. Ou seja, um problema pode ser dividido em vários sub-problemas
+	_Problemas seriais: um problema em que o processamento de um estágio depende do resultado de um estágio anterior. Pode-se aproveitar de computação paralela em casos de meta-computação paralela
+	
+	
+
+
+
+
+		
+
