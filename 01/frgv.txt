@@ -1,0 +1,55 @@
+#################################### FRGV ######################################
+
+1. Descreva a arquitetura do seu computador pessoal em termos dos seguintes itens:
+
+  - Frequência de clock: 2.20GHz
+
+  - Número de núcleos (físicos e virtuais) do processador:
+      Núcleos físicos (cores) = 2 e enabledcores = 1
+      Núcleos virtuais (threads) = 2
+
+  - Números de níveis de cache e onde as memórias cache estão localizadas:
+      Cache:0 L1 cache = 64KiB
+      Cache:1 L2 cache = 512KiB
+      Cache:2 L3 cache = 3KiB
+      capabilities: internal varies unified
+
+  - Como o processador mantém coerência das memórias cache: O processador inclui um protocolo de coerência de cache durante as operações do sistema, o protocolo prevê transferências diretas de cache-para-cache. <http://www.intel.com.br/content/dam/doc/white-paper/quick-path-interconnect-introduction-paper.pdf>
+
+  - As instruções atômicas não-triviais que estão disponíveis e o que elas fazem:
+      ADC - Add with carry. Adiciona o operador de destino (primeiro operador), o operador da fonte (segundo operador) e o carry (CF) flag e então armazena o resultado no operador de destino.
+
+      ADD - Add. Adiciona o operador de destino (primeiro operador), o operador da fonte (segundo operador) e então armazena o resultado no operador de destino.
+
+      AND - Logical AND. Realiza uma operação AND bit-a-bit entre os operadores destino (primeiro) e fonte (segundo) e armazena o resultado no operador de destino.
+
+      BTC - Bit Test and Complement. Seleciona um bit numa cadeia de bits (especificamente selecionado pelo primeiro operador, chamado de bit base) e a posição do bit desiginada pelo operador de bit offset (segundo operador), armazena o valor do bit no CF flag, e complementa o bit selecionado na cadeia de bits.
+
+      BTR - Bit Test and Reset. Seleciona um bit numa cadeia de bits (especificamente selecionado pelo primeiro operador, chamado de bit base) e a posição do bit desiginada pelo operador de bit offset (segundo operador), armazena o     valor do bit no CF flag, e modifica o bit selecionado na cadeia de bits para 0.
+
+      BTS - Bit Test and Set. Seleciona um bit numa cadeia de bits (especificamente selecionado pelo primeiro operador, chamado de bit base) e a posição do bit desiginada pelo operador de bit offset (segundo operador), armazena o valor do bit no CF flag, e modifica o bit selecionado na cadeia de bits para 1.
+
+      CMPXCHG - Compare and Exchange. Compara o valor nos registradores AL, AX, EAX, or RAX com o primeiro operador (operador destino)
+
+      OR - Logical Inclusive OR. Realiza uma operação OR bit-a-bit entre os operadores destino (primeiro) e fonte (segundo) e armazena o resultado no operador de destino.
+
+      SBB - Integer Subtraction with Borrow. Adiciona o operador fonte (segundo operador) e o carry (CF) flag, e subtrai o resultado do operador destino (primeiro operador).
+
+      SUB - Subtract. Subtrai o segundo operador (operador fonte) do primeiro operador (operador destino) e armazena o resultado no operador destino.
+
+      XADD - Exchange and Add. Troca o primeiro operador (operador destino) com o segundo operador (operador fonte), e então armazena a soma dos dois valores no operador destino.
+
+      XEND - Transactional End. Marca o fim de uma região de código RTM.
+
+      XOR - Logical Exclusive OR. Realiza uma operação XOR bit-a-bit entre os operadores destino (primeiro) e fonte (segundo) e armazena o resultado no operador de destino.
+      <http://www.intel.com/content/dam/www/public/us/en/documents/manuals/64-ia-32-architectures-software-developer-instruction-set-reference-manual-325383.pdf>
+
+  - A velocidade da memória que está rodando na sua máquina. Ela é rápida o suficiente para o processador? Sim? Não? Por quê?
+
+    Memória 4Gb DDR3 Synchronous 1333 MHz (0.8 ns)
+    Processador 2.20GHz
+    Sim. Porque a memória é mais rápida que o processador. Logo a memória atuará em perfeita cooperação com processador.
+
+2. Você já precisou construir programas paralelos, seja por motivos de estudo, seja por motivos profissionais? Escolha o mais complexo desses programas e descreva-o. Explique porque ele precisa realizar várias atividades ao mesmo tempo e em que consistiam essas atividades. Esse programa era "embaraçosamente" paralelo ou exigia sincronização entre as tarefas? Que problemas você enfrentou ao construi-lo (ou ajudar a construi-lo)?
+
+  Sim. Recentimente implementei testes em elixir basiado no Intel MPI benchmark. O MPI (Message Passing Interface) é uma especicação de biblioteca de interface de passagem de mensagens. MPI aborda principalmente o modelo de programaçã(o paralela de passagem de mensagens, no qual os dados são movidos a partir do espaço de endereçamento de um processo para outro processo através de operações de cooperação em cada processo. MPI é uma especificação, não uma aplicação existem várias implementações de MPI a minha foi feita em elixir que é uma linguagem funcional criada em 2011 que roda na VM (Virtual Machine) do Erlang. Os testes visam analisar o desempenho de características de processamento e de movimentação de dados de um sistema de computação, foi feito 3 (três) testes do MPI Benchmark Pingping, Pingpong e Sendrecv com as seguinstes características: transferência simples, onde uma única mensagem é trocada entre dois processos, transferência paralela em que 1 (uma) menssagem é trocada endre dois processos, porém existem vários pares de processos executando simultaneamente e transferência coletiva em que vários processos trabalham em conjunto para realizar uma tarefa. Os testes estão disponíveis em https://github.com/Filipergv/ooerlang.
