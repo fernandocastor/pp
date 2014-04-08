@@ -1,0 +1,50 @@
+﻿# UTF-8
+1
+	Frequência de clock: 
+		1.8GHz / 3.0GHz (Turbo Boost)
+	Número de núcleos (físicos e virtuais) do processador:
+		2/4
+	Número de níveis de cache e onde as memórias cache estão localizadas: 
+		3 níveis de cache:
+			Nível 1: L1 I-Cachede 32 KB por núcleo físico e L1 D-Cache de 32 KB por núcleo físico
+			Nível 2: L2 cache de 256 KB por núcleo físico
+			Nível 3: L3 cache de 4 MB compartilhada entre os dois núcleos físicos
+
+	As instruções atômicas não-triviais (por exemplo, um LOAD ou um STOR são instruções "triviais" por fazerem apenas uma coisa) que estão disponíveis e o que elas fazem:
+		De acordo com o manual de referência da Intel os seguintes tipos de instrução e operações são garantidos de serem atômicos:
+			Leitura ou escrita de byte
+			Leitura ou escrita de palavra de 16 bit alinhada
+			Leitura ou escrita de palavra dupla ("doubleword") de 32-bit alinhada
+			Leitura ou escrita de palavra quádrupla ("quadword") de 64-bit alinhada
+			Acessos de 16 bit em locais de memórias fora da cache, mas que cabem em um data bus de 32 bit
+			Acessos não alinhados de 16/32/64 bit para memória em cache e que cabem em uma única linha de cache
+			Instrução XCHG que referência a memória (trocar conteúdo de um registrador com a memória)
+			Setar flag de ocupado ("Busy") para o descritor de segmento de estado de tarefa ("TSS")
+			Ao atualizador descritores de segmento
+			Quando atualizando entradas em diretórios de páginas e em tabelas de páginas
+			Quando reconhecendo interrupções
+
+		Além disso é possível tornar outras instruções em intruções atômicas utilizando um sinal de LOCK, as seguintes instruções podem ser utilizadas com esse sinal:
+			
+			Instruções para testar e modificar bits: BTS ("bit test and set", selecionar um bit de uma cadeia de bits, amarzená-lo em uma flag e setar o bit selecionado para 1), BTR ("bit test and reset", selecionar um bit de uma cadeia de bits, amarzená-lo em uma flag e setar o bit selecionado para 0) e BTC ("bit test and complement", selecionar um bit de uma cadeia de bits, amarzená-lo em uma flag e complementar o bit na cadeia de bits)
+			Instruções de "troca": XADD (trocar operandos e adicionar), CMPXCHG (comparar e trocar operandos) e CMPXCHG8B (comparar e trocar operandos)
+			Instruções aritiméticas e lógicas de um único operando: INC (incrementar operando), DEC (decrementar operando), NOT (teste lógico da negação do operando) e NEG (complemento bit a bit)
+			Instruções aritiméticas e lógicas de dois operandos: ADD (adição), ADC (adição com carry), SUB (subtração), SBB (subtração com carry), AND (teste "e" lógico), OR (teste "ou" lógico) e XOR (teste "ou-exclusivo" lógico)
+
+		É interessante observar também que meu processador (com arquitetura Haswell) dá suporte para memória transacional implementando o conjunto de instruções de extensão "TSX":
+			XBEGIN, XEND e XABORT possibilitam delimitar uma região de memória crítica e a abortar explicitamente uma transação além de possibilitarem explicitar de onde prosseguir caso 
+			XACQUIRE e XRELEASE possibilitam a execução de uma região crítica de maneira atômica (transação) sem travamento explícito e caso a transação falhe a mesma é abortada e a região crítica deve ser executada novamente, mas dessa vez utilizando uma trava
+
+	A velocidade da memória que está rodando na sua máquina. Ela é rápida o suficiente para o processador? Sim? Não? Por quê?
+		Sim/Não, o chip de memória (DDR3-1600) possui um clock de 1600MHz (800MHz reais) que é o máximo (ou o recomendado) de acordo com as especificações do site da Intel para meu processador, entretanto, a memória está rodando em modo single channel e por isso não atinge a largura de banda máxima do processador (25,6GB/s)
+2
+	Você já precisou construir programas paralelos, seja por motivos de estudo, seja por motivos profissionais? Escolha o mais complexo desses programas e descreva-o. Explique porque ele precisa realizar várias atividades ao mesmo tempo e em que consistiam essas atividades. Esse programa era embaraçosamente paralelo ou exigia sincronização entre as tarefas? Que problemas você enfrentou ao construi-lo (ou ajudar a construi-lo)?
+	Sim. O programa era uma aplicação Android que deveria receber solicitações para sintetizar áudio à partir de texto, a síntese era feita utilizando a API padrão do sistema. Devido à maneira como os componentes de aplicações funcionam, requisições para síntese de áudio deveriam ser assíncronas, ou seja, clientes da aplicação deveriam submeter "tarefas de síntese" e aplicação retornaria imediatamente sem necessariamente já ter completado as mesmas. O progresso deveria ser reportado ao final de cada tarefa através da interface de usuário.
+	Esse programa não era embaraçosamente paralelo já que havia a necessidade de acesso à rede (I/O) com  certa frequência. Certas restrições do Android impuseram algumas dificuldades para implementação: (1) A API para síntese sempre roda na thread principal do programa, (2) as requisições são recebidas na thread principal (3) assim como qualquer código que manipule a interface gráfica deve rodar também na thread principal do programa. Como (1) e (2) sempre acontecem na thread principal, não é possível receber uma requisição, chamar a API de síntese e esperar que a mesma termine antes de retornar da thread que recebeu a requisição, já que isso configuraria um deadlock, isto é, considerando (1) e (2) tarefas distintas T1 e T2, para T1 ser concluída T2 deve terminar e para T2 poder iniciar T1 deve acabar visto que T2 roda na thread principal e T2 sempre ocorre depois de T1. Essas restrições tornaram o código relativamente complexo para uma tarefa simples, já que era necessário controlar exatamente em quais threads cada trecho de código deveria/poderia ser chamado. Outros fatores que também dificultaram essa tarefa foi a falta de documentação (só debuggando foi possível descobrir que as chamadas a API rodam na thread principal, não havia nenhum menção do mesmo na documentação oficial) e o estilo de programação baseado em callbacks aliado ao design das APIs existentes para controlar em que threads código deve ser executado (i.e., classes anônimas dentro de classes anônimas).
+
+
+Referências:
+1. http://ark.intel.com/pt-br/products/75460/Intel-Core-i7-4500U-Processor-4M-Cache-up-to-3_00-GHz
+2. CPU-z (http://www.cpuid.com/softwares/cpu-z.html)
+3. Intel® 64 and IA-32 Architectures Software Developer’s Manual Volume 3A: System Programming Guide, Part 1 (http://www.intel.com/Assets/en_US/PDF/manual/253668.pdf)
+
