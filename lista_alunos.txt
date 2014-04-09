@@ -5,6 +5,7 @@ Anderson Fonseca, afs8
 André Guedes, agl
 Carlos Melo, casm3
 Danilo Soares, dlsb
+Dejacir Maciel dos Santos,
 Fabio Soares, fss6
 Felipe Alencar, fal3
 Felipe Ebert, fe
@@ -18,8 +19,11 @@ José Fernando Santos de Carvalho, jfsc
 Larissa Falcao, lctf
 Luís Gabriel Lima, lgnfl
 Marcelo Iury, miso
+Maria Sílvia, msi
 Paulo Barros, pbsf
 Rafael Brandão, rbl
 Rafael Pedrosa, rdp
 Thiago Lacerda, tbl2
 Wellington Oliveira, woj
+Wendel Campos Veles, wcv
+Weslley Torres, wst
