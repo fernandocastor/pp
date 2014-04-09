@@ -1,0 +1,105 @@
+PP - Trabalho 1
+Aluno: Paulo Barros (pbsf)
+
+
+1) Descreva a arquitetura do seu computador pessoal em termos dos seguintes
+itens:
+
+a) Frequencia de clock
+
+2.6GHz
+
+b) Número de núcleos (físicos e virtuais) do processador.
+
+2 núcleos físicos e 4 threads.
+
+c)Número de níveis de cache e onde as memórias cache estão localizadas.
+
+3 níveis: 
+  L1 - Em cada núcleo do processador. 
+  L2 - Cache intermediária para cada par de núcleos.
+  L3 - Cache compartilhada por todos os núcleos.
+
+d) Como o processador mantém coerência das memórias cache
+
+De acordo com o livro [1], para processadores em geral: 
+Processadores podem acessar a cache de outros processadores.
+Eles mantém coerencia pois quando um dado é requisitado por um outro
+processador, ocorre um flush na cache, fazendo com que ocorra possivelmente uma
+cache miss no futuro, mas garantindo a coerencia.
+
+Para o meu processador em especifico, fazendo uma busca no google:
+Snooping: caches mantem linhas de endereco de memoria para o conteudo em que
+estao apontando. Caso haja modificacao em alguma dessas linhas (operacao write),
+ocorre uma operacao de write invalidate na cache, invalidando o conteudo que
+antes havia nela.
+
+e) As instruções atômicas não-triviais que estão disponíveis e
+o que elas fazem.
+
+[2] - Referência
+
+XADD - Modifica o primeiro operando para o valor do segundo, e coloca no
+resultado a soma dos 2 operandos.
+
+MOV CRn - Usadas para manipular bits de registrador (Load and Store)
+
+INVD - Invalida toda a data da cache e envia um sinal para caches externas
+indicando que elas também devem ser invalidadas.
+
+WBINVD - A mesma coisa que INVD, porém ela atualiza o valor na cache que contém
+o acerto antes de invalidar as outras caches. Após a atualização, um sinal é
+enviado para que as outras caches sejam invalidadas.
+
+MOVSX e MOVZX- Instrução de MOVE com extensão de sinal.
+
+BTS, BTR, BTC, BSF, BSR - instruções de Bit test e bit scan
+
+SETcc - byte-set-on condition, seta o bit de acordo com uma condição.
+
+ADD, ADC, SUB, SBB, AND, OR, XOR - instruções lógicas e aritméticas com dois
+operandos.
+
+INC, DEC, NOT, NEG - instruções lógicas e aritméticas com um operando.
+
+f) A velocidade da memória que está rodando na sua máquina. Ela é rápida o
+suficiente para o processador? Sim? Nâo? Por quê?
+
+2x 1600 MHz. O bus clock do barramento é de 800MHz, enquanto que a taxa
+máxima de transferência é de 12.8GB/s (25.6GB/s no caso de 2 memórias) [3]. A 
+taxa de transferência máxima para o processador é de 5GT/s [4]. 5GT/s são
+equivalentes a 25.6GB/s. Logo, 2 memórias são rápidas o suficiente para o 
+processador na minha máquina considerando o barramento. Comparar somente a
+memória com o processador não faz muito sentido, mas comparando o sistema em
+geral, o processar e memória estão se complementando de uma boa forma, não
+existindo um gargalo evidente.
+
+
+2) Você já precisou construir programas paralelos, seja por motivos de estudo,
+seja por motivos profissionais? Escolha o mais complexo desses programas e
+descreva-o. Explique porque ele precisa realizar várias atividades ao mesmo
+tempo e em que consistiam essas atividades. Esse programa era “embaraçosamente”
+paralelo ou exigia sincronização entre as tarefas? Que problemas você
+enfrentou ao construi-lo (ou ajudar a construi-lo)?
+
+Sim. Ja fiz alguns sistemas concorrentes. O primeiro que me vem a cabeça foi
+o primeiro que eu fiz, e o que eu mais aprendi sobre sistemas concorrentes.
+Trata-se de um software composto por um chat online entre várias pessoas (sala
+de bate-papo) com a possibilidade de transferência de arquivos entre usuários. 
+O protocolo de comunicação teve que ser implementado por nós, não podíamos
+reutilizar o TCP. Foi necessário fazer o sistema ser concorrente para que a
+transferência de arquivos tivesse uma boa performance. Esse sistema não era
+embarçosamente paralelo mas existia sincronização entre as tarefas, pois pacotes
+eram enviados em diferentes threads e tinham que ser ordenados de forma correta 
+no lado do receptor. O maior problema enfrentado foi o primeiro contato com
+programação paralela e a falta de experiência, visto que estava ainda no meu 2o
+ano do curso de graduação, com pouca experiência em programação. Foram muitos os
+casos de deadlock que tivemos que resolver, e debugar programação concorrente
+não é uma coisa simples.  
+
+
+Referências:
+[1]: Perfbook
+[2]: http://www.intel.com/Assets/en_US/PDF/manual/253668.pdf
+[3]: http://en.wikipedia.org/wiki/DDR3_SDRAM
+[4]: http://ark.intel.com/products/72056

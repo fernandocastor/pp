@@ -1,0 +1,109 @@
+Carlos Alexandre Silva de Melo
+
+1. Descreva a arquitetura do seu computador pessoal em termos dos seguintes itens:
+
+- Frequencia de clock:
+4.0Ghz e 4.2Ghz em modo turbo, sem necessidade de melhoria na refrigeração.
+
+- Numero de nucleos (fisicos e virtuais) do processador
+Oito Núcleos (Físicos). 
+Oito Threads
+
+- Numero de niveis de cache e onde as memorias cache estao localizadas.
+Três níveis, 
+Level 1 Cache = 4 x 64 KB shared instruction caches, 8 x 16 KB data caches, localizadas nos núcleos.
+Level 2 Cache = 4 x 2 MB shared exclusive caches, Entre pares de grupos, quatro grupos no total, cada grupo com dois núcleos. 
+Level 3 Cache = 8 MB shared cache, No meio do processador, dividindo os pares, dois pares de cada lado.  
+
+- Como o processador mantem coerencia das memorias cache?
+Através do protocolo MOESI de Coerência entre Caches. The caches with the shared modified state update each other’s lines with current data, but do not write it back to main memory.
+
+(M)Modified
+This cache has the only valid copy of the cache line, and has made changes to that copy.
+
+(O)Owned
+This cache is one of several with a valid copy of the cache line, but has the exclusive right to make changes to it. It must broadcast those changes to all other 
+
+caches sharing the line. The introduction of owned state allows dirty sharing of data, i.e, a modified cache block can be moved around various caches without updating 
+
+main memory. The cache line may be changed to the Modified state after invalidating all shared copies, or changed to the Shared state by writing the modifications back 
+
+to main memory. Owned cache lines must respond to a snoop request with data.
+
+(E)Exclusive
+This cache has the only copy of the line, but the line is clean (unmodified).
+
+(S)Shared
+This line is one of several copies in the system. This cache does not have permission to modify the copy. Other processors in the system may hold copies of the data in 
+
+the Shared state, as well. Unlike the MESI protocol, a shared cache line may be dirty with respect to memory; if it is, some cache has a copy in the Owned state, and 
+
+that cache is responsible for eventually updating main memory. If no cache hold the line in the Owned state, the memory copy is up to date. The cache line may not be 
+
+written, but may be changed to the Exclusive or Modified state after invalidating all shared copies. (If the cache line was Owned before, the invalidate response will 
+
+indicate this, and the state will become Modified, so the obligation to eventually write the data back to memory is not forgotten.) It may also be discarded (changed 
+
+to the Invalid state) at any time. Shared cache lines may not respond to a snoop request with data.
+
+(I)Invalid
+This block is not valid; it must be fetched to satisfy any attempted access.
+
+- As instruções atômicas não-triviais (por exemplo, um LOAD ou um STOR são instruções triviais por fazerem apenas uma coisa) que estão disponíveis e o que elas fazem.
+
+
+Instruções Aceitas
+MMX (+), SSE, SSE2, SSE3, SSSE3, SSE4.1, SSE4.2, SSE4A, AMD 64, NX, VMX, AES, AVX, FMA3, FMA4
+
+MMX
+pcmpeqb compares for 8-bit equality, between an MMX register and another register or memory location. For pairs that are equal the result is all ones (0xff), otherwise 
+
+it is zero (0x00).
+
+SSE 
+xorps - Logically XORs 4 single-precision values with 4 other single-precision values.
+
+SSE2
+comisd - Compares bottom 64bit doubles and stores result in EFLAGS.
+ucomisd - Compares bottom 64bit doubles and stores result in EFLAGS. (QNaNs don't throw exceptions with ucomisd, unlike comisd.
+movq - Moves a 64bit value, clearing the top 64bits of an XMM register.
+
+
+SSSE3
+palignr - Combines two register values, and extracts a register-width value from it, based on an offset.
+addsubpd - Adds the top two doubles and subtracts the bottom two.
+
+
+- A velocidade da memoria que esta rodando na sua maquina. Ela é rápida o suficiente para o processador? Sim? Não? Por quê?
+Se o processador tivesse de lidar apenas com a memória ram seria insuficiente. Ficaria ocioso por um curto intervalo de tempo durante a comunicação através dos 
+
+barramentos.
+
+***Processador*** 
+Frequência = 4000Mhz; Largura de data = 64 bits;
+4000mhz x 64 / 8 = 32000Mb/s
+
+***Memória RAM*** 
+Frequência = 1866Mhz;
+1866mhz x 128 / 8 =
+Largura de Banda = 29856Mb/s (Porém vale salientar que a arquitetura Dual Channel está sendo considerada, e a largura de banda disponível está sendo dobrada). 
+
+2 - Você já precisou construir programas paralelos, seja por motivos de estudo, seja por motivos proissionais? Escolha o mais complexo desses programas e descreva-o. 
+
+Explique porque ele precisa realizar várias atividades ao mesmo tempo e em que consistiam essas atividades. Esse programa era embaracosamente paralelo ou exigia
+sincronização entre as tarefas? Que problemas você enfrentou ao construi-lo (ou ajudar a construi-lo)?
+
+- Um servidor de e-mail que utilizava de uma thread para cada conexão de usuário, isso durante a graduação. Cada thread era rodada independementemente, pois cada 
+
+usuário tinha seu próprio processo, para que não houvesse espera. Era embaraçosamente paralelo. E foi razoávelmente simples, já que os servidores web possuem 
+
+protocolos e comunicação bem definidos.  
+
+
+***Referências***
+
+http://www.amd.com/en-us/products/processors/desktop/fx
+http://www.cpu-world.com/CPUs/Bulldozer/AMD-FX-Series%20FX-8350.html
+http://research.engineering.wustl.edu/~songtian/pdf/20130219-CoherenceProtocol.pdf
+http://www.behardware.com/articles/865-3/16-cores-in-action-asus-z9pe-d8-ws-and-intel-xeon-e5-2687w.html
+http://www.hardware.fr/articles/865-3/mesi-moesi-mesif-numa.html

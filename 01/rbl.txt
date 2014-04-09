@@ -1,0 +1,69 @@
+Trabalho 1
+----------
+
+Questão 1:
+
+Intel® Core™ i7-3632QM
+
+a) Frequência do clock: 2.2 GHz
+
+b) 4 núcleos físicos e 8 núcleos virtuais [0]
+
+c) Possui três níveis de memória cache [1]:
+Level 1 - 128KB para instruções (32KB para cada núcleo), 128KB para dados (32KB para cada núcleo)
+Level 2 - 1 MB (256 KB para cada núcleo)
+Level 3 - 6 MB (única e compartilhada entre núcleos)
+
+d) Desde o Nehalem [2], é usado duas técnicas para garantir a coerência de memória cache compartilhada em L3 [2]:
+1. Snoop filter - cada linha de cache em L3 contém 4 core bits para denotar quais cores possivelmente possuem uma cópia
+da linha em seus caches privados. Ou seja, se um bit estiver setado com 0, significa que aquele core não pode ter uma cópia
+válida daquela linha de cache; se um bit estiver setado com 1, no entanto, significa que POSSIVELMENTE o core em questão
+possui uma cópia da linha de cache
+2. Protocolo MESIF [3] - dado o funcionamento do seu protocolo (detalhado em [4]), se uma linha do cache possuir pelo menos
+dois desses core bits setados para 1, então é garantido que essa linha do cache não foi alterada [2].
+
+e) Algumas operações não triviais encontradas em [6]:
+1. CMPXCHG—Compare and Exchange
+2. COMISD—Compare Scalar Ordered Double-Precision Floating-Point Values and Set EFLAGS
+3. COMISS—Compare Scalar Ordered Single-Precision Floating-Point Values and Set EFLAGS
+4. FCOMI/FCOMIP/ FUCOMI/FUCOMIP—Compare Floating Point Values and Set EFLAGS
+5. MOVSHDUP—Move Packed Single-FP High and Duplicate
+6. MOVSLDUP—Move Packed Single-FP Low and Duplicate
+7. FBSTP—Store BCD Integer and Pop
+8. BTS—Bit Test and Set
+
+f) De acordo com [7], a vazão máxima teórica é de 25.6GB/s e 1600MT/s. Como 1600000000 (transfers / sec) *
+2 (dual-channel DDR3) * 64 (bits / transfer) = 204800000000 (bits / sec), ou seja, 23.84 (GB/s). Como 23.84 é
+inferior a 25.6, é possível afirmar que sim, é suficiente sob as condições de vazão máximas teóricas citadas.
+
+
+Questão 2:
+
+Sim, embora eu não tenha sido autor da idéia nem da maioria do código. No WebKit, existia uma otimização conhecida
+como Coordinated Graphics que tentava fazer pintura da UI fora do processo de origem. Um processo era encarregado
+de fazer a renderização das peças necessárias para a composição da UI, e um segundo processo era encarregado de
+juntar essas peças e montar a cena de forma correta. Eles utilizavam memória compartilhada para evitar cópia desnecessária
+de cada peça da cena entre os processos. Dentre os desafios enfrentados, o primeiro (e talvez o maior) foi entender o código
+que fazia isso já que era imenso e havia pouca/nenhuma documentação. Outro grande problema era a facilidade com que
+novos bugs eram introduzidos na composição da cena pela falta ou erro de sincronização do estado da cena entre os
+processos. Um outro desafio era a identificação de bugs: quando um erro de pintura da UI acontecia, era difícil dizer
+com certeza se aquele erro era causado pelo processo de origem ou se era causado pelo processo que fazia a composição.
+O problema não era embaraçosamente paralelo, e na verdade, não era essencial para o sistema. Era uma otimização para
+sistemas embarcados onde a renderização das peças da cena era custoso, mas a UI precisava manter-se responsiva ao usuário
+mesmo quando um novo frame ainda não estivesse preparado.
+
+
+Referencias
+[0] http://ark.intel.com/products/71670
+[1] http://www.cpu-world.com/CPUs/Core_i7/Intel-Core%20i7-3632QM%20(PGA)%20Mobile%20processor.html
+[2] http://software.intel.com/en-us/forums/topic/485711
+[3] http://www.realworldtech.com/nehalem/7/
+[4] http://www.cs.cmu.edu/afs/cs/academic/class/15418-s12/www/lectures/10_coherence.pdf
+[5] http://www.realworldtech.com/common-system-interface/5/
+[6] http://download.intel.com/products/processor/manual/253666.pdf
+[7] http://www.intel.com/content/dam/www/public/us/en/documents/datasheets/3rd-gen-core-family-mobile-vol-1-datasheet.pdf
+
+[*] http://sc.tamu.edu/systems/eos/nehalem.pdf
+[*] https://wiki.engr.illinois.edu/download/attachments/203522372/L36-Coherence.pdf?version=1&modificationDate=1354557188000
+[*] http://cpuboss.com/cpu/Intel-Core-i7-3632QM
+[*] http://www.intel.com/content/dam/www/public/us/en/documents/white-papers/ia-introduction-basics-paper.pdf

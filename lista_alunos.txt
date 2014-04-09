@@ -1,15 +1,25 @@
 Lista de Alunos
 
 Bruno Cartaxo, bfsc
-Felipe Ebert, fe
-Larissa Falcao, lctf
-Filipe Varjão, frgv
+Anderson Fonseca, afs8
+André Guedes, agl
+Carlos Melo, casm3
+Danilo Soares, dlsb
+Fabio Soares, fss6
 Felipe Alencar, fal3
+Felipe Ebert, fe
+Filipe Varjão, frgv
+Francisco Soares, fmssn
+Gert Uchôa Müller Neto, gumn
+Guilherme Cavalcanti, gjcc
+Irineu Moura, imlm2
+Joanan Mendonça Jr., jlmj
+José Fernando Santos de Carvalho, jfsc
+Larissa Falcao, lctf
+Luís Gabriel Lima, lgnfl
 Marcelo Iury, miso
 Paulo Barros, pbsf
-Thiago Lacerda, tbl2
-Danilo Soares, dlsb
-Joanan Mendonça Jr., jlmj
+Rafael Brandão, rbl
 Rafael Pedrosa, rdp
+Thiago Lacerda, tbl2
 Wellington Oliveira, woj
-Fabio Soares, fss6
