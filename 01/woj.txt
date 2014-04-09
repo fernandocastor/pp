@@ -12,7 +12,7 @@ c) Número de níveis de cache e onde as memorias cache estão localizadas:
 
 d) Como o processador mantem coerência das memórias cache:
 	O controlador DRAM é responsável por manter a coerência. Se os dados requisitados não estiverem na cache do processador ou se o dado na memória externa for mais novo que a cópia presente na cache, é dito para o controlador de memória recuperar os dados no endereço requisitado. Os dados transferidos entre o processador e a memória serão sempre de 64 bits. [2]
-
+	São utilizados os protocolos MESIF e junto com o processo de Snooping 
 e) As instruções atômicas nao-triviais (por exemplo, um LOAD ou um STOR são instruções “triviais” por fazerem apenas uma coisa) que estão disponíveis e o que elas fazem.
 
 	As instruções a seguir precisam da instrução LOCK para serem realizadas atomicamente [3]:
@@ -35,8 +35,8 @@ e) As instruções atômicas nao-triviais (por exemplo, um LOAD ou um STOR são 
 f)A velocidade da memoria que esta rodando na sua maquina. Ela e rápida o suficiente para o processador? Sim? Não? Por quê?
 
 	DRAM frequency : 800MHz. Bus Speed: 100MHz. FSB:DRAM : 1:6.
-	Sim. Considerando que o ratio FSB:DRAM é 1:6, então nos temos a velocidade da memória sendo modulada para se adequar ao base clock.
-
+	Devido a quantidade enorme de fatores que influênciam os acontecimentos dentro de uma CPU, não é possível afirmar se a memória é rápida o suficiente ou não.
+	
 2. Você já precisou construir programas paralelos, seja por motivos de estudo, seja por motivos prossionais? Escolha o mais complexo desses programas e descreva-o. Explique porque ele precisa realizar varias atividades ao mesmo tempo e em que consistiam essas atividades. Esse programa era “embaraçosamente” paralelo ou exigia sincronização entre as tarefas? Que problemas você enfrentou ao construi-lo (ou ajudar a construi-lo)?
 
 	Já precisei construir diversos sistemas paralelos, vários por motivos de estudo e alguns poucos por motivos profissionais. O sistema mais complexo que fiz foi durante a minha iniciação científica, no qual eu trabalhei numa ferramenta para garantir que threads executadas dentro de um determinado bloco seriam seguras, isto é, problemas decorrentes do uso de programação concorrente não seriam tratados pelo programador, mas implicitamente pela ferramenta.
