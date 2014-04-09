@@ -10,6 +10,9 @@
 			Nível 2: L2 cache de 256 KB por núcleo físico
 			Nível 3: L3 cache de 4 MB compartilhada entre os dois núcleos físicos
 
+	Como o processador mantém coerência das memórias cache:
+		Utilizando um protocolo de coerência de cache. Não foi possível identificar com cofiança qual tipo de protocolo de coerência de cache é usado para a arquitetura do meu processador (Haswell), [5] sugere que seja MESIF, além disso, [4] afirma que arquitetura Nahelam (1ª geração dos "core iN") também utiliza o protocolo MESIF. O MESIF é uma extensão do MESI, e define 5 diferentes estados (Modified, Excluside, Shared, Invalid, Forward) para blocos de memória cache, que são transferidos entre os cores/caches/RAM. Quando um core lê ou modifica um bloco, o mesmo tem o seu estado alterado e, dependendo da operação realizada e do estado corrente do bloco, o protocolo determinará a sequência de ações que devem ser executadas para garantir a consistência de cache entre as diferentes caches do sistema.
+
 	As instruções atômicas não-triviais (por exemplo, um LOAD ou um STOR são instruções "triviais" por fazerem apenas uma coisa) que estão disponíveis e o que elas fazem:
 		De acordo com o manual de referência da Intel os seguintes tipos de instrução e operações são garantidos de serem atômicos:
 			Leitura ou escrita de byte
@@ -47,4 +50,6 @@ Referências:
 1. http://ark.intel.com/pt-br/products/75460/Intel-Core-i7-4500U-Processor-4M-Cache-up-to-3_00-GHz
 2. CPU-z (http://www.cpuid.com/softwares/cpu-z.html)
 3. Intel® 64 and IA-32 Architectures Software Developer’s Manual Volume 3A: System Programming Guide, Part 1 (http://www.intel.com/Assets/en_US/PDF/manual/253668.pdf)
+4. http://sc.tamu.edu/systems/eos/nehalem.pdf
+5. http://www.realworldtech.com/haswell-tm/3/
 
