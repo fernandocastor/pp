@@ -1,0 +1,55 @@
+Joanan Mendonça Jr.
+===================
+Email: joananjr@gmail.com
+Email cin: jlmj
+Disciplina: Programação Paralela Data: 01 de abril de 2014. Prof.: Fernando Castor
+
+1)
+Processador Intel core i7 2630QM
+
+Instruções disponpiveis no processador:
+MMX, SSE, SSE2, SSE3, SSE4.1, SSE4.2, EM64T, VT-x, AES, AVX
+
+Frequência de clock: 2.0 GHz 2.9 GHz(max)
+
+Núcleos físicos: 4
+
+Núcleos virtuais: 8
+
+Memória RAM: 8gb Dual chanel
+Frequencia: 667 MHz
+Velocidade da memória: 1337 MHz dual channel
+
+Instruções atômicas não triviais: (Retirado do manual de processadores intel dos modelos 64 e IA-32)
+
+ADC = Adds the destination operand (first operand), the sourceoperand (second operand), and the carry (CF) flag and stores the result in the destination operand.		
+		ADD = Adds the destination operand (first operand) and the source operand (second operand) and then stores the result in the destination operand.		
+		AND = Performs a bitwise AND operation on the destination (first) and source (second) operands and stores the result in the destination operand location.
+		BTC = Selects the bit in a bit string (specified with the first operand, called the bit base) at the bit-position designated by the bit offset operand (second operand),stores the value of the bit in the CF flag, and complements the selected bit in the bit string.
+		BTR = Selects the bit in a bit string (specified with the first operand, called the bit base) at the bit-position designated by the bit offset operand (second operand), stores the value of the bit in the CF flag, and clears the selected bit in the bit string to 0.
+		BTS = Selects the bit in a bit string (specified with the first operand, called the bit base) at the bit-position designated by the bit offset operand (second operand), stores the value of the bit in the CF flag, and sets the selected bit in the bit string to 1.
+		CMPXCHG = Compares the value in the AL, AX, EAX, or RAX register with the first operand (destination operand). If the two values are equal, the second operand (source operand) isloaded into the destination operand. Otherwise, the destination operand is loaded into the AL, AX, EAX or RAX register.
+		CMPXCHG8B/CMPXCHG16B = Compares the 64-bit value in EDX:EAX (or 128-bit value inRDX:RAX if operand size is 128 bits) with the operand (destination operand). If the values are equal, the 64-bit value in ECX:EBX (or 128-bit value in RCX:RBX) is stored in the destination operand. Otherwise, the value in the destination operand is loadedinto EDX:EAX (or RDX:RAX).
+		DEC = Subtracts 1 from the destination operand, while preserving the state of the CF flag.
+		INC = Adds 1 to the destination operand, while preserving the state of the CF flag.
+		NEG = Replaces the value of operand (the destination operand) with its two's complement. (This operation is equivalent to subtracting the operand from 0.)
+		OR = Performs a bitwise inclusive OR operation between the destination (first) and source (second) operands and stores the result in the destination operand location.		
+		SBB = Adds the source operand (second operand) and the carry (CF) flag, and subtracts the result from the destination operand (first operand). The result of the subtraction is stored in the destination operand.
+		SUB = Subtracts the second operand (source operand) from the first operand (destination operand) and stores the result in the destination operand.
+		XADD = Exchanges the first operand (destination operand) with the second operand (source operand), then loads the sum of the two values into the destination operand.
+		XOR = Performs a bitwise exclusive OR (XOR) operation on the destination (first) and source (second) operands and stores the result in the destination operand location. 
+
+Níveis de chache:
+
+L1 Instruction cache	4 x 32 KBytes, 8-way set associative, 64-byte line size
+L2 cache		4 x 256 KBytes, 8-way set associative, 64-byte line size
+L3 cache		6 MBytes, 12-way set associative, 64-byte line size
+
+2) Sim. Eu tenho um framework que, dentre outras coisas, faz persistência de dados e precisei montar um POOL de conexões com o banco de dados para utilizar com as requisições das aplicações clientes. Nesse cenário eu coloquei como parâmetro a quantidade de conexões a serem instanciadas inicialmente e a quantidade de instâncias de emergência a serem instanciadas posteriormente. O funcionamento após a configuração feita funciona da seguinte maneira:
+
+0Configurado com K conexões iniciais e n de emergência, as aplicações cliente vão requisitando conexões com o banco e a rotina vai cedendo as mesmas até o limite de k. Após concluída a utilização, a conexão é novamente disponibilizada para outras requisições. Quando acontecer de chegar uma requisição e o limite de k já estiver sido atingido, então são instanciadas e disponibilizadas outras n conexões de emergência. Quando acontecer de chegar uma requisição e tanto o limite de k quanto o limite de n estiverem esgotados, esta entra em uma fila de espera. As requisições instanciadas a partir de k+1 até n são novamente liberadas da memória após sua utilização. Esse limite de instâncias iniciais k depende do número de licenças com o banco de dados adquiridas e do limite suportado pelo servidor (levando em conta todos os recursos do servidor como poder de processamento, memória, etc).
+O programa apenas exige uma sincronização com semáforo no momento de disponibilizar as conexões para as requisições com o objetivo de evitar a disponibilização da mesma conexão para mais de uma requisição. 
+
+Dificuldades encontradas
+========================
+Ná época em que construi este código o problema enfrentado basicamente foi o desconhecimento do processo de programação paralela. Houveram alguns deadlock´s até que eu ajustasse o código corretamente. Essa rotina roda até hoje, mas, em ambientes simples, de baixíssimo processamento. Acredito que se for posto a prova em ambientes mais robustos seriam necessárias melhorias. Pretendo fazer essas melhorias com os conceitos a serem absorvidos até o final da cadeira.

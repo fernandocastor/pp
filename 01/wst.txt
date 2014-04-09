@@ -1,0 +1,27 @@
+1. Descreva a arquitetura do seu computador pessoal em termos dos seguintes itens:
+ 	-Frequencia de clock
+        	*2666 - 2933 MHz
+	-Núumero de nucleos (físicos e virtuais) do processador.
+	 	*2 físicos e 2 virtuais;
+	-Numero de níveis de cache e onde as memorias cache estão localizadas.
+		*3 níveis, L1 e L2 em cada core e o L3 compartilhado
+
+	-Como o processador mantem coerência das memorias cache
+	Utiliza o protocolo Snoop para realização de coerência. Lendo a documentação, percebi que para algumas operações é utilizando write-update já para outras write-invalidate.
+
+	-As instruções atômicas não-triviais (por exemplo, um LOAD ou um STOR são instruções "triviais" por fazerem apenas uma coisa) que estão disponveis e o que elas fazem?
+		CMPXCHG—Compare and Exchange -> compara as variáveis nos registradores, se forem iguais atribui o valor.
+		CMPXCHG8B/CMPXCHG16B - Compara o valor 64-bit de EDX:EAX (ou 128-bit no RDX:RAX se o tamanho do operando for 128bits) com o operando destino. Se o valor forem iguais, o valor de 64bit (ECX:EBX ou RCX:RBX se for 128 é armazenado no operando destino, caso contrário o valor do operando destino é carregado no EDX:EAX.
+		XADD—Exchange and Add -> Troca os valores de 2 variaveis e depois soma e substitui o resultado em 1 das duas variaveis.
+
+	-A velocidade da memoria que esta rodando na sua maquina. Ela e rapida o suciente para o processador?Sim? Não? Por quê?
+	
+	Sim, a memória do meu laptop é ddr3 1333, e não é DualChannel, com as especificações:
+	memória: 1333mhz x 64 /8 = 10664 MB/s
+	processador: 2933 mhz x 64 / 8 = 23464 MB/s
+	Desta forma a velocidade da memoria poderia até ser aumentada.
+
+	
+
+2. Você ja precisou construir programas paralelos, seja por motivos de estudo, seja por motivos prossionais? Escolha o mais complexo desses programas e descreva-o. Explique porque ele precisa realizar varias atividades ao mesmo tempo e em que consistiam essas atividades. Esse programa era "embaracosamente" paralelo ou exigia sincronização entre as tarefas? Que problemas você enfrentou ao construi-lo (ou ajudar a construi-lo)?
+	R: Sim. O exercício consistia em utilizar conceitos de produtor/consumidor para simular uma competição de desenvolvimento de jogos, onde tinham várias equipes e que a equipe que produzir 10 jogos primeiro a competição seria interrompida. Primeiro a equipe gastava um determinado tempo para conceber o jogo e mais um tempo para produzir. E o desenvolvedor só poderia trabalhar em 1 jogo por vez. A dificuldade que enfrentei foi com wait e notify, chamava o wait e nenhum notify acordava a thread.
