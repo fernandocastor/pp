@@ -9,10 +9,11 @@
       Núcleos virtuais (threads) = 2
 
   - Números de níveis de cache e onde as memórias cache estão localizadas:
-      Cache:0 L1 cache = 64KiB
-      Cache:1 L2 cache = 512KiB
-      Cache:2 L3 cache = 3KiB
-      capabilities: internal varies unified
+      L1d cache:             32K
+      L1i cache:             32K
+      L2 cache:              256K
+      L3 cache:              3072K
+      Junto ao núcleo de processamento.
 
   - Como o processador mantém coerência das memórias cache: O processador inclui um protocolo de coerência de cache durante as operações do sistema, o protocolo prevê transferências diretas de cache-para-cache. <http://www.intel.com.br/content/dam/doc/white-paper/quick-path-interconnect-introduction-paper.pdf>
 
