@@ -1,0 +1,19 @@
+1)
+- 2.53 GHz
+
+- 2 núcleos físicos e 0 virtuais
+
+- 2 níveis de cache (L1 e L2). As memórias estão localizadas no chip do processador.
+
+- Intel Smart Cache
+
+http://software.intel.com/en-us/articles/software-techniques-for-shared-cache-multi-core-systems
+
+- Algumas instruções
+	- CAS: compara e faz swap
+	- BTS, BTR, BTC: testa a modifica bits
+	- INC, DEC, NOT, NEG: incrementa, decrementa, inverte e nega
+
+- O Front Side Bus (FSB) é o barramento que conecta o processador e a memória principal. Segundo a ferramenta de sistema, o FSB e a memória principal tem frequência igual a 1,07GHz.Portanto, a memória é rápida o suficiente para o processador.
+
+2) O subsistema de Bluetooth do kernel do Linux apresenta um certo grau de paralelismo. Diferentes threads (algumas em contexto de processo, outras em contexto de interrupção) podem executar paralelamente. Para sincronizar essas threads são utilizadas algumas primitivas como spinlock, mutex, RCU e variáveis atômicas.

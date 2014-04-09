@@ -37,10 +37,12 @@
 		- XCHG: Troca o conteúdo dos operandos destino (primeiro) e fonte (segundo). Os operandos podem ser registradores de propósito geral ou um registrador e um endereço de memória. S um operando de memória é referenciado, o protocolo de bloqueio do processador é automaticamente implementado para a duração da operação de troca, independentemente da presença ou ausência do prefixo LOCK (que garante instruções complexas atômicas) ou do valor do IOPL.
 	  
 	. A velocidade da memória que está rodando na sua máquina. Ela é rápida o suficiente para o processador? Sim? Não? Por que?
-	  > Sim. De acordo com a especificação do processador [4], a largura de banda máxima de memória é de 21,3GB/s. Na máquina estão instalados dois pentes de memória DDR3-1333, operando em Dual Channel. Desta forma:
+	  > Teoricamente sim. De acordo com a especificação do processador [4], a largura de banda máxima de memória é de 21,3GB/s. Na máquina estão instalados dois pentes de memória DDR3-1333, operando em Dual Channel. Desta forma:
 	    - Largura de banda máxima de memória suportada pelo processador: 21,3 GB/s * 1024 -> 21811,2 MB/s
 	    - Largura de banda utilizada pelas memórias em Dual Channel: 1333 Mhz * 128 bits / 8 = 21328 MB/s
 		- Velocidade do processador: 2500MHz * 64 bits / 8 = 20000 MB/s
+	  
+	  Apesar disso, em uma análise mais detalhada, é preciso levar em conta outros aspectos para determinar se existe algum tipo de gargalo referente à comunicação entre processador e memória. Um destes aspectos é a velocidade do barramento, caso a largura do barramento (em termos físicos) não seja capaz de suportar altas velocidades do processador ou da memória, os cálculos para obter a informação de suficiência são irrelevantes.
 	
 2. Você já precisou construir programas paralelos, seja por motivos de estudo, seja por motivos profissionais? Escolha o mais complexo desses programas e descreva-o. Explique porque ele precisa realizar várias atividades ao mesmo tempo e em que consistiam essas atividades. Esse programa era "embaraçosamente" paralelo ou exigia sincronização entre as tarefas? Que problemas você enfrentou ao construí-lo (ou ajudar a construí-lo)?
   > Já precisei construir um programa didático que simula o comportamento de um escalonador de processos, utilizando a estratégia de filas circulares, constituída por três filas, permitindo as operações de: criação, visualização, bloqueio e finalização dos processos. A técnica de paralelismo utilizada consistia em resolver dois problemas: 1) manter a consistência entre os processos, de forma que a ação de criar processos não interferisse na execução dos processos, e 2) executar os processos de duas ou mais filas de forma paralela.

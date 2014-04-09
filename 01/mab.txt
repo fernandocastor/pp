@@ -1,0 +1,77 @@
+* Trabalho 1
+** Questão 1 
+*** a) Clock:
+ - 1.6 GHz (Core 2 Duo T5500)
+
+*** b) Núcleos
+ - Dois núcleos físicos, nenhum virtual.
+
+*** c) Cache
+ - Dois níveis de cache; 32-kB L1 em cada núcleo e 4-MB L2 para todo o
+   processador.
+
+*** d) Coerência
+ - O cache L2 é compartilhado entre os núcleos, o que elimina a
+   necessidade de manter a coerência para este nível [1]. A coerência
+   das caches L1 é resolvida internamente no chip, o que permite o
+   acesso à cache L1 do outro núcleo de forma rápida. Não fui capaz de
+   localizar informações sobre o protocolo específico utilizado para
+   manter a coerência das caches L1.
+
+*** e) Instruções atômicas não triviais suportadas [2]
+ - LOCK: Garante que o processador atual possui uso exclusivo de
+   qualquer memória compartilhada. Utilizado com as outras instruções
+   desta lista.
+
+ - ADD, ADC, SUB, SBB: Operações aritiméticas básicas (com e sem carry/borrow).
+
+ - INC, DEC: Incremento/Decremento de um valor.
+
+ - NEG: Negação binária (complemento).
+
+ - AND, NOT, OR, XOR: Operações lógicas básicas.
+
+ - BTC, BTR, BTS: Armazena o valor de um bit específico de um
+   registrador/posição de memória na flag CF e o substitui pelo
+   resultado de uma operação (complemento, reset, set).
+
+ - CMPXCHG, CMPXCH8B, CMPXCH816: Compara o valor em um registrador com
+   o primeiro operando. Caso os valores sejam iguais, o valor do segundo
+   operando é carregado no primeiro operando. Do contrário, o primeiro 
+   operando é carregado no registrador especificado. O sufixo da instrução
+   determina o tamanho do dado utilizado.
+
+*** f) Velocidade da memória
+ - 667 MHz. Esta é a velocidade máxima suportada pelo processador (FSB
+   opera no máximo a 667 MHz), portanto a memória é rápida o
+   suficiente.
+
+** Questão 2
+ - O programa mais complexo em que utilizei paralelismo foi um constraint
+   solver para operações matemáticas envolvendo ponto flutuante. Por questões
+   de performance, era extremamente desejável que as diferentes heurísticas
+   (algoritmos genéticos, PSO...) fossem executadas em paralelo, e que as
+   operações cessassem uma vez que uma solução fosse encontrada. 
+
+   O problema era quase "embaraçosamente paralelo"; o único problema
+   era interromper de forma limpa todas as threads quando uma solução
+   fosse encontrada. Matar todas as threads não era uma opção, pois o
+   custo era bastante elevado. A solução adotada foi criar um pool de
+   threads (uma para cada heurística habilitada), passar a instância
+   do problema para cada thread, e executar as heurísticas em
+   paralelo. A primeira thread a terminar alterava o valor de uma
+   variável atômica booleana "shouldStop" para true. De tempos em
+   tempos, todas as threads em execução checavam o valor desta
+   variável, e caso o valor dela fosse "true" a thread interromperia
+   imediatamente a execução da heurística em andamento.
+   
+
+** Referências
+ - [1] Peng, Lu, et al. "Memory performance and scalability of Intel's
+   and AMD's dual-core processors: a case study." Performance,
+   Computing, and Communications Conference, 2007. IPCCC 2007. IEEE
+   Internationa. IEEE, 2007.
+ - [2] Intel® 64 and IA-32 Architectures Software Developer’s Manual
+   Volume 2
+
+

@@ -1,0 +1,110 @@
+Aluno:Marcelo Iury de Sousa Oliveira
+Disciplina:Programação Paralela
+Prof. Fernando Castor
+
+1ª Questão) Descreva a arquitetura do seu computador pessoal em termos dos seguintes itens:
+
+Especificação do Computador: Notebook Asus, modelo K43E, equipado com um processador Intel Core i5-2410M
+
+a) Frequência de clock
+R: 2.3 GHz [1]
+
+b) Número de núcleos
+R: dois núcleos físicos e quatro núcleos virtuais [1]
+
+c) Número de níveis de cache e onde as memórias cache estão localizadas
+R:Dispõe de 3 níveis de cache com a seguinte configuração: [1]
+         L1 (Instruções) 32KB por núcleo - Dentro do Núcleo de Processamento
+         L1 (Dados) 32KB por núcleo - Dentro do Núcleo de Processamento
+         L2 256KB por núcleo - Dentro do Núcleo de Processamento
+         L3 3MB - Fora do núcleo, mas dentro do chip. É uma única memória compartilhada para todos núcleos
+
+O processador ainda dispõe de cache L0 que é capaz de armazenar até 1.536 microinstruções. 
+
+
+
+d) Como o processador mantém coerência das memórias cache
+R:O processador i5-2410M utiliza a arquitetura de processadores Sandy Bridge. Esta arquitetura utiliza o protocolo MESIF [5], que é uma versão modificada do protocolo MESI, no qual as linhas de dados armazenadas pelas memórias cache são marcadas com 5 estados: 
+
+    M - linha Modificada: a linha da cache está presente apenas na cache atual, é está suja; ela foi modificada (é diferente da memória principal). A cache é solicitada a escrever os dados de volta na memória principal em algum momento, antes de permitir qualquer outra leitura do estado da memória principal, já não válido.
+    E - linha Exclusiva: a linha de cache está presente apenas na cache atual, mas está limpa; ela é igual à da memória principal.
+    S - linha Compartilhada: Indica que esta linha de cache pode ser armazenada em caches de outros núcleos.
+    I - linha Inválida: indica que esta linha de cache é inválida.
+    F - linha Forward: Indica que esta linha é compartilhada por outras caches, mas apenas a cache marcada com F será responsável por atender requisições a esta linha. 
+
+Na ocorrência de um read miss, se alguma cache tem o bloco no estado Modified, então ela fornece o bloco para a cache que o requisitou, e ambos definem seu estado para Shared. Caso alguma cache tenha o bloco no estado Shared ou Exclusive, então a cache que fez o pedido faz a leitura do bloco da memória principal, e todas as caches com cópias mudam seu estado para  Shared. Se nenhuma cache possui o bloco requisitado, então o processador carrega o bloco da memória principal, e define seu estado como Exclusive.  
+
+Em um write hit, caso o estado do bloco seja Modified, nenhuma transição é necessária. Se o estado for Exclusive, então é alterado para Modified. Caso o estado do bloco seja Shared, é necessário invalidar outras cópias existentes. O bloco passa de Shared para Modified.
+
+Em um write miss, o bloco é carregado da memória principal, caso não existam cópias, e marcado como Modified, e logo após é realizada a escrita. Se alguma cache possui uma cópia do bloco, ela escreve no barramento, e marca seu estado para Invalid. O processador da cache que fez a requisição lê esta linha, realiza sua escrita, e marca como Modified. Todas as outras cópias existentes são invalidadas.
+
+Quando um blovo está no estado compartilhado, um dos núcleos que possuirá este bloco com estado Forward e será responsável por atender as requisições dos outros caches.  O último núcleo a requisitar o bloco compartilhado será aquele estará marcado com o estado F. 
+
+O protocolo MESIF para funcionar precede da detectação de alterações nas memórias realizadas por outros processadores.  
+Esta detecção é realizada através da técnica snooping na qual as cada memória monitora o barramento com o objetivo de detectar escritas realizadas por outros processadores para eventualmente invalidar ou atualizar dados da cache local.   
+Quando não há barramento de interligação disponível, os controladores locais das caches devem anunciar suas ações às outras caches através de broadcast. 
+
+e) Quais instruções atômicas não-triviais (por exemplo, um LOAD ou um STOR são instruções "triviais" por fazerem apenas uma coisa) que estão disponíveis e o que elas fazem.
+R: O processadores IA-32 suportam operações atômicas na memória. Estas operações são normalmente utilizadas para gerenciar estruturas de dados compartilhados (tais como semáforos , descritores de segmento ou tabelas de páginas), nas quais dois ou mais processadores podem tentar simultaneamente modificar o mesmo campo ou flag. O processador utiliza três mecanismos independentes para a realização de operações atômicas[3]:
+
+• Operações atômicas garantidas:
+• Bloqueio do barramento usando o sinal LOCK# e o prefixo LOCK nas instrução
+• Protocolos de coerência de cache que garantem que as operações atômicas podem ser realizadas em estruturas de dados da cache (bloqueio de cache);  
+
+
+Estes mecanismos são interdependentes das seguintes maneiras . Algumas operações de memória básicas ( tais como a leitura ou escrita um byte na memória do sistema ) são sempre garantidos para serem tratadas atomicamente. Isto é, uma vez iniciado, há garantia que o processador concluirá a operação antes de outro processador tenha acesso para a mesma localização da memória. O processador também suporta bloqueio de barramento para a realização de operações de memória (tais como uma operação de read-modify-write em uma área compartilhada de memória) que normalmente precisam ser executadas atomicamente, mas não são tratadas automaticamente dessa maneira. 
+Porque frequentemente os blocos de memória usados nas operações estão muitas vezes copiados nas cache no L1 ou L2 do processador
+
+• Operações Atômicas Garantido:
+ - Suportadas desde o processador Intel 486:
+   • Ler ou escrever um byte
+   • Ler ou escrever uma palavra alinhado em um limite de 16 bits
+   • Ler ou escrever uma palavra dupla alinhado em um limite de 32 bits
+
+ - Suportadas desde o processador Intel Pentium:
+   • Ler ou escrever um quadword alinhado em um limite de 64 bits
+   • Acessos de 16 bits a locais de memória não armazenados em cache que se encaixam dentro de um barramento de dados de 32 bits
+
+ - Suportadas desde o processador Intel Pentium 6:
+   • Acessos de memória não alinhados de 16, 32 ou 64 bits a memória cache que caibam dentro de uma linha de cache
+
+• Semântica de LOCK:
+ - Para forçar explicitamente a semântica de bloqueio, o software pode usar o prefixo LOCK com as seguintes instruções:
+   • Instruções de teste e modificar de bit  (BTS , BTR e BTC).
+   • As instruções de troca (XADD, CMPXCHG e CMPXCHG8B).
+   • O prefixo LOCK é automaticamente assumido para instrução XCHG .
+   • As seguintes instruções aritméticas e lógicas com único operando: INC, DEC, NOT e NEG.
+   • As seguintes instruções aritméticas e lógicas com dois operandos: ADD, ADC, SUB, SBB, AND, OR e XOR.
+
+
+f) A velocidade da memória que está rodando na sua máquina. Ela é rápida o suficiente para o processador?
+Sim? Não? Por quê?
+R: Não, a memória da minha máquina não é rápida o suficiente para o processador. Isso se deve basicamente ao fato da velocidade e da largura de banda da memória serem significativamente menores que a do processador. Isso faz com que a latência de acesso à memória seja centenas de vezes maior do que o tempo de ciclo de processadores. Este problema é chamado de Memory Wall [2]. Particularmente, a memória da minha máquina (DDR3 1333) possui um clock máximo de 667 MHz enquanto o processador funciona a uma frequência de 2.3 GHz, isto, elas diferem em ordem de grandeza [1]. 
+
+2ª Questão) Você já precisou construir programas paralelos, seja por motivos de estudo, seja por motivos profissionais?
+Escolha o mais complexo desses programas e descreva-o. Explique porque ele precisa realizar várias atividades ao mesmo tempo e em que consistiam essas atividades. Esse programa era "embaraçosamente" paralelo ou exigia sincronização entre as tarefas? Que problemas você enfrentou ao construi-lo (ou ajudar a construi-lo)?
+
+R:Durante a minha experiência profissional, os casos mais concretos de programas paralelos com quais estive envolvido foram a execução de cenários de simulação. Em particular, o meu projeto de mestrado exigia a avaliação da Recuperabilidade e Confiabilidade de técnicas de redundância de dados para sistemas de armazenamento P2P. Enquanto a confiabilidade podia  ser avaliada puramente através de métodos matemáticos e estátiscos, a recuperabilidade necessitava da execução de um modelo de simulação já que dependia de diversas variáveis. 
+
+A avaliação da recuperabilidade foi entaõ executada através de um simulador baseado em eventos, no qual a representação do tempo é discretizada. Estudamos cenários de simulação que representassem mudanças na capacidade de banda passante dos peers e no tamanho do backup a ser recuperado. Um cenário de simulação compreende a carga de trabalho, um conjunto de peers que armazenam os backups e um peer interessado na recuperação do backup. A carga de trabalho varia de acordo com três parâmetros: tamanho do dataset a ser recuperado S, sobrecarga de armazenamento k e fragmentação do arquivo b. A quantidade de peers que armazenam backups é definida por k e kxb para as técnicas de replicação e erasure codes, respectivamente. 
+
+A variação dos parâmetros entre os cenários partiu da carga de trabalho de pequena escala a uma carga de trabalho de maior escala, resultando em um total 900 cenários de simulação. Para assegurar que as amostras analisadas representavam, de maneira correta, os cenários, definimos o intervalo de confiança que as amostras deveriam atingir para que pudessem ser analisadas. O intervalo de confiança escolhido foi de 95%, por nos permitir uma confiabilidade satisfatória dos resultados em um número de execuções factíveis. Como não conhecíamos o desvio padrão e o intervalo de confiança da amostra, realizamos um experimento com 20 execuções de cada cenário com o objetivo de calcularmos o desvio padrão e o número de simulações necessárias para obter o intervalo de confiança, aumentando total de execuções para 1.800. Como a execução cada cenário durava possuia duração de 8 a 10 min, seriam necessários 11 a 12 dias de execução contínua da  simulação, sendo obviamente impraticável, visto que várias heurísticas de recuperação precisavam ser avaliadas.  
+
+Apesar da avaliação requerer a execução de toda amostra, os cenários de simulação era completamente independente uns dos outros podendo ser executados em máquinas distintas. Desta forma, para facilitar o trabalho de coleta máquinas, escalonamento das tarefas e coleta de resultados, utilizei a grade computacional OurGrid[4]. As simulações executadas durante a realização deste trabalho pertencem à classe de aplicações bag-of-tasks por não precisarem de comunicação  durante a execução. A comunidade OurGrid nos forneceu em média 30 máquinas, fazendo com que a execução das simulações fosse realizada em por volta de 1 dia. 
+
+Como o programa era embaraçosamente paralelo, as duas únicas adaptações que tive que realizar foram a configuração dos jobs, nos quais cada amostra de cenário foi encapsulada em uma tarefa, e a implementação de um agregador de resultados, que objetivava processar os arquivos de resultados de cada amostra de cenário de simulação e efetuar os cálculos matemáticos. 
+
+
+Referências:
+
+1 - "Intel® Core™ i5-2410M Processor" acessado em http://ark.intel.com/products/52224/Intel-Core-i5-2410M-Processor-3M- 
+Cache-up-to-2_90-GHz
+
+2 - McKee, Sally A. "Reflections on the memory wall." Proceedings of the 1st conference on Computing frontiers. ACM, 2004.
+
+3 - "Intel® 64 and IA-32 Architectures Software Developer Manuals" acessado em  
+http://www.intel.com/content/www/us/en/processors/architectures-software-developer-manuals.html
+
+4 - www.ourgrid.org
+
+5 - Garea, Sabela Ramos, and Torsten Hoefler. "Modelling Communications in Cache Coherent Systems." Technical Report} (2013).
