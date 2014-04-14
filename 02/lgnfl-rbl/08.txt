@@ -1,0 +1,15 @@
+A diferença de velocidade entre o processador com apenas 1 core e com 10 cores é de 5:1.
+Então assumindo que A é o tempo total da aplicação nó processador 1-core e B em 10-cores:
+
+  A = 1 / 5
+  B = 1 - p + (p / 10)
+
+Queremos saber quando B <= A, ou seja, o tempo de execução em 10-cores supera o tempo em 1-core.
+  1 - p + (p / 10) <= 1 / 5
+  (10 - 10p + p) / 10 <= 1 / 5
+  10 - 10p + p <= 2
+  -9p <= -8
+  9p >= 8
+  p >= 8/9
+
+Ou seja, só há vantagem se a aplicação tiver uma parcela paralelizável igual ou superior a cerca de 89% do seu tempo de execução. Caso contrário, o processador 5x mais rápido com 1-core tem vantagem.
