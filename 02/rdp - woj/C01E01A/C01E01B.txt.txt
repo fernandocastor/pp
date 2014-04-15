@@ -1,0 +1,98 @@
+package C01E01.C01E01B;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+public class C01E01B {
+	public C01E01B() {
+	
+		Talher[] talheres = new Talher[5];
+		Filosofo[] filosofos = new Filosofo[5];
+		
+		for (int i = 0; i < talheres.length; i++) {
+			talheres[i] = new Talher(i);
+		}
+				
+		filosofos[0] = new Filosofo("Socrates", talheres[0], talheres[1]);
+		filosofos[1] = new Filosofo("Aristoteles", talheres[1], talheres[2]);
+		filosofos[2] = new Filosofo("Platao", talheres[2], talheres[3]);
+		filosofos[3] = new Filosofo("Rene", talheres[3], talheres[4]);
+		filosofos[4] = new Filosofo("Valesca", talheres[4], talheres[0]);
+		
+		for (int i = 0; i < filosofos.length; i++) {
+			filosofos[i].start();
+		}
+	}
+	public static void main(String[] args) {
+		new C01E01B();
+	}
+}
+
+class Filosofo extends Thread{
+	String nome;
+	Talher direita, esquerda;
+	boolean pegouDireita = false, pegouEsquerda = false;
+
+	public Filosofo(String nome, Talher esquerda, Talher direita) {
+		this.direita = direita; this.esquerda = esquerda;
+		this.nome = nome;
+	}
+
+	@Override
+	public void run(){
+		while(true){
+			
+			if(direita.compareAndSet(false, true)){
+				pegouDireita = true;
+				System.out.println("Filosofo " + nome + " pegou talher da direita. ID#"+direita.id);
+			}
+			if(esquerda.compareAndSet(false, true)){
+				pegouEsquerda = true;
+				System.out.println("Filosofo " + nome + " pegou talher da esquerda. ID#"+esquerda.id);
+			}
+			if(pegouEsquerda && pegouDireita){
+				System.out.println("Filsofo " + nome + " comendo");
+				synchronized (this) {
+					try {
+						this.wait(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+				System.out.println("Filsofo " + nome + " largou talheres. ID#"+esquerda.id + " ID#"+direita.id);
+				this.pegouDireita = false; this.pegouEsquerda = false;
+				direita.getAndSet(false); esquerda.getAndSet(false);
+			}
+			if(pegouDireita){
+				direita.compareAndSet(true,false);
+				pegouDireita = false;
+				System.out.println("Filsofo " + nome + " largou talher direita. ID#"+direita.id);
+			}
+			if(pegouEsquerda){
+				esquerda.compareAndSet(true,false);
+				pegouEsquerda = false;
+				System.out.println("Filsofo " + nome + " largou talher esquerda. ID#"+esquerda.id);
+			}
+			synchronized (this) {
+				try {
+					this.wait(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+}
+
+class Talher extends AtomicBoolean{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6879043153076030902L;
+
+	int id;
+	
+	public Talher(int id) {
+		this.getAndSet(false);
+		this.id = id;
+	}
+}

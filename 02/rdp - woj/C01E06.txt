@@ -1,0 +1,25 @@
+Onde, B e a parte paralelizavel do programa e N e o numero de processadores.
+
+A)
+S= 1 / ((1 - B) + (B/N))
+S= 1 / ((1 - 0.6) + (0.6/N))
+S= 1 / (0.4 + 0.6/N)
+S= N / (0.4N + 0.6)
+
+B) Uma vez que o método só representa 30% da execução do programa, e o restante do programa representa 70%, não é possível que a velocidade final do programa seja multiplicada por 2.
+No caso hipotético de infinitos processadores:
+
+S= 1 / ((1 - B) + (B/N))
+S= 1 / ((1 - 0.3) + (0.3/infinito))
+S= 1 / 0.7
+S= 1.4285
+
+C) 
+S= 1/ ((1 - B) + (B/N))
+2= 1/ ((1 - B) + (B/3))
+2 - 2B + B/3 = 1
+-1 = -2B + B/3
+1 = 7B/3
+B = 3/7 = 0.4285 = 42,85% 
+
+ou seja, 42,85% da aplicação é paralelizável.
