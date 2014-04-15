@@ -1,0 +1,99 @@
+package C01E01.C01E01D;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+public class C01E01D {
+	
+	static int NUMERO = 100;
+	
+	public C01E01D(int numero) {
+	
+		Talher[] talheres = new Talher[numero];
+		Filosofo[] filosofos = new Filosofo[numero];
+		
+		for (int i = 0; i < talheres.length; i++) {
+			talheres[i] = new Talher(i);
+		}
+		
+		for (int i = 0; i < filosofos.length; i++) {
+			if(i == filosofos.length -1){
+				filosofos[i] = new Filosofo("filosofo#"+i, talheres[i], talheres[0]);
+			}else{
+				filosofos[i] = new Filosofo("filosofo#"+i, talheres[i], talheres[i+1]);				
+			}
+		}
+		for (int i = 0; i < filosofos.length; i++) {
+			filosofos[i].start();
+		}
+	}
+	public static void main(String[] args) {
+		new C01E01D(NUMERO);
+	}
+}
+
+class Filosofo extends Thread{
+	String nome;
+	Talher[] talheres = new Talher[2];
+	boolean pegouMenorID = false, pegouMaiorID = false;
+
+	public Filosofo(String nome, Talher esquerda, Talher direita) {
+		if(esquerda.id < direita.id){
+			talheres[0] = esquerda;
+			talheres[1] = direita;
+		}
+		else{
+			talheres[0] = direita;
+			talheres[1] = esquerda;
+		}
+		this.nome = nome;
+	}
+
+	@Override
+	public void run(){
+		while(true){
+			
+			if(talheres[0].compareAndSet(false, true)){
+				pegouMenorID = true;
+				System.out.println("Filosofo " + nome + " pegou talher de menorID. ID#"+talheres[0].id);
+			}
+			if(pegouMenorID && talheres[1].compareAndSet(false, true)){
+				pegouMaiorID = true;
+				System.out.println("Filosofo " + nome + " pegou talher de maiorID. ID#"+talheres[1].id);
+			}
+			if(pegouMaiorID && pegouMenorID){
+				System.out.println("FILOSOFO " + nome.toUpperCase() + " COMENDO");
+				synchronized (this) {
+					try {
+						this.wait(100);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+				System.out.println("Filsofo " + nome + " largou talheres. ID#"+talheres[0].id + " ID#"+talheres[1].id);
+				this.pegouMenorID = false; this.pegouMaiorID = false;
+				talheres[0].getAndSet(false); talheres[1].getAndSet(false);
+				synchronized (this) {
+					try {
+						this.wait(100);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+	}
+}
+
+class Talher extends AtomicBoolean{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6879043153076030902L;
+
+	int id;
+	
+	public Talher(int id) {
+		this.getAndSet(false);
+		this.id = id;
+	}
+}

@@ -1,0 +1,15 @@
+1. Safety. Afinal, se a ordem não for seguida algum erro pode acontecer.
+
+2. Liveness. Por demonstrar que o objeto, em um dado momento, tem que descer e não da ideia de erro.
+
+3. Safety. A frase faz uma analogia a mutual exclusion, sendo assim, safety.
+
+4. Liveness. Nesta, está sendo especificado que a mensagem será escrita em 1 segundo. Excluindo a ideia de segurança e dando ideia de condição.
+
+5. Safety. Ao contrário da anterior, para garantir que o programa esteja seguro o usuário deve receber uma mensagem para identificar/entender o erro ocorrido.
+
+6. Liveness. O custo nunca diminui, é liveness por dar uma ideia de condição.
+
+7. Liveness. Pois da ideia de condição e não de segurança
+
+8. Safety. A ideia passada é: Caso você esteja na dúvida e não quer cometer erros, então fale com alguém de Harvard. Logo, é safety por tentar evitar os erros.

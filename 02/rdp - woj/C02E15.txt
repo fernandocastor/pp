@@ -1,0 +1,24 @@
+C02E15
+
+O algoritmo descrito não funcionaria no mundo real uma vez que existe a possibilidade do "unlock()" executar o trecho de código "lock.unlock()" sem antes ter sido executado "lock()"
+entretanto, supondo que ele funcionasse de forma devida.
+
+EXCLUSÃO MÚTUA
+Prova por contradição. Supondo que o algoritmo não satisfaz exclusão mútua.
+Analisando o código nos temos que:
+
+	writeA(x = A) -> readA(y == -1) -> writeA(y = A) -> readA(x == A) -> CSA
+	writeB(x = B) -> readB(y == -1) -> writeB(y = B) -> readB(x == B) -> CSB
+	readA(y != -1) -> writeB(y = B)
+
+	writeA(x = A) -> readA(y == -1) -> writeB(y = B) -> readB(x == B) 
+
+como "writeA(x = A) -> readB(x == B)" é uma contradição, nos temos que a suposição inicial é falsa. O algoritmo satisfaz exclusão mútua
+
+STARVATION-FREE
+Por definição, o lock usado como atributo é starvation-free
+
+Supondo que não. Para isso é necessário que a thread A rode eternamente no loop "while(y != -1)" esperando que y seja igual a -1, uma vez que y é igual a -1 inicialmente, para o seu valor ter sido modificado então outra thread B deve ter modificado o valor de y, levando a duas opções:
+1) caso x != B, então é executado o método lock do atributo "lock", que por definição é starvation-free 
+2) caso x == B, então o método sairá do lock e por consequência executará o método "unlock" tornando y igual a -1 o que liberaria a thread
+em qualquer um dos casos o algoritmo é starvation-free

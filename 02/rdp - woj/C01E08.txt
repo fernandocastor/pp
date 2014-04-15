@@ -1,0 +1,10 @@
+Ja que a velocidade do processador 1 executa 5 zilhões de operações por segundo, enquanto o segundo 1 zilhão para cada processador. Para sabermos a "fração de melhoria" que o CPU2 precisa ter para superar o CPU1 numa aplicação em particular particular, vamos igualar o speedUp do CPU1 com o do CPU2:
+
+S = 5 x 1 zilhão de operações
+
+5 = 1/ 1 - Fm + ( fm / 10)
+5 - 5Fm + Fm/2 = 1
+10 -10Fm + Fm = 2
+Fm = 8/9 => 88,89%
+
+Logo, para valer a pena comprar o CPU2 o sistema/aplicação particular tem que ter mais que 88,89% do seu código paralelizável.
