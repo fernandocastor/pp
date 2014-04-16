@@ -1,0 +1,355 @@
+Exercício 1
+
+/*------------------------------FILOSOFO-----------------------------*/
+package jantar;
+
+import java.sql.Time;
+import java.util.concurrent.Semaphore;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ *
+ * @author Carlos Melo
+ */
+
+
+public class Filosofo extends Thread implements Runnable{
+
+    private int index;
+    private Pauzinho pauzinhoEsquerdo;
+    private Pauzinho pauzinhoDireito;
+    private Filosofo filosofoEsquerda;
+    private Filosofo filosofoDireita;
+    public static Semaphore mutex;
+    private final int delay = 1000;
+    private String estado;
+    private long start; 
+
+    public Filosofo(int index) {
+        start = System.currentTimeMillis();
+        this.index=index;
+        if (mutex == null) {
+            mutex = new Semaphore(true);
+        }
+    }
+
+    public void run() {
+        while (true) {
+            pensar();
+            pegarPauzinho();
+            comer();
+            soltarPauzinho();
+        }
+    }
+
+    public void pegarPauzinho() {
+        try {
+            System.out.println(System.currentTimeMillis()-start+" - Filosofo: "+index+" Pegando Pauzinho!");
+            mutex.acquire();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Filosofo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        if ((estado.equals("Faminto")) && !(filosofoDireita.getEstado().equals("Comendo")) && !(filosofoEsquerda.getEstado().equals("Comendo"))) {
+
+            try {
+                getPauzinhoEsquerdo().getS().acquire();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Filosofo.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            try {
+                getPauzinhoDireito().getS().acquire();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Filosofo.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        mutex.release();
+        
+    }
+
+    public void soltarPauzinho() {
+        getPauzinhoEsquerdo().getS().release();
+        getPauzinhoDireito().getS().release();
+    }
+
+    public void pensar() {
+        try {
+            estado = "Pensando";
+            mostraEstados();
+            Thread.sleep((int) (delay * Math.random()));
+            estado = "Faminto";
+            mostraEstados();            
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+    }
+
+    public void comer() {
+        try {
+            estado = "Comendo";
+            mostraEstados();            
+            Thread.sleep((int) (delay * Math.random()));
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+    }
+
+    /**
+     * @return the estado
+     */
+    public String getEstado() {
+        return estado;
+    }
+
+    /**
+     * @return the pauzinhoEsquerdo
+     */
+    public Pauzinho getPauzinhoEsquerdo() {
+        return pauzinhoEsquerdo;
+    }
+
+    /**
+     * @param pauzinhoEsquerdo the pauzinhoEsquerdo to set
+     */
+    public void setPauzinhoEsquerdo(Pauzinho pauzinhoEsquerdo) {
+        this.pauzinhoEsquerdo = pauzinhoEsquerdo;
+    }
+
+    /**
+     * @return the pauzinhoDireito
+     */
+    public Pauzinho getPauzinhoDireito() {
+        return pauzinhoDireito;
+    }
+
+    /**
+     * @param pauzinhoDireito the pauzinhoDireito to set
+     */
+    public void setPauzinhoDireito(Pauzinho pauzinhoDireito) {
+        this.pauzinhoDireito = pauzinhoDireito;
+    }
+
+    /**
+     * @return the filosofoEsquerda
+     */
+    public Filosofo getFilosofoEsquerda() {
+        return filosofoEsquerda;
+    }
+
+    /**
+     * @param filosofoEsquerda the filosofoEsquerda to set
+     */
+    public void setFilosofoEsquerda(Filosofo filosofoEsquerda) {
+        this.filosofoEsquerda = filosofoEsquerda;
+    }
+
+    /**
+     * @return the filosofoDireita
+     */
+    public Filosofo getFilosofoDireita() {
+        return filosofoDireita;
+    }
+
+    /**
+     * @param filosofoDireita the filosofoDireita to set
+     */
+    public void setFilosofoDireita(Filosofo filosofoDireita) {
+        this.filosofoDireita = filosofoDireita;
+    }
+
+    public void mostraEstados() {
+        System.out.println(System.currentTimeMillis()-start + " - Filosofo "+index+ " - Estado: "+estado);
+        }
+
+    /**
+     * @return the index
+     */
+    public int getIndex() {
+        return index;
+    }
+
+    /**
+     * @param index the index to set
+     */
+    public void setIndex(int index) {
+        this.index = index;
+    }
+}
+
+/*------------------------------PAUZINHO-----------------------------*/
+
+package jantar;
+
+import java.util.concurrent.Semaphore;
+
+/**
+ *
+ * @author Carlos Melo
+ */
+public class Pauzinho {
+    private Semaphore s;
+
+    /**
+     * @return the s
+     */
+    
+    public Pauzinho(){
+        s = new Semaphore(true);
+        
+    }
+    public Semaphore getS() {
+        return s;
+    }
+
+    /**
+     * @param s the s to set
+     */
+    public void setS(Semaphore s) {
+        this.s = s;
+    }
+    
+    
+}
+
+
+/*------------------------------JANTAR-----------------------------*/
+
+package jantar;
+
+import java.util.concurrent.Semaphore;
+
+/**
+ *
+ * @author Carlos Melo
+ */
+public class Jantar {
+
+    /**
+     * @param args the command line arguments
+     */
+    private static final int N = 1000;
+    private static Filosofo f[];
+    private static Pauzinho p[];
+    
+  
+    
+    public static void main(String[] args){
+       p = new Pauzinho[N];
+       for (int i=0;i<N;i++){
+          p[i] = new Pauzinho();
+       }
+       
+       f = new Filosofo[N];
+       
+       for (int i=0;i<N;i++){
+          f[i] = new Filosofo(i);
+          f[i].setPauzinhoEsquerdo(p[(i%N)]);
+          f[i].setPauzinhoDireito(p[((i+1)%N)]);
+       }
+       
+       for (int i=0;i<N;i++){
+          f[i].setFilosofoEsquerda(f[(i+N-1)%N]);
+          f[i].setFilosofoDireita(f[(i+1)%N]);
+       }
+        
+        for(int i=0;i<N;i++){
+            f[i].start();
+        }
+        
+    }
+    
+}
+
+
+//------------------------------------------------------------------------------
+
+Exercicio 2 - 
+1. Safety
+Sempre serão servidos na ordem de chegada.
+2. Liveness
+O que sobe sempre desce, mas não se sabe quando isso acontecerá.
+3. Liveness
+Pelo menos um entrará na região critica, só não se sabe quando.
+4. Safety
+É certeza que um segundo após a interrupção uma mensagem será mostrada.
+5. Liveness
+A diferença entre 4 é que não sabemos quando a mensagem será mostrada, mas é certeza de que irá.
+6. Safety
+É certo que o custo de vida nunca diminuirá.
+7. Safety
+Morte e impostos serão sempre certeza.
+8. Liveness
+É fácil detectar um homem de Harvard, mas nem todos os homens são de Harvard. 
+
+//------------------------------------------------------------------------------
+
+Exercício 6 - 
+A) S = 1 / (1-P+(P/n)) -> 1 / (1-0.6(0.6/n)) -> 1/(0.4+(0.6/n)) -> 1/((0.4n+0.6)/n) -> n/(0.4n+0.6);
+
+B) Não é possível realizar esta melhora para um único núcleo, digamos que o tempo de execução total do programa seja de 10 segundos, se M corresponde a 30% do tempo, então M = 3 segundos, mesmo que o tempo de M seja melhorado a ponto de M = 0 o tempo de execução total ainda será de 7 segundos. 
+
+C) 2 = (M+((1-M)/n))/(((M/3)+(1-M))/n) -> M/3 = (1-M)/n -> 3 = (nM+3M) -> M = 3/(n+3)
+
+//------------------------------------------------------------------------------
+
+Exércicio 8 - 
+M para Multicore e S para Single Core
+
+No multicore temos 1 zilhão de instruções por núcleo, enquanto no Single Core temos 5 Zilhões de Instruções sendo executadas por segundo. 
+
+Precisamos calcular em qual situação M será mais vantajoso com S e a recíproca.Para tanto faremos uso do tempo total de cada um.
+
+S = 1/5
+O processador Single Core possui seu núcleo 5x mais rápido que cada núcleo do processador Multicore.
+
+Para M usaremos Amdahl, tal que:
+1-P+(P/10) <= S
+9P+10 >= 2
+9P >= 8
+P = 8/9 = 0.88 ou 88%
+
+Deste modo, 88% da aplicação que planejo executar deve ser paralelizavel para que faça sentido realizar a escolha pelo processador Multicore.
+
+//------------------------------------------------------------------------------
+
+Exercicio 11 - 
+Exclusão Mútua
+Está presente. Apenas uma thread acessa a região crítica, suponhamos que a thread T1 acessa a região critica de modo a trocar o estado de busy para true e ativar o lock, então ninguém mais alcançará esta seção até que o unlock seja executado.
+
+Deadlock
+Suponhamos duas threads T1 e T2, com os seguintes estados:
+T1 -> me = 1; turn = 1; busy = true; turn = 1; turn = 1; turn = 1; ...  
+T2 -> me = 2; turn = 2; turn = 2; turn = 2; ... 
+Como ninguém setará o busy como false novamente, essas threads passaram a compartilhar dos mesmos recursos pelo menos até que uma chamada externa cause um lock. É possível visualizar o starvation para as próximas threads que desejem acesso a esta região.   
+
+Starvation
+Como a aplicação entra em Deadlock, é notável que também existirá starvation. 
+
+//------------------------------------------------------------------------------
+
+Exercicio 13
+Exclusão mutua é satisfeita, graças ao lock de Petterson, que garante que duas threads não consigam acessar o mesmo nó ao mesmo tempo:
+   (L0)
+   /  \
+ (L1) (L2)
+ / \   / \
+T0 T1 T2 T3
+
+L representa as travas e T as Threads, cada Thread precisa passar por todas as travas anteriores para que então possa atingir a região critica. 
+
+Existirá Starvation nos nós, o motivo? Caso uma thread atinja a região critica, outra que deseje se locomover até lá nunca conseguirá acesso ao recurso e ficará esperando no segundo nível "eternamente".
+
+Deadlock não existirá, graças ao lock de Petterson, como já explicado na exclusão mutua. Quem chegar primeiro, ou seja, a thread vencedora, utilizara da trava para se manter naquele local.  
+
+//------------------------------------------------------------------------------
+
+Exercício 15
+Ela não é starvation-free, já que pelo menos uma thread tende a ficar presa indefinidamente no loop while, e também não garante exclusão mutua, já que duas threads T1 e T2 podem acessar a região crítica praticamente ao mesmo tempo, logo após adquirirem o lock. 
+
+
+
+
+
+
