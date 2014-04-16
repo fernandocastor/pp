@@ -1,0 +1,32 @@
+1. Exclusão mútua - OK
+
+Provando por indução:
+
+Caso base (n = 1).
+Para n = 1 temos 2^1 = 2 folhas na árvore. Esse é o caso o do Peterson lock que
+possui 2 threads e possui exclusão mútua.
+
+Caso n = 2:
+Para n = 2 temos 2^2 = 4 folhas na árvore, o que significa 4 threads. Podemos
+dividir a árvore em 2 subárvores identicas à do caso base, que possuem exclusão
+mútua. Ambas as subárvores irão respeitar a exclusão mútua. Uma outra subárvores
+pode ser formado pela raiz da árvore inicial mais as 2 raízes de cada subárvore.
+Essa outra subárvore também é identica às outras duas e possui exclusão mútua,
+logo, toda a árvore possui exclusão mútua para n = 2.
+
+Caso n = k:
+Para n = k temos 2^k folhas na árvore, o que significa 2^k threads. Podemos
+dividir a árvore em 2^(k-1) * (2^k + 1) às do caso base. Cada uma dessas 
+subárvores obedece às restrições informadas acima e possuem exclusão mútua, logo
+toda a árvore possui exclusão mútua.
+
+2. A propriedade de deadlock-free também pode ser provada por indução utilizando
+o mesmo raciocínio do item 1., partindo do ponto que o Peterson lock é
+deadlock-free e que a árvore pode se dividida em várias subárvores idênticas.
+
+3. A propriedade de starvation-free também pode ser provada por indução utilizando
+o mesmo raciocínio do item 1., partindo do ponto que o Peterson lock é
+starvation-free e que a árvore pode se dividida em várias subárvores idênticas.
+
+
+

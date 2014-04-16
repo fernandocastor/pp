@@ -1,0 +1,13 @@
+O FastPath não admite exclusão mútua nem é starvation-free:
+
+Considerando que 2 threads A e B podem chegar ao mesmo tempo na linha 8, e
+consequentemente ambas podem chegar na linha 9 ao mesmo tempo, enquanto uma
+terceira thread C acaba de chegar na linha 8. O valor de x será, nesse momento,
+C, o que garantirá que ambas as threads A e B obtenham o lock ao mesmo tempo na
+linha 11, descaracterizando o princípio de exclusão mútua. 
+
+Nesse mesmo exemplo a thread C pode chegar na linha 9 ao mesmo tempo que as
+threads A e B. Caso nenhuma outra thread seja iniciada, o if statement da linha
+10 retornará false para a thread C, e ela não obterá o lock. Isso caracteriza
+starvation visto que a thread foi executada mas não obteve o lock.
+
