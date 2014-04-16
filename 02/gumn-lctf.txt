@@ -166,10 +166,12 @@ public void run() {
 - Exercício 8
 We will choose the ten-processor multiprocessor because the Amdahl’s Law says that “for a given problem and a ten-processor machine, Amdahl’s Law says that even if we manage to parallelize 90% of the solution, but not the remaining 10%, then we end up with a five-fold speedup, but not a ten-fold speedup”. In this case we will end up with a five-fold speed up. Even the number of instructions is the same (five zillion per second) we can invest an effort to derive as much as parallelism from the remaining 10% as possible, even it is difficult. In the other hand with one uniprocessor we can not increase the performance in any way.
 
+
 ———————————————
-Capítulo 02
+ Capítulo 02
 ———————————————
 
+--------------------------------------------------
 11. Programmers at the Flaky Computer Corporation designed the protocol shown in Fig. 2.15 to achieve n-thread mutual exclusion. For each question, either sketch a proof, or display an execution where it fails.
 	
 	- Does this protocol satisfy mutual exclusion?
@@ -185,42 +187,53 @@ Capítulo 02
 		08 [T2] linha=11 | me=2 | turn=2 | busy=true   //T2 obtém o lock
 		09 [T1] linha=11 | me=1 | turn=2 | busy=true
 		10 [T1] linha=8  | me=1 | turn=1 | busy=true
-		11 [T1] linha=9  | me=1 | turn=1 | busy=true   //a execução de T1 fica presa atÈ que T2 libere o lock
+		11 [T1] linha=9  | me=1 | turn=1 | busy=true   //a execução de T1 fica presa até que T2 libere o lock
 		12 [T2] linha=14 |      | turn=1 | busy=false  //T2 libera o lock
 		13 [T1] linha=10 | me=1 | turn=1 | busy=true
 		14 [T1] linha=11 | me=1 | turn=1 | busy=true   //T1 finalmente obtém o lock
 		15 [T1] linha=14 |      | turn=1 | busy=false  //T1 libera o lock
 		
-		Pode-se perceber que T1 sÛ continuará a execução após T2 liberar o lock. Desse modo o algoritmo garante exclusão mútua para um número n de threads, uma vez que a variável turn não pode assumir valores múltiplos.
-	
-	- Is this protocol starvation-free?
-		O algoritmo não é livre de starvation. Isto ocorre porque o mesmo não pode garantir que cada thread que chame o método lock() entrar· na seção crítica. Utilizando o cenário anterior, não há garantias de que logo após a T2 liberar (passo 12), T1 obterá o lock. Qualquer outra thread poder· obte-lo (pois não h· controle de execução das threads com as ferramentas que temos em mãos). Se isso ocorrer infinitamente, logo T1 ficar· para sempre aguardando e nunca obterá o lock. Uma forma de evitar isso é endereçar as threads, utilizando tickets/labels ou registros de horários durante a entrada das threads no método lock().
+		Pode-se perceber que T1 só continuará a execução após T2 liberar o lock. Desse modo o algoritmo garante exclusão mútua para um número n de threads, uma vez que a variável turn não pode assumir valores múltiplos.
 	
 	- Is this protocol deadlock-free?
-		Apesar de n„o garantir que todas as threads ir„o executar com uma espera finita, o algoritmo È livre de deadlock, uma vez que para que isso ocorresse seria necessário que turn assumisse valores múltiplos.
+		Alterando um pouco o cenário acima:
+		
+		01 [T1] linha=8  | me=1 | turn=1 | busy=false
+		02 [T1] linha=9  | me=1 | turn=1 | busy=false
+		03 [T1] linha=10 | me=1 | turn=1 | busy=true
+		04 [T2] linha=8  | me=2 | turn=2 | busy=true
+		05 [T2] linha=9  | me=2 | turn=2 | busy=true   //a execução de T2 fica presa até que busy seja false
+		06 [T2] linha=10 | me=2 | turn=2 | busy=true
+		07 [T1] linha=11 | me=1 | turn=2 | busy=true
+		08 [T1] linha=8  | me=1 | turn=1 | busy=true   //a execução de T1 fica presa até que busy seja false
+		
+		Desse modo, o cenário alterado mostra um caso de deadlock, explicitando que o algoritmo não é livre de deadlocks. Qualquer thread que tente obter a trava ficará presa entre as linhas 8 e 9, pois em nenhum caso é possível transformar busy em false (o que só ocorre na chamada do método unlock).
+	
+	- Is this protocol starvation-free?
+		O algoritmo não é livre de starvation, uma vez que podem ocorrer deadlocks, e a propriedade de starvation-free requer que o algoritmo seja também deadlock-free.
 	
 --------------------------------------------------
 13. Another way to generalize the two-thread Peterson lock is to arrange a number of 2-thread Peterson locks in a binary tree. Suppose n is a power of two. Each thread is assigned a leaf lock which it shares with one other thread. Each lock treats one thread as thread 0 and the other as thread 1. In the tree-lock's acquire method, the thread acquires every two-thread Peterson lock from that thread's leaf to the root. The tree-lock's release method for the tree-lock unlocks each of the 2-thread Peterson locks that thread has acquired, from the root back to its leaf. At any time, a thread can be delayed for a finite duration. (In other words, threads can take naps, or even vacations, but they do not drop dead.) For each property, either sketch a proof that it holds, or describe a (possibly infinite) execution where it is violated.
 
 	1. mutual exclusion.
 		Imaginemos o cenário abaixo:
-				  L0
-				/    \
+			      L0
+			    /    \
 			  L1      L2
 			 /  \    /  \
 			T0  T1  T2  T3
-		Para que uma thread execute a seÁ„o crítica, de acordo com as regras do algoritmo em quest„o, È preciso que esta tenha obtido a trava de todos os níveis inferiores, sempre executando o algoritmo de Peterson em cada um deles. Dessa forma, para que T0 chegue ‡ seÁ„o crítica, ele deve ter obtido a trava de L1 disputando com T1, além de obter a trava de L0 disputando com quem obteve a trava de L2. Logo, está caraterizada a exclusão m˙tua, uma vez que as disputas ocorrem em duplas, e o algoritmo de Peterson (executado a cada disputa) é 2-thread.
+		Para que uma thread execute a seção crítica, de acordo com as regras do algoritmo em questão, é preciso que esta tenha obtido a trava de todos os níveis inferiores, sempre executando o algoritmo de Peterson em cada um deles. Dessa forma, para que T0 chegue à seção crítica, ele deve ter obtido a trava de L1 disputando com T1, além de obter a trava de L0 disputando com quem obteve a trava de L2. Logo, está caraterizada a exclusão mútua, uma vez que as disputas ocorrem em duplas, e o algoritmo de Peterson (executado a cada disputa) é 2-thread e satisfaz a propriedade de exclusão mútua.
 	
 	2. freedom from deadlock.
-		Imaginando ainda o cenário descrito anteriormente, seria preciso que em algum dos níveis houvesse uma espera comprovadamente infinita de uma thread por alguma trava. Como o algoritmo de Peterson È o responsável pela distribuição das travas em todos os níveis da árvore binária, logo não haverá deadlock, uma vez que este algoritmo é livre de starvation.
+		Imaginando ainda o cenário descrito anteriormente, seria preciso que em algum dos níveis houvesse uma espera comprovadamente infinita de uma thread por alguma trava. Como o algoritmo de Peterson é o responsável pela distribuição das travas em todos os níveis da árvore binária, logo não haverá deadlock, uma vez que este algoritmo é livre de starvation. Também seria necessário que as threads em deadlock assumissem o mesmo ID, o que seria impossível uma vez que a cada nó distribui para suas folhas IDs exclusivos (no caso apenas 0 e 1).
 	
 	3. freedom from starvation.
 		(o mesmo anterior)
 	
 Is there an upper bound on the number of times the tree-lock can be acquired and released between the time a thread starts acquiring the tree-lock and when it succeeds?
-	N„o existem um limite superior de tempo, mas ‡ medida que a árvore cresce indefinidamente o tempo de espera pode se tornar longo, sem falar no espaço de memória ocupado, ameaçando assim a propriedade first-come-first-served.
+	Não existem um limite superior de tempo, mas à medida que a árvore cresce indefinidamente o tempo de espera pode se tornar longo, sem falar no espaço de memória ocupado, ameaçando assim a propriedade first-come-first-served.
 	
 --------------------------------------------------
 15. In practice, almost all lock acquisitions are uncontended, so the most practical measure of a lock's performance is the number of steps needed for a thread to acquire a lock when no other thread is concurrently trying to acquire the lock. Scientists at Cantaloupe-Melon University have devised the following "wrapper" for an arbitrary lock, shown in Fig. 2.16. They claim that if the base Lock class provides mutual exclusion and is starvation-free, so does the FastPath lock, but it can be acquired in a constant number of steps in the absence of contention. Sketch an argument why they are right, or give a counterexample.
 	
-	Executando qualquer cenário com ausência de contenção, a teoria de que o n˙mero de passos para obter a trava é constante está correta. No entanto, o algoritmo n„o pode garantir que está livre de starvation, muito menos exclusão mútua. Imagine que uma thread T1 livre de contenção obtém a trava, e que logo depois outras três threads T2, T3 e T4 tentam obter a mesma trava. Essas últimas threads ficam em espera, e logo que T1 muda y para -1 (linha 14), as últimas três saem do loop de espera e começam novamente a executar. A linha 10 do algoritmo garante que apenas a última thread que entrou no método lock() de FastPath obtenha a trava (no caso T4). Isso j· caracteriza starvation. Contudo, no exemplo (supondo uma ordem arbitrária) T2 e T3 disputariam uma trava chamando o método lock() da classe Lock, e logo uma das duas teria sucesso (suponhamos T2). Logo, existiram duas threads (T2 e T4) que obtiveram a trava, caracterizando ausência de exclusão mútua.
+	Executando qualquer cenário com ausência de contenção, a teoria de que o número de passos para obter a trava é constante está correta. No entanto, o algoritmo não pode garantir que está livre de starvation, muito menos exclusão mútua. Imagine que uma thread T1 livre de contenção obtém a trava, e que logo depois outras três threads T2, T3 e T4 tentam obter a mesma trava. Essas últimas threads ficam em espera, e logo que T1 muda y para -1 (linha 14), as últimas três saem do loop de espera e começam novamente a executar. A linha 10 do algoritmo garante que apenas a última thread que entrou no método lock() de FastPath obtenha a trava (no caso T4). Isso já caracteriza starvation. Contudo, no exemplo (supondo uma ordem arbitrária) T2 e T3 disputariam uma trava chamando o método lock() da classe Lock, e logo uma das duas teria sucesso (suponhamos T2). Logo, existiram duas threads (T2 e T4) que obtiveram a trava, caracterizando ausência de exclusão mútua.
