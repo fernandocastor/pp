@@ -1,0 +1,1 @@
+Não. A condição L1 não impõe nenhuma restrição com relação à preservação da ordem das operações em uma mesma thread.

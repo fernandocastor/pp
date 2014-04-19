@@ -1,0 +1,14 @@
+- Sequentially consistent but not quiescently consistent:
+
+            q.enq(x)
+    A ----|==========|--------------------------------
+                           q.enq(y)       q.deq(y)
+    B -------------------|==========|---|=========|---
+
+
+- Quiescently consistent but not sequentially consistent:
+
+            q.enq(x)      q.enq(y)
+    A ----|==========|--|==========|--------------------
+                      q.deq(y)             q.deq(x)
+    B -------------|==========|----------|==========|---

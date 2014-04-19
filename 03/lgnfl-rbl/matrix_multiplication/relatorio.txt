@@ -1,0 +1,42 @@
+Relatorio da atividade 3
+========================
+Testes
+========================
+Versões do programa sequencial e paralelas para o problema embaraçosamente
+paralelo de multiplicação de matrizes foram implementadas em C++ e Shell Scripting.
+Para cada uma das versões paralelas foram usadas 8 threads/jobs/processos.
+A multiplicação de matrizes poderia ser feita em matrizes de até 1000 linhas e
+1000 colunas. O resultado da multiplicação é módulo 1000003 (primo). A utilização
+de módulo foi para não precisar tratar overflow e para tornar mais custoso, o que
+favorece a comparação dos tempos.
+
+run_single: versão sequencial em C++
+run_script: versão paralela em shell scripting
+run_fork: versão paralela em C++ (usou mmap para memória compartilhada)
+run_thread: versão paralela em C++
+
+========================
+Resultados
+========================
+run_single:
+  cmd: time ./run_single.sh > C2.txt && diff C.txt C2.txt
+  avg: 14.534s
+
+run_script:
+  cmd: time ./run_script.sh > C2.txt && diff C.txt C2.txt
+  avg: 4.624s
+
+run_fork:
+  cmd: time ./run_fork > C2.txt && diff C.txt C2.txt
+  avg: 3.624s
+
+run_thread:
+  cmd: time ./run_thread > C2.txt && diff C.txt C2.txt
+  avg: 3.739s
+
+========================
+Plataforma
+========================
+Intel® Core™ i7-3632QM
+* 4 núcleos físicos e 8 núcleos virtuais
+* Possui três níveis de memória cache: 256KB (L1), 1MB (L2), 6MB (L3, shared)

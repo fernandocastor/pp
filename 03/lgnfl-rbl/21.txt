@@ -1,0 +1,1 @@
+Se um objeto A é composto por dois objetos B e C que são "quiescently consistent", B e C só serão acessados durante chamadas a métodos de A. Dessa forma, qualquer período de "quiescience" para A também é um período de "quiescience" para B e C, fazendo com que a propriedade de "quiescent consistency" seja preservada para o objeto A.
