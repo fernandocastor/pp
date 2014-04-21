@@ -1,0 +1,110 @@
+CAP1
+1) ANEXO
+
+2) — 
+1) Vivacidade. Garante que a mordomia do serviço será ordinal, porém, não estabeleceu tempo ou qualquer outra garantia.
+2) Vivacidade. Garante que em algum momento (eventualidade) a queda irá acontecer.
+3) segurança. Acesso de mais de 1 processo à região critica significa que não ha computação coerente. Ou seja, quando uma coisa má não irá acontecer.
+4) Vivacidade. A eventualidade da interrupção provocará uma notificação (mensagem). Um notificação será coisa boa acontecendo.
+5) Vivacidade. A eventualidade da interrupção provocará uma notificação (mensagem). Um notificação será coisa boa acontecendo.
+6) Segurança. Sempre terei de ganhar mais dinheiro. Assim, a coisa má(para elas) é que as empresas precisarão me pagar mais.
+7) Segurança. A coisa boa é que ha a possibilidade de planejamento.
+8) Vivacidade. A coisa boa é que sempre haveria solução em harvard.
+
+6)
+a)
+var x; 
+x = 1 / ((1 - 0.6) + (0.6/N));
+x = 1 / (0.4 + 0.6/N); // N INFINITO
+x = 1/ 0.4
+x = 2.5
+
+b)  
+0.3 + (0.7/N) = (0.6/x) + (1.4/N)
+0.3 - (0.7/N) = 0.6/x
+(0.3N - 0.7/N) = 0.6/x 
+x = (0.3N - 0.7/N) / 0.6
+
+c)
+
+8)—
+
+ 1 / [1 - p + (p / 9)] = 5 → 1 / [(9 - 9p + p) / 9] = 5 → 9/(p + 9-9p) = 5 →  p - 9p = (9/5) - 9 →  -8p = (9/5) - 9 →(-1).8p = 9-9/5 → p = 7.2 / 8 → p = 0.9
+
+Cerca de 90% do software precisa ser paralelizavel
+
+CAP2
+
+11
+RESPOSTA
+
+Não satisfaz a propriedade de exclusão mútua, pois, nunca será possível entrar na região crítica. Além disso, nenhuma thread poderá obter o lock no fluxo do sistema, causando inanição. Finalmente, ha uma espera infinita pela liberação do Lock() que não ocorrerá.
+
+Prova: 
+READ𝑎 (turn != me) → READ𝑎 (busy == false) → WRITE𝑎 (busy = true) → READ𝑎 (turn != me) → READ𝑎 (busy == true)  → WRITE𝑎 (turn = me) → READ𝑎 (busy == true); //loop infinito
+READ𝘣 (turn != me) → READ𝘣 (busy == true) → WRITE𝘣 (turn = me) → READ𝘣 (busy == true); //loop infinito
+READ𝘯 (turn != me) → READ𝘯 (busy == true) → WRITE𝘯 (turn = me) → READ𝘯 (busy == true); //loop infinito
+
+——————————————
+
+13
+RESPOSTA:
+
+Levando em consideração que ha uma um processo de concepção da arvore binária e um processo de indexação/reindexação 
+bem definido na entrada method TreeLock:
+
+Class Peterson implements Locks {
+…
+private Peterson pFather, pChildLeft, pChildRight;
+private int key;
+private int count = 0; // até 2
+
+public void treeLock(){
+	this.incrementCount();
+	int i = indexing2Threads(ThreadID.get())// Não importa se ela é uma thread 
+									//criada no início da criação da arvore. 
+									//Basta que o processo de indexação proverá o valor 0 ou 1
+	int j = j-i;
+	flag[i] = true;
+	victim = i
+	while(flag[j] && victim==i && pFather.getCount == 2){}; //Além de esperar devido a exclusão mutua em seu leaf, a
+											      // thread precisará identificar se ha possibilidade de inserir-												     // se no nó seguinte ( o pai)
+	
+	if(pFather != null ){ //Existe mais um nó Pai a caminho da raiz da árvore 
+		pFather.treeLock();
+	}
+} 
+
+public void treeUnlock(){
+	int i = indexing2Threads(ThreadID.get())// Não importa se ela é uma thread 
+									//criada no início da criação da arvore. 
+									//Basta que o processo de indexação proverá o valor 0 ou 1
+	flag[i] = false;
+	Peterson child = findNextChildOfThisThreadID(ThreadID.get()) // busca na arvore que é o proximo nó. 
+													    // Caso não exista, retorna nulo
+	if(child != null){
+		pChild.treeUnlock();
+	}
+	this.decrementCount();
+}
+
+Acerca da Exclusão Mútua
+a) cada thread entra e sai do seu leaf respeitando a propriedade de exclusão mútua. Alem disso, a passagem de um leaf para outro só é feita se houver menos de 2 threads no nó a ser inserida a thread.
+
+Livre de deadlocks
+a) Não ha dependências circulares e ha uma seção crítica acessível via algoritmo de Lock de Peterson.
+
+Livre de “fome”
+a) Não ha garantia de quando será provido o acesso a seção critica ou ao proximo leaf mais perto da raiz, porem, ha a garantia que EVENTUALMENTE isso vai acontecer.
+
+——————————————
+15
+RESPOSTA
+
+Sobre a exclusão mútua. Ha a possibilidade de mais de 1 thread acessar a seção crítica ao mesmo tempo. 
+WRITE𝑎 (x = ID𝑎) →  WRITE𝘣 (x = ID𝘣) → READ𝑎 (y != -1) → READ𝘣 (y != -1);
+WRITE𝘤 (x = ID𝘤) → READ𝑎 (x != i)  → READ𝘣 (x != i);// 2 locks simultâneos
+
+Portanto, não satisfaz a exclusão mútua.
+
+Sobre liberdade de “fome”. O algoritmo pode cair em dead lock e o acesso a seção crítica pode nunca ser provido. Portanto, não é um algoritmo que satisfaz a propriedade de starvation-free
