@@ -1,0 +1,63 @@
+Universidade Federal de Pernambuco
+Centro de Informática
+Mestrado em Ciência da Computação
+IN0984
+
+Dupla:  Gert Müller (gumn) e Larissa Falcão (lctf)
+
+Trabalho 03
+
+- Exercício 21
+De acordo com a definição: “A consistency model is compositional if and only if the specification of every object in a system satisfies the consistency model implies that the system as a whole satisfies the consistency model”. Assim podemos dizer que quiescent consistency é compositional.
+
+
+- Exercício 23
+
+Quiescently consistent e não sequentially consistente:
+
+T1 --- write(x) -----write(y)—————————read(x)————
+T2 ————————————————— write(z)————————————————————
+
+
+Sequentially consistent e não quiescently consistent:
+
+T1:  --- enq(x) ---------------------------
+T2:  ------------- enq(y) ---- deq():y ----
+
+
+- Exercício 24
+
+Figure 3.13
+-Quiescently consistent
+porque obedece as duas regras de Quiescently consistence: Method calls should appear to happen in a one-at-a-time, sequential order; Method calls separated by a period of quiescence should appear to take effect in their real-time order.
+
+-Sequential
+É seqüencial se admitirmos que a ordem do programa é: r.read(1)-> r.write(1) -> r.write(2) -> r.read(2)
+
+-Linearizable
+É possível identificar para cada método de um ponto de linearização, onde o método de entrar em vigor.
+
+Figure 3.14
+-Linearizable 
+porque o resultado do read da thread B é o valor do método write da thread B que foi chamado primeiro. Regra básica de Linearizability: The basic rule is that if one method call precedes another, then the earlier call must have taken effect before the later call.
+
+-Sequential
+É seqüencial se admitirmos que a ordem do programa é: r.read(1)-> r.write(1) -> r.read(1) -> r.write(2)
+
+-Quiescently
+Admitindo que será executado na ordem mostrada na Sequential Consistency e que existe um período de quiescence onde tem efeito na ordem em tempo real.
+
+
+- Exercício 25
+Não, porque a condição de ser seqüencial depende da condição L2, onde de acordo com a definição as chamadas de métodos devem aparecer para fazer efeito na ordem do programa. Assim a condição L1 sozinha não garante esse efeito.
+
+- Exercício 27
+Não será linearizable porque há duas operações consecutivas em tail.compareAndSet(slot, slot + 1) e items[slot] = x não é atômico. Para ilustrar essa afirmação:
+
+T1 ————q.enq(e1)————————————————————————————————————————————————-———————————q:void——
+T2 ——————————————— q.enq(e2)—————————q:void—————————————————————————————————————————
+T3 ———————————————————————————————————————-——q.deq()————q:EmptyException()——————————
+
+
+- Exercício 28
+Sim, porque a variável V é volatile, sendo assim lendo e escrevendo um campo volátil tem o mesmo efeito sobre a consistência de memória como adquirir e liberar um bloqueio. Alguma forma de exclusão mútua é necessária para que o valor da variável v seja modificado para true.
