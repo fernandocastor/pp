@@ -1,0 +1,42 @@
+1. Assuma que o algoritmo não garanta exclusão mútua, então existem threads A e B
+que entram simultaneamente em suas regiões críticas.
+
+Tendo duas threads A e B que estão próximas de entrarem em suas respectivas
+regiões críticas, sabemos que:
+
+#1 writeA(turn=A) -> readA(busy=false) -> writeA(busy=true) -> readA(turn=A)
+
+#2 writeB(turn=B) -> readB(busy=false) -> writeB(busy=true) -> readB(turn=B)
+
+Como A entrou na região crítica podemos inferir:
+
+#3 readA(turn=A) -> writeB(turn=B)
+
+E como B entrou na região crítica temos:
+
+#4 readB(turn=B) -> writeA(turn=A)
+
+De #1 e #3 temos:
+
+#5 writeA(turn=A) -> readA(turn=A) -> writeB(turn=B)
+
+De #2 e #5 temos:
+
+#6 writeA(turn=A) -> readA(turn=A) -> writeB(turn=B) -> readB(turn=B)
+
+De #4 e #6 temos:
+
+writeA(turn=A) -> readA(turn=A) -> writeB(turn=B) -> readB(turn=B) ->
+writeA(turn=A)
+
+O que é uma contradição já que a thread A já havia escrito em turn.
+
+2. Não, pois essa implementação não é deadlock-free e portanto não pode ser
+starvation-free (provado em 3.).
+
+3. Não, considere o cenário em que threads A e B estão rodando concorrentemente,
+se:
+
+writeB(turn=B) acontecer imediatamente após writeA(busy=true) então nem A nem B
+prosseguirão já que a "vez" ("turn") não é mais de A e B está preso no laço
+interno pois busy=true
