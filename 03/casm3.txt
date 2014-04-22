@@ -1,0 +1,304 @@
+Exercício 21
+Uma propriedade de corretude P será composicional, se e somente se os objetos contidos no sistema sejam satisfatórios para a condição desta propriedade. 
+Os objetos do tipo quiescente podem ser usados para formar outros objetos quiescentes mais e mais complexos, satisfazendo esta propriedade.
+
+Exercicio 23
+quiescently consistent
+Dois processos, P1 e P2, compartilham da mesma estrutura de FIFO, enquanto o processo P1 enfileira x, o segundo processo irá desenfileirar e receber y, próximo ao término da execução de ambos, o primeiro processo irá enfileirar y. O intervalo das ações está dentro de um intervalo de quiescência e podemos notar que não é plenamente sequêncial.
+P1: -----enq(x)-------enq(y)-------------------
+P2: -----------deq(y)-----deq(x)---------------
+
+sequentially consistent
+Dois processos, P1 e P2, compartilham da mesma estrutura de FIFO, enquanto o processo P1 enfileira x, o segundo processo irá enfileirar y, não necessariamente ao mesmo tempo, próximo ao término da execução de ambos, o segundo processo irá desenfileirar y. O intervalo das ações não está dentro de um intervalo de quiescência e podemos notar que é plenamente sequêncial.
+P1: -----enq(x)--------------------------
+P2: -------------enq(y)-----deq(y)-------
+
+
+Exercicio 24
+Caso 1: 
+É quiescente, pois após o tempo de repouso consegue atingir o último elemento a ser lido, 2.
+É sequencial, lê 1 em A após este ter sido escrito por B, e lê dois em B após o mesmo ter sido escrito por C.
+É linearizável, já que os métodos trabalham na leitura e escrita de maneira sequêncial. 
+
+Caso 2:
+Não é quiescente, lê o valor 1 duas vezes e o 2 nenhuma.
+É sequencial, 1 é escrito, lido, 2 é escrito e 1 lido novamente (Não seria caso um dos valores fosse lido sem antes ter sido escrito).
+Não é linearizável, já que B escreve e lê o valor 1, quando deveria ter escrito o valor 1 e lido o valor 2.
+
+Exercicio 25
+Sim, se manteria, de acordo com a definição 3.6.1:
+Definition 3.6.1. 
+"L1 A history H is linearizable if it has an extension H' and there
+is a legal sequential history S such that L1 complete(H') is equivalent to S,"
+
+Uma história H sempre será linearizável desde que possua uma extensão H' que tenha uma história sequencial equivalente, S. 
+
+A ordem de execução de cada método passaria a ser aleatória, porém as threads continuariam a ser executadas de maneira sequencial "is a legal sequential history S". 
+
+Exercicio 27
+Não é linearizável, caso um X e um Y sejam empilhados, a CompareAndSet fará a comparação entre ambos, como são distintos o slot receberá X.
+
+
+Exercicio 28
+Volatile garante que a variável será escrita diretamente na memoria. A divisão por zero nunca acontecerá, X sempre será 42 quando o valor v for verdadeiro (true).
+
+Questão 2.
+O algoritmo consistiu na soma de matrizes nxn, a implementação sequencial foi feita em Java, o tempo médio para cada uma foi:
+
+Java Sequencial: 2331ms;
+
+Java com Threads: 7ms;
+
+Shell Script: 
+
+C com Fork e Join:
+
+Configurações da máquina: AMD-FX 8350 8-Core 8-Threads - 4.0Ghz, 8Gb RAM - DDR3 1866Mhz. Três níveis de cache.  
+
+
+
+
+
+
+*****
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package matrix;
+
+/**
+ *
+ * @author Carlos Melo
+ */
+public class Matrix {
+
+    static int count = 10;
+    static int matrizGlobal[][] = new int[count][count];
+
+    /**
+     * @param args the command line arguments
+     */
+    public int[][] criar() {
+        int num = 0;
+        int[][] resp = new int[this.count][this.count];
+        for (int i = 0; i < this.count; i++) {
+            for (int j = 0; j < this.count; j++) {
+                resp[i][j] = num;
+                num++;
+            }
+        }
+        return resp;
+    }
+
+    public int[][] soma(int matrizA[][], int matrizB[][]) {
+        int resp[][] = new int[this.count][this.count];
+
+        for (int a = 0; a < this.count; a++) {
+            for (int b = 0; b < this.count; b++) {
+                for (int i = 0; i < 1024000; i++) {
+                    resp[a][b] += matrizA[a][b] + matrizB[a][b];
+                }
+
+            }
+        }
+        return resp;
+    }
+
+    public void imprime(int[][] matriz) {
+        System.out.println("\n");
+        System.out.println("=======Resultado da matriz===========");
+        for (int i = 0; i < this.count; i++) {
+            for (int j = 0; j < this.count; j++) {
+                System.out.print(matriz[i][j] + "\t");
+            }
+            System.out.println("\n");
+        }
+    }
+
+    public static void main(String[] args) {
+        Matrix m = new Matrix();
+        
+    int[][] matriz = m.criar();
+    
+     long start = System.currentTimeMillis();
+      for (int i = 0; i < 50; i++) {
+            m.imprime(m.soma(matriz, matriz));   
+        }  
+    long delay = System.currentTimeMillis()- start;
+        System.out.println("Tempo total(sequencial)= "+ delay +" (ms)");
+    
+        System.out.println("\n");
+    
+    //Processo  paralelo
+   //start = System.currentTimeMillis();
+    /*    for (int i = 0; i < 50; i++) {
+                MatrizParall matrizParall = new MatrizParall(matriz, matriz);
+                Thread t = new Thread(matrizParall);                        
+                t.start();   
+        }
+       
+                */    
+  
+        // Processo Paralelo (End)
+        
+    }
+    
+}
+*************
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package matrix;
+
+/**
+ *
+ * @author Carlos Melo
+ */
+public class Matrix_1 implements Runnable{
+
+    static int count = 10;
+    static int matrizGlobal[][] = new int[count][count];
+
+    /**
+     * @param args the command line arguments
+     */
+    public int[][] criar() {
+        int num = 0;
+        int[][] resp = new int[this.count][this.count];
+        for (int i = 0; i < this.count; i++) {
+            for (int j = 0; j < this.count; j++) {
+                resp[i][j] = num;
+                num++;
+            }
+        }
+        return resp;
+    }
+
+    public int[][] soma(int matrizA[][], int matrizB[][]) {
+        int resp[][] = new int[this.count][this.count];
+
+        for (int a = 0; a < this.count; a++) {
+            for (int b = 0; b < this.count; b++) {
+                for (int i = 0; i < 1024000; i++) {
+                    resp[a][b] += matrizA[a][b] + matrizB[a][b];
+                }
+
+            }
+        }
+        return resp;
+    }
+
+    public void imprime(int[][] matriz) {
+        System.out.println("\n");
+        System.out.println("=======Resultado da matriz===========");
+        for (int i = 0; i < this.count; i++) {
+            for (int j = 0; j < this.count; j++) {
+                System.out.print(matriz[i][j] + "\t");
+            }
+            System.out.println("\n");
+        }
+    }
+
+
+     @Override
+    public void run() {
+         Matrix m = new Matrix();
+         int[][] matriz = m.criar();
+        for (int i = 0; i < 50; i++) {
+             MatrizParall matrizParall = new MatrizParall(matriz, matriz);
+             Thread t = new Thread(matrizParall);                        
+             t.start();   
+        }    }
+}
+*********
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package matrix;
+
+/**
+ *
+ * @author Carlos Melo
+ */
+
+public class MatrizParall implements Runnable {
+    int[][] matrizTemp;
+  int[][] matrizTemp2;
+
+    public MatrizParall(int[][] matrizTemp, int[][] matrizTemp2) {
+        this.matrizTemp = matrizTemp;
+        this.matrizTemp2 = matrizTemp2;
+    }
+    
+     public void imprime(int[][] matriz) {
+        System.out.println("\n");
+        System.out.println("=======Resultado da matriz===========");
+        for (int i = 0; i < matriz.length; i++) {
+            for (int j = 0; j < matriz.length; j++) {
+                System.out.print(matriz[i][j] + "\t");
+            }
+            System.out.println("\n");
+        }
+    }
+   
+    public int[][] somaVetor() {
+
+        int resp[][] = new int[Matrix.count][Matrix.count];
+        for (int a = 0; a < Matrix.count; a++) {
+            for (int b = 0; b < Matrix.count; b++) {
+                for (int i = 0; i < 1024000; i++) {
+                    resp[a][b] += matrizTemp[a][b] + matrizTemp2[a][b];
+                }
+
+            }
+        }
+        return resp;                 
+    }
+
+    @Override
+    public void run() {
+     this.imprime(somaVetor());
+    }
+
+}
+*********
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package matrix;
+
+import com.sun.org.apache.xalan.internal.xsltc.runtime.BasisLibrary;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ *
+ * @author Carlos
+ */
+public class NewClass {
+    public static void main(String[] argStrings){
+        Matrix_1 matrix_1 = new Matrix_1();
+        long start = System.currentTimeMillis();
+          Thread t = new Thread(matrix_1);                        
+                t.start();   
+        boolean vivo = true;
+                while(vivo){
+            
+            if(!t.isAlive()){
+                vivo = t.isAlive();
+                System.out.println(vivo);
+                 long delay = System.currentTimeMillis()- start;
+        System.out.println("Tempo total(Paralelizado)= "+ delay +" (ms)");
+            }
+        }
+            
+                
+    }
+}
+
