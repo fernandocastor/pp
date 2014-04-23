@@ -1,0 +1,150 @@
+Trabalho 03:
+
+========================================================
+
+Questão 01:
+
+
+
+Exercise 21. Explain why quiescent consistency is compositional.
+
+Suponde que um objeto X é composto por dois objetos que obedeçam a consistência de quietude Y e Z. Por definição, os métodos executados por Y e Z obedecem a esta consistência. Como as chamadas só podem vir de X, então qualquer chamada de X também obedece a consistência de quietude.
+
+
+
+Exercise 23. Give an example of an execution that is quiescently consistent but not sequentially consistent, and another that is sequentially consistent but not quiescently consistent.
+
+
+>> sequencialmente consistênte mas não tem consistência de quietude:
+
+A-----|write(x)=a|----------------------------------------------------------------
+
+B-------------------|write(x)=b|--------------------------------------------------
+
+c----------------------------------|read(x)=b|-------------------|read(x)=a|------
+
+d-------------------------------------------------|read(x)=b|----|read(x)=a|------
+
+
+
+>> consistência de quietude mas não a sequencial:
+
+A-----|write(x) write(z)|----|read(x)|----------------
+
+B---------------------|write(y)|----------------------
+
+
+
+
+Exercise 24. For each of the histories shown in Figs. 3.13 and 3.14, are they quiescently consistent? Sequentially consistent? Linearizable? Justify your answer.
+
+Para a Figura 3.13:
+
+i) quiscencia: devido ao overlap existente, é possível que a última escrita seja a 2. Assim o programa consegue ler 2. Respeitando a consistência de quietude.
+ii) sequencial: devido ao overlap existente, é possível que a última escrita seja a 2. Assim o programa consegue ler 2. Respeitando a consistência sequencial.
+iii) linear: devido ao overlap existente, é possível que a última escrita seja a 2. Assim o programa consegue ler 2. Respeitando a consistência linear.
+
+Para a Figura 3.14:
+
+i) quiscencia: devido ao overlap existente, é possível que a última escrita seja a 1. Assim o programa consegue ler 1. Respeitando a consistência de quietude.
+ii) sequencial: devido ao overlap existente, é possível que a última escrita seja a 1. Assim o programa consegue ler 1. Respeitando a consistência sequencial.
+iii) linear: devido ao overlap existente, é possível que a última escrita seja a 1. Assim o programa consegue ler 1. Respeitando a consistência linear.
+
+
+
+
+Exercise 25. If we drop condition L2 from the linearizability definition, is the resulting property the same as sequential consistency? Explain.
+
+Não. Sem a condição L2 não teremos mais nenhuma regra sobre a ordem do programa, assim a consistência sequencial é perdida.
+
+
+
+
+Exercise 27. ...
+
+Considere o FIFO com 2 elementos, e em seguida fosse executar 2 deq(), se o 1o parar na linha 20, o valor do slot vai ser alterado, porém ele ainda não retornou o valor, e a outra thread chama o deq() novamente. Assim, ele retira o 2o elemento antes do 1o, pois o slot já estava com o valor incrementado. Quebrando assim a linearibilidade.
+
+
+
+
+Exercise 28. Consider the class shown in Fig. 3.16. According to what you have been told about the Java memory model, will the reader method ever divide by zero?
+
+Sim! se Java alterar a sequência dentro do método writer(), e duas threads chamam writer() e reader() ao mesmo tempo,  a que chamou o writer() parou logo depois de y=true, então a outra thread vai conseguir realizar a divisão por 0.
+
+
+========================================================
+
+
+Questão 02:
+
+Os arquivos estão anexos no zip. Abaixo os tempos das execuções:
+
+
+
+- Sequencial Java - 
+
+real    0m0.088s
+user    0m0.060s
+sys    0m0.028s
+
+
+real    0m0.089s
+user    0m0.068s
+sys    0m0.024s
+
+
+real    0m0.087s
+user    0m0.060s
+sys    0m0.028s
+
+
+
+- Paralelo Java -
+
+real    0m0.103s
+user    0m0.068s
+sys    0m0.036s
+
+
+real    0m0.083s
+user    0m0.068s
+sys    0m0.016s
+
+
+real    0m0.096s
+user    0m0.088s
+sys    0m0.008s
+
+
+
+- Paralelo C -
+
+real    0m18.293s
+user    0m0.000s
+sys    0m0.020s
+
+real    0m25.269s
+user    0m0.000s
+sys    0m0.000s
+
+real    0m33.848s
+user    0m0.000s
+sys    0m0.004s
+
+
+
+- Paralelo Shell -
+
+real    0m0.017s
+user    0m0.000s
+sys    0m0.000s
+
+
+real    0m0.018s
+user    0m0.000s
+sys    0m0.004s
+
+
+real    0m0.014s
+user    0m0.000s
+sys    0m0.000s
