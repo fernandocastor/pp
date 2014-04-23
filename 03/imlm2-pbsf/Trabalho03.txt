@@ -1,0 +1,60 @@
+Trabalho 03 - PP
+
+Irineu Moura (imlm2) e Paulo Barros (pbsf)
+
+21. Os períodos “quiescents” de components distintos são distintos já que
+    períodos “quiescent” são atribuídos por objeto (componente) e, portanto,
+    contanto que cada componente garanta “quiescent consistency”, o sistema como
+    um todo também deve garantir.
+
+23. Sequential consistency sem Quiescent consistency:
+    <q enq(1) A>, <q:Ok() A>, [PERÍODO QUIESCENT], <q enq(2) B>, <q:Ok() B>,[PERÍODO QUIESCENT], <q deq(2) A>, <q:Ok() A>
+    
+    Não há como reordenar os eventos garantindo “quiescent consistency”,
+    entretanto podemos reordená-los mantendo a program order e atendendo à
+    especificação do objeto:
+    
+    <q enq(2) B>, <q:Ok() B>, <q enq(1) A>, <q:Ok() A>, <q deq(2) A>,<q:Ok() A>
+
+    Quiescent consistency sem Sequential consistency:
+    <q enq(1) A>, <q deq(2) B>, <q:Ok() A>, <q enq(2) A>, <q:Ok()A>, <q:Ok() B> [PERÍODO QUIESCENT], <q deq(1) A>, <q:Ok() A>
+    Não há como reordernar os eventos garantindo “sequential consistency”, entretanto é possível reordená-los garantindo “quiescent consistency”:
+    <q enq(2) A>, <q:Ok() A>, <q deq(2) B>, <q:Ok() B>, <qenq(1) A> , <q:Ok() A>, [PERÍODO QUIESCENT], <q deq(1)A>, <q:Ok() A>
+
+24.     Quiescent: Ambas  histórias são “quiescently consistent”, é possível orderná-las respeitando o período “quiescent” de r:
+        1 <r write(1) B>, <r read(1) A>, <r write(2) C>, <r read(2) B>
+        2 <r write(2) C>, <r write(1) B>, <r read(1) A>, <r read(1) B>
+
+        Note que, como as três primeiras chamadas mais à esquerda se sobrepõem,
+        podemos ordená-las a nosso critério contanto que respeitemos o período
+        “quiescent” da chamada <r read(2) B> (ou <r read(1) B>) mais à direta.
+        
+        Sequential: Ambas histórias são “sequential consistent”, é possível
+        ordernar as chamadas de modo a respeitar a ordem do programa de cada
+        thread e a especificação sequencial do objeto “r”:
+                1 <r write(1) B>, <r read(1) A>, <r write(2) C>, <r read(2) B>
+                2 <r write(2) C>, <r write(1) B>, <r read(1) A>, <r read(1) B>
+        
+        Linearizable: Para a figura 3.13: Sim. Podemos escolher pontos onde as operacoes ocorrerao instantaneamente tal quea execucao seja linearizada: 
+                <r write(1) B>, <r read(1) A> <r write(2) C>, <r read(2) B>
+                    Para a figura 3.14: Sim. Podemos escolher pontos onde as operacoes ocorrerao instantaneamente tal que a execucao seja linearizada: 
+                <r write(2) C>, <r write(1) B>, <r read(1) A>, <r read(1) B>
+
+
+25. Não. A condição L2 diz que se um método precede outro na história original, então esta ordem deve ser preservada na linearização. Tirando esta propriedade tiramos a garantia de que é sequencialmente consistente.
+
+27. Considerando três threads A, B e C:
+    Se A e B entram concorrentemente em enq(x) e, após o loop em ambas, slot é 0
+    em A e 1 em B, é possível que (1) enq retorne em B e (2) que C inicie e
+    termine antes de A terminar causando uma exceção mesmo havendo um elemento
+    inserido na fila, o que não satisfaz a especificação sequencial do objeto.
+    Uma possível história não linearizável considerando A, B e C poderia ser:
+    <q enq(1) A>, <q enq(2) B>, <q:Ok() B>, <q deq() C>, <q:EmptyException C>, <q:Ok() A>
+
+28. Sim, é possível. Como não há nenhum mecanismo de trava ou de sincronização
+envolvidos nesses trechos de código, de acordo com o que foi dito sobre o modelo
+de memória Java, é possível que a modificação de ‘x’ em uma thread não seja
+propagada imediatamente para uma outra thread que leia ‘x’ no método reader(). É
+garantido, entretanto, que as escritas/leituras de ‘v’ sejam sincronizadas com a
+memória principal pois esse atributo foi declarado como volatile.
+
