@@ -1,0 +1,2 @@
+Sim, a abordagem de fastpath pode ser útil neste caso: durante o add_count, é possível fazer apenas uma operação atômica para atualizar contador e seu máximo daquela thread se o delta for pequeno o suficiente.
+

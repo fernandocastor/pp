@@ -1,0 +1,22 @@
+Configuração do processador: Intel(R) Core(TM) i7-3770 - 3.40GHz - 8 núcleos virtuais.
+
+Para cada configuração descrita abaixo, encontra-se a média de tempo das 3 últimas execuçoẽs de 10.
+Foram utilizados como parametros N = 8 e K = 4294967296 (2^32).
+
++ Contador tipo `int`    - sem volatile -   10ms cada leitura: 1.093s
+
++ Contador tipo `float`  - sem volatile -   10ms cada leitura: overflow
++ Contador tipo `double` - sem volatile -   10ms cada leitura: 1.408s
++ Contador tipo `long`   - sem volatile -   10ms cada leitura: 1.099s
+
++ Contador tipo `int`    - com volatile -   10ms cada leitura: 6.965s
+
++ Contador tipo `int`    - sem volatile -  100ms cada leitura: 1.115s
++ Contador tipo `int`    - sem volatile -  300ms cada leitura: 1.262s
+
+
+Conclusões:
+    - Tornar o contador `volatile` degrada consideravelmente (quase em 7x) o desempenho do programa.
+    - Utilizar `long` ou `int` para representar o contador é praticamente indiferente em termos de desempenho.
+    - Utilizar `double` para representar o contador degrada em cerca de 20% no desempenho do programa se comparado com `int` ou `long`.
+    - Aumentar o intervalo entre as leituras tem pouca influência no tempo de execução, embora torne a contagem mais imprecisa.
