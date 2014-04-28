@@ -1,0 +1,63 @@
+1. Utilizamos o K = 2147486648 (2^31 + 3000) e fizemos o experimento com dois valores para
+N (threads): 8 e 60.
+Código na pasta Counter.
+Resultados das médias das 3 últimas execuções, abaixo:
+
+* Contador do tipo int
+    - 8 threads
+        * Sem volatile: 477ms
+        * Com volatile: 700ms
+
+    - 60 threads
+        * Sem volatile: 4.55s
+        * Com volatile: 4.86s
+
+* Contador do tipo long
+    - 8 threads
+        * Sem volatile: 440ms
+        * Com volatile: 740ms
+
+    - 60 threads
+        * Sem volatile: 4.75s
+        * Com volatile: 4.81s
+
+* Contador do tipo float
+    - 8 threads
+        * Sem volatile: 499ms
+        * Com volatile: 757ms
+
+    - 60 threads
+        * Sem volatile: 4.74s
+        * Com volatile: 4.8s
+
+* Contador do tipo double
+    - 8 threads
+        * Sem volatile: 525ms
+        * Com volatile: 730ms
+
+    - 60 threads
+        * Sem volatile: 4.75s
+        * Com volatile: 4.67s
+
+Pelos resultados acima, usar volatile influencia no tempo de execução, deixando mais lento.
+O tipo do contador também tem influência no tempo de execução.
+
+2. Foram utilizados os mesmos parâmetros do exercício 1 (acima):
+
+    * Contador do tipo AtomicInteger
+    - 8 threads
+        * Sem volatile: 822ms
+        * Com volatile: 829ms
+
+    - 60 threads
+        * Sem volatile: 4.48s
+        * Com volatile: 4.8s
+
+* Contador do tipo AtomicLong
+    - 8 threads
+        * Sem volatile: 824ms
+        * Com volatile: 781ms
+
+    - 60 threads
+        * Sem volatile: 4.75s
+        * Com volatile: 4.77s
