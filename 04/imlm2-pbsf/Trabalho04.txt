@@ -1,0 +1,256 @@
+﻿1)
+
+
+Rodando o programa para K = 2^31-1:
+
+
+1 thread
+real        0m4.981s
+user        0m9.163s
+sys        0m0.076s
+
+
+real        0m5.050s
+user        0m9.215s
+sys        0m0.072s
+
+
+real        0m5.012s
+user        0m9.293s
+sys        0m0.074s
+
+
+2 threads
+real        0m2.856s
+user        0m7.031s
+sys        0m0.068s
+
+
+real        0m2.891s
+user        0m6.986s
+sys        0m0.081s
+
+
+real        0m3.096s
+user        0m7.120s
+sys        0m0.069s
+
+
+4 threads
+real        0m2.318s
+user        0m6.004s
+sys        0m0.063s
+
+
+real        0m2.236s
+user        0m6.057s
+sys        0m0.061s
+
+
+real        0m2.174s
+user        0m5.997s
+sys        0m0.063s
+
+
+8 threads
+real        0m2.005s
+user        0m5.709s
+sys        0m0.062s
+
+
+real        0m1.964s
+user        0m5.600s
+sys        0m0.060s
+
+
+real        0m1.904s
+user        0m5.530s
+sys        0m0.059s
+
+
+
+
+Adicionando a palavra-chave volatile aos contadores implica em um grande aumento no tempo de execução, visto que o valor do contador será atualizado atomicamente para cada thread e isso incorre num custo maior para a atualização. 
+
+
+
+
+Tempo de execução com essa modificação para:
+
+
+1 thread
+real        0m32.936s
+user        1m1.705s
+sys        0m0.278s
+
+
+2 threads
+real        0m16.796s
+user        0m41.694s
+sys        0m0.268s
+
+
+4 threads
+real        0m12.571s
+user        0m36.009s
+sys        0m0.228s
+
+
+8 threads
+real        0m10.492s
+user        0m27.800s
+sys        0m0.178s
+
+
+Os tempos dados acima foram com o tipo long no contador.
+
+
+Utilizando int ou float: O programa só termina caso o valor 2^31-1 for encontrado na hora da leitura do contador. Caso o contador ultrapasse esse valor, ocorre overflow, reduzindo o valor do contador para -2^31, pois o int e o float tem 32 bits, fazendo o programa não terminar.
+
+
+Utilizando double: Aqui não ocorre o overflow, pois tanto double como long tem 64 bits, porém os tempos foram um pouco maiores utilizando double do que long. Isso ocorre, provavelmente, na configuração de software/hardware em que este programa foi rodado instruções manipulando double são mais lentas que aquelas que manipulam tipos inteiros.
+1 thread
+real        0m6.381s
+user        0m12.625s
+sys        0m0.048s
+
+
+real        0m6.367s
+user        0m12.600s
+sys        0m0.051s
+
+
+real        0m6.394s
+user        0m12.652s
+sys        0m0.050s
+
+
+2 threads
+real        0m3.500s
+user        0m10.015s
+sys        0m0.052s
+
+
+real        0m3.425s
+user        0m9.989s
+sys        0m0.042s
+
+
+real        0m3.416s
+user        0m10.003s
+sys        0m0.043s
+
+
+4 threads
+real        0m2.222s
+user        0m8.372s
+sys        0m0.038s
+
+
+real        0m2.216s
+user        0m8.350s
+sys        0m0.041s
+
+
+real        0m2.195s
+user        0m8.198s
+sys        0m0.044s
+
+
+8 threads
+real        0m1.978s
+user        0m7.466s
+sys        0m0.039s
+
+
+real        0m1.971s
+user        0m7.433s
+sys        0m0.038s
+
+
+real        0m2.023s
+user        0m7.580s
+sys        0m0.049s
+
+
+  
+Os intervalos entre leituras dos contadores de cada thread influencia o tempo total da execucao?
+Para o primeiro caso (sem volatile) não deve influenciar, mas para o segundo caso sim já que a introdução da keyword volatile introduz pontos de sincronização para a leitura dos atributos e, logo, se a frequência de leituras for alta, isso pode tornar os incrementos mais lentos nas respectivas threads.
+
+
+
+
+2) Verique, para o programa do exemplo anterior, o efeito de usar contadores dos tipos AtomicInteger e/ou AtomicLong no tempo de execucão.
+A execução final foi mais lenta pois essas classes garantem que as atualizações serão atômicas e isso introduz um overhead considerável. Para esta aplicação em si, não há vantagem em utilizar essas classes.
+
+
+3) Utilizando o mesmo valor 2^31 - 1:
+
+
+1 thread
+real        0m24.762s
+user        0m48.229s
+sys        0m0.156s
+
+
+real        0m21.614s
+user        0m43.013s
+sys        0m0.071s
+
+
+real        0m24.373s
+user        0m48.341s
+sys        0m0.119s
+
+
+
+
+2 threads
+real        0m15.850s
+user        0m45.610s
+sys        0m0.112s
+
+
+real        0m15.071s
+user        0m44.616s
+sys        0m0.087s
+
+
+real        0m15.019s
+user        0m43.639s
+sys        0m0.118s
+
+
+4 threads
+real        0m10.061s
+user        0m37.394s
+sys        0m0.099s
+
+
+real        0m9.799s
+user        0m37.343s
+sys        0m0.082s
+
+
+real        0m10.205s
+user        0m38.011s
+sys        0m0.097s
+
+
+8 threads
+real        0m8.750s
+user        0m32.793s
+sys        0m0.088s
+
+
+real        0m9.022s
+user        0m32.175s
+sys        0m0.140s
+
+
+real        0m9.244s
+user        0m32.371s
+sys        0m0.141s
+
+
+Fastpath não faria diferença necessariamente para a implementação usada pois cada thread executa quase que sem sua velocidade máxima, isto é, pouquíssimas operações antecedem o incremento em si e não há sincronização explícita. É importante observar que a implementação assume que as threads serão habilitadas a executar seus contadores até o máximo.
