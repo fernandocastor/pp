@@ -1,0 +1,31 @@
+1 - "...Qual o efeito de tornar volatile o contador de cada thread? O tempo de execução muda?"
+
+R- Ao tornar uma variável volátio, sua leitura e escrita é feita na memoria principal. Assim o tempo de execução deveria ser mais lento. Contudo, por incrivel que pareça, o tempo de execução das variáveis voláteis foi inferior, ou seja, foi mais rápido que os tipos não voláteis. 
+
+1 e 2 questão- "...O tipo do atributo contador influencia esse tempo de execução? Compare os resultados para int, float, double e long. Os intervalos entre leituras dos contadores de cada thread influencia o tempo total da execução? Para medir o tempo, realize pelo menos dez execuções e use a média das ultimas três execuções como seu tempo oficial". 2 - Verifique, para o programa do exemplo anterior, o efeito de usar contadores dos tipos AtomicInteger
+e/ou AtomicLong no tempo de execução.
+
+
+Sim, o tipo de atributo influencia. Influencia pouco. Segue o rank da velocidade:
+
+TIPO DE DADO	MÉDIA TEMPO
+FLOAT	202
+VOLATILE DOUBLE	202,67
+VOLATILE ATOMIC INT	210,67
+LONG	215
+VOLATILE LONG	218
+VOLATILE FLOAT	218,33
+ATOMIC LONG	220,33
+VOLATILE INT	225
+ATOMIC INT	228,67
+DOUBLE	230
+INT	231,67
+VOLATILE ATOMIC LONG	294,33
+Exact limit – AtomicLong	28,4807 (segundos)
+
+3 - Tornando o contador exato ele demorou mais para ser executado. Contudo foi exato.
+
+Exact limit AtomicLong	28,4807 - (segundos) 
+ATOMIC LONG	220,33
+
+
