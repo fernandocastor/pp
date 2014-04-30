@@ -1,0 +1,87 @@
+2147483647
+OBS: Todos os programas foram testados com a seguinte configuração.
+	static long globalCountMax = Integer.MAX_VALUE;
+	static int tempoEsperaLeitura = 10;
+	static int numeroThreads = 4;
+	static long MAX_COUNTERMAX = 1000;
+
+1. 
+	a)Execute esse programa para valores de K maiores que K ≥ 2^31 e meça o tempo de execução.
+	R=>	Média para int
+		globalCount:2147483729
+		TIME:1s 794c
+
+
+	b) Qual o efeito de tornar volatile o contador de cada thread? O tempo de execução muda?
+	R=>	O efeito, assim como o tempo de excecução, permanece "o mesmo" visto que a variável está sendo utilizada somente por aquela thread e não é compartilhada, entretanto, ela foi um pouco mais rápida. 
+
+		Média para Volatile
+		globalCount:2147483701
+		TIME:9077
+
+	C) O tipo do atributo contador influencia esse tempo de execução? Compare os resultados para int, float, double e long
+	R=> 	Sim, tirando a média, cada tipo executa o mesmo código em tempo diferentes. 
+
+		Média para int
+		globalCount:2147483625
+		TIME:3s 609c
+
+		Média para Double
+		globalCount:2147483779
+		TIME:2s 483c
+
+		Média para Float
+		globalCount:2147483648
+		TIME:3s 558c
+
+		Média para Long
+		globalCount:2147483740
+		TIME:1s 960c
+
+	d) Os intervalos entre leituras dos contadores de cada thread influencia o tempo total da execução?
+	R=>	Sim, pricipalmente se o tempo de leitura for maior e na ultima leitura a contagem estiver perto do fim.
+
+2. Verifique, para o programa do exemplo anterior, o efeito de usar contadores dos tipos AtomicInteger e/ou AtomicLong no tempo de execução.
+	
+	Média para Atomic
+	globalCount:2147483692
+	TIME:7889
+
+3.
+	Sim, mas por ter que ser exata, ela não será tão eficiente.
+	
+	Média para Contador exato
+	globalCount:2147483647 //Integer.MAX_VALUE
+	TIME:26840
+
+
+
+
+
+
+
+
+
+
+
+
+
+THREADS:
+^ so aumenta o tempo
+
+90T - 5seg
+^
+~
+v
+3T  - 4seg
+
+2T  - 5seg
+
+MAX_COUNTERMAX:
+Quanto maior o MAX_COUNTERMAX mais rápida a conta. A melhoria máxima é quando o counter max é > 800.
+
+tempoEsperaLeitura:
+A leitura vai influenciar dependendo do tempo da ultimaleitura VS o quando foi que chegou no máximo "K"
+
+globalCountMax:
+Quanto menor mais rápido. PS:dependendo do tempo de leitura.
