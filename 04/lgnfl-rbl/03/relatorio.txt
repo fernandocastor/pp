@@ -1,2 +1,5 @@
 Sim, a abordagem de fastpath pode ser útil neste caso: durante o add_count, é possível fazer apenas uma operação atômica para atualizar contador e seu máximo daquela thread se o delta for pequeno o suficiente.
 
+Teste de performance, como feito nas questoes anteriores, teve como entrada N = 8 e K = 4294967296 (2^32).
+A media das 3 ultimas execucoes de 10 execucoes foi 14.607s.
+Processador: Intel® Core™ i7-3632QM

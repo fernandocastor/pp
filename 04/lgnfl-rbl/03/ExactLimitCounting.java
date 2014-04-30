@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExactLimitCounting {
-    static int globalcountmax = 10000;
-    static int globalcount = 0;
-    static int globalreserve = 0;
+    static long globalcountmax = 10000;
+    static long globalcount = 0;
+    static long globalreserve = 0;
     static int MAX_COUNTERMAX = (1 << 16) - 1;
 
     static List<CounterThread> counters;
@@ -62,14 +62,14 @@ public class ExactLimitCounting {
         }
 
         public void balance_count() {
-            Integer c, cm, oldValue;
-            int limit;
+            int c, cm, oldValue;
+            long limit;
             limit = globalcountmax - globalcount - globalreserve;
             limit /= N;
             if (limit > MAX_COUNTERMAX) {
                 cm = MAX_COUNTERMAX;
             } else {
-                cm = limit;
+                cm = (int) limit;
             }
             globalreserve += cm;
             c = 0;
@@ -109,16 +109,6 @@ public class ExactLimitCounting {
 
         @Override
         public void run() {
-            /*
-            System.out.println("MAX: " + MAX_COUNTERMAX);
-            Pair x = split_ctrandmax_int(MAX_COUNTERMAX);
-            System.out.println("TEST1 " + x.a + " " + x.b);
-            int foo = merge_ctrandmax(x.a+1, x.b+2);
-            System.out.println("TEST2 " + foo);
-            x = split_ctrandmax_int(foo);
-            System.out.println("TEST3 " + x.a + " " + x.b);
-            */
-
             while (!shouldStop) {
                 add_count(1);
             }
@@ -148,7 +138,7 @@ public class ExactLimitCounting {
             long sum = 0;
             do {
                 try {
-                    Thread.sleep(1);
+                    Thread.sleep(10);
                 } catch (Throwable t) {
                     System.out.println("Error on reader thread!");
                     break;
@@ -171,7 +161,7 @@ public class ExactLimitCounting {
         }
 
         int n = Integer.parseInt(args[0]);
-        int k = Integer.parseInt(args[1]);
+        long k = Long.parseLong(args[1]);
         if (n <= 1 || k <= 1) {
             System.out.println("Bad arguments! Try N > 1 and K > 1. ");
             return;
