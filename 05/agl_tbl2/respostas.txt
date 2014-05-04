@@ -1,0 +1,61 @@
+1. Implementação na pasta question1
+
+2. Implementação na pasta question2
+
+3. Abaixo a análise para cada trabalho:
+
+    * Contadores:
+        - Speedup: Houve sim um ganho na velocidade de execução quando compara-se a execução
+        sequencial com uma paralela, por exemplo:
+            1 thread: 290ms
+            8 threads: 219ms
+        Resultando num ganho de 25%
+        - Contenção: Quando se coloca mais threads do que se pode aguentar o efeito de contenção
+        ocorre, fazendo com que threads fiquem bloqueadas esperando o processador ficar vago
+        para poderem executar. Por exemplo, executando numa máquina i7:
+            8 threads: 219ms
+            16 threads: 304ms (tempo esse chegando a ser maior que o tempo da execução sequencial)
+        - Work-to-Synchronization Ratio: Para contadores aproximados esse fator não se aplica,
+        visto que não há sincronização entre as threads contadoras e a leitora.
+        Para os contadores exatos o overhead causado pelas sincronizações que ocorrem no
+        "slow-path", são compensadas pela "complexidade" que há nesse trecho de código.
+        - Read-to-Write Ratio: Não se aplica para contadores aproximados pelo mesmo motivo
+        descrito em Work-to-Synchronization Ratio.
+        Para os contadores exatos, a estrura é bastante atualizada, o que acarreta numa taxa de
+        escrita muito alta resultando em grande overhead de sincronização, quando no "slow-path".
+        - Complexity: Complexidade foi aumentada, da implementação sequencial para a paralela,
+        porém houve um ganho significativo (de 25%).
+
+    * Deque:
+        - Speedup: O ganho é notório, visto que threads podem inserir simultaneamente em pontas
+        diferentes do deque. Porém, em um cenário onde há quantidades iguais de remoção e
+        inserção nos dois lados, uma implementação sequencial pode ser mais rápida.
+        - Contenção: Quando se coloca mais threads do que se pode aguentar o efeito de contenção
+        ocorre, fazendo com que threads fiquem bloqueadas esperando o processador ficar vago
+        para poderem executar.
+        - Work-to-Synchronization Ratio: Quando há muitas inserções do mesmo lado, ou remoções
+        concorrendo com inserções (do mesmo lado também), o overhead causado pela sincronição
+        pode não valer a pena, visto que o código na região crítica é simples (quando não há
+        rebalanceamento).
+        - Read-to-Write Ratio: Como citado acima, caso inserções no mesmo lado ou remoções
+        concorram, isso pode acarretar numa taxa de escrita muito alta resultando em grande
+        overhead de sincronização.
+        - Complexity: Complexidade foi aumentada, da implementação sequencial para a paralela,
+        porém houve um ganho.
+
+4. De acordo com Leslie Lamport (quem primeiro falou sobre consistência sequencial):
+    "...the results of any execution is the same as if the operations of all the processors
+    were executed in some sequential order, and the operations of each individual processor
+    appear in this sequence in the order specified by its program."
+
+    Hoje em dia, dado otimizações e reordenações de instruções que os compiladores modernos
+    fazem, isso não ocorre com 100% de certeza.
+
+    Apesar da especificação java garantir que uma escrita num atributo volátil será visto e
+    sincronizado com todas as leituras realizadas nesse atributo, por threads diferentes, ainda
+    assim estamos sujeitos a alguma reordenações que o compilador java pode fazer, fazendo com
+    que a ordem do programa não seja respeitada. E o mesmo se aplica para os atributod do tipo
+    "Atomic*"
+
+    Referência:
+    http://docs.oracle.com/javase/specs/jls/se7/html/jls-17.html
