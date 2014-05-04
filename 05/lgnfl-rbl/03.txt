@@ -1,0 +1,98 @@
+(i) Speedup
+
+StatisticalCounting:
+	1 counter thread: 2.035s
+	2 counter threads: 1.102s (46% speedup)
+	4 counter threads: 0.634s (68% speedup)
+	8 counter threads: 0.406s (80% speedup)
+	Como não há uso de lock, o tempo de execução (para 1 thread e demais) é baixo.
+
+ExactLimitCounting:
+	1 counter thread: 14.593s
+	2 counter threads: 7.680s (47% speedup)
+	4 counter threads: 4.226s (71% speedup)
+	8 counter threads: 2.785s (80% speedup)
+	Com o uso de lock, o tempo de execução para 1 thread e os demais ficou mais alto.
+
+CompoundDeque:
+	Funciona mais rápido do que o sequencial quando há mais inserções. Como as remoções
+	envolvem uso de lock e podem ocasionar balanceamento, o desempenho tende a ser pior
+	do que uma execução sequencial.
+
+ParallelHashDeque:
+	Em geral mais lento que CompoundDeque por necessitar de um lock extra para cada operação.
+	Com uma quantidade maior de buckets, a probabilidade de duas threads competirem pelo mesmo
+	bucket (que é protegido por lock) é reduzida, portanto o desempenho é melhor.
+
+(ii) Contenção
+
+StatisticalCounting:
+	Não há contenção, pois não faz uso de locks em sua implementação.
+
+ExactLimitCounting:
+	Há contenção, no entanto é menos frequente no ínicio e mais frequente no final, pois sua
+	implementação faz uso de parallel fastpath: à medida que o valor vai se aproximando do limite,
+	a chance das threads usarem o lock aumenta.
+
+CompoundDeque:
+	Operações de inserções ou remoções sofrem de contenção quando há mais de uma thread manipulando
+	o mesmo lado. Duas threads conseguem inserir simultaneamente em lados opostos do deque apenas.
+	Se operações de remoção forem muito frequentes, a contenção aumenta: há maior probabilidade de
+	ocorrer balanceamentos e threads podem ficar ociosas esperando os locks serem esperados.
+
+ParallelHashDeque:
+	Contenção aumenta se o número de buckets usado é baixo. Cada bucket é uma deque protegida por um lock
+	interno, e se duas threads tentarem inserir/remover no mesmo bucket, elas irão competir por esse lock.
+	A situação piora ainda mais se houver mais de 1 thread em cada lado da deque tentando inserir/remover,
+	pois as threads ficarão ociosas esperando pelos locks da esquerda ou da direita, além de possivelmente
+	competir com o lock interno do bucket, caso os dois lados estejam apontando para o mesmo bucket simulta-
+	neamente.
+
+(iii) Taxa entre trabalho e sincronização
+
+StatisticalCounting:
+	Não é relevante pois não foi feito uso de locks em sua implementação.
+
+ExactLimitCounting:
+	Apenas no slowpath é feito uso de mecanismos de sincronização. No entanto, como o custo das operações
+	dentro da zona crítica é muito baixo, a quantidade de trabalho feita é baixa se comparada ao custo de
+	obtenção de um lock, por exemplo. O que torna essa taxa entre trabalho e sincronização mais favorável
+	é que o uso de lock não ocorre sempre, então a quantidade de trabalho em geral feita antes da obtenção
+	de algum lock acaba sendo razoavelmente alta.
+
+CompoundDeque:	
+ParallelHashDeque:
+	Para as duas deques o custo é muito elevado de sincronização, já que o tipo de trabalho feito dentro
+	da deque é muito simples, sendo a ParallelHashDeque ainda pior. Essa taxa é desfavorável nesses casos.
+
+
+(iv) Taxa entre leitura e escrita
+
+StatisticalCounting:
+	Pouco relevante, já que não é feito uso de locks em sua implementação. Como há sempre uma thread leitora
+	e pelo menos uma thread escrevendo, a taxa deve ser pelo menos 1/2.
+
+ExactLimitCounting:
+	Apesar de usar locks em seu slowpath, a frequência de leitura é muito menor do que a de escrita neste caso.
+	Existe sempre uma única thread leitora e pelo menos uma thread escrevendo.
+
+CompoundDeque:
+ParallelHashDeque:
+	Não faz sentido nesses casos, já que as operações feitas por todas as threads afetam a estrutura de dados.
+
+
+(v) Complexidade
+
+StatisticalCounting:
+	Complexidade é quase nula. A maior parte do código está relacionada à criação de threads para sua execução,
+	mas a implementação interna de cada thread é simples.
+
+ExactLimitCounting:
+	Complexidade aumentou consideravelmente em relação a outra deque, pois é preciso entender o mecanismo por trás
+	do parallel fastpath e sutilezas da implementação.
+
+CompoundDeque:
+	Complexidade relativamente baixa.
+	
+ParallelHashDeque:
+	Complexidade aumentou um pouco para entender como a deque funciona, mas a implementação continua simples.
