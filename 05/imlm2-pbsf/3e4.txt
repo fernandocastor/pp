@@ -1,0 +1,125 @@
+3.
+Contador sem volatile
+Speedup:
+Dos três este foi o que obteve o melhor speedup já que não possui quase nenhum
+tipo de sincronização e, portanto, roda quase que emabaraçosamente paralelo
+Contention:
+Por não fazer uso de primitivas de sincronização este não é um problema que
+afeta esta implementação
+Work-to-synchronization ratio:
+Exceto pela variável de parada, não há sincronização nesta versão e portanto
+esta razão deve ser uma valor alto
+Read-to-write ratio
+Como não há o uso de primitivas de sincronização esse ratio não é tão importante
+para esta implementação já que threads escalonadas estão sempre progredindo. Em
+geral esse valor sempre tende a ser <= 0.5 já que existe apenas uma thread
+leitora e 1+  thread(s) contadoras
+Complexity:
+De todos esta implementação foi a mais simples possível, os únicos pontos que
+adicionam complexidade estão na criação e inicialização das threads e a
+implementação para a leitura dos contadores de cada thread. A implementação do
+contador em si é trivial.
+Contador com volatile
+Speedup
+A adição da palavra chave volatile drasticamente piora a performance do contador
+Contention
+A contenção se deve principalmente na necessidade de manter a consistência dos
+contadores locais entre as threads contadores e a thread leitora, mesmo assim, o
+excesso de threads continua a realizar trabalho, passando a não fazer diferença
+já para altos números de threads próximos a 32.
+Work-to-synchronization ratio
+Devido à necessidade de sincronização entres os valores do contadores nas
+threads contadoras e esses valores na thread de leitura, essa razão deve ser
+reduzida consideravelmente. Pode-se perceber isso na piora dos tempos para tal
+implementação, o melhor caso da implementação com volatile chega a ser 10 vezes
+pior que o melhor tempo sem volatile
+Read-to-write ratio
+Em uma política de escalonamento justa, a taxa de leitura deve diminuir com o
+aumento do número de threads já que apenas uma thread lê.
+Complexity
+A complexidade para essa implementação também não é grande, a única diferença em
+relação à anterior é a adição da palavra chave volatile (embora o desenvolvedor
+tenha que possuir conhecimento prévio sobre tal primitiva)
+
+Contador com AtomicX
+Speedup
+Para esta implementação os tempos foram sensivelmente menores, isso
+provavelmente se deve às instruções especiais utilizadas para incrementar os
+valores na memória
+Contention
+A contenção existe principalmente na necessidade de realizar incrementos
+atômicos e, assim como na implementação anterior, só começa a ser percebida para
+execuções com um alto número de threads
+Work-to-synchronization ratio
+Comparado à implementação anterior espera-se que esta razão seja melhor já que a
+performance foi melhor
+Read-to-write ratio
+IDENTICO AO ANTERIOR
+Complexity
+Pode-se dizer que a complexidade aumenta sutilmente já que agora o usuário deve
+aprender a utilizar a biblioteca de concorrência para tirar proveito da mesma
+adequadamente
+
+Deque
+Speedup
+Possui uma performance mais rápida do que a versão sequencial para casos onde
+ocorrem mais inserções do que remoções. Já casos onde ocorrem muitas remoções e
+requerem muito a execução da função de balanceamento, uma versão sequencial será
+mais eficiente.
+Contention
+No caso de várias inserções/remoções de um mesmo lado várias threads ficarão
+ociosas a espera do termino de outras.
+Work-to-synchronization ratio
+Para o caso de várias inserções/remoções de um mesmo lado, existirá um trabalho
+grande executado pelos locks para garantir a concorrência. Ou seja, depende do
+workload.
+Read-to-write ratio
+Depende do workload (frequencia de pushs e pops).
+Complexity
+Esta implementação teve um grau de dificuldade baixo. A função de
+rebalanceamento é a mais simples possível de implementar - um swap entre as
+listas.
+
+Hashed deque
+Speedup
+Hashed deque possui performance baixa quando possui um tamanho pequeno, pois no
+caso da hashed deque ocorrerão várias inserções simultâneas em uma mesma lista,
+e essas inserções dependem de um lock que é compartilhado fazendo a operação ser
+lenta. Quando a hashed deque possui um tamanho grande, sua velocidade supera a
+da Deque e a da implementação sequencial pois não existe o custo de
+rebalanceamento.
+Contention
+No caso de várias inserções/remoções de um mesmo lado várias threads ficarão
+ociosas a espera do termino de outras. E também ocorre ociosidade de threads
+quando vários elementos são inseridos no mesmo id da hash.
+Work-to-synchronization ratio
+Para o caso de várias inserções/remoções de um mesmo lado, existirá um trabalho
+grande executado pelos locks para garantir a concorrência. Ou seja, depende do
+workload.
+Read-to-write ratio
+Depende do workload (frequencia de pushs e pops).
+Complexity
+A complexidade aumentou um pouco em relação à implementação anterior visto que
+foi necessário a implementação de uma função hash.
+
+4. 
+Hierarquia de memórias e transformações/reordenações de instruções realizadas
+por compiladores (e processadores) são fatores que impedem a garantia de
+consistência sequencial.
+Tornar todos os atributos de um programa em volatile não o torna sequencialmente
+consistente, a introdução da palavra chave volatile apenas garante a relação de
+“happens-before” para acessos ao atributo em questão [1]. Ainda de acordo com
+[1], se duas ações compartilham uma relação de “happen-before” elas não precisam
+aparecer na ordem estabelecida pela relação para qualquer outro código que não
+compartilhe essa relação com essas duas ações. Ver contra-exemplo
+VolatileNotConsistent.java.
+Não, utilizar AtomicReference também não torna o programa em sequencialmente
+consistente, ver contra-exemplo AtomicReferenceNotConsistent.java. É
+interessante observar que a implementação de AtomicReference faz uso de um
+atributo volatile para referenciar o objeto apontado por esta AtomicReference.
+
+Contra-exemplos estão no diretório.
+
+Referências:
+[1] http://docs.oracle.com/javase/specs/jls/se8/html/jls-17.html#jls-17.4.5
+
