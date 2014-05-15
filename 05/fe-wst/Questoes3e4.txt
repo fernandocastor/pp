@@ -1,0 +1,77 @@
+time java -jar ExercicioExato.jar 1 
+real	0m0.260s
+user	0m0.372s
+sys		0m0.040s
+
+time java -jar ExercicioExato.jar 2 
+real	0m0.247s
+user	0m0.312s
+sys		0m0.020s
+
+time java -jar ExercicioDoubleDeque1Thread.jar 
+real	0m0.162s
+user	0m0.200s
+sys		0m0.008s
+
+
+time java -jar ExercicioDoubleDeque2Threads.jar 
+real	0m0.177
+user	0m0.196s
+sys		0m0.020s
+
+time java -jar ExercicioHash1Thread.jar
+real	0m0.176s
+user	0m0.176s
+sys		0m0.040s
+
+
+time java -jar ExercicioHash2Threads.jar
+real	0m0.169s
+user	0m0.176s
+sys		0m0.040s
+
+Questão 3 -
+
+- speedup -
+
+ExercicioExato 1 Thread 	0m0.260s
+ExercicioExato 2 Threads	0m0.247s
+Taxa: 5%
+
+ExercicioDoubleDeque 1 Thread	0m0.162s
+ExercicioDoubleDeque 2 Threads	0m0.177
+taxa: -9%
+
+ExercicioHash 1Thread           0m0.176s
+ExercicioHash 2Threads		0m0.169s
+taxa: 4%
+
+- Conteção -
+Nos três exercícios utilizados para a realização desta análise, houve contenção pois existem travas para as regiões críticas. 
+
+- taxa entre trabalho e sincronização -
+Em todos os exemplos testados, o ganho obtido por paralelizar não foi muito significativo. No Contador Exato e no Hash a execução em paralelo foi mais
+rápida. Já no doubleDeque, foi o sequencial que apresentou um melhor desempenho.
+
+- Taxa de leitura/escrita
+Contador exato -> Não é possivel definir a taxa devido a ausência de leitura, pois existe somente escrita.
+Deque/hash -> No deque não é possível definir a taxa de leitura/escrita, pois a variavel é alterada nos dois momentos (push, pop).
+
+- Complexidade -
+O algoritmo paralelo é mais complexo que o sequencial, pois precisa se preocupar com aspectos inexistentes 
+no contexto de um algoritmo sequencial, por exemplo, compartilhamento de uma variavel, deadlock, consistencia de variavel, etc.
+
+Questão 4 - 
+
+Um fator que impede que os pcs funcionem de maneira sequencialmente consistente é devido a possibilidade do compilador/interpretador 
+e do processador alterar a ordem que as instruções são executadas. 
+
+Não é possível dizer que um programa paralelo em Java cujo atributos estão com modificador Volatile seja sequencialmente consistente. O modificador 
+Volatile garante apenas a consistencia da variável e não no contexto geral de um conjunto de variaveis.
+
+Um exemplo seria uma thread com todos os atributos volatile que são alterados da mesma forma durante a execução do programa, 
+pode haver um momento em que eles tenham valores diferentes por haver um reordenamento na execução destas alterações,
+
+O mesmo ocorre para AtomicReference, pois internamente a variável utiliza para manipular os valores é um Volatile.
+
+
