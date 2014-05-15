@@ -1,0 +1,48 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx}
+\usepackage[latin1]{inputenc}   % para os acentos
+\usepackage[brazil]{babel}      % para hifeniza\c{c}\~{a}o
+
+
+\setlength{\oddsidemargin}{-0.5cm}
+\setlength{\evensidemargin}{-0.3cm}\setlength{\textwidth}{17.6cm}
+\setlength{\textheight}{24cm}\setlength{\topmargin}{-1.0cm}
+\setlength{\headheight}{0.0cm} \setlength{\headsep}{0.0cm}
+
+%\twocolumn
+
+\pagestyle{empty}
+\usepackage{listings}
+\begin{document}
+
+\lstset{basicstyle=\scriptsize,breaklines=true,frame=lines}
+\lstloadlanguages{Java}
+\lstset{language=Java}
+\lstset{numbers=left, numberstyle=\scriptsize, stepnumber=1, numbersep=5pt}
+
+\noindent
+\rule{1\textwidth}{0.2mm}
+\includegraphics[height=6mm, width=11mm]{logo_cin.jpg} \hfill \textbf{{\large Trabalho 06 }} \hfill \includegraphics[height=8mm, width=7mm]{logo_ufpe.jpg} \\
+\rule{1\textwidth}{0.2mm}\\
+
+\noindent
+{\bf Disciplina:} Programação Paralela~~~~~
+%\\[0.2cm]
+\textbf{Data: 13 de maio de 2014.}~~~~~
+%\\[0.2cm]
+{\bf Prof.:} Fernando Castor\\[0.5cm]
+% {\bf 1}. Examine a explicação da Seção 6.1.2 do Perfbook sobre um deque que pode receber inclusões dois dois lados paralelamente. A primeira abordagem proposta é uma que usa duas travas, uma para cada lado de uma \textbf{mesma} lista duplamente encadeada. A explicação na Seção 6.1.2.1 menciona que ``Although it is possible to create an algorithm that works this way, the fact that it has no fewer than five special cases should raise a big red flag, especially given that concurrent activity at the other end of the list can shift the queue from one special case to another at any time.''. Quais são esses cinco casos especiais? Descreva o algoritmo (pode ser código Java) que utiliza essa abordagem. 
+% \\[0.3cm]
+\noindent
+{\bf 1}. Implemente uma trava TAS com {\em backoff} exponencial, usando a interface {\tt Lock} como base. Sua trava deve funcionar da maneira {\bf mais eficiente possível} e não precisa ser reentrante. Crie um teste que usa essa implementação para proteger o acesso a dez objetos contadores que possuem apenas um método, {\tt incrementa()}, auto-explicativo. Construa um programa onde, durante 2 minutos, 10 threads executam o método {\tt incrementar()} repetidamente. Quantas vezes cada thread conseguiu executar {\tt incrementar()}? Considere que a escolha do objeto a partir do qual cada thread fará o incremento é aleatória. E se forem 50 threads? E 100? E 200? Agora desligue a política de {\em backoff} que você utilizou. Como o número de execuções foi afetado em cada caso? E se sua política de {\em backoff} fosse aditiva, ao invés de exponencial? Agora retire o limite de tempo e faça com que cada thread execute o método {\tt incrementar()} 1.000 vezes. Qual o tempo de execução em cada um dos cenários descritos anteriormente? Compare o desempenho da sua trava com a da classe {\tt ReentrantLock} de Java. Apresente os resultados para todos esses casos e lembre-se que, para experimentos com desempenho, várias execuções são necessárias! 
+\\[0.5cm]
+{\bf 2}. Agora implemente uma trava de fila tão eficiente quanto possível. E repita o experimento anterior utilizando-a. Os resultados mudaram? Por quê?
+\\[0.5cm]
+{\bf 3}. Exercício 86 do AMP.
+\\[0.5cm]
+{\bf 3}. Escolha uma entre as travas que você implementou para as questões 1 e 2. Modifique a implementação para que, no momento do travamento, seja verificado se a realização desse travamento resultaria em um deadlock entre uma ou duas threads acessando, respectivamente, uma ou duas travas. Se um deadlock for detectado, uma exceção deve ser lançada em pelo menos uma das threads envolvidas (idealmente em ambas, nos casos de deadlock com duas threads). Avalie experimentalmente o impacto dessa modificação no desempenho da operação de travamento quando deadlocks {\bf não} ocorrem (ou seja, o \textit{overhead} dessa modificação). 
+\\[0.5cm]
+{\bf 4}. Analise experimentalmente o desempenho de sua implementação do \textit{hashed deque} (aula anterior) quando varia-se o número de buckets e o uso de uma trava global vs. duas travas, uma para cada lado do deque.
+
+\end{document} 
+
