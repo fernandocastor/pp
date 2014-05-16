@@ -20,6 +20,8 @@ public:
     void pushRight(Node*);
     Node* popRight();
 
+    unsigned size() const;
+
 private:
     int moveLeft(int index);
     int moveRight(int index);
@@ -28,7 +30,6 @@ private:
     int m_leftIndex;
     int m_rightIndex;
     std::mutex m_leftMutex;
-    std::mutex m_rightMutex;
 };
 
 #endif // PARALLELDEQUE_H

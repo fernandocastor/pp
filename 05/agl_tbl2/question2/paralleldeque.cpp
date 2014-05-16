@@ -31,20 +31,29 @@ Node* ParallelDeque::popLeft()
 
 void ParallelDeque::pushRight(Node* node)
 {
-    m_rightMutex.lock();
+    m_leftMutex.lock();
     m_deques[m_rightIndex].pushRight(node);
     m_rightIndex = moveRight(m_rightIndex);
-    m_rightMutex.unlock();
+    m_leftMutex.unlock();
 }
 
 Node* ParallelDeque::popRight()
 {
-    m_rightMutex.lock();
+    m_leftMutex.lock();
     int index = moveLeft(m_rightIndex);
     Node* node = m_deques[index].popRight();
     if (node)
         m_rightIndex = index;
-    m_rightMutex.unlock();
+    m_leftMutex.unlock();
     return node;
+}
+
+unsigned ParallelDeque::size() const
+{
+    unsigned size = 0;
+    for (int i = 0; i < m_numberOfBuckets; ++i)
+        size += m_deques[i].size();
+
+    return size;
 }
 

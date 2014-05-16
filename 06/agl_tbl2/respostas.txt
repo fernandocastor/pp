@@ -1,0 +1,358 @@
+QUESTÃO 1
+========
+    Abaixo o resultado das simulações, executando 30 repetições cada experimento:
+
+    É possível notar que o lock livre de backoff tem performance bem melhor do que os que possuem backoff (tanto aditivo
+    quanto exponencial). Apesar do backoff servir para evitar cache miss, o tempo de espera para adquirir o lock (quando
+    não consegue alguma vez), está interferindo gravemente na performance.
+
+    Threads: 10, Contadores: 10, duração de cada experimento: 120000ms, Limite de contagem: 0 (0 significa sem limite), Lock: Exponential backoff Lock
+    Repetições: 30
+    Tempo médio: 120.111281 segundos
+    Total sum: 4865517147
+    Threads mean count: 486551714
+
+    Threads: 10, Contadores: 10, duração de cada experimento: 120000ms, Limite de contagem: 0 (0 significa sem limite), Lock: Additive backoff Lock
+    Repetições: 30
+    Tempo médio: 120.114116 segundos
+    Total sum: 4102956529
+    Threads mean count: 410295652
+
+    Threads: 10, Contadores: 10, duração de cada experimento: 120000ms, Limite de contagem: 0 (0 significa sem limite), Lock: No backoff Lock
+    Repetições: 30
+    Tempo médio: 120.128885 segundos
+    Total sum: 4281146618
+    Threads mean count: 428114661
+
+    Threads: 10, Contadores: 10, duração de cada experimento: 120000ms, Limite de contagem: 0 (0 significa sem limite), Lock: ReentrantLock
+    Repetições: 30
+    Tempo médio: 120.062983 segundos
+    Total sum: 1848289192
+    Threads mean count: 184828919
+
+    Threads: 50, Contadores: 10, duração de cada experimento: 120000ms, Limite de contagem: 0 (0 significa sem limite), Lock: Exponential backoff Lock
+    Repetições: 30
+    Tempo médio: 120.082343 segundos
+    Total sum: 4859582185
+    Threads mean count: 97191643
+
+    Threads: 50, Contadores: 10, duração de cada experimento: 120000ms, Limite de contagem: 0 (0 significa sem limite), Lock: Additive backoff Lock
+    Repetições: 30
+    Tempo médio: 120.120112 segundos
+    Total sum: 3750411198
+    Threads mean count: 75008223
+
+    Threads: 50, Contadores: 10, duração de cada experimento: 120000ms, Limite de contagem: 0 (0 significa sem limite), Lock: No backoff Lock
+    Repetições: 30
+    Tempo médio: 120.819898 segundos
+    Total sum: 785751629
+    Threads mean count: 15715032
+
+    Threads: 50, Contadores: 10, duração de cada experimento: 120000ms, Limite de contagem: 0 (0 significa sem limite), Lock: ReentrantLock
+    Repetições: 30
+    Tempo médio: 120.109550 segundos
+    Total sum: 1628414374
+    Threads mean count: 32568287
+
+    Threads: 100, Contadores: 10, duração de cada experimento: 120000ms, Limite de contagem: 0 (0 significa sem limite), Lock: Exponential backoff Lock
+    Repetições: 30
+    Tempo médio: 120.086338 segundos
+    Total sum: 4659772324
+    Threads mean count: 46597723
+
+    Threads: 100, Contadores: 10, duração de cada experimento: 120000ms, Limite de contagem: 0 (0 significa sem limite), Lock: Additive backoff Lock
+    Repetições: 30
+    Tempo médio: 120.107424 segundos
+    Total sum: 3232131889
+    Threads mean count: 32321318
+
+    Threads: 100, Contadores: 10, duração de cada experimento: 120000ms, Limite de contagem: 0 (0 significa sem limite), Lock: No backoff Lock
+    Repetições: 30
+    Tempo médio: 121.572842 segundos
+    Total sum: 460430441
+    Threads mean count: 4604304
+
+    Threads: 100, Contadores: 10, duração de cada experimento: 120000ms, Limite de contagem: 0 (0 significa sem limite), Lock: ReentrantLock
+    Repetições: 30
+    Tempo médio: 120.104815 segundos
+    Total sum: 1625934807
+    Threads mean count: 16259348
+
+    Threads: 200, Contadores: 10, duração de cada experimento: 120000ms, Limite de contagem: 0 (0 significa sem limite), Lock: Exponential backoff Lock
+    Repetições: 30
+    Tempo médio: 120.257432 segundos
+    Total sum: 4892286399
+    Threads mean count: 24461431
+
+    Threads: 200, Contadores: 10, duração de cada experimento: 120000ms, Limite de contagem: 0 (0 significa sem limite), Lock: Additive backoff Lock
+    Repetições: 30
+    Tempo médio: 120.182011 segundos
+    Total sum: 3046342844
+    Threads mean count: 15231714
+
+    Threads: 200, Contadores: 10, duração de cada experimento: 120000ms, Limite de contagem: 0 (0 significa sem limite), Lock: No backoff Lock
+    Repetições: 30
+    Tempo médio: 128.605590 segundos
+    Total sum: 258379735
+    Threads mean count: 1291898
+
+    Threads: 200, Contadores: 10, duração de cada experimento: 120000ms, Limite de contagem: 0 (0 significa sem limite), Lock: ReentrantLock
+    Repetições: 30
+    Tempo médio: 120.190073 segundos
+    Total sum: 1677837864
+    Threads mean count: 8389189
+
+    Threads: 10, Contadores: 10, duração de cada experimento: 0ms, Limite de contagem: 1000 (0 significa sem limite), Lock: Exponential backoff Lock
+    Repetições: 30
+    Tempo médio: 0.132028 segundos
+    Total sum: 10000
+    Threads mean count: 1000
+
+    Threads: 10, Contadores: 10, duração de cada experimento: 0ms, Limite de contagem: 1000 (0 significa sem limite), Lock: Additive backoff Lock
+    Repetições: 30
+    Tempo médio: 0.185114 segundos
+    Total sum: 10000
+    Threads mean count: 1000
+
+    Threads: 10, Contadores: 10, duração de cada experimento: 0ms, Limite de contagem: 1000 (0 significa sem limite), Lock: No backoff Lock
+    Repetições: 30
+    Tempo médio: 0.123854 segundos
+    Total sum: 10000
+    Threads mean count: 1000
+
+    Threads: 10, Contadores: 10, duração de cada experimento: 0ms, Limite de contagem: 1000 (0 significa sem limite), Lock: ReentrantLock
+    Repetições: 30
+    Tempo médio: 0.119843 segundos
+    Total sum: 10000
+    Threads mean count: 1000
+
+    Threads: 50, Contadores: 10, duração de cada experimento: 0ms, Limite de contagem: 1000 (0 significa sem limite), Lock: Exponential backoff Lock
+    Repetições: 30
+    Tempo médio: 8.320243 segundos
+    Total sum: 50000
+    Threads mean count: 1000
+
+    Threads: 50, Contadores: 10, duração de cada experimento: 0ms, Limite de contagem: 1000 (0 significa sem limite), Lock: Additive backoff Lock
+    Repetições: 30
+    Tempo médio: 0.291680 segundos
+    Total sum: 50000
+    Threads mean count: 1000
+
+    Threads: 50, Contadores: 10, duração de cada experimento: 0ms, Limite de contagem: 1000 (0 significa sem limite), Lock: No backoff Lock
+    Repetições: 30
+    Tempo médio: 0.120777 segundos
+    Total sum: 50000
+    Threads mean count: 1000
+
+    Threads: 50, Contadores: 10, duração de cada experimento: 0ms, Limite de contagem: 1000 (0 significa sem limite), Lock: ReentrantLock
+    Repetições: 30
+    Tempo médio: 0.127617 segundos
+    Total sum: 50000
+    Threads mean count: 1000
+
+    Threads: 100, Contadores: 10, duração de cada experimento: 0ms, Limite de contagem: 1000 (0 significa sem limite), Lock: Exponential backoff Lock
+    Repetições: 30
+    Tempo médio: 98.425432 segundos
+    Total sum: 100000
+    Threads mean count: 1000
+
+    Threads: 100, Contadores: 10, duração de cada experimento: 0ms, Limite de contagem: 1000 (0 significa sem limite), Lock: Additive backoff Lock
+    Repetições: 30
+    Tempo médio: 0.486546 segundos
+    Total sum: 100000
+    Threads mean count: 1000
+
+    Threads: 100, Contadores: 10, duração de cada experimento: 0ms, Limite de contagem: 1000 (0 significa sem limite), Lock: No backoff Lock
+    Repetições: 30
+    Tempo médio: 0.161077 segundos
+    Total sum: 100000
+    Threads mean count: 1000
+
+    Threads: 100, Contadores: 10, duração de cada experimento: 0ms, Limite de contagem: 1000 (0 significa sem limite), Lock: ReentrantLock
+    Repetições: 30
+    Tempo médio: 0.150202 segundos
+    Total sum: 100000
+    Threads mean count: 1000
+
+    Threads: 200, Contadores: 10, duração de cada experimento: 0ms, Limite de contagem: 1000 (0 significa sem limite), Lock: Exponential backoff Lock
+    Repetições: 30
+    Tempo médio: 196.810238 segundos
+    Total sum: 200000
+    Threads mean count: 1000
+
+    Threads: 200, Contadores: 10, duração de cada experimento: 0ms, Limite de contagem: 1000 (0 significa sem limite), Lock: Additive backoff Lock
+    Repetições: 30
+    Tempo médio: 0.574653 segundos
+    Total sum: 200000
+    Threads mean count: 1000
+
+    Threads: 200, Contadores: 10, duração de cada experimento: 0ms, Limite de contagem: 1000 (0 significa sem limite), Lock: No backoff Lock
+    Repetições: 30
+    Tempo médio: 0.185882 segundos
+    Total sum: 200000
+    Threads mean count: 1000
+
+    Threads: 200, Contadores: 10, duração de cada experimento: 0ms, Limite de contagem: 1000 (0 significa sem limite), Lock: ReentrantLock
+    Repetições: 30
+    Tempo médio: 0.208216 segundos
+    Total sum: 200000
+    Threads mean count: 1000
+
+
+QUESTÃO 2
+=========
+
+    Abaixo os resultados, utilizando o QueueLock:
+
+    O QueueLock teve uma perfomance muito abaixo do esperado, chegando a contar, em certos casos, 0.02% do que o lock
+    sem backoff conseguiu.
+
+    Threads: 10, Contadores: 10, duração de cada experimento: 120000ms, Limite de contagem: 0 (0 significa sem limite), Lock: Queue Lock
+    Repetições: 30
+    Tempo médio: 120.195684 segundos
+    Total sum: 571926
+    Threads mean count: 57192
+
+    Threads: 50, Contadores: 10, duração de cada experimento: 120000ms, Limite de contagem: 0 (0 significa sem limite), Lock: Queue Lock
+    Repetições: 30
+    Tempo médio: 121.221741 segundos
+    Total sum: 123551
+    Threads mean count: 2471
+
+    Threads: 100, Contadores: 10, duração de cada experimento: 120000ms, Limite de contagem: 0 (0 significa sem limite), Lock: Queue Lock
+    Repetições: 30
+    Tempo médio: 122.859665 segundos
+    Total sum: 111324
+    Threads mean count: 1113
+
+    Threads: 200, Contadores: 10, duração de cada experimento: 120000ms, Limite de contagem: 0 (0 significa sem limite), Lock: Queue Lock
+    Repetições: 30
+    Tempo médio: 132.993396 segundos
+    Total sum: 76459
+    Threads mean count: 382
+
+    Threads: 10, Contadores: 10, duração de cada experimento: 0ms, Limite de contagem: 1000 (0 significa sem limite), Lock: Queue Lock
+    Repetições: 30
+    Tempo médio: 0.122714 segundos
+    Total sum: 10000
+    Threads mean count: 1000
+
+    Threads: 50, Contadores: 10, duração de cada experimento: 0ms, Limite de contagem: 1000 (0 significa sem limite), Lock: Queue Lock
+    Repetições: 30
+    Tempo médio: 0.160449 segundos
+    Total sum: 50000
+    Threads mean count: 1000
+
+    Threads: 100, Contadores: 10, duração de cada experimento: 0ms, Limite de contagem: 1000 (0 significa sem limite), Lock: Queue Lock
+    Repetições: 30
+    Tempo médio: 0.186472 segundos
+    Total sum: 100000
+    Threads mean count: 1000
+
+    Threads: 200, Contadores: 10, duração de cada experimento: 0ms, Limite de contagem: 1000 (0 significa sem limite), Lock: Queue Lock
+    Repetições: 30
+    Tempo médio: 8.530620 segundos
+    Total sum: 200000
+    Threads mean count: 1000
+
+
+QUESTÃO 3
+=========
+
+foo()
+join()
+bar()
+
+Primeira implementção da função join:
+
+--
+1. TTASLock.lock();
+2. counter++;
+3. TTASLock.unlock();
+4.
+5. while(counter != n);
+--
+
+Segunda implementação da função join:
+
+--
+Se thread ID 0:
+b[0] = 1;
+
+Se thread ID 0 < i < n - 1:
+while (b[i - 1] != 1);
+b[i] = 1
+while (b[i + 1] != 2);
+
+Se thread ID n -1:
+while (n - 2 != 1);
+b[n - 1] = 2
+--
+
+*** Esse algoritmo está certo? Suponha que as threads chamam join() por ordem de
+ID.
+
+Considerações sobre as implemetações:
+
+Pelo fato de usar um TTAS lock, a primeira implementação apresenta as mesmas características "negativas" do TTAS, como por exemplo, quando o unlock() é
+chamado, todas as threads chamam o lock() ao mesmo tempo, causando um exceso de
+tráfego no barramento. Além disso, quando a variável counter é atualizada, TODAS
+as threads que estão na linha 5 são "obrigadas" a atualizar a cache do
+processador.
+
+A sengunda implementação usa uma abordagem parecida com ALocks apresentada no
+livro texto. Portanto, ela apresenta as mesmas vantagens que ALock apresenta em
+relação a TTAS lock, como por exemplo, cache-coherence traffic.
+
+Portanto, em cenários de alta carga, espera-se que a sengunda implementação
+tenha melhor performance. Em cenários de baixa carga, as duas implementações tem
+praticamente o mesmo desempenho.
+
+
+QUESTÃO 4
+=========
+
+Não há deadlock no exemplos das questões 1 e 2, pois não há dependência circular
+de locks.
+
+
+QUESTÃO 5
+=========
+    Abaixo o resultado dos experimentos com o Hashed Deque. Novamente, cada experimento foi repetido 30 vezes:
+
+    Como pode ser visto nos experimentos, utilizando apenas um lock acarreta num ganho de performance, assim como o
+    aumento do número de buckets.
+
+
+    Buckets: 4, locks: 2
+    Repetições: 30
+    Tempo médio: 1.470750 segundos
+
+    Buckets: 8, locks: 2
+    Repetições: 30
+    Tempo médio: 1.530025 segundos
+
+    Buckets: 10, locks: 2
+    Repetições: 30
+    Tempo médio: 1.383875 segundos
+
+    Buckets: 20, locks: 2
+    Repetições: 30
+    Tempo médio: 1.392221 segundos
+
+    Buckets: 4, locks: 1
+    Repetições: 30
+    Tempo médio: 1.123993 segundos
+
+    Buckets: 8, locks: 1
+    Repetições: 30
+    Tempo médio: 1.251746 segundos
+
+    Buckets: 10, locks: 1
+    Repetições: 30
+    Tempo médio: 1.267083 segundos
+
+    Buckets: 20, locks: 1
+    Repetições: 30
+    Tempo médio: 1.103121 segundos
+
