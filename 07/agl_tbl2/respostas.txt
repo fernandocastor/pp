@@ -1,0 +1,66 @@
+Questão 91
+==========
+
+TAS
+---
+
+diff --git a/06/agl_tbl2/TAS/src/CounterLock.java b/06/agl_tbl2/TAS/src/CounterLock.java
+index 380d53e..777b349 100644
+--- a/06/agl_tbl2/TAS/src/CounterLock.java
++++ b/06/agl_tbl2/TAS/src/CounterLock.java
+@@ -44,6 +44,10 @@ public class CounterLock implements Lock {
+         }
+     }
+
++    public boolean isLocked() {
++        return mState.get();
++    }
++
+     @Override
+     public void lockInterruptibly() throws InterruptedException {
+         // TODO Auto-generated method stub
+
+
+CLH Queue Lock
+--------------
+
+diff --git a/06/agl_tbl2/TAS/src/QueueLock.java b/06/agl_tbl2/TAS/src/QueueLock.
+index bda6161..77d7adc 100644
+--- a/06/agl_tbl2/TAS/src/QueueLock.java
++++ b/06/agl_tbl2/TAS/src/QueueLock.java
+@@ -41,6 +41,12 @@ public class QueueLock implements Lock {
+             ;
+     }
+
++    public boolean isLocked() {
++            QNode qnode = tail.get();
++
++            return qnode.locked;
++    }
++
+     @Override
+     public void lockInterruptibly() throws InterruptedException {
+         // TODO Auto-generated method stub
+
+Questão 93
+----------
+
+Ver arquivo SimpleReadWriteLock.java.
+
+Questão 96
+----------
+
+Ver arquivos Bathroom1.java e Bathroom2.java
+
+A condição de exclusão mútua é satisfeita visto que todas as funções que
+accessam ou modificam estados internos do objeto Bathroom estão protegidas
+por um mutex ou pelo modificador synchronized.
+
+Para garantir starvation-freedom, quando um homem está esperando para entrar
+no banheiro nenhuma mulher poderá entrar até que ele entre. O contrário também
+é verdadeiro.
+
+Questão 98
+----------
+
+Ver arquivo CountDownLatch.java.
