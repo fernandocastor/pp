@@ -1,0 +1,24 @@
+2(92). Where does the Omega(n) space complexity lower bound proof for 
+deadlock-free mutual exclusion of Chapter 2 break when locks are allowed to 
+use read_modify_write operations?
+No RMW não acontece "obliteração" dos valores anteriores perdendo a 
+informação de que existia uma thread na seção crítica como mostrado na prova 
+do teorema, já que é sempre possível saber o valor anterior e trocar 
+(operações TAS) ou saber se a troca de valores é possível de ser feita sem que 
+haja valores intermediários entre o teste e a troca(operações CAS).
+
+4(96).
+
+Lock/Conditions
+		Fairness => O algoritmo é implementado utilizando uma fila para garantir uma política justa de acesso ao banheiro, assim que uma thread tenta entrar, a mesma verificará o sexo do último elemento que havia entrado na fila e se o mesmo já entrou no banheiro, caso ambos sexos sejam iguais e a thread anterior já tenha entrado no banheiro, a thread atual é permitida a entrada, caso contrário, se os sexos forem diferentes ou se a thread anterior também está esperando para entrar no banheiro, então a thread atual também fica esperando (bloqueia)
+		Deadlock-freedom => A trava e a calda (AtomicReference) garantem exclusão mútua para inserção na fila e cada elemento (thread) inserido depende somente do elemento anterior portanto, não há espera circular
+		Starvation-freedom => Como o algoritmo é livre de deadlocks e é justo, isso implica que o mesmo é livre de starvation
+	synchronized
+		Blocos synchronized(object) equivalem ao seguinte uso de uma trava reentrante:
+			lock.lock()
+			try{
+				...
+			finally{
+				lock.unlock();
+			}
+		Chamadas a object.wait(..) equivalem à chamadas a await(..) de um objeto Condition da trava anterior, enquanto que chamadas à notify()/notifyAll() equivalem a chamadas a signal()/signalAll() do mesmo objeto Condition
