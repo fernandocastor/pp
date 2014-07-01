@@ -1,0 +1,36 @@
+Q101: Explain why the fine-grained locking algorithm is not subject to deadlock.
+
+R: A implementação do travamento fine-grained é livre de deadlocks porque numa situação de corrência, todas as threads irão bloquear/desbloquear os elementos na mesma ordem. A utilização de uma lista encadeada organiza o travamento e ordem em que as travas são adquiridas/liberadas.
+
+Q102: Explain why the fine-grained list’s add() method is linearizable.
+
+1 public boolean add(T item) {
+2 	int key = item.hashCode();
+3	head.lock();
+4 	Node pred = head;
+5 	try {
+6 		Node curr = pred.next;
+7 		curr.lock();
+8 		try {
+9 			while (curr.key < key) {
+10 				pred.unlock();
+11 				pred = curr;
+12 				curr = curr.next;
+13 				curr.lock();
+14 			}
+15 			if (curr.key == key) {
+16 				return false;
+17 			}
+18 			Node newNode = new Node(item);
+19 			newNode.next = curr;
+20 			pred.next = newNode;
+21 			return true;
+22 		} finally {
+23 			curr.unlock();
+24 		}
+25 	} finally {
+26 		pred.unlock();
+27 	}
+28 }
+
+R: Um método linearizável é aquele que o estado/retorno de sua execução é instantaneamente visualizado do ponto de vista de outras threads. Neste caso, o método add() da implementação do algoritmo fine-grained é linearizável pois não deixa que outras threads observem estados intermediários durante a sua execução, desde o travamento no início da lista (linha 3), até o momento em que o novo item é inserido na lista (linhas 23 e 26).
