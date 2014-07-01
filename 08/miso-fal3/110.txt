@@ -1,4 +1,4 @@
-110 Would the lazy algorithm still work if we marked a node as removed
+﻿110 Would the lazy algorithm still work if we marked a node as removed
 simply by setting its next field to null? Why or why not? What about the lock-free
 algorithm?
 
@@ -53,4 +53,4 @@ remove - Lock Free
 33 	}
 34 }
 
-R: O método remove(T item) de ambas as implementações (Lazy e Lock-free) realiza a remoção através da perda de referência do nó a ser removido. Com essa perda lógica, o garbage collection de Java realiza a remoção física do nó. Apesar disso, as informações deste nó ainda precisam ser utilizadas para que a sincronização de travamento não seja perdida. Definir next, em quaisquer dos casos, como null resultaria em uma quebra da sincronização de travamento em ambas implementações.
+R: O método remove(T item) de ambas as implementações (Lazy e Lock-free) realiza a remoção através da perda de referência do nó a ser removido. Com essa perda lógica, o garbage collection de Java realiza a remoção física do nó. Apesar disso, as informações deste nó ainda precisam ser utilizadas para que a sincronização de travamento não seja perdida. Definir next, em quaisquer dos casos, como null resultaria em uma quebra da sincronização de travamento em ambas implementações. Além disso, com essa modificação, ocorre a quebra da invariante, o abstraction map das implementações.

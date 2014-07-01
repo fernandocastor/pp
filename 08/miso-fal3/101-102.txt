@@ -1,6 +1,6 @@
-Q101: Explain why the fine-grained locking algorithm is not subject to deadlock.
+﻿Q101: Explain why the fine-grained locking algorithm is not subject to deadlock.
 
-R: A implementação do travamento fine-grained é livre de deadlocks porque numa situação de corrência, todas as threads irão bloquear/desbloquear os elementos na mesma ordem. A utilização de uma lista encadeada organiza o travamento e ordem em que as travas são adquiridas/liberadas.
+R: A implementação do travamento fine-grained é livre de deadlocks porque numa situação de corrência, todas as threads irão bloquear/desbloquear os elementos na mesma ordem. A utilização de uma lista encadeada organiza o travamento e a ordem em que as travas são adquiridas/liberadas.
 
 Q102: Explain why the fine-grained list’s add() method is linearizable.
 
@@ -33,4 +33,4 @@ Q102: Explain why the fine-grained list’s add() method is linearizable.
 27 	}
 28 }
 
-R: Um método linearizável é aquele que o estado/retorno de sua execução é instantaneamente visualizado do ponto de vista de outras threads. Neste caso, o método add() da implementação do algoritmo fine-grained é linearizável pois não deixa que outras threads observem estados intermediários durante a sua execução, desde o travamento no início da lista (linha 3), até o momento em que o novo item é inserido na lista (linhas 23 e 26).
+R: Um método linearizável é aquele que o estado/retorno de sua execução é instantaneamente visualizado do ponto de vista de outras threads. Neste caso, o método add() da implementação do algoritmo fine-grained é linearizável pois não deixa que outras threads observem estados intermediários durante a sua execução, desde o travamento no início da lista (linhas 3 e 7, pontos de linearização), até o momento posterior em que o novo item é inserido nessa lista (linhas 23 e 26).
