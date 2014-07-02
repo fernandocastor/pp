@@ -1,0 +1,53 @@
+101. Porque nesse algoritmo todos os métodos (add(), contains(), remove()) obtém
+e liberam o lock de um nó sempre na
+mesma ordem (pred -> curr), impossibilitando que 2 ou mais nós entrem em
+deadlock.
+
+102. Esse método é linearizavel pois é garantido que se várias threads chamam
+esse método elas percorrem a lista ao mesmo tempo em um formato de pipeline.
+
+103. Mesma resposta do 101.
+
+105.
+A implementação está correta pois obtém e libera os locks para os nós na mesma
+ordem que os métodos add() e remove().
+
+public boolean contains(T item) {
+    int key = item.hashCode();
+    head.lock();
+    Node pred = head;
+    try {
+        Node curr = pred.next;
+        curr.lock();
+        try {
+            while (curr.key < key) {
+                pred.unlock();
+                pred = curr;
+                curr = curr.next;
+                curr.lock();
+            }
+            if (curr.key == key) {
+                return true;
+            } 
+            return false;
+        } finally { 
+            curr.unlock();
+        }
+    } finally {
+        pred.unlock();
+    }
+}
+
+106. Não, pois poderia acontecer um deadlock envolvendo a operação add() e uma
+operação contains() ou remove(). Ver respostas 103 e 101.
+
+108. O método add() da OptimisticList não lê nem escreve em nenhum dos atributos de curr (exceto a chave que é imutável) e, portanto, não é necessário adquirir a trava para esse elemento pois não há compartilhamento de fato. Já a trava de pred é necessária pois o atributo next desse nó deve ser escrito.
+
+110. Não, pois perderiamos a referência para o próximo objeto e isso poderia resultar no ferimento da invariante de que "todo nó não marcado deve ser atingível". O mesmo argumento também se aplicaria à LockFreeList.
+
+112. Tomando como exemplo o metodo add(), é possível que quando a posição do
+novo nó (NodeA) é encontrada, algum nó (NodeB) seja inserido entre prev e curr antes que o lock de ambos seja obtido. Nesse caso, removendo a clausúla do prev.next == curr, o validate retornaria true, porém o elemento seria inserido entre prev e NodeB, mas é possível que sua real posição devesse ser entre NodeB e curr.
+
+115. Não, é possível recomeçar a busca a partir de predA . Sabemos que assim como para LazyList, a LockFreeList mantém a invariante de que todo nó não marcado é “atingível” e como predA não foi removido e é menor que a chave to nó a ser inserido então poderíamos recomeçar a partir do mesmo.
+
+118. Após a remoção lógica, quando a adição for executada o nó marcado pela remoção lógica será “fisicamente” removido e um novo nó não marcado será adicionado, por tanto não é possível, considerando a sequencia especificada, que o método contain retorne falso
