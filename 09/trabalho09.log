@@ -1,0 +1,181 @@
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009) (format=pdflatex 2009.12.22)  2 JUL 2014 10:37
+entering extended mode
+ \write18 enabled.
+ %&-line parsing enabled.
+**trabalho09.tex
+(./trabalho09.tex
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
+yphenation, german-x-2009-06-19, ngerman-x-2009-06-19, ancientgreek, ibycus, ar
+abic, basque, bulgarian, catalan, pinyin, coptic, croatian, czech, danish, dutc
+h, esperanto, estonian, farsi, finnish, french, galician, german, ngerman, mono
+greek, greek, hungarian, icelandic, indonesian, interlingua, irish, italian, ku
+rmanji, latin, latvian, lithuanian, mongolian, mongolian2a, bokmal, nynorsk, po
+lish, portuguese, romanian, russian, sanskrit, serbian, slovak, slovenian, span
+ish, swedish, turkish, ukenglish, ukrainian, uppersorbian, welsh, loaded.
+(/usr/local/texlive/2009/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
+(/usr/local/texlive/2009/texmf-dist/tex/latex/base/size12.clo
+File: size12.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/local/texlive/2009/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2009/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+(/usr/local/texlive/2009/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2009/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/usr/local/texlive/2009/texmf-dist/tex/latex/latexconfig/graphics.cfg
+File: graphics.cfg 2009/08/28 v1.8 graphics configuration of TeX Live
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+
+(/usr/local/texlive/2009/texmf-dist/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2009/08/25 v0.04m Graphics/color for pdfTeX
+\Gread@gobject=\count87
+))
+\Gin@req@height=\dimen103
+\Gin@req@width=\dimen104
+)
+(/usr/local/texlive/2009/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2008/03/30 v1.1d Input encoding file
+\inpenc@prehook=\toks15
+\inpenc@posthook=\toks16
+
+(/usr/local/texlive/2009/texmf-dist/tex/latex/base/latin1.def
+File: latin1.def 2008/03/30 v1.1d Input encoding file
+))
+(/usr/local/texlive/2009/texmf-dist/tex/generic/babel/babel.sty
+Package: babel 2008/07/06 v3.8l The Babel package
+
+(/usr/local/texlive/2009/texmf-dist/tex/generic/babel/portuges.ldf
+Language: portuges 2008/03/18 v1.2q Portuguese support from the babel system
+
+(/usr/local/texlive/2009/texmf-dist/tex/generic/babel/babel.def
+File: babel.def 2008/07/06 v3.8l Babel common definitions
+\babel@savecnt=\count88
+\U@D=\dimen105
+)
+\l@brazil = a dialect from \language\l@portuges 
+Package babel Info: Making " an active character on input line 145.
+))
+(./listings.sty
+Package: listings 2002/04/01 1.0 (Carsten Heinz)
+\lst@mode=\count89
+\lst@gtempboxa=\box26
+\lst@token=\toks17
+\lst@length=\count90
+\lst@currlwidth=\dimen106
+\lst@column=\count91
+\lst@pos=\count92
+\lst@lostspace=\dimen107
+\lst@width=\dimen108
+\lst@newlines=\count93
+\lst@lineno=\count94
+\c@lstlisting=\count95
+\lst@maxwidth=\dimen109
+ (./lstpatch.sty
+
+***
+*** This is a patch for listings 1.3, but you're using
+*** version 1.0.
+***
+*** Patch file not loaded.
+***
+
+) (./lstmisc.sty
+File: lstmisc.sty 2002/04/01 1.0 (Carsten Heinz)
+\c@lstnumber=\count96
+\lst@skipnumbers=\count97
+\lst@framebox=\box27
+)
+(/usr/local/texlive/2009/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2007/02/22 1.4 listings configuration
+))
+(./trabalho09.aux)
+\openout1 = `trabalho09.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+
+(/usr/local/texlive/2009/texmf-dist/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count98
+\scratchdimen=\dimen110
+\scratchbox=\box28
+\nofMPsegments=\count99
+\nofMParguments=\count100
+\everyMPshowfont=\toks18
+\MPscratchCnt=\count101
+\MPscratchDim=\dimen111
+\MPnumerator=\count102
+\everyMPtoPDFconversion=\toks19
+) (./lstlang1.sty
+File: lstlang1 2002/07/31 v1.0d listings language file
+) <logo_cin.jpg, id=1, 218.2554pt x 90.5784pt>
+File: logo_cin.jpg Graphic file (type jpg)
+
+<use logo_cin.jpg> <logo_ufpe.jpg, id=2, 106.4778pt x 155.6214pt>
+File: logo_ufpe.jpg Graphic file (type jpg)
+
+<use logo_ufpe.jpg>
+Underfull \hbox (badness 10000) in paragraph at lines 22--26
+
+ []
+
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 37.
+(/usr/local/texlive/2009/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 37.
+ [1
+
+{/usr/local/texlive/2009/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./logo_
+cin.jpg> <./logo_ufpe.jpg>] (./trabalho09.aux) ) 
+Here is how much of TeX's memory you used:
+ 2366 strings out of 493848
+ 31939 string characters out of 3149206
+ 84130 words of memory out of 3000000
+ 5660 multiletter control sequences out of 15000+200000
+ 4809 words of font info for 18 fonts, out of 3000000 for 9000
+ 714 hyphenation exceptions out of 8191
+ 26i,4n,42p,236b,209s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/local/texlive/2009/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2009/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2009/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
+Output written on trabalho09.pdf (1 page, 84303 bytes).
+PDF statistics:
+ 20 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+
