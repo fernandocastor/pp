@@ -1,0 +1,65 @@
+Exercise 101. Explain why the fine-grained locking algorithm is not subject to deadlock.
+No fine-grained algorithm todos os métodos adquirem as travas em ordem tornando impossível a existência de deadlock. Espera circularm que é uma das condições necessárias para a presença de deadlock não está presente. 
+
+Exercise 102. Explain why the fine-grained list’s add() method is linearizable.
+O ponto de linearização para uma chamada add(a) depende do sucesso da chamada. Uma chamada bem-sucedida (quando 'a' não está presente) é linearizavel quando o próximo nó, de maior key, estiver bloqueado.
+No fine-grained apresentado no livro, os pontos de linearização são os locks das linhas 7 e 13.
+
+Exercise 103. Explain why the optimistic and lazy locking algorithms are not subject to deadlock.
+As travas para ambas as técnicas são deadlock-free, pois os métodos adquirem as travas em ordem e a espera circular também não está presente, o mesmo que ocorre no exercício 101.
+
+Exercise 105. Provide the code for the contains() method missing from the fine-grained algorithm. Explain why your implementation is correct.
+public boolean contains(T item) {
+	int key = item.hashCode();
+	Node pred = null;
+	Node curr = null;
+    head.lock();
+
+    try {
+		pred = head;
+        curr = pred.next;
+        curr.lock();
+        try {
+            while (curr.key < key) {
+                pred.unlock();
+                pred = curr;
+                curr = curr.next;
+                curr.lock();
+            }
+
+            if (curr.key == key) {
+            return false;
+            }
+
+        } finally {
+        curr.unlock();
+        }
+    } finally {
+    pred.unlock();
+    }
+}
+
+A implementação não entra em deadlock, pois não há espera circular. Mantém as invariantes, a cabeça e cauda não são alteradas. E é starvation-free, propriedade que é garantida pela ausência de deadlock. 
+
+Exercise 106. Is the optimistic list implementation still correct if we switch the
+order in which add() locks the pred and curr entries?
+Sim. Já que as verificações continuarão a ocorrer, algo só será removido do set se estiver lá e só será adicionado se não estiver, além do fato das travas só serem adquiridas depois de confirmado que o valor da primeira leitura não sofreu alterações em relação a segunda, e mesmo que sofra tende a ser ignorado, partindo para uma nova verificação. 
+
+Exercise 108. Show that in the optimistic algorithm, the add() method needs to
+lock only pred.
+O add() não interfere no método contains(), já que um elemento só seria adicionado a lista se este não estivesse lá, se um determinado item já existe, vai continuar existindo até que o método remove() seja chamado. 
+O método remove()  também não sofre interferência por parte do add(), já que para remover um item é preciso adquirir os locks tanto para um pred quanto para o seu curr, como o método add() também pode adquirir a trava de pred é visível que aquele que chegar primeiro e adquirir a trava garantirá a exclusão mútua.
+
+Exercise 110. Would the lazy algorithm still work if we marked a node as removed
+simply by setting its next field to null? Why or why not? What about the lock-free
+algorithm?
+Não, a lista seria inteiramente removida já que tanto o next de pred quanto o next do nó que se quer remover seriam setados como null, o contains() falharia, já que só encontraria valores null, e para completar, sequer o método add() será possível de ser executado já que o valor do item a ser inserido seria igual ao valor de curr. O Lock-free também não funcionaria, pelo mesmo motivo.
+
+Exercise 112. Your new employee claims that the lazy list’s validation method (Fig. 9.16) can be simplified by dropping the check that pred.next is equal to curr. After all, the code always sets pred to the old value of curr, and before pred.next can be changed, the new value of curr must be marked, causing the validation to fail. Explain the error in this reasoning.
+Isto não é possível de acontecer, simplesmente porque duas threads que executem add(X) concorrentemente podem modificar o valor de pred.next ao mesmo tempo sem a necessidade de realizar a marcação do nó a que pred pertence. O que quebra completamente tanto o invariante 	quanto o abstract map.   
+
+Exercise 115. In the lock-free algorithm, if an add() method call fails because pred does not point to curr, but pred is not marked, do we need to traverse the list again from head in order to attempt to complete the call?
+Não, não precisa. Basta recomeçar a partir do pred ao invés de pela cabeça, tornando o pred uma espécie de breakpoint.
+
+Exercise 118. Explain why this cannot happen in theLockFreeListalgorithm. A node with item x is logically but not yet physically removed by some thread, then the same item x is added into the list by another thread, and finally a contains() call by a third thread traverses the list, finding the logically removed node, and returning false, even though the linearization order of the remove() and add() implies that x is in the set.
+Quando o x é marcado para remoção o pred aponta para o next, trazendo então um valor diferente do de x, incluindo a key, deste modo contains() não encontrará o x na posição em que ele deveria estar, ou seja, é impossível que o evento ocorra. 

@@ -1,0 +1,56 @@
+﻿110 Would the lazy algorithm still work if we marked a node as removed
+simply by setting its next field to null? Why or why not? What about the lock-free
+algorithm?
+
+remove - Lazy Algorithm
+1 public boolean remove(T item) {
+2 	int key = item.hashCode();
+3 	while (true) {
+4 		Node pred = head;
+5 		Node curr = head.next;
+6 		while (curr.key < key) {
+7 			pred = curr; curr = curr.next;
+8 		}
+9 		pred.lock();
+10 		try {
+11 			curr.lock();
+12 			try {
+13 				if (validate(pred, curr)) {
+14 					if (curr.key != key) {
+15 						return false;
+16 					} else {
+17 						curr.marked = true;
+18 						pred.next = curr.next;
+19 						return true;
+20 					}
+21 				}
+22 			} finally {
+23 				curr.unlock();
+24 			}
+25 		} finally {
+26 			pred.unlock();
+27 		}
+28 	}
+29 }
+
+remove - Lock Free
+17 public boolean remove(T item) {
+18 	int key = item.hashCode();
+19 	boolean snip;
+20 	while (true) {
+21 		Window window = find(head, key);
+22 		Node pred = window.pred, curr = window.curr;
+23 		if (curr.key != key) {
+24 			return false;
+25 		} else {
+26 			Node succ = curr.next.getReference();
+27 			snip = curr.next.attemptMark(succ, true);
+28 			if (!snip)
+29 				continue;
+30 			pred.next.compareAndSet(curr, succ, false, false);
+31 			return true;
+32 		}
+33 	}
+34 }
+
+R: O método remove(T item) de ambas as implementações (Lazy e Lock-free) realiza a remoção através da perda de referência do nó a ser removido. Com essa perda lógica, o garbage collection de Java realiza a remoção física do nó. Apesar disso, as informações deste nó ainda precisam ser utilizadas para que a sincronização de travamento não seja perdida. Definir next, em quaisquer dos casos, como null resultaria em uma quebra da sincronização de travamento em ambas implementações. Além disso, com essa modificação, ocorre a quebra da invariante, o abstraction map das implementações.

@@ -1,0 +1,172 @@
+* Trabalho 8
+** 101
+ - Porque as travas são adquiridas em uma ordem sequencial
+   bem-definida (hand-over locking) em todos os métodos que podem
+   alterar a estrutura da lista (add/remove). Cada uma das threads
+   libera a trava correspondente ao nó anterior antes de tentar
+   adquirir a trava do próximo nó. Este protocolo impede que ocorra
+   "espera circular" nas threads que manipulam a lista.
+
+** 102
+ - add() é linearizável porque para cada execução finita da operação,
+   há um ponto onde os seus efeitos parecem acontecer atomicamente.
+   Mais especificamente, quando o primeiro nó com uma chave maior do
+   que a do argumento é travado (linha 13 ou 7), todas as operações
+   subsequentes acontecem de forma atômica para outras threads.
+
+** 103
+ - Optimistic: Operações que modificam a lista adquirem travas em uma
+   ordem bem definida (pred -> curr), e a lista não é
+   circular. Portanto, é impossível haver "espera circular" nessa
+   estrutura:
+
+   - Caso 1: Duas threads estão disputando a mesma dupla de travas.
+     Como há uma ordem bem definida para adquirir travas, a thread que
+     conseguir obter a primeira trava irá consequentemente adquirir a
+     segunda.
+
+   - Caso 2: Duas threads estão disputando uma única trava, como na
+     remoção concorrente de um nó e o seu sucessor (ver imagem
+     9.9). Duas situações:
+
+     + Thread A trava o nó 'a', Thread A trava o nó 'b', Thread B
+       espera A liberar 'b'.  + Thread B trava o nó 'b', Thread A
+       trava o nó 'a', Thread B trava o nó 'c', Thread A espera B
+       liberar 'b'.
+
+	 Como a lista é finita e não é circular, mesmo que haja um
+     conjunto de threads operando em todos os nós da lista ao mesmo
+     tempo e todos na segunda situação acima, é impossível que ocorra
+     deadlock.
+
+ - Lazy: Mesmo argumento.
+	 
+** 105
+*** CODE
+public boolean contains(T item) { int key = item.hashCode();
+  head.lock(); Node pred = head;
+
+  try { Node curr = pred.next; curr.lock();
+
+    try { while (curr.key < key) { pred.unlock(); pred = curr; curr =
+	  curr.next; curr.lock(); }
+
+	  return curr.key == key; } finally { curr.unlock(); } } finally {
+	pred.unlock(); } }
+
+*** Explicação
+
+ - O código realiza a busca pelo primeiro nó com uma chave maior ou
+   igual à do parâmetro fornecido de forma idêntica ao método
+   add. Caso o elemento seja encontrado (chaves iguais), retorna-se
+   true, do contrário retorna-se false. É necessário travar os nós da
+   lista (via hand-over) para evitar que operações concorrentes
+   interfiram com o resultado.
+   
+** 106
+ - Não. Caso apenas a ordem do método add() for invertida, podem
+   ocorrer deadlocks caso hajam chamadas concorrentes de add() e
+   remove() disputando uma mesma trava.  Exemplo:
+
+   Lista: [a] -> [b] -> [c] Thread A chama add("ba"); Thread B chama
+   remove("b")
+
+   > Thread A trava o nó do elemento 'c' ('ba' < 'c') > Thread B trava
+   o nó do elemento 'a' > Ambas as threads desejam travar "b" ->
+   deadlock
+   
+** 108
+ Demonstraremos que, em todos os casos em que haja a possibilidade de
+duas operações concorrentes interferirem nos resultados, o travamento
+de "pred" é suficiente para garantir a corretude de add().
+
+ - add() || add (), operando sobre o mesmo nó:
+   
+   Exemplo: [1,2,5] -> add(3) || add (4)
+
+   Neste caso, o último valor de 'curr' é o mesmo para ambas as
+   invocações de add(), portanto travar 'pred' é suficiente para
+   garantir exclusão mútua.
+
+ - add() || add (), operando sobre nós consecutivos:
+   
+   Exemplo: [1,2,4,6] -> add(3) || add (5)
+
+   Neste caso, o último valor de 'curr' aponta para nós consecutivos
+   (4 e 6 no exemplo). Como não há remoção de nós nesse caso, é
+   possível inserir os dois elementos concorrentemente, pois as
+   invocações de add() alteram ponteiros distintos. No exemplo, add(3)
+   altera os ponteiros node(2).next e node(4).prev; add(5) altera os
+   ponteiros node(4).next e node(6).prev.
+
+ - add() || remove (), operando sobre o mesmo nó:
+   
+   Exemplo: [1,2,5] -> add(3) || remove(5)
+
+   Mesma situação do primeiro caso:o último valor de 'curr' é o mesmo
+   para ambas as invocações, e remove() trava 'pred' antes de
+   'curr'. Portanto, travar 'pred' é suficiente para garantir exclusão
+   mútua neste caso.
+
+ - add(a) || remove (b), operando sobre nós consecutivos (b < a):
+   
+   Exemplo: [1,3] -> add(2) || remove(1)
+
+   'curr' aponta para nós consecutivos neste caso (3 e 1). Vamos
+   chamar o último valor de 'curr'/`prev` em add de
+   'curr_add'/`prev_add`, e em 'remove' de
+   'curr_remove'/`prev_remove`. Como os nós são consecutivos,
+   'prev_add == curr_remove'. remove() precisa travar 'curr_remove'
+   antes de realizar qualquer modificação, portanto travar 'pred' em
+   add() é suficiente para garantir exclusão mútua neste caso.
+
+** 110
+ - Não. Em ambos os casos o método "contains()" não estaria mais
+   correto porque há a possibilidade de encontrar um ponteiro nulo
+   durante a busca, impedindo que o resto da lista seja
+   percorrido. Além disso, definir o ponteiro como null viola o
+   "abstraction map": há itens no conjunto que não podem mais ser
+   alcançados a partir de head porque há um ponteiro nulo no meio da
+   lista.
+** 112
+ - Verificar que pred.next == curr é essencial para detectar
+   modificações concorrentes na lista depois que o método localizou o
+   primeiro nó com chave maior do que o argumento. Considere o
+   seguinte caso:
+
+   Lista: [a,b,d].  Thread A invoca add(c), e concorrentemente a
+   Thread B invoca remove(d).
+
+   É possível que A e B realizem a busca na lista ao mesmo tempo, de
+   forma que ambas as invocações possuam valores iguais para pred e
+   curr - 'b' e 'd', respectivamente. Caso A consiga travar primeiro
+   os nós, o estado da lista antes de B continuar executando será
+   [a,b,c,d]. Caso o método validate() não verifique se pred.next ==
+   curr, B não irá notar a existência do nó 'c'. O resultado é que, ao
+   realizar a remoção ('b'.next = 'd'.next), o estado final da lista
+   será [a,b], o que é um erro.
+
+** 115
+
+Se pred não aponta para curr. e pred não está marcado, há duas
+possibilidades:
+
+ - Um novo elemento foi adicionado entre pred & curr.  - curr foi
+   removido.
+
+Em ambos os casos é possível recomeçar a busca (Window.find) a partir
+de pred, já que ele ainda está na lista e key > prev.key.
+
+** 118
+
+O método find() não retorna enquanto todos os nós marcados com chave
+menor do que o parâmetro key forem removidos. Adicionalmente, como a
+remoção de nós marcados é realizada antes da comparação das chaves, o
+método find() remove a primeira cadeia contínua de nós marcados cuja
+chave seja maior ou igual a key.
+
+Durante a segunda operação (inserção de x), o método find irá remover
+o nó marcado anteriormente (o velho 'x'), e irá removê-lo. Portanto é
+impossível que uma chamada subsequente à contains() encontre o nó
+marcado antigo.
+
