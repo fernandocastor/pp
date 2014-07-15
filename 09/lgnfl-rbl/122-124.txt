@@ -1,0 +1,17 @@
+122.
+
+Q. Fig 10.8. Is it necessary to hold the lock when checking that the queue is not empty? Explain.
+
+A: Yes, because another dequeue could happen concurrently and one of them would successfully return the value and dequeue, and the other thread would run into an null pointer exception.
+
+
+124.
+
+Q: Consider the linearization points of the enq() and deq() methods of the lock-free queue:
+1. Can we choose the point at which the returned value is read from a node as the linearization point of a successful deq()?
+2. Can we choose  n linearization point of the enq() method to be the point at which the tail field is updated, possibly by other threads (consider if it is within the enq()'s execution interval)? Argue your case.
+
+A:
+1. No, because at that point another thread could be faster and dequeue that element first, leaving the queue in an inconsistent state for the initial thread. We can only consider a successful dequeue effect has occurred when the compareAndSet is also done, so we are sure that the returned value was indeed the last element in the queue at that point of time and the queue state is valid.
+
+2. Yes, it is also mentioned in the text-book. The enq() finally takes effect when the tail is updated by any thread.
