@@ -1,0 +1,91 @@
+* Trabalho 9
+** 120
+Sim. As variáveis 'head' and 'tail' precisam ser 
+declaradas como "volatile" para o algoritmo funcionar
+corretamente. Do contrário, é possível que uma das
+threads observe valores incorretos para estas variáveis
+durante uma operação "enq"/"deq".
+
+*** 121
+**** 1 
+
+package pp;
+
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+public class BoundedLockQueue<T> {
+	volatile int head = 0, tail = 0;
+	T[] items; //this should be an AtomicReferenceArray, but I don't think it's allowed
+	Lock ll = new ReentrantLock(), rr = new ReentrantLock();
+
+	public BoundedLockQueue(int capacity) {
+		head = 0;
+		tail = 0;
+		items = (T[]) new Object[capacity];
+	}
+
+	public void enq(T x) {
+		while (tail - head == items.length) {};
+		ll.lock();
+		try {
+			items[tail % items.length] = x;
+			tail++;
+		} finally {
+			ll.unlock();
+		}
+	}
+
+	public Object deq() {
+		while (tail - head == 0) {};
+		rr.lock();
+		try {
+			Object x = items[head % items.length];
+			head++;
+			return x;
+		} finally {
+			rr.unlock();
+		}
+	}
+}
+
+**** 2 
+
+ - Sincronizar acessos à elementos do array. Como as operações atuam sobre
+   um mesmo array, elas se baseiam em índices para saber aonde começa/termina
+   a fila. Esses índices são manipulados em ambas as operações, de forma que 
+   é bastante complicado sincronizar o acesso sem o uso de locks.
+
+*** 122
+Sim. Ao adquirir a trava, as modificações realizadas pelas outras
+threads se tornam visíveis. Do contrário, há a possibilidade da thread
+visualizar informação inválida.
+
+*** 123
+**** 1
+
+ - Uma das almas (aleatoriamente) recebe um token. 
+ - While (alguém estiver com fome):
+   - A alma com o token:
+	 - Dá uma colher de comida para a alma à sua esquerda
+	 - Passa o token para a alma da direita
+   - Almas sem token não fazem nada
+
+**** 2
+ O algoritmo é centralizado (o token decide quem alimenta quem), com alta contenção
+ (outra pessoa poderia estar sendo alimentada) e determinístico (o algoritmo segue
+ uma ordem round-robin).
+
+*** 124
+**** 1
+
+Não, porque é possível (e esperado) que a chamada para compareAndSet na linha
+39 funcione, o que irá alterar o ponteiro para o primeiro elemento da fila.
+
+**** 2
+Sim - o próprio livro texto diz isso na página 232. 
+
+Razão: O ponto de linearização de um método é o ponto onde ele
+aparenta ter tomado efeito. Uma chamada para enq() só aparenta
+ter tomado efeito quando 'tail' aponta para o novo elemento, e
+isso pode acontecer em outras invocações de enq() or deq().
