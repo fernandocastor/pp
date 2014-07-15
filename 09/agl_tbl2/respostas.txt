@@ -1,0 +1,38 @@
+120.
+Sim, uma barreira de memória é necessária para evitar que a thread de enqueue enxergue um valor desatualizado de head ou
+que a thread de dequeue veja um valor desatualizado de tail. Isso pode acontecer por causa do modelo de memória de java,
+onde cada thread possui sua própria cópia de variáveis globais.
+Usando tail e head como volatile, seria o suficiente.
+
+121.
+    1. Código na pasta 121-1
+    2. A grande dificuldade é lidar com os índices do array e com a atualização dos alementos nos índices desejados.
+       Por exemplo: Garantir que o tail será atualizado corretamente, concorrentemente com outras threads rodando enq,
+       se e somente se, esse slot no array poder ser atualizado.
+
+122.
+Sim, considere o seguinte cenário:
+
+Duas threads, A e B, rodando deq concorrentemente numa fila de com um único elemento, no momento que a thread A passa a
+linha 15 e verifica que a fila não está vazia, ela é escalonada.
+Thread B continua sua execução e retira o único elemento presente na fila. Quando Thread A volta, a fila está vazia e
+ela tentará executar o deq mesmo assi.
+
+123.
+Código na pasta 123
+
+Cada thread só pode alimentar a thread com o índice logo maior que o seu (ou a de índice 0, caso a thread seja a
+última). Para ser alimentada, a thread alimentadora precisará adquirir o lock da alimentada e só poderá tentar fazer
+isso caso não esteja comendo.
+A thread alimentadora só poderá alimentar caso a thread a ser alimentada não esteja alimentando ninguém.
+Sempre que uma thread acabar de alimentar outra, ela repousará por um tempo (600ms) o que dará tempo dela também ser
+alimentada.
+As variáveis de controle mFeeding e mEating fazem o controle para que nenhuma thread fique sem comer, ou coma
+enquanto está dando de comer a alguém.
+
+124.
+    1. Não, pois o head pode ser alterado na linha 39, efetivando a remoção (dequeue) do elemento e nesse ponto o método
+    toma efeito, que afetará outras threads.
+
+    2. Não, o ponto de linearização será quando o tail.next for atualizado para o novo nó que está sendo inserido,
+    fazendo assim que todas as threads vejam a mesma fila nessa hora (com o novo elemento).
