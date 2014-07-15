@@ -57,9 +57,17 @@ public class BoundedLockQueue<T> {
    é bastante complicado sincronizar o acesso sem o uso de locks.
 
 *** 122
-Sim. Ao adquirir a trava, as modificações realizadas pelas outras
-threads se tornam visíveis. Do contrário, há a possibilidade da thread
-visualizar informação inválida.
+Sim. Do contrário, caso hajam mais threads realizando deq()'s do que elementos na fila, é
+possível que uma thread tente desenfileirar um elemento que não existe. Exemplo:
+
+  Fila:     [a] ;; contém apenas 1 elemento, 'a'
+  Threads:  A & B
+  
+  - A invoca deq(), mas o escalonador para a Thread imediatamente depois de 'if (head.next == null)'
+  - B invoca deq(), e prossegue normalmente até o fim do método. A fila agora está vazia.
+  - A volta a ser executado. Como A já testou se a fila estava vazia, o método será executado como
+    se houvessem elementos na fila, o que é um erro.
+
 
 *** 123
 **** 1
@@ -70,6 +78,87 @@ visualizar informação inválida.
 	 - Dá uma colher de comida para a alma à sua esquerda
 	 - Passa o token para a alma da direita
    - Almas sem token não fazem nada
+
+implementação:
+-----------------------------
+package pp;
+
+import java.util.Random;
+
+public class Hell {
+
+	volatile static int index;
+	static Soul[] souls;
+	static int nSouls;
+	
+	
+	public Hell(int nSouls) {
+		Hell.nSouls = nSouls;
+		souls = new Soul[nSouls];
+		index = new Random().nextInt(nSouls);
+		
+		for (int i = 0; i < nSouls; i++) {
+			souls[i] = new Soul(i);
+		}
+	}
+	
+	static class Soul extends Thread {
+		
+		static volatile boolean shouldStop = false;
+		
+		volatile int nProd = 0; //vezes que alimentou alguem
+		volatile int nCons = 0; //vezes que comeu
+		final int id;
+		
+		public Soul(int id) {
+			this.id = id;
+		}
+		
+		public void run() {
+			while(!shouldStop) {
+				if (index == id) {
+					this.nProd++;
+					souls[(id + nSouls - 1) % nSouls].nCons++;
+					index = (index + 1) % nSouls;
+				} else {
+					try {
+						System.out.printf("Soul #%d: fed:%d, ate:%d\n",id,nProd,nCons);
+						Thread.sleep(1);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+	}
+	
+	public static void main(String[] args) throws InterruptedException {
+		Hell hell = new Hell(5);
+		for (Soul s : Hell.souls) {
+			s.start();
+		}
+		Thread.sleep(5000);
+		Soul.shouldStop = true;
+		
+		System.out.println("#####################");
+		for (Soul s : Hell.souls) {
+			s.join();
+			System.out.printf("Soul #%d: fed:%d, ate:%d\n",s.id,s.nProd,s.nCons);
+		}
+	}
+}
+-----------------------------------
+ - Este algoritmo/implementação é starvation-free. Prova:
+   1. Há um número finito de almas/objetos 'Soul' durante qualquer execução do programa.
+   2. Alimentar uma alma requer um número finito de passos (as três linhas após "if (index == id)")
+   3. As almas são alimentadas em um esquema justo (round-robin):
+     - Cada 'Soul', ao ser escalonado, pode tomar duas ações: caso a variavel 'index' seja igual ao 'id' de Soul,
+       ele irá alimentar a alma da esquerda (souls[id - 1]), e incrementar 'index' para registrar que é a vez
+       da próxima alma de alimentar alguém. Do contrário, a alma invoca Thread.sleep(1).
+   - A partir de 1, 2 e 3, podemos concluir que:
+   4. Uma alma que não esteja sendo alimentada precisa aguardar um tempo finito do para ser alimentada novamente.
+      
+     
 
 **** 2
  O algoritmo é centralizado (o token decide quem alimenta quem), com alta contenção
@@ -85,7 +174,6 @@ Não, porque é possível (e esperado) que a chamada para compareAndSet na linha
 **** 2
 Sim - o próprio livro texto diz isso na página 232. 
 
-Razão: O ponto de linearização de um método é o ponto onde ele
-aparenta ter tomado efeito. Uma chamada para enq() só aparenta
-ter tomado efeito quando 'tail' aponta para o novo elemento, e
-isso pode acontecer em outras invocações de enq() or deq().
+Razão: Caso tail.compareAndSet(last, node) falhe, podemos afirmar que uma outra
+thread tentou avançar tail em um momento anterior e foi bem sucedida.
+
