@@ -1,0 +1,19 @@
+120 
+	1. Sim, antes das leituras de head e tail em suas respectivas threads, já que o incremento e a leitura (desconsiderando a leitura na utilização do operador unário “++”) ocorrem em threads diferentes e Java não garante que a atualização da variável em uma thread será propagada para outra thread. O mais correto seria utilizar a palavra chave volatitle, com isso as barreiras de memória seriam colocadas automaticamente pelo compilador.
+
+121
+	1. Olhar arquivo 121.java
+	2. A dificuldade encontrada estava relacionada à necessidade de realizar a atualização de tail/head e atribuir/ler um valor no/do array. Para o caso de uma operação enq() não finalizada na qual o índice da cauda é incrementado primeiro e depois o valor é atribuito ao array, seria possível, por exemplo, que um deq() intercalado observasse que a cauda estava um índice à frente da cabeça e tentasse ler do array na posição corrente da cabeça o que poderia resultar na leitura de um objeto inválido ou em uma referência à null. O inverso também é problemático, seria possível que um deq() não completado sofresse interferência de um enq(). Como a operação acontece em duas etapas, primeiro incrementa-se head e depois lê o valor do array, se o enq() você executado entre essas duas operações o mesmo poderia sobrescrever o valor que ainda seria lido por deq(). Olhar arquivo 121.java para solução.
+
+122 
+	1. Sim, pois duas chamadas consecutivas poderiam entrar na região crítica, a primeira executaria normalmente removendo um valor da fila e a segunda não lançaria uma exceção, setaria a cabeça para null e retornaria null.
+
+123 
+	1. Olhar arquivo 123.java
+	2. O algoritmo é decentralizado, as threads coperam entre si para garantir progresso.
+	A contenção é alta já que somente uma thread entra na região crítica e cada vez.
+	É determinístico no sentido de que toda pessoa (thread) sempre alimenta e depois espera ser alimentado, mantendo essa alternância infinitamente, entretanto a escolha de quem alimenta/será alimentado não é determinística.
+
+124
+	1. Não, a cabeça pode mudar de posição entre a execução da linha 38 (leitura do valor a ser retornado) e a linha 39 (setar cabeça para próximo item) e isso impediria o método de “tomar efeito” após esse ponto.
+	2. Não, na verdade o ponto de linearização acontece na atualização de tail.next pois após o retorno com sucesso da operação de CAS todas as threads terão a mesma visão da estrutura mesmo que o ponteiro tail ainda não tenha sido atualizado, threads que estejam vendo o estado intermediário entre a atualização do tail.next e da tail em si tentarão completar a atualização para ajudar a thread inicial, mas ainda assim terá uma única visão da estrutura.
