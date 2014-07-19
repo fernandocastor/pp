@@ -10,7 +10,7 @@ Sim, nos métodos enq() e deq(), ou as atualizações de tail e head não serão
 --------
 121.1. Classe br.ufpe.cin.pp.queues.BoundedTotalQueue
 
-121.2. TBD
+121.2. Classe br.ufpe.cin.pp.queues.LockFreeBoundedTotalQueue
 
 
 122.
