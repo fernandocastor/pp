@@ -1,0 +1,1 @@
+A classe LockObject já suporta leitoras concorrentes.

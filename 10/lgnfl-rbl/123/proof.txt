@@ -1,0 +1,79 @@
+=======================
+IMPLEMENTATION OVERVIEW
+=======================
+
+Lines 7-14:
+  Each unit is created and sets the next to be its antecessor. For example, Unit-1 sets Unit-0 as "next", and Unit-0 sets Unit-4 instead.
+  At this time, only the main thread is running and each unit is created with a pre-defined state, it's either HUNGRY or FULL.
+  Only Unit-0 starts with state FULL, so all others must be HUNGRY.
+
+Lines 19-23:
+  Each unit thread is created, but they are not running yet.
+  Once a thread is created, its unit will know about its owner thread.
+
+Lines 25-31:
+  Each unit thread is started, then the main thread starts to wait for each unit thread to finish.
+
+Lines 37-43 describes how each unit thread will work:
+  If its owned unit is hungry, then the thread goes to sleep, otherwise proceeds.
+  In this case, the thread must be FULL, so it will feed its next unit.
+  First, Unit-0 will feed Unit-4.
+
+Lines 120-131:
+  A FULL unit must be followed by a HUNGRY unit to proceed: if not, then he will retry later.
+  So he feeds the following unit, increasing his feed count by 1 and setting his state to FULL (also being woken up in case he was sleeping).
+  Then this unit sets himself HUNGRY and goes to sleep.
+
+=====
+PROOF
+=====
+
+PROPERTY: This algorithm is starvation-free.
+
+Unit-0 will only be fed by Unit-1, Unit-1 will only be fed by Unit-2, (...), Unit-4 will only be fed by Unit-0.
+Since everyone except Unit-0 is HUNGRY in the beginning, Unit-0 will be the first to feed his next unit, in this case Unit-4.
+Lines 120-131 shows that this operation will only work when they are both FULL and HUNGRY respectively, otherwise, Unit-0 will retry later.
+
+PROOF BY CONTRADICTION: Some unit is never feeded.
+
+Let's assume without loss of generality that Unit-1 is never feeded, while the others are being continously fed. So Unit-1 kept HUNGRY all the time.
+Since only FULL units can feed one another, and Unit-0 is being fed, it means that Unit-1 must have been FULL at some point given that he is the only one who can feed Unit-0. Since we've assumed Unit-1 was never feeded, this is a contradiction.
+
+We can mimic this argument to Unit-0 who starts FULL in the beginning, even though he did not eat yet. If we assume Unit-0 is never fed but the others are somehow, then it must mean that Unit-0 have become FULL again so he can feed Unit-4 again, given that the only who can feed Unit-4 is Unit-0. But if he became FULL again, it implies that he have been fed, thus a contradiction again.
+
+==================
+ALGORITHM OVERVIEW
+==================
+
+1. The algorithm is the following:
+* Each person sits in the round table and each one receives a unique number
+* They have agreeded that the person with number 0 will start feeding the person next to him
+* Every other person is hungry. A hungry person does nothing besides sleeping until someone comes to feed him.
+* Once the person that is not hungry feeded his next colleague, he turns himself hungry and goes to sleep.
+* Once a person is feeded, he is no longer hungry and wakes up.
+* Each person repeatedly does this until the next person have been fed a constant amount of times
+* In the end, everyone will be fed that constant amount of times
+
+==========
+PROPERTIES
+==========
+
+This algorithm is starvation-free as demonstrated earlier:
+
+The first person "full" will feed his successor that must be "hungry".
+From that on, every hungry person next to it will be fed until it comes back to the first person that now is "hungry".
+When the first person is finally fed, its feed count is equal to 1 but also all others must have been fed before that.
+This cycles over again.
+
+==========
+DISCUSSION
+==========
+
+2. The advantage of this algorithm is that it is straight-forward to implement and the disadvantage is that in practice
+only one thread is making progress over time, and all others must be hungry and sleeping.
+This algorithm is also decentralized (each person acts independly but following the protocol),
+It is low in contention because each person only looks for his successor status and no contention is needed.
+It is also deterministic, we know exactly how one person will feed his successor and it will cycle over deterministically.
+
+This algorithm also work if we alternate person to be either full or hungry so this could allow more threads to advance
+at the same time.
