@@ -1,0 +1,59 @@
+Trabalho 10
+===========
+
+123.
+--------
+
+Referência: Pacote br.ufpe.cin.pp.dantes da última entrega.
+
+Por simplicidade, uso a SynchronousQueue do j.u.c., e presumo que:
+ * as threads conseguem entrar na fila em ordem FIFO, não podem ser overtaken forever.
+ * a propriedade de FIFO da fila funciona corretamente quando usada concorrentemente.
+
+Prova (por contradição) de Starvation-freedom:
+ * Considerando que uma thread pode "starve", ou seja, nunca conseguir concluir um deq(). Seria necessário que esta thread:
+
+ 1) Fosse overtaken toda vez que tentasse entrar na fila ou tirar um enqueuer
+ 2) Fosse passada para trás na chegada a enqueuers após entrar na fila.
+ 3) Todas as outras threads tornassem-se dequeuers simultaneamente a ela.
+
+ Contradições: 
+ 1) Contradiz nossas suposições sobre o funcionamento da fila. Consideramos também que o escalonador deve sempre selecionar 
+    cada thread para execução em um intervalo finito de tempo.
+ 2) Contradiz a propriedade de acesso FIFO de uma fila.
+ 3) Para uma thread A tornar-se dequeuer, ela precisa completar um enq() com sucesso.
+    Para isso, outra thread B precisa concluir um deq() com sucesso.
+    Com isso, B torna-se um enqueuer. Um enqueuer é criado para cada enqueuer. Contradição.
+
+Quando às outras propriedades:
+
+ * O controle é centralizado nas operações da SynchronousQueue.
+ * A contenção deve ser alta, mas no final das contas depende da implementação da Queue, a qual não conheço profundamente. 
+ * O comportamento da simulação é não-determinístico. Duas threads que são liberadas após um enq() e deq() não têm garantia
+   de se reencontrarem ao mudarem para chamadas de deq() e enq(), visto que mais de um par de thread podem ser liberadas 
+   muito próximo, e fica a critério do escalonador o ordenamento dessas.
+
+
+
+211.
+--------
+
+Pacote br.ufpe.cin.pp.stm.contention do trabalho10.tar.gz
+
+Priority: *.PriorityManager
+Greedy: *.GreedyManager
+Karma: *.KarmaManager
+
+Classes Defaults e Transaction de br.ufpe.cin.pp.stm servem apenas a propósito de stub.
+
+
+215.
+-------
+
+O LockObject já provê suporte a leitores concorrentes.
+
+
+216.
+-------
+
+TBD.
