@@ -1,0 +1,185 @@
+** 123
+
+implementação:
+-----------------------------
+package pp;
+
+import java.util.Random;
+
+public class Hell {
+
+volatile static int index;
+static Soul[] souls;
+static int nSouls;
+
+
+public Hell(int nSouls) {
+  Hell.nSouls = nSouls;
+  souls = new Soul[nSouls];
+  index = new Random().nextInt(nSouls);
+
+  for (int i = 0; i < nSouls; i++) {
+    souls[i] = new Soul(i);
+  }
+}
+
+static class Soul extends Thread {
+
+static volatile boolean shouldStop = false;
+
+volatile int nProd = 0; //vezes que alimentou alguem
+volatile int nCons = 0; //vezes que comeu
+final int id;
+
+public Soul(int id) {
+this.id = id;
+}
+
+public void run() {
+  while(!shouldStop) {
+  if (index == id) {
+    this.nProd++;
+    souls[(id + nSouls - 1) % nSouls].nCons++;
+    index = (index + 1) % nSouls;
+  } else {
+    try {
+      System.out.printf("Soul #%d: fed:%d, ate:%d\n",id,nProd,nCons);
+      Thread.sleep(1);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+  }
+}
+}
+}
+
+public static void main(String[] args) throws InterruptedException {
+  Hell hell = new Hell(5);
+  for (Soul s : Hell.souls) {
+    s.start();
+  }
+  Thread.sleep(5000);
+  Soul.shouldStop = true;
+
+  System.out.println("#####################");
+  for (Soul s : Hell.souls) {
+    s.join();
+    System.out.printf("Soul #%d: fed:%d, ate:%d\n",s.id,s.nProd,s.nCons);
+  }
+}
+}
+-----------------------------------
+ - Este algoritmo/implementação é starvation-free. Prova:
+   1. Há um número finito de almas/objetos 'Soul' durante qualquer execução do programa.
+   2. Alimentar uma alma requer um número finito de passos (as três linhas após "if (index == id)")
+   3. As almas são alimentadas em um esquema justo (round-robin):
+     - Cada 'Soul', ao ser escalonado, pode tomar duas ações: caso a variavel 'index' seja igual ao 'id' de Soul,
+       ele irá alimentar a alma da esquerda (souls[id - 1]), e incrementar 'index' para registrar que é a vez
+       da próxima alma de alimentar alguém. Do contrário, a alma invoca Thread.sleep(1).
+   - A partir de 1, 2 e 3, podemos concluir que:
+   4. Uma alma que não esteja sendo alimentada precisa aguardar um tempo finito do para ser alimentada novamente.
+      
+
+   O algoritmo é distribuído (o token decide quem alimenta quem), com alta contenção
+   (outra pessoa poderia estar sendo alimentada) e determinístico (o algoritmo segue
+   uma ordem round-robin).
+
+
+
+** 211
+Implement the Priority, Greedy, and Karma contention managers.
+
+public class PriorityManager extends ContentionManager {
+  public void resolve(Transaction me, Transaction other) {
+    if (me.timestamp() < other.timestamp()) {
+	  other.abort();
+    } else {
+	  Thread.sleep(5);
+	}
+  }
+}
+
+public class GreedyManager extends ContentionManager {
+  Map<Transaction,Set<Transaction>> waitsFor = new HashMap<>();
+  public void resolve(Transaction me, Transaction other) {
+    if (me.timestamp() < other.timestamp()) { 
+	  other.abort();
+	  waitsFor.get(me).remove(other);
+	} else if (waitsFor.get(other).size() > 0) {
+	  other.abort();
+	  waitsFor.remove(other);
+    } else {
+	  Thread.sleep(5);
+	  waitsFor.get(me).add(other);
+	}
+  }
+}
+
+
+public class PriorityManager extends ContentionManager {
+  public void resolve(Transaction me, Transaction other) {
+    if (me.karma() > other.karma()) {
+	  other.abort();
+    } else {
+	  Thread.sleep(5);
+	}
+  }
+}
+
+
+** 215
+Extend the LockObject class to support concurrent readers.
+
+ - A classe LockObject já tem suporte à leitores concorrentes, pois
+   os leitores não podem fazer modificações no objeto requisitado.
+
+** 216
+In TinyTM, the LockObject class’s onCommit() (should be onValidate?) handler first checks
+whether the object is locked by another transaction, and then whether its stamp
+is less than or equal to the transaction’s read stamp.
+
+Give an example showing why it is necessary to check whether the object is
+locked.
+
+ - Thread A [readSet:a,writeSet:b] tenta submeter as modificações 
+realizadas em 'b'. Ao mesmo tempo, a thread B [readSet:c,writeSet:a] está
+submetendo as alterações realizadas em 'a', e para isso adquire a trava
+correspondente. Um possível escalonamento para estas operações seria:
+
+    - A inicia commit e invoca onValidate()
+    - A executa até a linha 68.
+	- B inicia commit e invoca onValidate()
+    - B invoca onCommit() 
+    - B executa até imediatamente antes da linha 90
+	- A continua a execução. 
+
+	 Neste ponto, caso A não detecte que B possui a trava de um dos objetos
+no seu readSet ele irá submeter uma transação que contém modificações baseadas
+em dados obsoletos.
+
+
+Is it possible that the object could be locked by the committing transaction?
+
+ - Sim, caso o elemento pertença ao readSet e ao writeSet ao mesmo tempo.
+
+Give an example showing why it is necessary to check whether the object is
+locked before checking the version number.
+
+ - Thread A [readSet:a,writeSet:b] tenta submeter as modificações 
+realizadas em 'b'. Ao mesmo tempo, a thread B [readSet:c,writeSet:a]
+está submetendo as alterações realizadas em 'a'. Assumindo que a
+checagem de versões acontece antes da verificação de locks, um
+possível escalonamento para estas operações seria:
+
+    - A inicia commit e invoca onValidate()
+	- A passa pela checagem de versões
+	- B inicia commit e invoca onValidate()
+    - B passa pela checagem de versões e locks
+	- B executa onCommit() e modifica o número de versão do objeto 'a'
+	- B termina a submissão
+	- A continua a execução. 
+
+	  Nesse ponto, como A já realizou a checagem de versões, é impossível 
+detectar que houve modificações em 'a' e, em consequência, a transação
+é inválida.
+
