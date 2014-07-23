@@ -22,13 +22,16 @@ ela tentará executar o deq mesmo assi.
 Código na pasta 123
 
 Cada thread só pode alimentar a thread com o índice logo maior que o seu (ou a de índice 0, caso a thread seja a
-última). Para ser alimentada, a thread alimentadora precisará adquirir o lock da alimentada e só poderá tentar fazer
-isso caso não esteja comendo.
-A thread alimentadora só poderá alimentar caso a thread a ser alimentada não esteja alimentando ninguém.
+última). Uma thread só poderá alimentar outra thread, caso a primeira não esteja sendo alimentada e a segunda não esteja
+alimentando outra.
 Sempre que uma thread acabar de alimentar outra, ela repousará por um tempo (600ms) o que dará tempo dela também ser
 alimentada.
 As variáveis de controle mFeeding e mEating fazem o controle para que nenhuma thread fique sem comer, ou coma
 enquanto está dando de comer a alguém.
+Quando alguma thread tenta alimentar a outra thread, caso a segunda esteja alimentando alguém, a thread alimentadora ficará
+esperando no while da linha 32, até que a thread que ela deseja alimentar acabe de dar de comer a outra thread (o que
+        sempre irá acabar após 500ms).
+Esse mecanismo garante que o algoritmo é starvation free.
 
 124.
     1. Não, pois o head pode ser alterado na linha 39, efetivando a remoção (dequeue) do elemento e nesse ponto o método

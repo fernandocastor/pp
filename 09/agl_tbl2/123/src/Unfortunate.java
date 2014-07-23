@@ -1,7 +1,6 @@
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Unfortunate extends Thread {
-	public ReentrantLock lock;
 	private Unfortunate[] mUnfortunates;
 	private int mIndex;
 	private int mFeedIndex;
@@ -12,7 +11,6 @@ public class Unfortunate extends Thread {
 		mUnfortunates = unfortunates;
 		mIndex = index;
 		mFeedIndex = (index + 1) % unfortunates.length;
-		lock = new ReentrantLock();
 	}
 
 	public void run() {
@@ -38,11 +36,9 @@ public class Unfortunate extends Thread {
 	}
 
 	public void eat() throws InterruptedException {
-		lock.lock();
 		mEating = true;
 		System.out.println("Thread " + mIndex + " eating....");
 		Thread.sleep(500);
-		lock.unlock();
 		mEating = false;
 	}
 }
