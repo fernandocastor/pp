@@ -1,0 +1,47 @@
+Exercise 211. Implement the Priority, Greedy, and Karma contention managers.
+
+//-----------------------------Priority-----------------------------//
+public class PriorityManager extends ContentionManager{  
+	public void resolve(Transaction me, Transaction other){  
+		if(me.timestamp() <= other.timestamp()){  
+			other.abort(); 
+		}else{  
+			Thread.sleep(100);
+		}	  
+    }    
+}  
+
+//-----------------------------Greedy-----------------------------//
+public class GreedyManager extends ContentionManager{  
+	public void resolve(Transaction me, Transaction other){  
+		if (me.tempoDeEspera() > other.tempoTotal()) {
+			other.abort();
+		}else{  
+			me.wait();
+		} 
+    }    
+}  
+
+//-----------------------------Karma-----------------------------//
+public class KarmaManager extends ContentionManager{  
+	public void resolve(Transaction me, Transaction other){  
+		if (me.karma() > other.karma()){  
+			other.abort(); 
+		}else{  
+			Thread.sleep(100);		
+		}	  
+    }    
+}  
+
+Exercise 215. Extend the LockObject class to support concurrent readers.
+Não há necessidade de alterações, a LockObject class já oferece suporte a leitores concorrentes.
+
+Exercise 216. In TinyTM, the LockObjectclass’s on Commit() handler first checks whether the object is locked by another transaction, and then whether its stamp is less than or equal to the transaction’s read stamp.
+- Give an example showing why it is necessary to check whether the object is locked.
+Duas transações concorrentes A e B que realizam operação escrita-escrita, essas transações tentam modificar um mesmo dado X somando um novo valor a ele, sendo esses valores distintos, ambas as transações irão adquirir a trava em algum momento (antes de realizarem o commit) caso não haja validação uma terceira transação que precise do novo valor de X pode acessá-lo com certa inconsistência se chegar cedo demais (Antes da última transação ter modificado), o que vai contra os preceitos de serializabilidade. 
+
+- Is it possible that the object could be locked by the committing transaction?
+Sim. Deve-se travar para evitar confusão entre as transações que venham a ser executadas a posteriori e que possam modificar um valor que tenha sido lido recentemente. 
+
+- Give an example showing why it is necessary to check whether the object is locked before checking the version number.
+Geralmente é necessário identificar o objeto que está travado para evitar a gravação de valores diferentes e a criação de novos logs de versão, primeiro veirifica-se o objeto e depois a sua versão, daí aplicasse o commit ou abort da transação, o mesmo exemplo da primeira questão pode ser utilizado aqui. Outro fator é que o objeto pode não mais estar lá o que pode criar uma transação zumbi. 
