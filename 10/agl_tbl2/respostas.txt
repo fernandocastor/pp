@@ -1,0 +1,22 @@
+211.
+Commits no repositório: https://github.com/thiagolacerda/TinyTM
+
+215.
+Esse objeto já suporta leitores concorrentes.
+
+216.
+    1. Considere duas Threads A, que escreve em x e lê y, e B, que escreve y e lê x. Caso a
+    verificação não ocorresse a verificação se os objetos do ReadSet estão travados, a thread
+    de leitura poderia ver uma versão do objeto no meio de uma atualização pela de escrita,
+    fazendo com que houvesse uma inconsistência nos dados lidos (podendo ater ser sobrescrito
+    por essa thread de leitura no futuro).
+
+    2. Sim, caso o objeto esteja no ReadSet e no WriteSet ao mesmo tempo.
+
+    3. Uma Thread A escrevendo no mesmo objeto que B, poderia ser escalonada após checar a
+    versão e antes de checar o lock (caso a checagem de versão fosse antes da de lock). B
+    começaria a executar e committaria sua modifição. Quando a voltasse, não faria a checagem
+    de versão, adquiriria o lock e committaria suas modifições ignorando o que B fez.
+
+123.
+Resposta na pasta agl_tbl2 do trabalho 09
