@@ -27,10 +27,7 @@ Ex:
 
 -----------------------|  enq(y)  |------------|  deq(y)  |-------------------->
 
-P1: -----W(y)--|-----------|--R(y)----------
-P2: --------------|--W(y)--|------------------
-
-Garantias: 
+Garantias: É composicional.
 
 Aplicações:
 
@@ -83,7 +80,7 @@ a outra, ou seja, fornece a ilusão que a execução consiste em uma ação atô
 Ex:
 
 
-Garantias:
+Garantias: É equivalente a execução sequencial
 
 Aplicações:
 
