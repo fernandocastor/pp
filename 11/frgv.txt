@@ -1,0 +1,113 @@
+#################################### FRGV ######################################
+
+Trabalho 11.
+
+Compare detalhadamente os modelos de consistência para sistemas paralelos
+discutidos ao longo da disciplina. Devem ser usados exemplos e discutidas
+questões como semelhanças e diferenças entre os modelos, as garantias por eles
+fornecidas, aplicações possíveis e quão mais fácil é para um programador usar
+cada um  (supondo que a linguagem ou infra-estrutura subjacentes garantam isso).
+
+Os modelos foram os seguinte:
+
+  -  Consistência quiescente;
+  -  Consistência sequencial;
+  -  Linearizabilidade;
+  -  Serializabilidade;
+  -  Consistência Acontece-Antes.
+
+
+Consistência quiescente - Define o periodo de quiescencia, onde nenhuma outra,
+chamada ou operação é feita, também é quando a ação torna-se efetiva, isso para
+garantir que todas as transações posteriores a este período seram visiveis. 
+
+Ex:
+
+----------|  enq(x)  |-------------------------|  deq(x)  |-------------------->
+
+-----------------------|  enq(y)  |------------|  deq(y)  |-------------------->
+
+P1: -----W(y)--|-----------|--R(y)----------
+P2: --------------|--W(y)--|------------------
+
+Garantias: 
+
+Aplicações:
+
+________________________________________________________________________________
+
+
+Consistência sequencial - Um programa é sequencialmente consistente se qualquer
+execução ocorre em uma ordem sequencial especificada por seu programa. ou
+equivalente a uma execução em um único processador.
+
+Ex: 
+
+----------|  enq(x)  |------------|  deq(x)  |--------------------------------->
+
+----------|  enq(y)  |------------|  deq(y)  |--------------------------------->
+
+Garantias: Apesar da consistência sequencial apresentar um modelo de memória
+simples, ela é bastante restritica, reduzindo o paralelismo pontencial do
+sistemas, além de limitar alguns obstáculos á implementação de mecanismos de
+hardware utilizados para otimização.
+
+Aplicações:
+
+
+________________________________________________________________________________
+
+
+Linearizabilidade - O modelo linearizado também tem consistência sequencial, pois
+a ordem do tempo real reflete a ordem do programa, por definição o ponto de
+linearização é um instante de tempo entre a chamada e o resultado de um método
+tornando o efeito visível apartir deste ponto.
+
+Ex:
+
+----------|  enq(x)  |------------|  deq(x)  |--------------------------------->
+
+-------------------|  enq(y)  |------------|  deq(y)  |------------------------>
+
+Garantias: Toda execução linearizada também tem consitência sequencial.
+
+Aplicações:
+
+________________________________________________________________________________
+
+
+Serializabilidade - Como condição de corretude, proporciona a ilusão que a 
+execução concorrente de múltiplas transações acontece de forma serial, uma após
+a outra, ou seja, fornece a ilusão que a execução consiste em uma ação atômica.
+
+Ex:
+
+
+Garantias:
+
+Aplicações:
+
+
+
+________________________________________________________________________________
+
+
+Consistência Acontece-Antes - Define a relação entre 2 (dois) ou mais transações.
+A transação que ocorrer primeiro é ordenada, primeiro a sicronização estabelece
+uma relação de ordem entre as transações.
+
+
+Ex: 
+
+count = 0;
+
+A:    ----------------| count++; |--------------------------------------------->
+
+B:    ---------------------------------------| println(count); |--------------->
+
+Garantias: Dada 2 ações/transações A e B, a transação que ocorre primeiro será,
+ordenada primeiro, logo torna efetiva a visualização da ação em A ou B apartir
+de quem iniciou a tranação.
+
+Aplicações:
+
