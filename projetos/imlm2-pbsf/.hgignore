@@ -1,0 +1,14 @@
+syntax: glob
+
+# Emacs and other temporary files
+*~
+.#*
+*.swp
+TAGS
+tags
+*.orig
+.DS_Store
+*.class
+bin/jarlist.cache
+bin/
+build/

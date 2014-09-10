@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/framework"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/checker"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/dataflow"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jsr308-langtools"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/framework/tests/junit.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

@@ -1,0 +1,135 @@
+<project name="lockorder-checker" default="build" basedir=".">
+
+    <description>
+      LockOrder Checker
+    </description>
+
+    <property environment="env"/>
+    
+    <property name="src" value="src"/>
+    <property name="tests" value="tests"/>
+
+    <property file="build.${os.name}.properties"/>
+    <property file="build.properties"/>
+
+    <property name="build.tests" value="tests/build"/>
+    <property name="build" value="build"/>
+    <property name="build.reports" value="${build}/reports"/>
+    <property name="compiler.version.goal" value="javac 1.7.0-jsr308-${jsr308.version}"/>
+
+    <property name="run.tests.should.fork" value="true"/>
+    <property name="halt.on.test.failure" value="true"/>
+
+    <condition property="jdkName" value="jdk7.jar" else="jdk6.jar">
+        <contains string="${java.version}" substring="1.7"/>
+    </condition>
+
+    <target name="prep" description="Create required directories">
+        <mkdir dir="${build}"/>
+        <mkdir dir="${build.tests}"/>
+        <mkdir dir="${build.tests}/testclasses"/>
+        <mkdir dir="${build.reports}"/>
+
+        <java fork="true"
+              outputproperty="compiler.version"
+              jar="${checkers.lib}">
+          <arg line="-version"/>
+        </java>
+
+        <property name="compiler.exists" value="false"/>
+        <condition property="compiler.exists">
+           <equals
+             arg1="${compiler.version}"
+             arg2="${compiler.version.goal}"/>
+        </condition>
+
+        <copy todir="${build}" preservelastmodified="true">
+            <fileset id="src.astub.files" dir="${src}" includes="**/*.properties,**/*.astub"/>
+        </copy>
+
+    </target>
+
+    <target name="clean" description="Remove generated files">
+        <delete dir="${build}"/>
+        <delete dir="${build.reports}"/>
+        <delete failonerror="false">
+            <fileset dir="${build.tests}" includes="**/*.class"/>
+        </delete>
+    </target>
+
+    <target name="build" depends="clean,prep" description="Compile files.">
+        <fail unless="compiler.exists"
+            message="
+Needed version ${compiler.version.goal} of the JSR 308 compiler,
+but found version ${compiler.version} on your classpath.
+${line.separator}${line.separator}
+Check that the 'checkers.lib' property in 'build.properties' points to version
+${build.version} of the 'javac.jar' library."/>
+
+        <copy todir="${build}" preservelastmodified="true">
+            <fileset refid="src.astub.files"/>
+        </copy>
+
+        <pathconvert pathsep=" " property="src.files.spaceseparated">
+            <path>
+                <fileset dir="${src}">
+                    <include name="**/*.java"/>
+                </fileset>
+            </path>
+        </pathconvert>
+
+        <java fork="true"
+              failonerror="true"
+              jar="${checkers.lib}">
+            <arg line="-cp ${junit.jar}:." />
+            <arg value="-g"/>
+            <arg line="-sourcepath ${src}"/>
+            <arg line="-d ${build}"/>
+            <arg line="${src.files.spaceseparated}"/>
+            <arg line="-version"/>
+        </java>
+        <touch file="${build}/.timestamp"/>
+        <delete file="${build}/.timestamp"/>
+    </target>
+
+    
+    <!-- Per the <test> element, output goes to ${build.reports} -->
+    <target name="-run-tests" description="Generalized test runner">
+        <junit fork="${run.tests.should.fork}"
+            dir="${basedir}"
+            printsummary="true"
+            haltonfailure="${halt.on.test.failure}">
+            <!-- Don't put everything on the bootclasspath, as that would
+                 cause class loading issues. -->
+            <jvmarg line="-Xbootclasspath/p:${checkers}/checker/dist/javac.jar"/>
+            <jvmarg line="-ea"/>
+
+            <!--Uncomment both lines below to debug.-->
+
+<!--             <jvmarg value="-Xdebug" />  -->
+<!--             <jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005" />  -->
+
+            <sysproperty key="JDK_JAR" value="${checkers}/checker/dist/${jdkName}"/>
+
+            <classpath>
+                <pathelement path="${checkers.lib}"/>
+                <pathelement path="${junit.jar}"/>
+                <pathelement path="${build}"/>
+                <pathelement path="${build.tests}"/>
+            </classpath>
+
+            <formatter type="xml"/>
+            <formatter type="brief" usefile="false"/>
+
+            <test name="${testclass}" todir="${build.reports}"/>
+        </junit>
+    </target>
+    
+    <target name="run-tests" depends="clean,build"
+      description="Run tests for the LockOrder Checker">
+        <antcall target="-run-tests">
+            <param name="testclass" value="lockorder.checker.LockOrderTest"/>
+        </antcall>
+    </target>
+
+</project>
