@@ -1,3 +1,0 @@
-1. Código no arquivo BoundedArrayQueue.java
-
-2. A maior dificuldade é manter a consistência do array considerando que ambos os índices podem ser modificados de maneira concorrente, já que o problema especifica que `enq()` e `deq()` devem poder acontecer de maneira concorrente.

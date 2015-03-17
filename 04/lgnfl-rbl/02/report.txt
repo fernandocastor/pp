@@ -1,9 +1,0 @@
-Configuração do processador: Intel(R) Core(TM) i7-3770 - 3.40GHz - 8 núcleos virtuais.
-
-Para cada configuração descrita abaixo, encontra-se a média de tempo das 3 últimas execuçoẽs de 10.
-Foram utilizados como parametros N = 8 e K = 4294967296 (2^32).
-
-+ Contador tipo `AtomicInteger` - 10ms cada leitura: 7.200s
-+ Contador tipo `AtomicLong`    - 10ms cada leitura: 7.250s
-
-- Utilizar `AtomicInteger` ou `AtomicLong` para representar o contador tem um efeito semelhante a torná-lo `volatile` em termos de degradaçào de desempenho.

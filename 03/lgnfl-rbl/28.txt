@@ -1,1 +1,0 @@
-Embora o modificador volatile garanta que escritas e leituras independentes do campo `v` serão executadas atomicamente, é possível que a linha 10 execute uma divisão por zero pois as instruções internas do método write() podem ser reordenadas uma vez que o modelo de memória de java não garante que essas operações serão executadas em ordem.

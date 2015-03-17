@@ -1,9 +1,0 @@
-  A classe FastPath não provê exclusão mútua.
-  
-  Considere o seguinte cenário:
-      1. Thread A chama o método lock() e escreve `x = A`
-      2. Thread B chama o método lock() e escreve `x = B`
-      3. Thread A escreve `y = A`
-      4. Thread B escreve `y = B`
-      5. Thread B entra na região crítica
-      6. Thread A adquire o lock interno e entra na região crítica

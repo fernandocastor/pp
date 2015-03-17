@@ -1,1 +1,0 @@
-Sim. É necessário a utilização de barreiras de memória entre as linhas 10 e 11, e entre as linhas 15 e 16. Sem a utilização dessas barreiras pode acontecer o reordenamento das operações durante a execução concorrente dos métodos `enq()` e `deq()`.

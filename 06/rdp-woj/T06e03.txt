@@ -1,3 +1,0 @@
-No caso da primeira barreira nos temos cada thread utilizando o bus no caso em que adquiri e da release no lock. No melhor caso, ao haver uma modificação, nos teriamos o bus sendo utilizado para comunicação dos locks em n casos, caso uma thread libere o lock e uma consiga adquirir antes mesmo das outras notarem que a primeira havia liberado o lock. No pior dos casos, nos teriamos (n²+n)/2, caso em que todas as threads travariam o bus para poder chegar a modificação.
-
-No segundo caso, nos teriamos um tempo n de qualquer forma, pois o bus só seria travado para a modificação dos elementos do array, neste caso, cada thread iria transmitir a modificação do array uma única vez.

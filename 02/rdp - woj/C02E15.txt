@@ -1,9 +1,0 @@
-C02E15
-
-EXCLUSÃO MÚTUA
-
-Simulando a execução de duas threads, a primeira, A, passa direito pelo (x == i) e outra thread, B, entrar no lock, no caso de (x != i), nos vamos ter duas threads, A e B, executando ao mesmo tempo o mesmo código. Logo o código não provê segurança quanto a exclusão mútua.
-
-STARVATION-FREE
-
-É possível que uma thread fique presa no while (y == -1) e ao tentar sair, outra thread passe direto pelo loop e modifique o y, tornando-o diferente de -1. Como nada no código assegura que está thread terá um tempo reservado para sua execução, não podemos dizer que o algoritmo é starvation-free.

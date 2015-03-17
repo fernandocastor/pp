@@ -1,8 +1,0 @@
-Um dos principais fatores que impede que a memória funcione de forma sequencialmente consistente está relacionado as transformações que são realizadas no código pelo compilador e também pelo processador. Muitas dessas transformações envolvem reordenação de operações. Outro fator que está relacionado é o fato da memória ser composta por diversas camadas hierarquicas que dificultam com que as alterações sejam propagadas de maneira uniforme.
-
-Utilizar apenas atributos `volatile` não torna um programa sequencialmente consistente. A especificação de Java define que o comportamento de variaveis `volatile` respeiram uma relação de happens-before e apresenta exemplos de comportamentos permitidos pela relação happens-before que não são sequencialmente consistentes. [1]
-
-De maneira similar, as classes do pacote java.util.concurrent de maneira geral seguem as mesmas regras de acesso e atualização de memória das variáveis volatile [2]. Dessa forma, utilizar apenas variáveis do tipo AtomicReference não torna um programa sequencialmente consistente.
-
-[1] - http://docs.oracle.com/javase/specs/jls/se7/html/jls-17.html#jls-17.4.5
-[2] - http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/atomic/package-summary.html
