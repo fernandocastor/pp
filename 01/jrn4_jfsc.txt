@@ -1,0 +1,71 @@
+Disc: PP 2015.1
+Tit.: Trabalho 1
+Alunos: Jose fernando Santos de Carvalho
+        Josino Rodrigues Neto
+
+1- Explique as diferencas e semelhancas entre programas sequenciais, concorrentes, paralelos e distribuıdos. Em particular, enfatize em que diferem as noções de paralelismo e concorrencia. Use exemplos.
+
+Sequencial: Programa que executa uma sequência pre-definida de instruções para a solução de problemas. Apenas uma instrução é executada em determinado instante de tempo.
+Ex.:
+#!/bin/bash
+for i in {1..500}
+do
+   echo "Welcome $i times" 
+
+done
+—------------ 
+
+Concorrentes: Programas que dividem problemas entre seus filhos e comunicam-se a fim resolverem um problema de modo mais rápidos e barato. Não ha ordem predefinidas de tarefas.
+
+#!/bin/bash
+#Concorrente, mas não paralelo
+for i in {1..500}
+do
+   echo "Welcome $i times" & // APENAS 1 CPU
+   wait
+done
+
+Paralelo: processos executados em CPUs distintas ou Hardwares distintos (sistemas distribuídos) a fim de obter melhor performance e redução de custo.
+
+#!/bin/bash
+#Paralelo e concorrente
+for i in {1..500}
+do
+   echo "Welcome $i times" & \\OBRIGATORIAMENTE CADA THREAD SERÁ EXECUTADA POR UMA CPU DIFERENTE
+   [[ $((i%N_CPUS)) -eq 0 ]] && wait
+done
+
+Sistema Distribuído: programa responsável por gerenciar todos hardwares envolvidos no ecossistema do programa e disponibilizar uma interface para que seja possível utilizar o ambiente.
+
+2- Voce ja precisou construir programas paralelos, seja por motivos de estudo, seja por motivos profissionais? Escolha o mais complexo desses programas e descreva-o. Explique porque ele precisa realizar varias atividades ao mesmo tempo e em que consistiam essas atividades. Esse programa era “embaracosamente” paralelo ou exigia sincronizaçao entre as tarefas? Que problemas voce enfrentou ao construi-lo (ou ajudar a construi-lo)? Caso você nunca tenha construıdo um programa assim, procure na Internet um sistema com essas características e examine seu historico de desenvolvimento, seus bug reports e mensagens de commit, para tentar aprender algo sobre ele.
+
+Sistema Paralelo: Open-ZFS
+link: http://open-zfs.org/wiki/Main_Page
+link Release: https://github.com/illumos/illumos-gate/tree/master/usr/src/uts/common/fs/zfs
+
+Detalhes: Conhecido por seus mecanismos de segurança como checksum, snapshots e checkpoints, o ZFS utiliza paralelismo para escrita e leitura de arquivos em seu filesystem distribuído.
+Pelo que foi possível analisar, não é uma aplicação embaraçosamente paralela, mas necessita de mecanismos para sincronizar suas tasks a fim de não corromper os dados. Além disso, ha problemas de semântica como qualquer outro software. No entanto, não foi possível identificar problemas “difíceis de reproduzir[1]” e isso me deixou um pouco preocupado. Talvez, valesse a penas inseri-los em bugs conhecidos…. No entanto, são dados de apresentar-se.
+
+1. Lu, Lanyue et al. A Study of Linux File System Evolution
+
+Alguns comentários e notas encontrados:
+
+— DATA CORRUPTION
+dnode.c		5630 stale bonus buffer in recycled dnode_t leads to data corruption	14 days ago
+dnode_sync.c		5630 stale bonus buffer in recycled dnode_t leads to data corruption	14 days ago
+
+— DEADLOCK 
+dsl_deadlist.c	5056 ZFS deadlock on db_mtx and dn_holds	2 months ago
+dsl_deleg.c		5056 ZFS deadlock on db_mtx and dn_holds	2 months ago
+dsl_destroy.c	5056 ZFS deadlock on db_mtx and dn_holds	2 months ago
+
+— SEMANTIC
+dbuf.h			5531 NULL pointer dereference in dsl_prop_get_ds()	2 months ago
+space_map.h		5164 space_map_max_blksz causes panic, does not work	6 months ago\
+Makefile.am		Kernel header installation should respect --prefix	5 months ago
+
+— PERFORMANCE
+Rules.am	Revert "Disable GCCs aggressive loop optimization"	8 months ago
+
+Quotes
+“..simply discard it. We need to drop the vdev queue's lock to avoid a deadlock that we could encounter since this I/O will complete …”
