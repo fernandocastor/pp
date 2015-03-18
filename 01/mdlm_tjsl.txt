@@ -1,26 +1,26 @@
 1.
 Programas sequenciais:
-A execu√ß√£o √© feita em uma √∫nica thread.
-A ordem em que as intru√ß√µes s√£o listadas indica a ordem em que ser√£o executadas.
-Ex.: Compila√ß√£o de um programa utilizando GCC.
+A execuÁ„o È feita em uma ˙nica thread.
+A ordem em que as intruÁıes s„o listadas indica a ordem em que ser„o executadas.
+Ex.: CompilaÁ„o de um programa utilizando GCC.
 
 Programas concorrentes:
-As intru√ß√µes podem ser executadas numa ordem n√£o determin√≠stica, concorrentemente.
-Existe algum recurso que est√° sendo compartilhado entre a execu√ß√£o das intru√ß√µes (IO, CPU, mem√≥ria).
-Ex.: Programa baseados em eventos, que necessitam da intera√ß√£o com usu√°rio.
+As intruÁıes podem ser executadas numa ordem n„o determinÌstica, concorrentemente.
+Existe algum recurso que est· sendo compartilhado entre a execuÁ„o das intruÁıes (IO, CPU, memÛria).
+Ex.: Programa baseados em eventos, que necessitam da interaÁ„o com usu·rio.
 
 Programas paralelos:
-A execu√ß√£o √© feita em mais de uma thread.
-A execu√ß√£o das intru√ß√µes √© feita simultaneamente.
-A ordem em que as intru√ß√µes s√£o listadas em cada thread indica a ordem em que ser√£o executadas.
-Mas a ordem de execu√ß√£o de cada thread n√£o √© determin√≠stica.
-Ex.: Compila√ß√£o de programa utilizando multiplas instancias do GCC, atrav√©s do argumento -j do Make.
+A execuÁ„o È feita em mais de uma thread.
+A execuÁ„o das intruÁıes È feita simultaneamente.
+A ordem em que as intruÁıes s„o listadas em cada thread indica a ordem em que ser„o executadas.
+Mas a ordem de execuÁ„o de cada thread n„o È determinÌstica.
+Ex.: CompilaÁ„o de programa utilizando multiplas instancias do GCC, atravÈs do argumento -j do Make.
 
-Programas distribu√≠dos:
-S√£o executados em mais de um computador em uma rede.
-H√° comunica√ß√£o entre os n√≥s dessa rede.
-Ex.: O Icecream (fork do Distcc), em que a compila√ß√£o de um programa pode ser executada em v√°rias m√°quinas em uma rede.
+Programas distribuÌdos:
+S„o executados em mais de um computador em uma rede.
+H· comunicaÁ„o entre os nÛs dessa rede.
+Ex.: O Icecream (fork do Distcc), em que a compilaÁ„o de um programa pode ser executada em v·rias m·quinas em uma rede.
 
 2.
-O problema de rastreamento de arestas em um stream de v√≠deo para realidade aumentada foi o tema abordado no projeto de trabalho de gradua√ß√£o. Neste projeto houve implementa√ß√£o em GPU para viabilizar o processamento das imagens adquiridas em tempo real, uma vez que a utiliza√ß√£o de CPU n√£o conseguia realizar este objetivo. A execu√ß√£o dos processos consistia em receber v√°rios pontos da imagem e classific√°-los em conjuntos que representavam retas, a classifica√ß√£o destes conjuntos era executada de forma paralela.
-Os principais problemas encontrados no projeto foram: a modelagem do problema para identificar etapas menores que fossem isoladas e idependentes; limita√ß√µes de harware (a mem√≥ria dispon√≠vel em cada core √© bastante limitada); e principalmente o conhecimento da plataforma trabalhada.
+O problema de rastreamento de arestas em um stream de vÌdeo para realidade aumentada foi o tema abordado no projeto de trabalho de graduaÁ„o. Neste projeto houve implementaÁ„o em GPU para viabilizar o processamento das imagens adquiridas em tempo real, uma vez que a utilizaÁ„o de CPU n„o conseguia realizar este objetivo. A execuÁ„o dos processos consistia em receber v·rios pontos da imagem e classific·-los em conjuntos que representavam retas, a classificaÁ„o destes conjuntos era executada de forma paralela.
+Os principais problemas encontrados no projeto foram: a modelagem do problema para identificar etapas menores que fossem isoladas e idependentes; limitaÁıes de harware (a memÛria disponÌvel em cada core È bastante limitada); e principalmente o conhecimento da plataforma trabalhada.
