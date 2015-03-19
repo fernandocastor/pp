@@ -1,0 +1,26 @@
+1.
+Programas sequenciais:
+A execução é feita em uma única thread.
+A ordem em que as intruções são listadas indica a ordem em que serão executadas.
+Ex.: Compilação de um programa utilizando GCC.
+
+Programas concorrentes:
+As intruções podem ser executadas numa ordem não determinística, concorrentemente.
+Existe algum recurso que está sendo compartilhado entre a execução das intruções (IO, CPU, memória).
+Ex.: Programa baseados em eventos, que necessitam da interação com usuário.
+
+Programas paralelos:
+A execução é feita em mais de uma thread.
+A execução das intruções é feita simultaneamente.
+A ordem em que as intruções são listadas em cada thread indica a ordem em que serão executadas.
+Mas a ordem de execução de cada thread não é determinística.
+Ex.: Compilação de programa utilizando multiplas instancias do GCC, através do argumento -j do Make.
+
+Programas distribuídos:
+São executados em mais de um computador em uma rede.
+Há comunicação entre os nós dessa rede.
+Ex.: O Icecream (fork do Distcc), em que a compilação de um programa pode ser executada em várias máquinas em uma rede.
+
+2.
+O problema de rastreamento de arestas em um stream de vídeo para realidade aumentada foi o tema abordado no projeto de trabalho de graduação. Neste projeto houve implementação em GPU para viabilizar o processamento das imagens adquiridas em tempo real, uma vez que a utilização de CPU não conseguia realizar este objetivo. A execução dos processos consistia em receber vários pontos da imagem e classificá-los em conjuntos que representavam retas, a classificação destes conjuntos era executada de forma paralela.
+Os principais problemas encontrados no projeto foram: a modelagem do problema para identificar etapas menores que fossem isoladas e idependentes; limitações de harware (a memória disponível em cada core é bastante limitada); e principalmente o conhecimento da plataforma trabalhada.
