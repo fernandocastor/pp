@@ -37,6 +37,10 @@ done
 
 Sistema Distribuído: programa responsável por gerenciar todos hardwares envolvidos no ecossistema do programa e disponibilizar uma interface para que seja possível utilizar o ambiente.
 
+ssh remote_host1 "/bin/bash welcome.sh"
+ssh remote_host2 "/bin/bash welcome.sh"
+ssh remote_hostN "/bin/bash welcome.sh"
+
 2- Voce ja precisou construir programas paralelos, seja por motivos de estudo, seja por motivos profissionais? Escolha o mais complexo desses programas e descreva-o. Explique porque ele precisa realizar varias atividades ao mesmo tempo e em que consistiam essas atividades. Esse programa era “embaracosamente” paralelo ou exigia sincronizaçao entre as tarefas? Que problemas voce enfrentou ao construi-lo (ou ajudar a construi-lo)? Caso você nunca tenha construıdo um programa assim, procure na Internet um sistema com essas características e examine seu historico de desenvolvimento, seus bug reports e mensagens de commit, para tentar aprender algo sobre ele.
 
 Sistema Paralelo: Open-ZFS
@@ -51,13 +55,13 @@ Pelo que foi possível analisar, não é uma aplicação embaraçosamente parale
 Alguns comentários e notas encontrados:
 
 — DATA CORRUPTION
-dnode.c		5630 stale bonus buffer in recycled dnode_t leads to data corruption	14 days ago
+dnode.c			5630 stale bonus buffer in recycled dnode_t leads to data corruption	14 days ago
 dnode_sync.c		5630 stale bonus buffer in recycled dnode_t leads to data corruption	14 days ago
 
 — DEADLOCK 
-dsl_deadlist.c	5056 ZFS deadlock on db_mtx and dn_holds	2 months ago
+dsl_deadlist.c		5056 ZFS deadlock on db_mtx and dn_holds	2 months ago
 dsl_deleg.c		5056 ZFS deadlock on db_mtx and dn_holds	2 months ago
-dsl_destroy.c	5056 ZFS deadlock on db_mtx and dn_holds	2 months ago
+dsl_destroy.c		5056 ZFS deadlock on db_mtx and dn_holds	2 months ago
 
 — SEMANTIC
 dbuf.h			5531 NULL pointer dereference in dsl_prop_get_ds()	2 months ago
