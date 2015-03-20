@@ -1,0 +1,184 @@
+Disciplina: PP 2015.1
+Titúlo: Trabalho 1
+Alunos: Emiliano Firmino
+
+1) Explique as diferenças e semelhanças entre programas sequenciais,
+concorrentes, paralelos e distribuídos. Em particular, enfatize em que
+diferem as noções de paralelismo e concorrência. Use exemplos.
+
+Programa Sequencial:
+
+    Um Programa sequencial as instruções que compõem o program executam em
+apenas uma única thread de execução e somente esta acessa memória.
+
+Exemplo:
+1 int main () {
+2    int a = 0; # a = 0;
+3    int b = 0; # a = 0; b = 0;
+4    a = 1;     # a = 1; b = 0;
+5    b = a + 2; # a = 1; b = 3;
+6    return 0;
+7 }
+
+    Somente uma CPU e uma Thread(T1):
+    CPU: T1(L1), T1(L2), T1(L3), T1(L4), T1(L5), ...
+
+    Um programa é sequencial quando existe uma única thread de execução, as
+instruções e os valores das variáveis são intuitivos de acompanhar. Não é
+esperado que 'a' ou 'b' sejam alterados sem que exista uma instrução de
+atribuição no fluxo de execução, e pode-se inferior o valor das variáveis em
+qualquer momento do fluxo de execução.
+
+Programa Concorrente:
+
+    Um programa é dito concorrente quando as instruções executam em mais de uma
+thread, estas threads executam uma por vez no processador e são escalonadas
+pelo escalonador do sistema operacional. As threads compartilham o mesmo
+recursos de memória e processamento. Como os recursos de memória são
+compartilhados e o escalonamento é imprevisivel. Não existe garantias sobre a
+ordem de execução exceto quando utilizado (corretamente)  um recurso de
+sincronização entre threads.
+
+Exemplo:
+1  int shared = 0;
+2  void inc() {
+3      for (int i = 0; i < 100; i++) { shared++; }
+4  }
+5  void dec() {
+6     for (int j = 0; j < 100; j++) { shared--; }
+7  }
+8  int main() {           # T0
+9     launch_thread(inc); # T1
+10    launch_thread(dec); # T2
+11    wait_threads();     # Wait for T1 and T2 to finish
+12    printf("%d", shared); # What is the value of shared?
+13    return 0;
+14 }
+
+    CPU: T0, T0, T1, T2, T1, T1, T2, T1, T2, T2, ..., T0, T0
+
+    No pseudo código acima, são criadas mais duas threads. Uma incrementa a
+variável shared cem vezes e a outra decrementa cem vezes. Ambas as threads
+estão em execução ao mesmo tempo, porém como nesta máquina existe uma única
+CPU. Apenas uma thread executa por vez.
+
+A dúvida que fica é qual o valor de *shared* no printf. Para isso precisamos
+saber a natureza da operação ++ e --. Se essa instrução for atomica, o valor de
+*shared* é zero, se não for é impossível determinar até a execução, da mesma
+forma como não é possível determinar o valor exato durante a execução porque
+vai depender de qual thread foi escalonada. O valor vai mudar entre cada
+execução.
+
+Programa Paralelo:
+
+    Um programa é paralelo quando as instruções executam em mais de um thread e
+existe mais de um processador para executar, permitindo que threads executem no
+mesmo momento de tempo sobre a memória e outros recursos do sistema. Assim como
+em programas concorrentes é necessário uso (correto) de primitivas de
+sincronização para garantir consistência entre os recursos compartilhados.
+
+Exemplo:
+1  int shared = 0;
+2  void inc() {
+3      for (int i = 0; i < 100; i++) { shared++; }
+4  }
+5  void dec() {
+6     for (int j = 0; j < 100; j++) { shared--; }
+7  }
+8  int main() {           # T0
+9     launch_thread(inc); # T1
+10    launch_thread(dec); # T2
+11    wait_threads();     # Wait for T1 and T2 to finish
+12    printf("%d", shared); # What is the value of shared?
+13    return 0;
+14 }
+
+    CPU1: T0, T0, T1, T1, T2, T2, T1, T2, T1, T1, ...,   ,
+    CPU2:   ,   , T2, T2, T1, T1, T2, T1, T2, T2, ..., T0, T0
+
+    Reaproveitando o exemplo anterior, Este programa possui três threads de
+execução T0, T1 e T2 e dois processadores CPU1 e CPU2 que executam o programa
+de modo paralelo. Podemos visualizar que T1 e T2 executam ao mesmo tempo em
+processadores diferentes, ambos alteram o valor de *shared* ao mesmo tempo.
+
+    A execução é paralela, mas o acesso a memória é concorrente. Como ambos os
+processadores alteram o valor de *shared*. Um pode sobrescrever o valor do
+outro na memória e assim perder o incremento/decremento que foi feito pelo
+outro. Não é possível determinar o valor de *shared* no final da execução. O
+valor vai ser diferente a cada execução. Para que seja zero é necessário o uso
+de uma primitiva de sincronização que sincronize a leitura, alteração e escrita
+de *shared*.
+
+Programa Distribuído:
+
+    Um programa é distribuído quando o programa está espalhado em várias
+máquinas com processadores, memória e outros recursos não compartilhados entre
+si. Eles são conectados por uma rede de computadores que permite que se
+comuniquem por troca de mensagem e assim se coordenem para a correta execução
+do programa. Não existe uma memória global nesse sistema, cada máquina possui
+sua própria memória, processador e instância do programa. Permite a construção
+de sistemas robustos e tolerante a falhas, caso uma das máquinas caia o
+programa pode continuar rodando nas outras.
+
+Exemplo:
+    Um programa distribuído roda em oito máquina, sendo quatro em uma rede
+local e outras quatro em outra, ambas as redes são geograficamente distantes e
+são conectadas por uma VPN pela Internet.
+
+      MQ1 MQ2 MQ3 MQ4                                MQ5 MQ6 MQ7 MQ8
+       |   |   |   |                                  |   |   |   |
+<REDE>-----------------RT1 --> Internet (VPN) <-- RT2---------------<REDE>
+          LAN1                                             LAN2
+
+    Cada máquina comunica com a outra por meio de mensagens encapsuladas sobre
+o protocolo TCP/IP. Mensagens em uma mesma rede possui alta confiabilidade de
+entrega e baixo atraso, Mensagens entre redes diferentes, não é confiável e
+possui demora várias magnitudes maior que da rede local.
+
+    O programa em questão é de gestão de fábrica, as máquinas pares hospedam o
+banco de dados (MQ2, MQ4, MQ6 e MQ8) e as impares hospedam o servidor WEB que
+hospeda os serviços (MQ1, MQ3, MQ5 e MQ7). Elas mesmas garantem a consistência
+e replicação das alterações pela rede sem necessitar interferência do usuário,
+para ele o sistema é transparente, existe apenas um único serviço de gestão de
+fábrica.
+
+    Cada *site* possui redundância de 1 e caso ambos as máquinas falhem é
+possível redirecionar a requisição para uma máquina remota. Por exemplo, caso
+na LAN1 caia o servidor de banco de dados na máquina MQ2 e MQ4, o serviço não
+irá cair porque as requisições serão redirecionadas para MQ6 ou MQ8, porém
+demorará mais para a operação ser concluída devido ao atraso da rede.
+
+    Esse programa oferece robustez por ser tolerante a falhas locais em caso de
+queda das máquinas ou em caso de queda da conexão de internet. A complexidade
+fica a cargo da aplicação que precisa implementar um protocolo de replicação e
+resolução de conflitos decorrente de mudanças entre máquinas. Alteração não é
+instântanea entre máquinas a diferentes distâncias, a replicação em um máquina
+na mesma rede é mais rápida que entre duas máquinas de redes distintas. Nessa
+rede pode haver diferentes versões do programa em execução ao mesmo tempo.
+Necessitando atenção no processo de atualização pelo desenvolvedor e TI.
+
+    O programa em cada máquina pode ser sequencial, concorrente ou paralelo
+dependendo da implemetação e arquitetura da máquina, mas a interação entre as
+diversas máquinas compõem o programa distribuído.
+
+2) Você já precisou construir programas paralelos, seja por motivos de estudo,
+seja por motivos profissionais?  Escolha o mais complexo desses programas e
+descreva-o. Explique porque ele precisa realizar várias atividades ao mesmo
+tempo e em que consistiam essas atividades. Esse programa era embaraçosamente"
+paralelo ou exigia sincronização entre as tarefas? Que problemas você enfrentou
+ao construi-lo (ou ajudar a construi-lo)? Caso você nunca tenha construído um
+programa assim, procure na Internet um sistema com essas características e
+examine seu histórico de desenvolvimento, seus bug reports e mensagens de
+commit, para tentar aprender algo sobre ele.
+
+Sim, no trabalho e durante os estudos. O maior foi o TV Digital para Windows
+Phone, não é complexo arquiteturalmente, mas foi trabalhoso devido a falta de
+familiaridade com uso das primitivas de sincronização do Windows, quantidade de
+pontos de sincronização necessários entre os diversos componentes que compõem o
+sistema e código em C++. O fluxo de decodificação de frame de video passa por
+diversas threads entre as diversas camadas do sistema, desde o driver até o
+alimentação das amostras para o tocador de vídeo. Isso é implementado por meio
+de um pipeline que enfileira, processa e encaminha as amostras entre cada
+thread. Diversas vezes encontramos problemas de concorrência que corrompiam as
+estruturas e causam crash da aplicação por acesso ilegal a memória ou
+comportamentos bizarros causados indiretamente pela corrupção dos dados.
