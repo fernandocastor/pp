@@ -1,0 +1,176 @@
+﻿Programação Paralela - Trabalho 2
+=================================
+Daker Fernandes <dakerfp@gmail.com>; Emiliano Firmino <emiliano.firmino@gmail.com>
+
+Questão:
+--------
+1. Descreva a arquitetura do seu computador pessoal em termos dos seguintes
+   itens:
+* Frequência de Clock
+* Número de núcleos (físico e virtuais) do processador
+* Qual é a organização da memória? Ela é NUMA ou não? COMA? Barramento?
+* Número de níveis de cache e onde as memórias cache estão localizadas.
+* Como é mantida a coerência das memórias cache
+* As instruções atômicas não-triviais (por exemplo, um *LOAD* ou um *STOR*)
+  são instruções _triviais_ por fazerem apenas uma coisa) que estão
+  disponíveis e o que elas fazem.
+* A velocidade da memória que está rodando na sua máquina. Ela é rápida
+  o suficiente para o processador? Sim? Não? Por quê?
+
+== Máquina de Emiliano
+- VAIO FIT 15"
+- Intel Core i7-3537U (Ivy Brigde)
+- NVIDIA GeForce GT 735M
+- 8GB DDR3L-1600MHz SDRAM (11-11-11-28-1T)
+- 1TB HDD
+
+==== Frequência de Clock
+- Normal: 2GHz
+- Reduzido: 800Mhz
+- Turbo Boost: 3.1GHz (1 Núcleo), 2.9GHz (2 Núcleos)
+
+==== Número de Núcleos
+- Físico: 2
+- Virtual: 4
+
+==== Cache:
+- L1: 64KB (Instruções) / 64KB(Dados) [Por Núcleo]
+- L2: 256 [Por Núcleo], 512KB
+- L3: 4MB [Compartilhado]
+
+==== Manutenção da Coerência:
+- Protocolo de Coerência MESIF
+- Resolução no L3
+
+==== Arquitetura da Memória:
+- _Cache Coherent Non-Uniform Memory Access_ (ccNUMA)
+
+=== Como é mantida a coerência de cache?
+
+O _Ivy Brigde_ utiliza a mesma estratégia de coerência de cache desenvolvida
+para seu predecesor, Nehalem, no qual a resolução é realizada no cache L3 por
+meio do protocolo _MESIF_.
+
+O protocolo _MESIF_ é uma melhoria do protocolo _MESI_ que também é conhecido
+como protocolo Illinois devido ao desenvolvimento na Universidade de Illinois.
+Consiste em cinco flags por linha de cache, as flags são:
+
+*Modified* (M):
+
+Linha de cache foi alterada do que está armazenado na memória principal. Esta
+linha precisará ser copiada de volta na memória principal. Ao copiar de volta,
+a flag é alterada para *Exclusive*.
+
+*Exclusive* (E):
+
+Linha de cache é única no cache. Diferente do *Modified*, ela não foi alterada
+e representa o mesmo valor que é encontrado na memória principal. A qualquer
+momento pode ser alterada para *Shared* ou *Modified*.
+
+*Shared* (S):
+
+Linha de cache pode ser armazenada em outros caches e representa a mesma
+informação que existe na memória principal. A qualquer momento pode ser
+alterada para *Invalid* quando descartada.
+
+*Invalid* (I):
+
+Indica que o valor desta linha de cache é inválida.
+
+*Forward* (F):
+
+Flag que diferencia do protocolo _MESI_, está flag representa que um dos
+núcleos é proprietário desta linha de cache. Qualquer requisição de leitura
+será encaminhada ao proprietário que deverá informar o valor correto da linha
+de cache.
+
+.Relação entre pares de cache
+[frame="topbot",options="header"]
+|========================
+|   | M | E | S | I | F
+| M | ✗ | ✗ | ✗ | ✓ | ✗
+| E | ✗ | ✗ | ✗ | ✓ | ✗
+| S | ✗ | ✗ | ✓ | ✓ | ✓
+| I | ✓ | ✓ | ✓ | ✓ | ✓
+| F | ✗ | ✗ | ✓ | ✓ | ✗
+|========================
+
+.Tabela de Transição/Estado do _MESIF_:
+[frame="topbot",options="header"]
+|==================================================================
+| State | Clean/Dirty | Escrever? | Encaminhar? | Próximo Estado?
+| M     | Dirty       | Sim       | Sim         | -
+| E     | Clean       | Sim       | Sim         | MSIF
+| S     | Clean       | Não       | Não         | I
+| I     | -           | Não       | Não         | -
+| F     | Clean       | Não       | Sim         | SI
+|==================================================================
+
+=== Instruções atomicas não triviais que estão disponíveis e o que elas fazem?
+
+[glossary]
+*mfence*:
+
+Serializa todas as operações de escritas ocorridas antes da instrução.
+
+*lfence*:
+
+Serializa todas as operações de leitura ocorridas antes da instrução.
+
+*sfence*:
+
+Serializa todas as operações de leitura e escritas antes da instrução.
+
+*xchg* _src_,_dst_:
+
+Implicitamente atômica quando um operado é um endereço de memória, troca os
+valores de _src_ e _dst_. O uso do prefixo *lock* é desnecessário.
+
+*lock* [*_opcode_*] _arg1_,_arg2_:
+
+Prefixo *lock* garante que o *_opcode_* de leitura e escrita sejam executada
+atomicamente, válido apenas para: *adc*, *add*, *and*, *btc*, *btr*, *bts*,
+*cmpxchg*, *cmpxchg8b*, *cmpxchg16b*, *dec*, *inc*, *neg*, *not*, *or*, *sbb*,
+*sub*, *xadd*, *xchg* e *xor*. Uma exceção de opcode inválido é gerado quando é
+utilizado em opcode não suportado.
+
+=== A velocidade da memória que está rodando na sua máquina. Ela é rápida o suficiente para o processador? Sim? Não? Por quê?
+
+A memória da computador de Emiliano roda a 798.7MHz mensurado usando CPU-Z.
+
+Não é rapída o suficiente, o clock da memória é 2.5x menor que a frequência
+normal do processsador e ainda é necessário considerar o delay entre a chegada
+da requisição do processador para a memória e a entrega do dado.
+
+Por exemplo, considerando a memória DDR3 com a spec 11-11-11-28-1T
+(CAS-tRDP-tRP-tRAS-RAS-CMD). CAS indica o tempo entre a chegada da requisição e
+a RAM responder com o valor em ciclos de clock. Essa memória possui CAS de 11
+ciclos, cada ciclo é 1.25ns, são gastos 13.75ns.
+
+O clock normal da CPU é 2GHz, que equivale a um ciclo de clock de 0.5ns, são
+perdidos 27.5 ciclos de clock entre a requisição e obter a informação da
+memória obter a informação da memória principal.
+
+
+== Referência
+http://ark.intel.com/pt-br/products/72054/Intel-Core-i7-3537U-Processor-4M-Cache-up-to-3_10-GHz[Intel(R) Core(TM) i7-3537U Processor]
+
+http://htor.inf.ethz.ch/publications/img/ramos-hoefler-cc-modeling.pdf[Modelling Communication in Cache Coherent Systems]
+
+http://www.realworldtech.com/common-system-interface/5/[Coherency Leaps Forwad at Intel]
+
+http://en.wikipedia.org/wiki/MESIF_protocol[Wiki MESIF Protocol]
+
+http://sc.tamu.edu/systems/eos/nehalem.pdf[Architecture of Nehalem]
+
+https://researchspace.auckland.ac.nz/bitstream/handle/2292/11594/MESIF-2009.pdf?sequence=6[MESIF: A Two-Hop Cache Coherency Protocol for Point-to-Point Interconnects]
+
+http://wiki.osdev.org/X86-64_Instruction_Encoding[OSDev.org X86-64 Instruction Encoding]
+
+http://x86.renejeschke.de/html/file_module_x86_id_159.html[x86 Instruction Set Reference: LOCK]
+
+http://bartoszmilewski.com/2008/11/05/who-ordered-memory-fences-on-an-x86/[Who ordered memory fences on an x86?]
+
+https://peeterjoot.wordpress.com/2009/12/04/intel-memory-ordering-fence-instructions-and-atomic-operations/[Intel memory ordering, fence instructions, and atomic operations]
+
+http://www.7-cpu.com/cpu/IvyBridge.html[Ivy Bridge Latencies]
