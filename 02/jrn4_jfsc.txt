@@ -2,38 +2,38 @@ Nome: Jose Fernando Santos de Carvalho - jfsc
         Josino Rodrigues Neto - jrn4
 Disciplina: pp 2015.1
 
-Quest„o 1:
-        FrequÍncia de Clock: 
+Questão 1:
+        Frequência de Clock: 
         R: 2.3 GHz + Turbo Boost (2.9GHz);
         
-        N˙mero de n˙cleos (fÌsicos e virtuais) do procesador: 
+        Número de núcleos (físicos e virtuais) do procesador: 
         
-        R: 2 cores fÌsicos e 4 virtuais(Hyper Threading);
+        R: 2 cores físicos e 4 virtuais(Hyper Threading);
         
-        Qual È a organizaÁ„o da memÛria? Ela È NUMA ou n„o? COMA? Barramento?:
+        Qual é a organização da memória? Ela È NUMA ou não? COMA? Barramento?:
 
         R:
         
-        N˙mero de nÌveis de cache e onde as memÛrias cache est„o localizadas: 
+        Número de níveis de cache e onde as memórias cache estão localizadas: 
         
-        R: NÌveis L1 de 32k (por core), L2  de 256KB (por core) e L3 de 3M (compartilhado no mesmo chip do processador);
+        R: Níveis L1 de 32k (por core), L2  de 256KB (por core) e L3 de 3M (compartilhado no mesmo chip do processador);
         
-        Como È mantida a coerÍncia das memÛrias cache: 
+        Como é mantida a coerência das memórias cache: 
         
-        R: Usando o Strong Hardware Memory Model da intel respons·vel por adotar a sem‚ntica de acquire and release possibilitando que todos os cores do processador visualizem instruÁıes na mesma ordem.
+        R: Usando o Strong Hardware Memory Model da intel responsável por adotar a semântica de acquire and release possibilitando que todos os cores do processador visualizem instruções na mesma ordem.
         
-        InstruÁıes AtÙmicas n„o-triviais: 
+        Instruções Atômicas não-triviais: 
         
-        R: fetch_and_store (encontra e substitue a vari·vel), fetch_and_add (incremento x+=y), compare_and_swap (comparar e trocar)
+        R: fetch_and_store (encontra e substitue a variável), fetch_and_add (incremento x+=y), compare_and_swap (comparar e trocar)
         
-        A velocidade da memÛria que est· rodando na sua m·quina. Ela È r·pida o suficiente para o processador? Sim? N„o? Por quÍ? 
+        A velocidade da memória que está rodando na sua máquina. Ela é rápida o suficiente para o processador? Sim? Não? Por quê? 
         
-        R: Sim. As aplicaÁıes utilizadas respondem bem as interaÁıes e n„o houve necessidade de um upgrade. No entanto, vale salientar que a apple fez uma recente melhoria no sistema de alocaÁ„o de memÛria que torna seu uso mais eficiente.
+        R: Sim. As aplicações utilizadas respondem bem as interações e não houve necessidade de um upgrade. No entanto, vale salientar que a apple fez uma recente melhoria no sistema de alocação de memória que torna seu uso mais eficiente.
 
 
 
 
-ReferÍncias:
+Referências:
 Weak vs. Strong Memory Models. http://preshing.com/20120930/weak-vs-strong-memory-models/
 Atomic Operations. http://software.intel.com/en-us/node/506090
 Memory Consistency. http://software.intel.com/en-us/node/506092
