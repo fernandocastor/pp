@@ -1,0 +1,65 @@
+1. Descreva a arquitetura do seu computador pessoal em termos dos seguintes itens:
+- Frequência de clock
+3.40 GHz
+Ref: [1]
+
+- Número de núcleos (físicos e virtuais) do processador.
+4 Cores
+8 Threads
+Ref: [1]
+
+- Qual é a organização da memória? Ela é NUMA ou não? COMA? Barramento?
+SMP - Symmetric Multiprocessing
+Dual Channel DDR3
+Bandwidth 25.6 GB/s
+Ref: [1]
+
+- Número de níveis de cache e onde as memórias cache estão localizadas.
+Level 1 cache size:
+	> 4 x 32 KB 8-way set associative instruction caches
+	> 4 x 32 KB 8-way set associative data caches
+Level 2 cache size:
+	> 4 x 256 KB 8-way set associative caches
+Level 3 cache size:
+	> 8 MB 16-way set associative shared cache
+Ref: [1]
+
+- Como é mantida a coerência das memórias cache
+Utilizando o protocolo MESIF.
+Ref: [2][3]
+
+- As instruções atômicas não-triviais (por exemplo, um LOAD ou um STOR são instruções "triviais"€ por fazerem apenas uma coisa) que estão disponíveis e o que elas fazem.
+CMPXCHG:
+	TEMP <- DEST
+	IF accumulator = TEMP
+		THEN
+			ZF <- 1;
+			DEST <- SRC;
+		ELSE
+			ZF <- 0;
+			accumulator <- TEMP;
+			DEST <- TEMP;
+	FI;
+
+XADD:
+	TEMP <- SRC + DEST;
+	SRC <- DEST;
+	DEST <- TEMP;
+
+BTC:
+	CF <- Bit(BitBase, BitOffset);
+	Bit(BitBase, BitOffset) <- NOT Bit(BitBase, BitOffset);
+
+Entre outras...
+Ref: [4]
+
+- A velocidade da memória que está rodando na sua máquina. Ela é rápida o suficiente para o processador? Sim? Não? Por quê?
+Clock: 200 MHz
+Transfer Rate: 12800 MB/s
+Ref: [5]
+
+[1] http://www.cpu-world.com/CPUs/Core_i7/Intel-Core%20i7-3770.html
+[2] http://en.wikipedia.org/wiki/MESIF_protocol
+[3] http://sc.tamu.edu/systems/eos/nehalem.pdf
+[4] http://www.intel.com/content/dam/www/public/us/en/documents/manuals/64-ia-32-architectures-software-developer-instruction-set-reference-manual-325383.pdf
+[5] http://en.wikipedia.org/wiki/DDR3_SDRAM
