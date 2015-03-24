@@ -1,0 +1,51 @@
+Trabalho 2 - Hernandes Maciel
+
+1_clock é a velocidade do processador é 2.53GHZ
+clock nada mais é do que a frequência com que o processador consegue executar as tarefas. Ou seja, quanto maior a frequência (o clock), menor será o tempo de execução e, portanto, mais rápido será o processador.
+
+2_Núcleos físicos 1 Virtuais 4
+
+3_Acesso Não Uniforme à Memória - NUMA
+É conhecida por sua caracteristica de pode escalar centenas de processadores.
+
+4_O ciclo de instrução é composto do ciclo de memória mais o ciclo de execução. A tecnologia possibilitou um aumento de velocidade muito maior para UCP do que para memória principal, causando um gargalo. 
+Solução: colocar uma memória intermediária conhecida como cache. 
+Nível L1: dentro do processador. 
+Nível L2: fora do processador na placa mãe
+
+5_O mecanismo de cache representa a idéia da memória virtual em
+que os dados armazenados ficam mais próximos do processador
+do que da memória principal. O objetivo principal da cache é
+prover os dados ao processador de uma forma mais rápida do que
+a memória principal.
+
+6_Stor - onde valores utilizados por instruções store são reusados de forma individual;
+Load - que reusa valores de instruções de load também de forma individual;
+(load não precisa fazer novo acesso a memoria, visto que seu valor já está disponível.)
+
+7_Sim, Por que, Não utilizo programas gráficos no meu computador, este tipo de aplicativos requer memória de vídeo, as L1 e L2. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
