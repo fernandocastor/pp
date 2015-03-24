@@ -24,6 +24,138 @@ Questão:
 - 8GB DDR3L-1600MHz SDRAM (11-11-11-28-1T)
 - 1TB HDD
 
+.Detalhes da CPU pelo lscpu
+------------------------------------------
+Arquitetura:           x86_64
+Modo(s) operacional da CPU32-bit, 64-bit
+Byte Order:            Little Endian
+CPU(s):                4
+On-line CPU(s) list:   0-3
+Thread(s) per núcleo   2
+Núcleo(s) por soquete: 2
+Soquete(s):            1
+Nó(s) de NUMA:         1
+ID de fornecedor:      GenuineIntel
+Família da CPU:        6
+Modelo:                58
+Step:                  9
+CPU MHz:               775.000
+BogoMIPS:              4988.86
+Virtualização:         VT-x
+cache de L1d:          32K
+cache de L1i:          32K
+cache de L2:           256K
+cache de L3:           4096K
+NUMA node0 CPU(s):     0-3
+------------------------------------------
+
+.Detalhes da CPU no /proc/cpuinfo
+------------------------------------------
+processor          : 0
+vendor_id          : GenuineIntel
+cpu family         : 6
+model              : 58
+model name         : Intel(R) Core(TM) i7-3537U CPU @ 2.00GHz
+stepping           : 9
+microcode          : 0x15
+cpu MHz            : 1500.000
+cache size         : 4096 KB
+physical id        : 0
+siblings           : 4
+core id            : 0
+cpu cores          : 2
+apicid             : 0
+initial apicid     : 0
+fpu                : yes
+fpu_exception      : yes
+cpuid level        : 13
+wp                 : yes
+flags              : <a lot!>
+bogomips           : 4988.86
+clflush size       : 64
+cache_alignment    : 64
+address sizes      : 36 bits physical, 48 bits virtual
+power management:
+
+processor          : 1
+vendor_id          : GenuineIntel
+cpu family         : 6
+model              : 58
+model name         : Intel(R) Core(TM) i7-3537U CPU @ 2.00GHz
+stepping           : 9
+microcode          : 0x15
+cpu MHz            : 775.000
+cache size         : 4096 KB
+physical id        : 0
+siblings           : 4
+core id            : 0
+cpu cores          : 2
+apicid             : 1
+initial apicid     : 1
+fpu                : yes
+fpu_exception      : yes
+cpuid level        : 13
+wp                 : yes
+flags              : <a lot!>
+bogomips           : 4988.86
+clflush size       : 64
+cache_alignment    : 64
+address sizes      : 36 bits physical, 48 bits virtual
+power management:
+
+processor          : 2
+vendor_id          : GenuineIntel
+cpu family         : 6
+model              : 58
+model name         : Intel(R) Core(TM) i7-3537U CPU @ 2.00GHz
+stepping           : 9
+microcode          : 0x15
+cpu MHz            : 775.000
+cache size         : 4096 KB
+physical id        : 0
+siblings           : 4
+core id            : 1
+cpu cores          : 2
+apicid             : 2
+initial apicid     : 2
+fpu                : yes
+fpu_exception      : yes
+cpuid level        : 13
+wp                 : yes
+flags              : <a lot!>
+bogomips           : 4988.86
+clflush size       : 64
+cache_alignment    : 64
+address sizes      : 36 bits physical, 48 bits virtual
+power management:
+
+processor          : 3
+vendor_id          : GenuineIntel
+cpu family         : 6
+model              : 58
+model name         : Intel(R) Core(TM) i7-3537U CPU @ 2.00GHz
+stepping           : 9
+microcode          : 0x15
+cpu MHz            : 775.000
+cache size         : 4096 KB
+physical id        : 0
+siblings           : 4
+core id            : 1
+cpu cores          : 2
+apicid             : 3
+initial apicid     : 3
+fpu                : yes
+fpu_exception      : yes
+cpuid level        : 13
+wp                 : yes
+flags              : <a lot!>
+bogomips           : 4988.86
+clflush size       : 64
+cache_alignment    : 64
+address sizes      : 36 bits physical, 48 bits virtual
+power management:
+------------------------------------------
+
 ==== Frequência de Clock
 - Normal: 2GHz
 - Reduzido: 800Mhz
@@ -35,7 +167,7 @@ Questão:
 
 ==== Cache:
 - L1: 64KB (Instruções) / 64KB(Dados) [Por Núcleo]
-- L2: 256 [Por Núcleo], 512KB
+- L2: 256 [Por Núcleo]
 - L3: 4MB [Compartilhado]
 
 ==== Manutenção da Coerência:
