@@ -166,8 +166,8 @@ power management:
 - Virtual: 4
 
 ==== Cache:
-- L1: 64KB (Instruções) / 64KB(Dados) [Por Núcleo]
-- L2: 256 [Por Núcleo]
+- L1: 32KB (Instruções); 32KB (Dados); [Por Núcleo]
+- L2: 256KB [Por Núcleo]
 - L3: 4MB [Compartilhado]
 
 ==== Manutenção da Coerência:
