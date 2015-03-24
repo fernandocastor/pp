@@ -1,0 +1,29 @@
+Silas Garrido - sgtcs@cin.ufpe.br
+
+1.1: 1.7GHz com turbo max de 2.7GHz.
+
+1.2: Dois núcleos físicos e dois virtuais.
+
+1.3: Faz uso do SMP (Symmetric Multi-Processing), cuja característica é o compartilhamento da memória pelos diferentes processadores. Adicionalmente, observando o manual do Ubuntu 14.04 [2], é possível observar implementações para o caso de uma "Non-Uniform Memory Architecture (NUMA)".
+
+1.4: Possui três níveis de cache: L1, L2 e L3. Todos os níveis estão localizados dentro da CPU.
+
+1.5: Quando a CPU vai buscar alguma informação na memória, antes de verificar na memória principal -- que é mais lenta -- ele primeiro procura no cache L1 -- mais rápida --; caso não encontre ele vai na L2 -- segunda mais rápida --; depois na L3 -- terceira mais rápida --. A distribuição delas é feita da seguinte maneira: a cache L1 está presente em cada um dos núcleos (quatro); a cache L2 está presente para cada par de núcleos; e a cache L3 é única e compartilhada. A coerência da cache é mantida de forma que quando um dado, replicado em vários locais, for alterado em uma determinada região, um mecanismo específico (circuito) se encarregue de invalidar ou atualizar as outras cópias. 
+
+1.6: De acordo com o manual da intel [1], basicamente, foi possível observar três instruções atômicas não-triviais:
+FetchAdd: Incrementa um valor na memória sem riscos de incosistência.
+--
+Swap: Compara dois valores de maneira isolada, garantindo que a comparação seja feita com dois valores consistentes.
+--
+CAS AtomicOps: Utilizado para comparar conteúdos de memória antes e depois de uma determinada transação. Se a comparação indicar que os valores são iguais, a troca é realizada. Isso garantirá que o conteúdo dessa memória não tenha sido alterado por um outro processo rodando em paralelo no momento em que a transação estava sendo feita.
+--
+
+1.7:
+Clock da memória: 200MHz
+Tempo de ciclo: 5ns
+Velocidade do clock: 800MHz
+Frequência indicada pelo fabricante: 1600MHz
+Não, pois o processador leva muito mais tempo lendo/escrevendo uma instrução na memória do que processando-as (gargalo). Para contornar essa situação diferentes níveis de memórias cache são utilizados, com tempos de leitura/escrita mais rápidos.
+
+[1] http://ark.intel.com/pt-br/products/81016/Intel-Core-i5-4210U-Processor-3M-Cache-up-to-2_70-GHz
+[2] http://manpages.ubuntu.com/manpages/trusty/man7/numa.7.html
