@@ -12,7 +12,7 @@ Questão 1:
         
         Qual é a organização da memória? Ela È NUMA ou não? COMA? Barramento?:
 
-        R:
+        R: SMP (symmetric multiprocessing) processadores e memórias linkadas pela BUS (como ethernet)
         
         Número de níveis de cache e onde as memórias cache estão localizadas: 
         
