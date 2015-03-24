@@ -5,32 +5,30 @@
 #   Victor Rocha Neves
 #  
 # 1 - Descreva a arquitetura do seu computador pessoal em termos dos seguintes itens:
-# Comandos usados no linux:
-# $ lscpu
-# $ cat /proc/cpuinfo
-# $ sudo lshw -class processor
-# $ sudo lshw -class memory
-# $ hardinfo (Programa que gera um ótimo relatorio sobre todo sistema)
 #
 ##################################################################
 
 Processador: Intel(R) Core(TM) i5-2410M CPU @ 2.30GHz. Model 42
 (Codename: SandyBridge)
 
+------------------------------------------------------------------
 a)Frequencia de clock
 2300 MHz
 
+------------------------------------------------------------------
 b)Numero de nucleos (fisicos e virtuais) do processador
 2 físicos com hythreading (4 no total)
 $ cat /proc/cpuinfo | grep processor | wc -l
 4 (Eg.: 2 cores and hyperthreading would be reported as a processor with 4 cores)
 
+------------------------------------------------------------------
 c) Qual e a organizacao da memoria? Ela e NUMA ou nao? COMA? Barramento?
-NUMA 
+SMP - Symetric Multiprocessing
+Dual Channel DDR3 
 Não há nenhuma informação sobre o uso de COMA
 Barramento: 5 GT/s DMI (Gigatransfer per second - Direct Memory Interface)
 
-
+------------------------------------------------------------------
 d) Numero de niveis de cache e onde as memorias cache estao localizadas
 3 níveis de cache
 Level 1 (L1) cache possui 64KB para cada CORE.
@@ -41,6 +39,7 @@ Level 2 (L2) cache size  possui 256KB para cada core.
 Level 3 (L3) cache possui 3MB de tamanho e fica no processador. 
   Contudo esta cache é compartilhada entre os cores, pela GPU e pelos controladores de mídia.
 
+------------------------------------------------------------------
 e) Como e mantida a coerencia das memorias cache
 MESI based protocol (MESIF)
 Modified
@@ -49,15 +48,44 @@ Shared
 Invalid
 Foward
 
-Obs. Nos processadores da família Sandy Bridge as cahces L2 são non-inclusive e as L3 são inclusive.
+Obs. Vale salientar que processadores da família Sandy Bridge as cahces L2 são non-inclusive e as L3 são inclusive.
 
-
+------------------------------------------------------------------
 f) As instrucoes atomicas nao-triviais (por exemplo, um LOAD ou um STOR sao 
     instrucoes "triviais" por fazerem apenas uma  coisa) que estao disponiveis e o que elas fazem.
+XADD:
+	TEMP <- SRC + DEST;
+	SRC <- DEST;
+	DEST <- TEMP;
 
+BTC:
+	CF <- Bit(BitBase, BitOffset);
+	Bit(BitBase, BitOffset) <- NOT Bit(BitBase, BitOffset);
 
+Entre outras.
+
+------------------------------------------------------------------
 g) A velocidade da memoria que esta rodando na sua maquina. Ela e rapida o 
     suficiente para o processador? Sim? Nao? Por que?
-Não, devido a barreira física de acesso (Memory Wall). Visto que, não seria necessário o uso da Cache caso a velocidade de acesso a memória fosse suficiente.
-A velocidade média de acesso a memória principal está em 10GB/s (21.3GB/s na especificação), contudo em memórias NUMA essa velocidade não é uniforme. 
+Não. 
+Visto que, não seria necessário o uso da Cache caso a velocidade de acesso a memória fosse suficiente.
+Clock Memória: 166MHz   (Clock Processador: 3.2GHz)
+Transfer Rate: 10666MB/s
 
+------------------------------------------------------------------
+Referências:
+
+ Comandos usados no linux:
+ $ lscpu
+ $ cat /proc/cpuinfo
+ $ sudo lshw -class processor
+ $ sudo lshw -class memory
+ hardinfo (Programa que gera um ótimo relatorio sobre todo sistema)
+
+Informações detalhadas do Processador
+http://www.cpu-world.com/CPUs/Core_i5/Intel-Core%20i5%20Mobile%20I5-2410M.html
+
+Informações da Memória:
+http://en.wikipedia.org/wiki/DDR3_SDRAM
+
+Instruction Set para processadores Inter http://www.intel.com/content/dam/www/public/us/en/documents/manuals/64-ia-32-architectures-software-developer-instruction-set-reference-manual-325383.pdf
