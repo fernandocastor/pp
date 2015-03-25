@@ -1,0 +1,17 @@
+
+1) Explique as diferencas e semelhancas entre programas sequenciais, concorrentes, paralelos e distribuıdos. Em particular, enfatize em que diferem as noções de paralelismo e concorrencia. Use exemplos.
+
+Programas sequenciais são programas em que cada passo do algoritmo é executado sequencialmente, sempre passo após passo. Um programa simples que lê uma lista de palavras e as ordena é um exemplo de programa sequêncial.
+
+Programas concorrentes compartilham/competem por algum recurso. Esses recursos podem ser tempo de execução num processador, necessitando ser escalonados. Podem ainda ser dados, no caso de memória compartilhada, ou recursos de um sistema como controle de dispositivos de IO. Um exemplo clássico disso são programas com threads em arquiteturas com um único núcleo que precisam ser escalonados e portanto concorrem pelo tempo de processamento. Programas modelados para serem executados concorrentemente podem ser paralelizados ou distribídos, mas não necessariamente o serão, como o exemplo do processador com um único núcleo.
+
+Programas paralelos são programas que executam intruções simultaneamente, isto é, no mesmo intante de tempo. Há vários tipos de paralelismo, alguns são de baixo nível (de bits, de instrução) e outros de mais alto nível, que obriga ao programador a declarar explicitamente. Um exemplo desse tipo de paralelismo é a programação em GPGPUs para resolver algoritmos embaraçosamente paralelos, como por exemplo aplicar convoluções em imagens.
+
+Programas distribuídos são programas que executam em máquinas distintas, com um fraco acoplamento, potêncialmente, porém não necessariamente, em paralelo e/ou concorrente. Um exemplo de programa distribuído é o blockchain do bitcoin.
+
+
+2) Voce ja precisou construir programas paralelos, seja por motivos de estudo, seja por motivos profissionais? Escolha o mais complexo desses programas e descreva-o. Explique porque ele precisa realizar varias atividades ao mesmo tempo e em que consistiam essas atividades. Esse programa era “embaracosamente” paralelo ou exigia sincronizaçao entre as tarefas? Que problemas voce enfrentou ao construi-lo (ou ajudar a construi-lo)? Caso você nunca tenha construıdo um programa assim, procure na Internet um sistema com essas características e examine seu historico de desenvolvimento, seus bug reports e mensagens de commit, para tentar aprender algo sobre ele.
+
+Já tive que implementar um algoritmo de visão computacional em tempo real. Para dar conta do volume e tráfego do problema era necessário paralelizar o algoritmo. Para tal, o processador hx3100, um tipo de DSP, foi ideal. Apesar do problema ser embaraçosamente paralelo, em que cada pixel de saída dependia apenas das informações de algumas linhas da imagem, cada núcleo do DSP tinha menos memória que as n linhas necessárias. A solução criada teve que usar conjuntos onde alguns núcleos escravos detêm cada uma linha da imagem e computa os resultados parciais e um mestre combina os resultados parciais no resultado final. O principal
+
+desafio foi descobrir como quebrar a operação e evitar perder tempo tanto no mestre quanto nos escravos para aumentar a vazão do algoritmo.
