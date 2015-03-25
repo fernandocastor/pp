@@ -36,38 +36,23 @@ philosophers n.
 __Exercício 2__: For each of the following, state whether it is a safety or
 liveness property. Identify the bad or good thing of interest.
 
-1. Patrons are served in the order they arrive
+1. Patrons are served in the order they arrive. (__resposta__: safety)
 
-__resposta__: safety.
-
-2. What goes up must come down.
-
-__resposta__: liveness.
+2. What goes up must come down. (__resposta__: liveness)
 
 3. If two or more processes are waiting to enter their critical sections, at
-least one succeeds.
-
-__resposta__: liveness.
+least one succeeds. (__resposta__: liveness)
 
 4. If an interrupt occurs, then a message is printed within one second.
+(__resposta__: safety)
 
-__resposta__: safety.
+5. If an interrupt occurs, then a message is printed. (__resposta__: liveness)
 
-5. If an interrupt occurs, then a message is printed.
+6. The cost of living never decreases. (__resposta__: safety)
 
-__resposta__: liveness.
+7. Two things are certain: death and taxes. (__resposta__: liveness)
 
-6. The cost of living never decreases.
-
-__resposta__: safety.
-
-7. Two things are certain: death and taxes.
-
-__resposta__: liveness.
-
-8. You can always tell a Harvard man.
-
-__resposta__: safety.
+8. You can always tell a Harvard man. (__resposta__: safety)
 
 __Exercício 3__: In the producer–consumer fable, we assumed that Bob can see
 whether the can on Alice’s windows ill is up or down. Design a
@@ -138,8 +123,13 @@ __resposta__:
 .Aplicando o Limite para N -> Infinito, P/N -> 0
   T = (1 - p)
 
-.Aplicando a razão (N -> Infinito)
-S = 1 / [(1 - p) + p/n] = 1 / (1 - p) = 1 / 0.4 = 2.5
+.Aplicando a razão (para N -> Infinito)
+----
+  S = 1 / [(1 - p) + p/n]
+    = 1 / (1 - p)
+    = 1 / 0.4
+    = 2.5
+----
 
 Portanto o ganho máximo é 2.5x do tempo em máquina uniprocessador.
 
@@ -150,10 +140,42 @@ Portanto o ganho máximo é 2.5x do tempo em máquina uniprocessador.
   a programmer to replace the sequential part with an improved version that runs
   k times faster. What value of k should you require?
 
-* Suppose the sequential part can be sped up three-fold, and when we do so, the
+* Suppose the sequential part can be speed up three-fold, and when we do so, the
   modified program takes half the time of the original on n processors. What
   fraction of the overall execution time did the sequential part account for?
   Express your answer as a function of n.
+
+__resposta__:
+
+----
+  T_Seq -> Tempo Execução Sequencial
+  T_Prll -> Tempo Execução Paralelo
+
+  Equações:
+    I:   T1(n)     = T_Seq1 + T_Prll(n)
+    II:  T2(n)     = T_Seq2 + T_Prll(n) = T_Seq/3 + T_Prll(n) = T1/2
+    III: T_Seq1    = 1-p
+    IV:  T_Seq2    = T_Seq1/3 = (1-p)/3
+    IV:  T_Prll(n) = p/n
+
+  Resolução:
+
+    T2(n)              = 2T1(n)
+    T_Seq/3   + T_Prll = 2T_Seq + 2T_Prll)
+    (1-p)/3   + T_Prll = 2 - 2p + 2T_Prll
+    1/3 - p/3 + T_Prll = 2 - 2p + 2T_Prll
+    1   - p  + 3T_Prll = 6 - 6p + 6T_Prll
+         (6 - 3)T_Prll = 1 - p - 6 + 6p
+               3T_Prll = 5p - 5
+                  3p/n = 5p - 5
+                    3p = 5pn - 5n
+              5pn - 3p = 5n
+             p(5n - 3) = n
+                   p = n/(5n - 3)
+
+  Portanto:
+    P(n) = n / (5n - 3)
+----
 
 __Exercício 7__: Running your application on two processors yields a speedup
 of S2. Use Amdahl’s Law to derive a formula for Sn, the speedup on n
@@ -164,3 +186,30 @@ executes five zillion instructions per second, or a ten-processor
 multiprocessor where each processor executes one zillion instructions per
 second. Using Amdahl’s Law, explain how you would decide which to buy for a
 particular application.
+
+__resposta__:
+
+------
+Proc1 = 5z/s; n1 = 1
+Proc2 = 1z/s; n2 = 10
+
+R = Proc2/Proc1 = 5
+
+T_Proc1 = [(1-p) + (p/n1)] / R
+T_Proc2 = (1-p) + (p/n2)
+
+Resolução:
+  T_Proc2 < T_Proc1
+  1 - p + p/n2 < 1/R * [1 - p + p/n1]
+  1 - p + p/10 < 1/5 * [1 - p + p/1]
+  5 - 5p + p/2 < 1
+  10 - 10p + p < 2
+       10 - 9p < 2
+          - 9p < 2 - 10
+          - 9p < -8
+            9p > 8
+             p > 8/9 ~= 0.88888...
+------
+
+Portanto para que o processador de 1z/s apresente desempenho superior o
+programa precisa ter mais de 88.89% de parte paralelizável.
