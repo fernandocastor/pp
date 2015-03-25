@@ -5,18 +5,19 @@ Daker Fernandes <dakerfp@gmail.com>; Emiliano Firmino <emiliano.firmino@gmail.co
 Questão:
 --------
 Do livro AMP, devem ser feitos (no mínimo) os seguintes exercícios:
+
 *Capítulo 1*. 1, 2, 6, 8
 
-__*Exercício 1*__: The dining philosophers problem was invented by E. W.
+__Exercício 1__: The dining philosophers problem was invented by E. W.
 Dijkstra, a concurrency pioneer, to clarify the notions of deadlock and
 starvation freedom. Imagine five philosophers who spend their lives just
 thinking and feasting. They sit around a circular table with five chairs. The
-table has a big plate of rice.  How- ever, there are only five chopsticks (in
-the original formulation forks) available, as shown in Fig. 1.5. Each
-philosopher thinks.  When he gets hungry, he sits down and picks up the two
-chopsticks that are closest to him. If a philosopher can pick up both
-chopsticks, he can eat for a while. After a philosopher finishes eating, he
-puts down the chopsticks and again starts to think.
+table has a big plate of rice.  However, there are only five chopsticks (in the
+original formulation forks) available, as shown in Fig. 1.5. Each philosopher
+thinks.  When he gets hungry, he sits down and picks up the two chopsticks that
+are closest to him. If a philosopher can pick up both chopsticks, he can eat
+for a while. After a philosopher finishes eating, he puts down the chopsticks
+and again starts to think.
 
 1. Write a program to simulate the behavior of the philosophers, where each
 philosopher is a thread and the chopsticks are shared objects. Notice that you
@@ -32,32 +33,48 @@ stick and is stuck waiting for another to get the second chopstick.
 4. Write a program to provide a starvation-free solution for any number of
 philosophers n.
 
-__*Exercício 2*__: For each of the following, state whether it is a safety or
+__Exercício 2__: For each of the following, state whether it is a safety or
 liveness property. Identify the bad or good thing of interest.
 
 1. Patrons are served in the order they arrive
 
+__resposta__: safety.
+
 2. What goes up must come down.
+
+__resposta__: liveness.
 
 3. If two or more processes are waiting to enter their critical sections, at
 least one succeeds.
 
+__resposta__: liveness.
+
 4. If an interrupt occurs, then a message is printed within one second.
+
+__resposta__: safety.
 
 5. If an interrupt occurs, then a message is printed.
 
+__resposta__: liveness.
+
 6. The cost of living never decreases.
+
+__resposta__: safety.
 
 7. Two things are certain: death and taxes.
 
+__resposta__: liveness.
+
 8. You can always tell a Harvard man.
 
-__*Exercício 3*__: In the producer–consumer fable, we assumed that Bob can see
+__resposta__: safety.
+
+__Exercício 3__: In the producer–consumer fable, we assumed that Bob can see
 whether the can on Alice’s windows ill is up or down. Design a
 producer–consumer protocol using cans and strings that works even if Bob cannot
 see the state of Alice’s can (this is how real-world interrupt bits work).
 
-__*Exercício 4*__: You are one of P recently arrested prisoners. The warden, a
+__Exercício 4__: You are one of P recently arrested prisoners. The warden, a
 deranged computer scientist, makes the following announcement:
 
  You may meet together today and plan a strategy, but after today you will be in
@@ -85,7 +102,7 @@ deranged computer scientist, makes the following announcement:
 
 Hint: not all prisoners need to do the same thing.
 
-__*Exercício 5*__: The same warden has a different idea. He orders the
+__Exercício 5__: The same warden has a different idea. He orders the
 prisoners to stand in line, and places red and blue hats on each of their
 heads. No prisoner knows the color of his own hat, or the color of any hat
 behind him, but he can see the hats of the prisoners in front. The warden
@@ -101,11 +118,30 @@ other way besides their answer of “red” or “blue.”
 
 Devise a strategy that allows at least P − 1 of P prisoners to be freed.
 
-__*Exercício 6*__: Use Amdahl’s law to answer the following questions:
+__Exercício 6__: Use Amdahl’s law to answer the following questions:
 
 * Suppose the sequential part of a program accounts for 40% of the program’s
   execution time on a single processor. Find a limit for the overall speedup
   that can be achieved by running the program on a multiprocessor machine.
+
+__resposta__:
+
+.Porção Sequencial
+  (1 - p) = 0.4
+
+.Porção Paralelizável
+  p = 0.6
+
+.Tempo do Programa pela Lei de Amdahl's
+  T = (1 - p) + p/n
+
+.Aplicando o Limite para N -> Infinito, P/N -> 0
+  T = (1 - p)
+
+.Aplicando a razão (N -> Infinito)
+S = 1 / [(1 - p) + p/n] = 1 / (1 - p) = 1 / 0.4 = 2.5
+
+Portanto o ganho máximo é 2.5x do tempo em máquina uniprocessador.
 
 * Now suppose the sequential part accounts for 30% of the program’s computation
   time. Let sn be the program’s speedup on n processes, assuming the rest of the
@@ -119,11 +155,11 @@ __*Exercício 6*__: Use Amdahl’s law to answer the following questions:
   fraction of the overall execution time did the sequential part account for?
   Express your answer as a function of n.
 
-__*Exercício 7*__: Running your application on two processors yields a speedup
+__Exercício 7__: Running your application on two processors yields a speedup
 of S2. Use Amdahl’s Law to derive a formula for Sn, the speedup on n
 processors, in terms of n and S2.
 
-__*Exercício 8*__:You have a choice between buying one uniprocessor that
+__Exercício 8__:You have a choice between buying one uniprocessor that
 executes five zillion instructions per second, or a ten-processor
 multiprocessor where each processor executes one zillion instructions per
 second. Using Amdahl’s Law, explain how you would decide which to buy for a
