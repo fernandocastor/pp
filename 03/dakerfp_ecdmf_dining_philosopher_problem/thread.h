@@ -48,6 +48,7 @@
     #define MUTEX_T          HANDLE
     #define MUTEX_INIT(M)    M = CreateMutex(NULL, FALSE, NULL)
     #define MUTEX_LOCK(M)    WaitForSingleObject(M, INFINITE)
+    #define MUTEX_TRYLOCK(M) WaitForSingleObject(M, 0) == WAIT_OBJECT_0
     #define MUTEX_UNLOCK(M)  ReleaseMutex(M)
     #define MUTEX_DESTROY(M) CloseHandle(M)
 
@@ -57,7 +58,7 @@
     #define SEM_DOWN(S)    WaitForSingleObject(S, INFINITE)
     #define SEM_DESTROY(S) CloseHandle(S)
 
-    #define SLEEP(T)       Sleep(T)
+    #define SLEEP(T)       Sleep(T * 1000)
 #endif
 
 #endif /* !__THREAD_H__ */

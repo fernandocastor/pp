@@ -13,6 +13,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "thread.h"
 
 #define N 5
