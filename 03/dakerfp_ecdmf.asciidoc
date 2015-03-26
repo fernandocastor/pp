@@ -95,6 +95,48 @@ Portanto o ganho máximo é 2.5x do tempo em máquina uniprocessador.
   a programmer to replace the sequential part with an improved version that runs
   k times faster. What value of k should you require?
 
+__resposta__:
+
+----
+    I. Parte Paralela:
+    p = 0.7
+
+    II. Parte Sequencial:
+    (1 - p) = 0.3
+
+    III. Ganho obtido executando em paralelo em N processadores:
+    Sn(n) = 1 / [(1 - p) + p/n]
+
+    IV. Ganho requerido pelo chefe:
+    S'n(n) > 2Sn(n)
+
+    V. Para isso é necessário um ganho K na parte sequencial:
+    Tempo Sequencial -> (1 - p)/K
+
+    Qual o valor de K?
+
+    Resolução:
+    S'n(n) > 2Sn(n)
+
+    1/Ts' > 2 * 1/Ts
+    Ts'   < Ts/2
+
+    (1 - p)/K + p/n  < (1 - p + p/n) / 2
+
+    0.3/K + 0.7/n      < 0.15 + 0.35/n
+    (0.3n + 0.7K) / Kn < 0.15 + 0.35/n
+
+    0.3n + 0.7K                  < 0.15Kn + 0.35K
+    0.3n + 0.7K - 0.35K - 0.15Kn < 0
+    0.3n + 0.35K - 0.15Kn        < 0
+
+    0.35K - 0.15Kn     < - 0.3n
+    K * (0.35 - 0.15n) < - 0.3n
+    K * (0.15n - 0.35) >   0.3n
+
+    K > 0.3n / (0.15n - 0.35)
+----
+
 * Suppose the sequential part can be speed up three-fold, and when we do so, the
   modified program takes half the time of the original on n processors. What
   fraction of the overall execution time did the sequential part account for?
@@ -116,7 +158,7 @@ __resposta__:
   Resolução:
 
     T2(n)              = 2T1(n)
-    T_Seq/3   + T_Prll = 2T_Seq + 2T_Prll)
+    T_Seq/3   + T_Prll = 2T_Seq + 2T_Prll
     (1-p)/3   + T_Prll = 2 - 2p + 2T_Prll
     1/3 - p/3 + T_Prll = 2 - 2p + 2T_Prll
     1   - p  + 3T_Prll = 6 - 6p + 6T_Prll
