@@ -35,7 +35,7 @@ __resposta__: link:dakerfp_ecdmf_dining_philosopher_problem/dpp3.c[dpp3.c]
 
 4. Write a program to provide a starvation-free solution for any number of
 philosophers n.
-__resposta__: link:dakerfp_ecdmf_dining_philosopher_problem/dpp1.c[dpp4.c]
+__resposta__: link:dakerfp_ecdmf_dining_philosopher_problem/dpp4.c[dpp4.c]
 
 __Exercício 2__: For each of the following, state whether it is a safety or
 liveness property. Identify the bad or good thing of interest.
@@ -57,55 +57,6 @@ least one succeeds. (__resposta__: liveness)
 7. Two things are certain: death and taxes. (__resposta__: liveness)
 
 8. You can always tell a Harvard man. (__resposta__: safety)
-
-__Exercício 3__: In the producer–consumer fable, we assumed that Bob can see
-whether the can on Alice’s windows ill is up or down. Design a
-producer–consumer protocol using cans and strings that works even if Bob cannot
-see the state of Alice’s can (this is how real-world interrupt bits work).
-
-__Exercício 4__: You are one of P recently arrested prisoners. The warden, a
-deranged computer scientist, makes the following announcement:
-
- You may meet together today and plan a strategy, but after today you will be in
- isolated cells and have no communication with one another.
-
- I have set up a “switch room” which contains a light switch, which is either on
- or off. The switch is not connected to anything.
-
- Every now and then, I will select one prisoner at random to enter the “switch
- room.” This prisoner may throw the switch (from on to off, or vice-versa), or
- may leave the switch unchanged. Nobody else will ever enter this room.
-
- Each prisoner will visit the switch room arbitrarily often. More precisely, for
- any N, eventually each of you will visit the switch room at least N times.
-
- At any time, any of you may declare: “we have all visited the switch room at
- least once.” If the claim is correct, I will set you free. If the claim is
- incorrect, I will feed all of you to the crocodiles. Choose wisely!
-
-* Devise a winning strategy when you know that the initial state of the switch
-  is off.
-
-* Devise a winning strategy when you do not know whether the initial state of
-  the switch is on or off.
-
-Hint: not all prisoners need to do the same thing.
-
-__Exercício 5__: The same warden has a different idea. He orders the
-prisoners to stand in line, and places red and blue hats on each of their
-heads. No prisoner knows the color of his own hat, or the color of any hat
-behind him, but he can see the hats of the prisoners in front. The warden
-starts at the back of the line and asks each prisoner to guess the color of his
-own hat. The prisoner can answer only “red” or “blue.” If he gives the wrong
-answer, he is fed to the crocodiles. If he answers correctly, he is freed. Each
-prisoner can hear the answer of the prisoners behind him, but cannot tell
-whether that prisoner was correct.
-
-The prisoners are allowed to consult and agree on a strategy beforehand (while
-the warden listens in) but after being lined up, they cannot communicate any
-other way besides their answer of “red” or “blue.”
-
-Devise a strategy that allows at least P − 1 of P prisoners to be freed.
 
 __Exercício 6__: Use Amdahl’s law to answer the following questions:
 
@@ -180,10 +131,6 @@ __resposta__:
   Portanto:
     P(n) = n / (5n - 3)
 ----
-
-__Exercício 7__: Running your application on two processors yields a speedup
-of S2. Use Amdahl’s Law to derive a formula for Sn, the speedup on n
-processors, in terms of n and S2.
 
 __Exercício 8__:You have a choice between buying one uniprocessor that
 executes five zillion instructions per second, or a ten-processor
