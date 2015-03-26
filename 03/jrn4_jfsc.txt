@@ -1,0 +1,51 @@
+Nome: Jose Fernando Santos de Carvalho - jfsc
+        Josino Rodrigues Neto - jrn4
+Disciplina: pp 2015.1
+
+Exercício 1.
+pasta :jrn4_jfsc_philosophers
+Exercício 2.
+
+1. Patrons are served in the order they arrive. (safety)
+2. What goes up must come down. (liveness)
+3. If two or more processes are waiting to enter their critical sections, at least one succeeds.(liveness)
+4. If an interrupt occurs, then a message is printed within one second.(safety)
+5. If an interrupt occurs, then a message is printed.(safety)
+6. The cost of living never decreases. (liveness)
+7. Two things are certain: death and taxes. (liveness)
+8. You can always tell a Harvard man.(safety)
+
+Exercício 6.
+I)
+    Assumir:
+    N (numero de processadores para ambiente multiprocessado) = INFINITO
+    P (Fração do código conc)= 0.6
+
+    S=1/(1-p + p/n)
+    =>1/(1-0,6 + 0.6/INF)
+    =>1/(0,4 + 0)
+    =>2.5
+
+
+
+II)
+    Assumir:
+    P=0.7;
+    (1-P) = 0.3;
+    Sn=2;
+    S= OLDEXECUTIONTIME/NEWEXECUTIONTIME
+    OLDEXECUTIONTIME = (0.3 + 0.7/n)
+    NEWEXECUTIONTIME = (0.3k + 0.7/n)
+
+    =>2 = (0.3 + 0.7/n)/(0.3k + 0.7/n)
+    =>2 * (0.3k + 0.7/n) = (0.3 + 0.7/n)
+    =>0.6k + 1.4/n = 0.3 + 0.7/n
+    =>0.6k = 0.3n - 0.7
+    =>k = (0.3n - 0.7)/0.6
+
+III)
+
+Exercício 8
+    Segunda a lei de Amdhal, a porcetagem de código que é executado sequencialmente causa grande impacto na performance do sistema. Ex. A inserção de 10 núcleos em um sistema que contem 10% do seu código sequencial resulta em um ganho de apenas 50% de velocidade.
+
+    Em contrapartida, se uma aplicação é 99% paralelizada o ganho chega perto de 100%.
