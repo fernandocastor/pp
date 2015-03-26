@@ -1,0 +1,74 @@
+  Exercício 2
+
+  1. Patrons are served in the order they arrive
+
+  2. What goes up must come down
+   - Bad thing: Ao pular, uma pessoa sobe indefinidamente e nunca mais cai
+   - Safety property
+
+  3. If two or more processes are waiting to enter their critical sections, at least one succeeds.
+   - Good thing: A proccess succeeds entering its critical section
+   - Liveness property
+
+  4. If an interrupt occurs, then a message is printed within one second
+   - Bad thing: A mensagem vai demorar mais de um segundo para ser exibida após a interrupção
+   - Safety property
+
+  5. If an interrupt occurs, then a message is printed.
+   - Good thing: Uma mensagem é exibida após uma interrupção
+   - Liveness property
+
+  6. The cost of living never decreases
+
+  7. Two things are certain: death and taxes
+
+  8. You can always tell a Havard man
+   - Good thing: Você notar que uma pessoa veio de Harvard
+   - Liveness property
+
+  Exercício 6
+
+  - Suppose the sequential part of a program accounts for 40% of the program's
+    execution time on a single processor. Find a limit for the overall speedup
+    that can be achieved by running the program on a multiprocessor machine.
+
+  O limite de speed-up é de 2.5
+
+  lim_(n -> Inf) 1 / ((0.4) + 0.6 / n) = 2.5
+
+  Ref: http://www.wolframalpha.com/input/?i=limit+1+%2F+%28%280.4%29+%2B+0.6%2Fn%29+as+n-%3Einfinity
+
+  - Now suppose the sequential part accounts for 30% of the program's
+    computation time. Let s_n be the program's speedup on n processes, assuming
+    the rest of the program is perfectly parallelizable. Your boss tells you to
+    double this speedup: the revised program should have speedup s'n > s_n/2.
+    You advertise for a programmer to replace the sequential part with an
+    improved version that runs k times faster. What value of k should you
+    require?
+
+  k = 2
+
+  Ref: http://www.wolframalpha.com/input/?i=limit+1+%2F+%28%280.3*k%29+%2B+%281-0.3*k%29%2Fn%29+as+n-%3Einfinity
+
+  - Suppose the sequential part can be sped up three-fold, and when we do so,
+    the modified program takes half the time of the original on n processors.
+    What fraction of the overall execution time did the sequential part account
+    for? Express your answer as a function of n.
+
+  f(n) = 3 / (n-1)
+
+  Resolução:
+  Sendo q = 1-p, a parte sequencial do programa
+
+  http://www.wolframalpha.com/input/?i=solve+2+%2F+%28q+%2B+%281-q%29%2Fn%29+%3D+1+%2F+%28q%2F3+%2B+%281-q%2F3%29%2Fn%29+for+q
+
+
+  Exercício 8
+
+  Usando a lei de Amdahl e considerando n = 10, dado que n é o número de
+  processos executados em paralelo, teríamos que ter um speed-up de 5x, já que
+  cada um dos processadores do multiprocessador tem 1/5 da capacidade do
+  uniprocessador. Dado iso, e aplicando a lei de Amdahl, só valeria a pena a
+  escolha do multiprocessador se pelo menos 89% do código fosse paralelizável.
+
+  Ref: http://www.wolframalpha.com/input/?i=5+%3C+1+%2F+%28%281-p%29+%2B+p%2F10%29
