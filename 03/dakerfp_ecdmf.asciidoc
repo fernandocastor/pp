@@ -1,0 +1,208 @@
+﻿Programação Paralela - Trabalho 3
+=================================
+Daker Fernandes <dakerfp@gmail.com>; Emiliano Firmino <emiliano.firmino@gmail.com>
+
+Questão:
+--------
+Do livro AMP, devem ser feitos (no mínimo) os seguintes exercícios:
+
+*Capítulo 1*. 1, 2, 6, 8
+
+__Exercício 1__: The dining philosophers problem was invented by E. W.
+Dijkstra, a concurrency pioneer, to clarify the notions of deadlock and
+starvation freedom. Imagine five philosophers who spend their lives just
+thinking and feasting. They sit around a circular table with five chairs. The
+table has a big plate of rice.  However, there are only five chopsticks (in the
+original formulation forks) available, as shown in Fig. 1.5. Each philosopher
+thinks.  When he gets hungry, he sits down and picks up the two chopsticks that
+are closest to him. If a philosopher can pick up both chopsticks, he can eat
+for a while. After a philosopher finishes eating, he puts down the chopsticks
+and again starts to think.
+
+1. Write a program to simulate the behavior of the philosophers, where each
+philosopher is a thread and the chopsticks are shared objects. Notice that you
+must prevent a situation where two philosophers hold the same chopstick at the
+same time.
+__resposta__: link:dakerfp_ecdmf_dining_philosopher_problem/dpp1.c[dpp1.c]
+
+2. Amend your program so that it never reaches a state where philosophers are
+deadlocked, that is, it is never the case that each philosopher holds one chop-
+stick and is stuck waiting for another to get the second chopstick.
+__resposta__: link:dakerfp_ecdmf_dining_philosopher_problem/dpp2.c[dpp2.c]
+
+3. Amend your program so that no philosopher ever starves.
+__resposta__: link:dakerfp_ecdmf_dining_philosopher_problem/dpp3.c[dpp3.c]
+
+4. Write a program to provide a starvation-free solution for any number of
+philosophers n.
+__resposta__: link:dakerfp_ecdmf_dining_philosopher_problem/dpp4.c[dpp4.c]
+
+__Exercício 2__: For each of the following, state whether it is a safety or
+liveness property. Identify the bad or good thing of interest.
+
+1. Patrons are served in the order they arrive. (__resposta__: safety)
+
+2. What goes up must come down. (__resposta__: liveness)
+
+3. If two or more processes are waiting to enter their critical sections, at
+least one succeeds. (__resposta__: liveness)
+
+4. If an interrupt occurs, then a message is printed within one second.
+(__resposta__: safety)
+
+5. If an interrupt occurs, then a message is printed. (__resposta__: liveness)
+
+6. The cost of living never decreases. (__resposta__: safety)
+
+7. Two things are certain: death and taxes. (__resposta__: liveness)
+
+8. You can always tell a Harvard man. (__resposta__: safety)
+
+__Exercício 6__: Use Amdahl’s law to answer the following questions:
+
+* Suppose the sequential part of a program accounts for 40% of the program’s
+  execution time on a single processor. Find a limit for the overall speedup
+  that can be achieved by running the program on a multiprocessor machine.
+
+__resposta__:
+
+.Porção Sequencial
+  (1 - p) = 0.4
+
+.Porção Paralelizável
+  p = 0.6
+
+.Tempo do Programa pela Lei de Amdahl's
+  T = (1 - p) + p/n
+
+.Aplicando o Limite para N -> Infinito, P/N -> 0
+  T = (1 - p)
+
+.Aplicando a razão (para N -> Infinito)
+----
+  S = 1 / [(1 - p) + p/n]
+    = 1 / (1 - p)
+    = 1 / 0.4
+    = 2.5
+----
+
+Portanto o ganho máximo é 2.5x do tempo em máquina uniprocessador.
+
+* Now suppose the sequential part accounts for 30% of the program’s computation
+  time. Let sn be the program’s speedup on n processes, assuming the rest of the
+  program is perfectly parallelizable. Your boss tells you to double this
+  speedup: the revised program should have speedup s′n > sn/2. You advertise for
+  a programmer to replace the sequential part with an improved version that runs
+  k times faster. What value of k should you require?
+
+__resposta__:
+
+----
+    I. Parte Paralela:
+    p = 0.7
+
+    II. Parte Sequencial:
+    (1 - p) = 0.3
+
+    III. Ganho obtido executando em paralelo em N processadores:
+    Sn(n) = 1 / [(1 - p) + p/n]
+
+    IV. Ganho requerido pelo chefe:
+    S'n(n) > 2Sn(n)
+
+    V. Para isso é necessário um ganho K na parte sequencial:
+    Tempo Sequencial -> (1 - p)/K
+
+    Qual o valor de K?
+
+    Resolução:
+    S'n(n) > 2Sn(n)
+
+    1/Ts' > 2 * 1/Ts
+    Ts'   < Ts/2
+
+    (1 - p)/K + p/n  < (1 - p + p/n) / 2
+
+    0.3/K + 0.7/n      < 0.15 + 0.35/n
+    (0.3n + 0.7K) / Kn < 0.15 + 0.35/n
+
+    0.3n + 0.7K                  < 0.15Kn + 0.35K
+    0.3n + 0.7K - 0.35K - 0.15Kn < 0
+    0.3n + 0.35K - 0.15Kn        < 0
+
+    0.35K - 0.15Kn     < - 0.3n
+    K * (0.35 - 0.15n) < - 0.3n
+    K * (0.15n - 0.35) >   0.3n
+
+    K > 0.3n / (0.15n - 0.35)
+----
+
+* Suppose the sequential part can be speed up three-fold, and when we do so, the
+  modified program takes half the time of the original on n processors. What
+  fraction of the overall execution time did the sequential part account for?
+  Express your answer as a function of n.
+
+__resposta__:
+
+----
+  T_Seq -> Tempo Execução Sequencial
+  T_Prll -> Tempo Execução Paralelo
+
+  Equações:
+    I:   T1(n)     = T_Seq1 + T_Prll(n)
+    II:  T2(n)     = T_Seq2 + T_Prll(n) = T_Seq/3 + T_Prll(n) = T1/2
+    III: T_Seq1    = 1-p
+    IV:  T_Seq2    = T_Seq1/3 = (1-p)/3
+    IV:  T_Prll(n) = p/n
+
+  Resolução:
+
+    T2(n)              = 2T1(n)
+    T_Seq/3   + T_Prll = 2T_Seq + 2T_Prll
+    (1-p)/3   + T_Prll = 2 - 2p + 2T_Prll
+    1/3 - p/3 + T_Prll = 2 - 2p + 2T_Prll
+    1   - p  + 3T_Prll = 6 - 6p + 6T_Prll
+         (6 - 3)T_Prll = 1 - p - 6 + 6p
+               3T_Prll = 5p - 5
+                  3p/n = 5p - 5
+                    3p = 5pn - 5n
+              5pn - 3p = 5n
+             p(5n - 3) = n
+                   p = n/(5n - 3)
+
+  Portanto:
+    P(n) = n / (5n - 3)
+----
+
+__Exercício 8__:You have a choice between buying one uniprocessor that
+executes five zillion instructions per second, or a ten-processor
+multiprocessor where each processor executes one zillion instructions per
+second. Using Amdahl’s Law, explain how you would decide which to buy for a
+particular application.
+
+__resposta__:
+
+------
+Proc1 = 5z/s; n1 = 1
+Proc2 = 1z/s; n2 = 10
+
+R = Proc2/Proc1 = 5
+
+T_Proc1 = [(1-p) + (p/n1)] / R
+T_Proc2 = (1-p) + (p/n2)
+
+Resolução:
+  T_Proc2 < T_Proc1
+  1 - p + p/n2 < 1/R * [1 - p + p/n1]
+  1 - p + p/10 < 1/5 * [1 - p + p/1]
+  5 - 5p + p/2 < 1
+  10 - 10p + p < 2
+       10 - 9p < 2
+          - 9p < 2 - 10
+          - 9p < -8
+            9p > 8
+             p > 8/9 ~= 0.88888...
+------
+
+Portanto para que o processador de 1z/s apresente desempenho superior o
+programa precisa ter mais de 88.89% de parte paralelizável.
