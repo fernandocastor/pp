@@ -15,8 +15,10 @@ endif
 all:
 	$(CC) $(LDFLAGS) dpp1.c -o dpp1
 	$(CC) $(LDFLAGS) dpp2.c -o dpp2
+	$(CC) $(LDFLAGS) dpp3.c -o dpp3
+	$(CC) $(LDFLAGS) dpp4.c -o dpp4
 
 .PHONY: clean
 
 clean:
-	rm -f dpp1 dpp2
+	rm -f dpp1 dpp2 dpp3 dpp4

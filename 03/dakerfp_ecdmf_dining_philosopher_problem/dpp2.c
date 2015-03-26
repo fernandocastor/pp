@@ -1,6 +1,10 @@
 /*
- * dining_philosopher_01.c
+ * dpp2.c
  * Copyright (C) 2015 Daker Fernandes, Emiliano Firmino
+ *
+ * Try to avoid deadlock by testing if it is possible to acquire
+ * resource. If not possible give up, release any locked resource
+ * and try again later.
  *
  * Distributed under terms of the MIT license.
  */

@@ -1,6 +1,11 @@
 /*
- * dining_philosopher_01.c
+ * dpp1.c
  * Copyright (C) 2015 Emiliano Firmino <emiliano.firmino@gmail.com>
+ *
+ * Simple implementation of Dining Philosopher Problem using a naive
+ * approach of philospher take right, left stick to eat. Might cause
+ * deadlock when all left|right stick are take by all philosphers at
+ * same time.
  *
  * Distributed under terms of the MIT license.
  */
