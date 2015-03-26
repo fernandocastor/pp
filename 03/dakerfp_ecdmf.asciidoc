@@ -23,15 +23,19 @@ and again starts to think.
 philosopher is a thread and the chopsticks are shared objects. Notice that you
 must prevent a situation where two philosophers hold the same chopstick at the
 same time.
+__resposta__: link:dakerfp_ecdmf_dining_philosopher_problem/dpp1.c[dpp1.c]
 
 2. Amend your program so that it never reaches a state where philosophers are
 deadlocked, that is, it is never the case that each philosopher holds one chop-
 stick and is stuck waiting for another to get the second chopstick.
+__resposta__: link:dakerfp_ecdmf_dining_philosopher_problem/dpp2.c[dpp2.c]
 
 3. Amend your program so that no philosopher ever starves.
+__resposta__: link:dakerfp_ecdmf_dining_philosopher_problem/dpp3.c[dpp3.c]
 
 4. Write a program to provide a starvation-free solution for any number of
 philosophers n.
+__resposta__: link:dakerfp_ecdmf_dining_philosopher_problem/dpp1.c[dpp4.c]
 
 __Exercício 2__: For each of the following, state whether it is a safety or
 liveness property. Identify the bad or good thing of interest.
