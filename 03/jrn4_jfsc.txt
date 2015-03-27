@@ -10,8 +10,8 @@ Exercício 2.
 2. What goes up must come down. (liveness)
 3. If two or more processes are waiting to enter their critical sections, at least one succeeds.(liveness)
 4. If an interrupt occurs, then a message is printed within one second.(safety)
-5. If an interrupt occurs, then a message is printed.(safety)
-6. The cost of living never decreases. (liveness)
+5. If an interrupt occurs, then a message is printed.(liveness)
+6. The cost of living never decreases. (safety)
 7. Two things are certain: death and taxes. (liveness)
 8. You can always tell a Harvard man.(safety)
 
@@ -35,16 +35,23 @@ II)
     Sn=2;
     S= OLDEXECUTIONTIME/NEWEXECUTIONTIME
     OLDEXECUTIONTIME = (0.3 + 0.7/n)
-    NEWEXECUTIONTIME = (0.3k + 0.7/n)
+    NEWEXECUTIONTIME = (0.3/k + 0.7/n)
+    => 2 = (0.3 + 0.7/n)/(0.3/k + 0.7/n)
+    => 2 * (0.3/k + 0.7/n) = (0.3 + 0.7/n)
+    => 0.6/k +1.4/n = 0.3 + 0.7/n
+    => 0.6/k = 0.3 - 0.7/n
+    => 0.6 = 0.3k - 0.7k/n
+    => k(0.3 - 0.7/n) = 0.6
+    => k=0.6/(0.3 - 0.7/n)
 
-    =>2 = (0.3 + 0.7/n)/(0.3k + 0.7/n)
-    =>2 * (0.3k + 0.7/n) = (0.3 + 0.7/n)
-    =>0.6k + 1.4/n = 0.3 + 0.7/n
-    =>0.6k = 0.3n - 0.7
-    =>k = (0.3n - 0.7)/0.6
-
-III)
-
+III) 
+    => 2 = (1-p + p/n)/[(1-p/3) + p/n]
+    => 2 = [3(n(-p) + n + p)]/[n(-p) + n + 3p]
+    => 2[n(-p) + n + 3p]=[3(n(-p) + n + p)]
+    => -2pn + 2n + 6p = -3np + 3n + 3p
+    => np - n + 6p  = 3p
+    => p = n / (n+3)
+    
 Exercício 8
     Segunda a lei de Amdhal, a porcetagem de código que é executado sequencialmente causa grande impacto na performance do sistema. Ex. A inserção de 10 núcleos em um sistema que contem 10% do seu código sequencial resulta em um ganho de apenas 50% de velocidade.
 
