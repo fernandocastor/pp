@@ -1,0 +1,94 @@
+1. Descreva a arquitetura do seu computador pessoal em termos dos seguintes itens:
+
+Usando CPU-Z: 
+• Frequência de clock: 
+Intel(R) Core(TM) i7 CPU Q 740 @ 1.73GHz
+Frequency:
+1733 MHz
+Turbo frequency:
+2933 MHz (1 core)
+2533 MHz (2 cores)
+1867 MHz (3 or 4 cores)
+
+Core i7-740QM is the second model from the i7-7xx series of high-performance microprocessors. At this time, June 2010, the processor is not officially launched 
+yet, although all major laptop manufacturers already announced laptops based on this CPU. [2]
+[1,2]
+
+• Número de núcleos (físicos e virtuais) do processador.
+
+Núcleos Físicos: 4
+Núcleos Virtuais: 8
+[1,2]
+
+• Qual é a organização da memória? Ela é NUMA ou não? COMA? Barramento?
+
+Pensando neste ponto dividir as memórias e os processadores em grupos torna mais eficiente o acesso entre ambos desde que 
+estejam no mesmo grupo. Caso o processador precise acessar mais memória do que existe no seu grupo então ele (o processador) 
+pode acessar bancos de memória em outros grupos. Esta arquitetura é conhecida como NUMA (Non-Uniform Memory Access) 
+e permite que o servidor com este recurso possa escalar o número de Cores e acessos à memória. [3, 4]
+
+Intel anunciou compatibilidade NUMA para seus servidores x86 e Itanium no final de 2007 com o seu Nehalem e Tukwila CPUs Ambas as famílias de CPU compartilhar 
+um chipset comum; a interconexão é chamado Intel Quick Path Interconnect (QPI).
+
+Barramento:
+The number of controllers: 1
+Memory channels: 2
+Supported memory: DDR3-1066, DDR3-1333
+Maximum memory bandwidth (GB/s): 21.3	[2]
+
+
+• Número de níveis de cache e onde as memórias cache estão localizadas.
+
+L1 Data cache	4 x 32 KBytes, 8-way set associative, 64-byte line size
+L1 Instruction cache	4 x 32 KBytes, 4-way set associative, 64-byte line size
+L2 cache 4 x 256 KBytes, 8-way set associative, 64-byte line size
+L3 cache 6 MBytes, 12-way set associative, 64-byte line size
+[2]
+
+• Como é mantida a coerência das memórias cache?
+ 
+O Intel® Quick-Path Interconnect ™ (QPI) foi introduzida recentemente para substituir o frontside
+Bus (FSB) para plataformas desktop, Xeon e Itanium, aparecendo em primeiro lugar na área de trabalho do Core i7 processador eo chipset X58. Como, MESIF partir 
+do qual é derivado, QPI é um source snoop
+Protocol. Ele difere da MESIF principalmente em que as respostas a um pedido de transmissão são enviados para o nó de casa em vez de o nó solicitante. Quando 
+os dados são exigidas numa resposta, ele é enviado diretamente, em um pacote separado, para o nodo solicitante. 
+[5,7]
+ 
+
+• As instruções atômicas não-triviais (por exemplo, um LOAD ou um STOR são instruções "triviais" por fazerem apenas uma coisa) que estão disponíveis e o que 
+elas fazem.
+
+CMPXCHG—Compare and Exchange
+Compare AL with r/m8. If equal, ZF is set and
+r8 is loaded into r/m8. Else, clear ZF and load
+r/m8 into AL.
+
+MFENCE—Memory Fence
+Performs a serializing operation on all load-from-memory and store-to-memory instructions that were issued prior
+the MFENCE instruction.
+[6]
+
+
+• A velocidade da memória que está rodando na sua máquina. Ela ́é rápida o suficiente para o processador? Sim? Não? Por quê?
+Velocidade do processador: 
+
+>> Processador
+Clock do Computador: 1730 MHz
+>> Memória
+DDR3-1066: 
+Clock de memória:	133 MHz	
+Velocidade de clock: 533 MHz 
+1066 MT/s	PC3-8500	8533 MB/s	6-6-6 7-7-7 8-8-8
+
+Não é suficiente. O clock do computador é cerca de 13x superior ao clock da memória o que faz reduzir o desempenho no processamento de instruções.
+Para diminuir esse impacto de performace são utilizadas memórias caches nos processadores.
+[7]
+
+Referencias: 
+[1] http://ark.intel.com/pt-br/products/49024/Intel-Core-i7-740QM-Processor-6M-cache-1_73-GHz
+[2] http://www.cpu-world.com/CPUs/Core_i7/Intel-Core%20i7%20Mobile%20I7-740QM%20BY80607005259AA%20(BX80607I7740QM).html#specs
+[3] http://www.fabiohara.com.br/2012/08/23/arquitetura-numa-non-uniform-memory-access/
+[4] http://www.dcc.ufrj.br/~gabriel/sispar/ArqPar2.pdf
+[5] https://researchspace.auckland.ac.nz/bitstream/handle/2292/11594/MESIF-2009.pdf?sequence=6
+[6] http://www.intel.com/content/dam/www/public/us/en/documents/manuals/64-ia-32-architectures-software-developer-instruction-set-reference-manual-325383.pdf [6]
+[7] http://www.infowester.com/processadores.php
