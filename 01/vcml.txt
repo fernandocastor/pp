@@ -1,0 +1,51 @@
+1. Explique as diferenças e semelhanças entre programas sequencias, concorrentes, paralelos e distribuídos. Em particular, enfatize em que diferem as noções de 
+paralelismo e concorrência. Use exemplos.
+
+Tradicionalmente, a grande maioria dos programas escritos são programas sequenciais para serem executados em um único computador com
+uma única CPU. Nos programas sequências, uma série de instruções são executadas uma após a outra. Nesse caso, existe somente um fluxo de controle (fluxo de 
+execução, linha de execução, thread) no programa. Isso permite, por exemplo, que o programador realize uma "execução imaginária" de seu programa apontando com 
+o dedo, a cada instante, o comando que está sendo executada no momento.
+
+Um programa é considerado concorrente quando ele (o próprio programa, durante a sua execução) origina diferentes processos que irão interagir entre si para
+realizar alguma tarefa. O termo "programação concorrente" vem do inglês concurrent programming, onde concurrent significa "acontecendo ao mesmo tempo". 
+Uma tradução mais adequada seria programação concomitante. É comum em sistemas multiusuário que um mesmo programa seja executado simultaneamente por vários 
+usuários. Por exemplo, um editor de texto. Entretanto, ter 10 execuções simultâneas do editor de texto não faz dele um programa concorrente. O que se tem são 
+10 processos independentes executando o mesmo programa seqüencial (compartilhando o mesmo código). Programação concorrente é mais complexa do que a programação 
+sequencial. Apesar da maior complexidade, existem muitas áreas nas quais a programação concorrente é vantajosa. Em sistemas nos quais existem vários 
+processadores (máquinas paralelas ou sistemas distribuídos), é possível aproveitar esse paralelismo e acelerar a execução do programa. Mesmo em sistemas com um 
+único processador, existem razões para o seu uso em vários tipos de aplicações.
+
+A concorrência é muitas vezes referida como uma propriedade de um programa, e é um conceito mais geral do que paralelismo.
+Programação paralela é relacionada com programação concorrente, mas foca menos na interação entre as tarefas. Curiosamente, não se pode dizer a mesma coisa 
+para programação concorrente e programação paralela. Eles são sobrepostas, mas também não é o superconjunto do outro. A diferença vem dos conjuntos de tópicos 
+as duas áreas cobrem. Por exemplo, programação concorrente inclui tópico como manipulação de sinal, enquanto a programação paralela inclui tópico como modelo 
+de consistência de memória. A diferença reflete o fundo diferente das duas práticas de programação hardware e software orignal. A interação e a comunicação 
+correta entre as diferentes tarefas, além da coordenação do acesso concorrente aos recursos computacionais são as principais questões discutidas durante o 
+desenvolvimento de sistemas concorrentes.
+
+Em programas distribuídos componentes de software são executados em vários computadores como um sistema único. Os computadores em um sistema distribuído podem 
+estar fisicamente próximos e conectados por uma rede local ou podem estar geograficamente distantes e conectados por uma rede remota. Um sistema distribuído 
+pode consistir em uma série de configurações possíveis, como mainframes, computadores pessoais, estações de trabalho, minicomputadores e assim por diante. A 
+meta da computação distribuída é fazer um trabalho de rede como um computador único.
+
+http://pt.wikipedia.org/wiki/Computa%C3%A7%C3%A3o_paralela
+http://pt.wikipedia.org/wiki/Programa%C3%A7%C3%A3o_concorrente
+http://www.cic.unb.br/~alchieri/disciplinas/graduacao/pc/introducao.pdf
+http://www.inf.puc-rio.br/~inf1621/concorrencia.pdf
+http://www-01.ibm.com/support/knowledgecenter/SSAL2T_6.2.0/com.ibm.cics.tx.doc/conc/distr-comp.html?lang=pt-br
+https://blogs.oracle.com/yuanlin/entry/concurrency_vs_parallelism_concurrent_programming
+
+
+2. Você já precisou construir programas paralelos, seja por motivos de estudo, seja por motivos profissionais? Escolha o mais complexo desses programas e 
+descreva-o. Explique porque ele precisa realizar várias atividades ao mesmo tempo e em que consistiam essas atividades. Essa programa era "embaraçosamente"
+paralelo ou exigia sincronização entre as taredas? Que problemas você enfrentou ao constrí-lo (ou ajudar a constri-lo)?
+
+Durante o mestrado desenvolvi um programa para enriquecer semanticamente coordenadas geográficas associando-as a pontos de interesses coletados pelo Foursquare. 
+Cada consulta ao Foursquare sobre os locais de uma dada área tendo como centro uma coordenada geográfica retornava um número máximo de 50 locais. 
+Uma metodologia baseado na categoria majoritária e aproximação fazia a associação entre a coordenada geográfica consultada e apenas um dos vários locais retornados na consulta ao foursquare.
+O Foursquare impõe uma limitação na quantidade de requisições por hora para uma dada chave de acesso à API. 
+Utilizando de um total de N chaves, O programa carregava um montante de coordenadas geográficas dividindo essa massa de dados em N conjuntos de tamanhos iguais.
+Para cada chave, uma partição de dados servia como entrada de dados para uma thread que fazia o enriquecimento semântico dos dados de forma isolada. 
+Assim a execução se tornava paralela e sem necessidade de sincrononização das tarefas. Cada thread rodava de forma independente e consolidava em um banco 
+de dados as informações semânticas coletadas recebidas sobre as coordenadas geográficas.
+
