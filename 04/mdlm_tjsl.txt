@@ -1,4 +1,4 @@
-Exercício 11:
+======= Exercício 11: =======
 
 Mutual exclusion:
 ------------------------------------
@@ -30,10 +30,107 @@ Suponhamos que Flaky Lock seja starvation-free. Provamos que o protocolo satisfa
 
 FlakyLock, portanto, não é starvation-free.
 
-Exercício 15:
+======= Exercício 15: =======
 
 A seguinte execução mostra que o algoritmo FastPath não satisfaz a exclusão mútua:
 
 write_a(x = A) -> read_a(y == -1) -> write_b(x = B) -> read_b(y == -1) -> write_a(y = A) -> read_a(x != A) -> lock_a -> CS_a -> read_b(x == B) -> CS_b
 
 A declaração dos cientistas da Cantaloupe-Melon University não está correta.
+
+======= Exercício 16: =======
+
+Pelo código, vemos que:
+
+Valor inicial: goRight = false
+
+RIGHT: write_r(last = R) -> read_r(goRight == true) -> CS_r
+STOP:  write_s(last = S) -> read_s(goRight == false) -> write_s(goRight = true) -> read_s(last == S) -> CS_s
+DOWN:  write_d(last = D) -> read_d(goRight == false) -> write_d(goRight = true) -> read_d(last != D) -> CS_d
+
+------------------ No máximo uma thread terá o valor STOP: ------------------
+Hipótese: É possível que mais de uma thread ter o valor STOP.
+Isso implica em I ou II:
+
+I) write_a(goRight = true) -> read_b(goRight == false)
+Fazendo com que B tenha valor RIGHT.
+
+II) read_b(goRight == false) -> write_a(goRight = true)
+Logo: write_b(last = B) -> read_a(last == A)
+Fazendo com que A tenha valor DOWN.
+
+
+Como I e II rejeitam a hipótese, então não é possível que mais de uma thread ter o valor STOP.
+
+------------------
+
+A execução a seguir mostra que é possível uma thread ter o valor STOP.
+write_s(last = S) -> read_s(goRight == false) -> write_s(goRight = true) -> read_s(last == S)
+
+------------------
+
+Conclusão: No máximo uma thread terá o valor STOP.
+
+------------------ No máximo n-1 threads terão o valor DOWN:  ------------------
+
+Hipótese: Todas as n threads terão o valor DOWN.
+Isso implica em I ou II:
+
+I) write_ai(goRight = true) -> read_aj(goRight == false)
+Fazendo com que pelo menos uma thread tenha valor RIGHT.
+
+II) read_ai(goRight == false) -> write_ai(goRight = true) [para todo i variando de 1 a n]
+Logo existe uma thread(índice l) que executou por último:
+write_al(last = Al)
+Isso implica que esta thread terá como valor STOP.
+
+
+Como I e II rejeitam a hipótese, então não é possível que as n threads tenham o valor DOWN.
+
+------------------
+
+Caso todas as threads executem as instruções a seguir (para todo i variando de 1 a n):
+write_ai(last = Ai) -> read_ai(goRight == false)
+
+Seguidos da execução de (para todo i variando de 1 a n):
+write_ai(goRight = true) -> read_ai(last == Ai)
+
+Como last terá o valor do índice da última thread que executou:
+write_al(last = Al)
+
+Necessariamente Al terá o valor STOP, e as demais n-1 threads terão o valor DOWN.
+
+------------------
+
+Conclusão: No máximo n-1 threads terão o valor DOWN.
+
+------------------ No máximo n-1 threads terão o valor RIGHT:  ------------------
+
+Hipótese: Todas as n threads terão o valor RIGHT.
+Isso implica em I ou II:
+
+I) read_ai(goRight == false) -> write_ai(goRight = true) [para todo i variando de 1 a n]
+Logo nenhuma thread terá o valor RIGHT.
+
+II) write_ai(goRight = true) -> read_aj(goRight == false)
+Como:
+read_ai(goRight == false) -> write_ai(goRight = true)
+Logo, o valor de Ai será diferente de RIGHT.
+
+
+Como I e II rejeitam a hipótese, então não é possível que as n threads tenham o valor RIGHT.
+
+------------------
+
+Caso a primeira thread execute as instruções:
+write_a1(last = A1) -> read_a1(goRight == false) -> write_a1(goRight = true)
+Esta terá um valor diferente de RIGHT.
+
+As demais threads executarão as instruções a seguir (para todo i variando de 2 a n):
+write_ai(last = Ai) -> read_ai(goRight == false)
+Logo terão o valor RIGHT.
+
+------------------
+
+Conclusão: No máximo n-1 threads terão o valor RIGHT.
+
