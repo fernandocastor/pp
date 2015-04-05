@@ -1,0 +1,39 @@
+Exercício 11:
+
+Mutual exclusion:
+------------------------------------
+
+Pelo código, vemos que:
+
+write_a(turn = A) -> read_a(busy == false) -> write_a(busy = true) -> read_a(turn == A) -> CS_a
+write_b(turn = B) -> read_b(busy == false) -> write_b(busy = true) -> read_b(turn == B) -> CS_b
+
+Suponha que a thread A seja a primeira a entrar na CS (critical section). Isso só acontece se `read_a(turn == A) -> CS_a`. Se uma thread B executar a escrita write_b(turn = B) logo após a CS_a [CS_a -> write_b(turn = B)], ela não entrará na CS_b, pois read_b(busy == true) durante toda a execução de CS_a. Se a thread B já tiver executado `write_b(turn = B) -> read_b(busy == false)` antes de A entrar na CS_a, B não irá entrar na CS_b já que para isso read_b(turn == B), o que não é verdade, pois para entrar em CS_a, read_a(turn == A). Mesmo que na iteração seguinte write_b(turn = B), essa alteração não surtirá efeito, já que read_b(busy = true).
+
+Deadlock-freedom:
+------------------------------------
+
+Considere a seguinte execução:
+
+write_a(turn = A) -> read_a(busy == false) -> write_a(busy = true) -> write_b(turn == B) -> read_a(turn == B)
+
+A thread A realizará outra iteração após read_a(turn == B).
+
+A partir de então tanto A quanto B permanecerão indefinidamente no loop mais interno, pois ambos farão a leitura read(busy == true).
+
+Starvation-freedom:
+------------------------------------
+
+XXX: Não foi explicitamente dito no livro, mas pelos exemplos dados (Peterson Lock e Filter Lock), quando um algoritmo satisfaz a exclusão mútua e é starvation-free, ele é deadlock-free.
+
+Suponhamos que Flaky Lock seja starvation-free. Provamos que o protocolo satisfaz exclusão mútua. Poderíamos então deduzir que o algoritmo é deadlock-free. No entanto isso é uma contradição, já que provamos que o Flaky Lock não é deadlock-free.
+
+FlakyLock, portanto, não é starvation-free.
+
+Exercício 15:
+
+A seguinte execução mostra que o algoritmo FastPath não satisfaz a exclusão mútua:
+
+write_a(x = A) -> read_a(y == -1) -> write_b(x = B) -> read_b(y == -1) -> write_a(y = A) -> read_a(x != A) -> lock_a -> CS_a -> read_b(x == B) -> CS_b
+
+A declaração dos cientistas da Cantaloupe-Melon University não está correta.
