@@ -1,0 +1,111 @@
+﻿Programação Paralela - Trabalho 3
+=================================
+Daker Fernandes <dakerfp@gmail.com>; Emiliano Firmino <emiliano.firmino@gmail.com>
+
+Questão:
+--------
+Do livro AMP, devem ser feitos (no mínimo) os seguintes exercícios:
+
+*Capítulo 2*. 11, 13, 15, 16
+
+__exercício 11__: Programmer as the Flaky Computer Corporation designed the
+protocol show in Fig. 2.15 to achieve n-thread mutual exclusion. For each
+question, either sketch a proof, or display an execution where it fails.
+
+[source java]
+-----------------------------------------------------
+class Flaky implements Lock {
+  private int turn;
+  private boolean busy = false;
+
+  public void lock() {
+    int me = ThreadID.get();
+    do {
+      do {
+        turn = me;
+      } while (busy);
+      busy = true;
+    } while (turn != me);
+  }
+
+  public void unlock() {
+    busy = false;
+  }
+}
+-----------------------------------------------------
+
+* Does this protocol satisfy mutual exclusion?
+* Is this protocol starvation-free?
+* Is this protocol deadlock-free?
+
+__exercício 13__: Another way to generalize the two-thread Peterson lock is to
+arrange a number of 2-thread Peterson locks in a binary tree. Suppose n is a
+power of two.
+
+__exercício 15__: In practice, almost all lock acquisitions are uncontended, so
+the most practical measure of a lock's performance is the number of steps
+needed for a thread to acquire a lock when no other thread is concurrently
+trying to acquire the lock.
+
+Scientist at Cataloupe-Melon University have divised the following "wrapper"
+for an arbitrary lock, shown in Fig. 2.16. They claim that if the base Lock
+class provides mutual exclusion and is starvation-free, so does the FastPath
+lock, but it can be acquired in a constant number of steps in the absance of
+contention.  Sketch an argument why they are right, or give a counterexample.
+
+[source java]
+-----------------------------------------------------
+class FastPath implements Lock {
+  private static ThreadLocal<Integer> myIndex;
+  private Lock lock;
+  private int x, y = -1;
+
+  public void lock() {
+    int i = myIndex.get();
+    x = i;                  // I'm here
+    while (y != -1) {}      // is the lock free?
+    y = i;                  // me again?
+    if (x != i)             // Am I still here?
+      lock.lock();          // slow path
+  }
+
+  public void unlock() {
+    y = -1;
+    lock.unlock();
+  }
+}
+-----------------------------------------------------
+
+__exercício 16__: Suppose n threads call visit() method of the Bouncer class shown in
+Fig. 2.17. Prove that--
+
+[source java]
+-----------------------------------------------------
+class Bouncer {
+  public static int DOWN  = 0;
+  public static int RIGHT = 1;
+  public static int STOP  = 2;
+
+  private boolean goRight = false;
+  private ThreadLocal<Integer> myIndex; // initialize myIndex
+  private int last = -1;
+
+  int visit() {
+    int i = myIndex.get();
+    last = i;
+    if (goRight)
+      return RIGHT;
+    goRight = false;
+    if (last == i)
+      return STOP;
+    else
+      return DOWN;
+  }
+}
+-----------------------------------------------------
+
+* At most one thread gets the value STOP
+* At most n - 1 threads get the value DOWN
+* At most n - 1 threads get the value right
+
+Note that the last two proofs are not symmetric.
