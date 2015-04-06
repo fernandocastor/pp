@@ -1,0 +1,199 @@
+======= Exercício 11: =======
+
+Mutual exclusion:
+------------------------------------
+
+Pelo código, vemos que:
+
+write_a(turn = A) -> read_a(busy == false) -> write_a(busy = true) -> read_a(turn == A) -> CS_a
+write_b(turn = B) -> read_b(busy == false) -> write_b(busy = true) -> read_b(turn == B) -> CS_b
+
+Suponha que a thread A seja a primeira a entrar na CS (critical section). Isso
+só acontece se `read_a(turn == A) -> CS_a`. Se uma thread B executar a escrita
+write_b(turn = B) logo após a CS_a [CS_a -> write_b(turn = B)], ela não entrará
+na CS_b, pois read_b(busy == true) durante toda a execução de CS_a. Se a thread
+B já tiver executado `write_b(turn = B) -> read_b(busy == false)` antes de A
+entrar na CS_a, B não irá entrar na CS_b já que para isso read_b(turn == B), o
+que não é verdade, pois para entrar em CS_a, read_a(turn == A). Mesmo que na
+iteração seguinte write_b(turn = B), essa alteração não surtirá efeito, já que
+read_b(busy = true).
+
+Deadlock-freedom & Starvation-freedom:
+------------------------------------
+
+Considere a seguinte execução:
+
+write_a(turn = A) -> read_a(busy == false) -> write_b(turn == B) -> read_b(busy == false)
+    -> write_a(busy = true) -> read_a(turn != A) -> write_a(turn = A) -> read_b(turn != B)
+
+A partir de então tanto A quanto B permanecerão indefinidamente no loop mais
+interno, pois ambos farão a leitura read(busy == true).
+
+======= Exercício 13: =======
+
+A representação da árvore é dada por:
+              L11
+             /   \
+            /     \
+           /       \
+          /         \
+         /           \
+        /             \
+       /               \
+      L21              L22
+     /   \            /   \
+    /     \          /     \
+   /       \        /       \
+  L31      L32     L33      L34
+ /   \    /   \   /   \    /   \
+T1   T2  T3   T4 T5   T6  T7   T8
+
+Onde Lij representa o lock de índice j de altura i.
+E Tk representa a thread de índice k (com valor de 1 a 2^(altura da árvore)).
+
+------------------ Exclusão mútua: ------------------
+
+Prova por indução sobre a altura da árvore (h).
+
+Hipótese de indução:
+Em uma 2-thread Peterson locks binary tree de altura h há exclusão mútua.
+
+Caso base: n = 1
+  L11
+ /   \
+T1   T2
+
+Este é o caso habitual do Peterson lock, onde temos duas threads disputando um lock.
+Logo há exclusão mútua.
+
+Caso indutivo: n = h+1 (para h >= 1)
+As duas subárvores(de altura h) da raiz dividem as threads em dois conjuntos que disputam por locks distintos.
+Logo as execuções das "subthreads" estão dependentes da raiz, ou dos locks internos das subárvores.
+Pela hipótese de indução, há exclusão mútua para as subárvores de altura h.
+E como a raiz é um Peterson lock, então a hipótese é valida.
+
+------------------ Deadlock-freedom e Starvation-freedom: ------------------
+
+Prova por indução sobre a altura da árvore (h).
+
+Hipótese de indução:
+Em uma 2-thread Peterson locks binary tree de altura h é deadlock-free e starvation-free.
+
+Caso base: n = 1
+  L11
+ /   \
+T1   T2
+
+Este é o caso habitual do Peterson lock, onde temos duas threads disputando um lock.
+Logo é deadlock-free e starvation-free.
+
+Caso indutivo: n = h+1 (para h >= 1)
+As duas subárvores(de altura h) da raiz dividem as threads em dois conjuntos que disputam por locks distintos.
+Pela hipótese de indução, as subárvores de altura h são deadlock-free e starvation-free.
+Já que o id das subávores da raiz são distintos, é garantido que a aquisição do lock será alternado entre as
+subárvores, pois a raiz é um Peterson lock.
+Tornando então a hipótese válida.
+
+======= Exercício 15: =======
+
+A seguinte execução mostra que o algoritmo FastPath não satisfaz a exclusão mútua:
+
+write_a(x = A) -> read_a(y == -1) -> write_b(x = B) -> read_b(y == -1) -> write_a(y = A)
+    -> read_a(x != A) -> lock_a -> CS_a -> read_b(x == B) -> CS_b
+
+A declaração dos cientistas da Cantaloupe-Melon University não está correta.
+
+======= Exercício 16: =======
+
+Pelo código, vemos que:
+
+Valor inicial: goRight = false
+
+RIGHT: write_r(last = R) -> read_r(goRight == true) -> CS_r
+STOP:  write_s(last = S) -> read_s(goRight == false) -> write_s(goRight = true) -> read_s(last == S) -> CS_s
+DOWN:  write_d(last = D) -> read_d(goRight == false) -> write_d(goRight = true) -> read_d(last != D) -> CS_d
+
+------------------ No máximo uma thread terá o valor STOP: ------------------
+Hipótese: É possível que mais de uma thread ter o valor STOP.
+Isso implica na existência de duas thread A e B que terão o valor STOP.
+Para que isso aconteça, necessariamente I ou II são válidos:
+
+I) write_a(goRight = true) -> read_b(goRight == false)
+Fazendo com que B tenha valor RIGHT.
+
+II) read_b(goRight == false) -> write_a(goRight = true)
+Como a variável 'last' não pode assumir dois valores, ou A ou B terá o valor DOWN.
+
+Como I e II rejeitam a hipótese, então não é possível que mais de uma thread ter o valor STOP.
+
+------------------
+
+A execução a seguir mostra que é possível uma thread ter o valor STOP.
+write_s(last = S) -> read_s(goRight == false) -> write_s(goRight = true) -> read_s(last == S)
+
+------------------
+
+Conclusão: No máximo uma thread terá o valor STOP.
+
+------------------ No máximo n-1 threads terão o valor DOWN:  ------------------
+
+Hipótese: Todas as n threads terão o valor DOWN.
+Isso implica em I ou II:
+
+I) write_i(goRight = true) -> read_j(goRight == false)
+Fazendo com que pelo menos uma thread tenha valor RIGHT.
+
+II) read_i(goRight == false) -> write_i(goRight = true) [para todo i variando de 1 a n]
+Logo existe uma thread(índice l) que executou por último:
+write_l(last = L)
+Isso implica que esta thread terá como valor STOP.
+
+
+Como I e II rejeitam a hipótese, então não é possível que as n threads tenham o valor DOWN.
+
+------------------
+
+Caso todas as threads executem as instruções a seguir (para todo i variando de 1 a n):
+write_i(last = I) -> read_i(goRight == false)
+
+Seguidos da execução de (para todo i variando de 1 a n):
+write_i(goRight = true) -> read_i(last == I)
+
+Como last terá o valor do índice da última thread que executou:
+write_l(last = L)
+
+Necessariamente l terá o valor STOP, e as demais n-1 threads terão o valor DOWN.
+
+------------------
+
+Conclusão: No máximo n-1 threads terão o valor DOWN.
+
+------------------ No máximo n-1 threads terão o valor RIGHT:  ------------------
+
+Hipótese: Todas as n threads terão o valor RIGHT.
+Isso implica em I ou II:
+
+I) read_i(goRight == false) -> write_i(goRight = true) [para todo i variando de 1 a n]
+Logo nenhuma thread terá o valor RIGHT.
+
+II) write_i(goRight = true) -> read_j(goRight == false)
+Como:
+read_i(goRight == false) -> write_i(goRight = true)
+Logo, o valor de i será diferente de RIGHT.
+
+
+Como I e II rejeitam a hipótese, então não é possível que as n threads tenham o valor RIGHT.
+
+------------------
+
+Caso a primeira thread execute as instruções:
+write_1(last = 1) -> read_1(goRight == false) -> write_1(goRight = true)
+Esta terá um valor diferente de RIGHT.
+
+As demais threads executarão as instruções a seguir (para todo i variando de 2 a n):
+write_i(last = I) -> read_i(goRight == false)
+Logo terão o valor RIGHT.
+
+------------------
+
+Conclusão: No máximo n-1 threads terão o valor RIGHT.
