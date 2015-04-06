@@ -90,15 +90,16 @@ Logo é deadlock-free e starvation-free.
 Caso indutivo: n = h+1 (para h >= 1)
 As duas subárvores(de altura h) da raiz dividem as threads em dois conjuntos que disputam por locks distintos.
 Pela hipótese de indução, as subárvores de altura h são deadlock-free e starvation-free.
-Como a requisição dos locks é feita das folhas para a raiz, então é necessário que a raiz seja deadlock-free
-e starvation-free.
-E como a raiz é um Peterson lock então a hipótese é válida.
+Já que o id das subávores da raiz são distintos, é garantido que a aquisição do lock será alternado entre as
+subárvores, pois a raiz é um Peterson lock.
+Tornando então a hipótese válida.
 
 ======= Exercício 15: =======
 
 A seguinte execução mostra que o algoritmo FastPath não satisfaz a exclusão mútua:
 
-write_a(x = A) -> read_a(y == -1) -> write_b(x = B) -> read_b(y == -1) -> write_a(y = A) -> read_a(x != A) -> lock_a -> CS_a -> read_b(x == B) -> CS_b
+write_a(x = A) -> read_a(y == -1) -> write_b(x = B) -> read_b(y == -1) -> write_a(y = A)
+    -> read_a(x != A) -> lock_a -> CS_a -> read_b(x == B) -> CS_b
 
 A declaração dos cientistas da Cantaloupe-Melon University não está correta.
 
@@ -114,15 +115,14 @@ DOWN:  write_d(last = D) -> read_d(goRight == false) -> write_d(goRight = true) 
 
 ------------------ No máximo uma thread terá o valor STOP: ------------------
 Hipótese: É possível que mais de uma thread ter o valor STOP.
-Isso implica em I ou II:
+Isso implica na existência de duas thread A e B que terão o valor STOP.
+Para que isso aconteça, necessariamente I ou II são válidos:
 
 I) write_a(goRight = true) -> read_b(goRight == false)
 Fazendo com que B tenha valor RIGHT.
 
 II) read_b(goRight == false) -> write_a(goRight = true)
-Logo: write_b(last = B) -> read_a(last == A)
-Fazendo com que A tenha valor DOWN.
-
+Como a variável 'last' não pode assumir dois valores, ou A ou B terá o valor DOWN.
 
 Como I e II rejeitam a hipótese, então não é possível que mais de uma thread ter o valor STOP.
 
@@ -140,12 +140,12 @@ Conclusão: No máximo uma thread terá o valor STOP.
 Hipótese: Todas as n threads terão o valor DOWN.
 Isso implica em I ou II:
 
-I) write_ai(goRight = true) -> read_aj(goRight == false)
+I) write_i(goRight = true) -> read_j(goRight == false)
 Fazendo com que pelo menos uma thread tenha valor RIGHT.
 
-II) read_ai(goRight == false) -> write_ai(goRight = true) [para todo i variando de 1 a n]
+II) read_i(goRight == false) -> write_i(goRight = true) [para todo i variando de 1 a n]
 Logo existe uma thread(índice l) que executou por último:
-write_al(last = Al)
+write_l(last = L)
 Isso implica que esta thread terá como valor STOP.
 
 
@@ -154,15 +154,15 @@ Como I e II rejeitam a hipótese, então não é possível que as n threads tenh
 ------------------
 
 Caso todas as threads executem as instruções a seguir (para todo i variando de 1 a n):
-write_ai(last = Ai) -> read_ai(goRight == false)
+write_i(last = I) -> read_i(goRight == false)
 
 Seguidos da execução de (para todo i variando de 1 a n):
-write_ai(goRight = true) -> read_ai(last == Ai)
+write_i(goRight = true) -> read_i(last == I)
 
 Como last terá o valor do índice da última thread que executou:
-write_al(last = Al)
+write_l(last = L)
 
-Necessariamente Al terá o valor STOP, e as demais n-1 threads terão o valor DOWN.
+Necessariamente l terá o valor STOP, e as demais n-1 threads terão o valor DOWN.
 
 ------------------
 
@@ -173,13 +173,13 @@ Conclusão: No máximo n-1 threads terão o valor DOWN.
 Hipótese: Todas as n threads terão o valor RIGHT.
 Isso implica em I ou II:
 
-I) read_ai(goRight == false) -> write_ai(goRight = true) [para todo i variando de 1 a n]
+I) read_i(goRight == false) -> write_i(goRight = true) [para todo i variando de 1 a n]
 Logo nenhuma thread terá o valor RIGHT.
 
-II) write_ai(goRight = true) -> read_aj(goRight == false)
+II) write_i(goRight = true) -> read_j(goRight == false)
 Como:
-read_ai(goRight == false) -> write_ai(goRight = true)
-Logo, o valor de Ai será diferente de RIGHT.
+read_i(goRight == false) -> write_i(goRight = true)
+Logo, o valor de i será diferente de RIGHT.
 
 
 Como I e II rejeitam a hipótese, então não é possível que as n threads tenham o valor RIGHT.
@@ -187,11 +187,11 @@ Como I e II rejeitam a hipótese, então não é possível que as n threads tenh
 ------------------
 
 Caso a primeira thread execute as instruções:
-write_a1(last = A1) -> read_a1(goRight == false) -> write_a1(goRight = true)
+write_1(last = 1) -> read_1(goRight == false) -> write_1(goRight = true)
 Esta terá um valor diferente de RIGHT.
 
 As demais threads executarão as instruções a seguir (para todo i variando de 2 a n):
-write_ai(last = Ai) -> read_ai(goRight == false)
+write_i(last = I) -> read_i(goRight == false)
 Logo terão o valor RIGHT.
 
 ------------------
