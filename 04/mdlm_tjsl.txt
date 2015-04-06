@@ -1,37 +1,37 @@
-======= Exerc√≠cio 11: =======
+======= ExercÌcio 11: =======
 
 Mutual exclusion:
 ------------------------------------
 
-Pelo c√≥digo, vemos que:
+Pelo cÛdigo, vemos que:
 
 write_a(turn = A) -> read_a(busy == false) -> write_a(busy = true) -> read_a(turn == A) -> CS_a
 write_b(turn = B) -> read_b(busy == false) -> write_b(busy = true) -> read_b(turn == B) -> CS_b
 
 Suponha que a thread A seja a primeira a entrar na CS (critical section). Isso
-s√≥ acontece se `read_a(turn == A) -> CS_a`. Se uma thread B executar a escrita
-write_b(turn = B) logo ap√≥s a CS_a [CS_a -> write_b(turn = B)], ela n√£o entrar√°
-na CS_b, pois read_b(busy == true) durante toda a execu√ß√£o de CS_a. Se a thread
-B j√° tiver executado `write_b(turn = B) -> read_b(busy == false)` antes de A
-entrar na CS_a, B n√£o ir√° entrar na CS_b j√° que para isso read_b(turn == B), o
-que n√£o √© verdade, pois para entrar em CS_a, read_a(turn == A). Mesmo que na
-itera√ß√£o seguinte write_b(turn = B), essa altera√ß√£o n√£o surtir√° efeito, j√° que
+sÛ acontece se `read_a(turn == A) -> CS_a`. Se uma thread B executar a escrita
+write_b(turn = B) logo apÛs a CS_a [CS_a -> write_b(turn = B)], ela n„o entrar·
+na CS_b, pois read_b(busy == true) durante toda a execuÁ„o de CS_a. Se a thread
+B j· tiver executado `write_b(turn = B) -> read_b(busy == false)` antes de A
+entrar na CS_a, B n„o ir· entrar na CS_b j· que para isso read_b(turn == B), o
+que n„o È verdade, pois para entrar em CS_a, read_a(turn == A). Mesmo que na
+iteraÁ„o seguinte write_b(turn = B), essa alteraÁ„o n„o surtir· efeito, j· que
 read_b(busy = true).
 
 Deadlock-freedom & Starvation-freedom:
 ------------------------------------
 
-Considere a seguinte execu√ß√£o:
+Considere a seguinte execuÁ„o:
 
 write_a(turn = A) -> read_a(busy == false) -> write_b(turn == B) -> read_b(busy == false)
     -> write_a(busy = true) -> read_a(turn != A) -> write_a(turn = A) -> read_b(turn != B)
 
-A partir de ent√£o tanto A quanto B permanecer√£o indefinidamente no loop mais
-interno, pois ambos far√£o a leitura read(busy == true).
+A partir de ent„o tanto A quanto B permanecer„o indefinidamente no loop mais
+interno, pois ambos far„o a leitura read(busy == true).
 
-======= Exerc√≠cio 13: =======
+======= ExercÌcio 13: =======
 
-A representa√ß√£o da √°rvore √© dada por:
+A representaÁ„o da ·rvore È dada por:
               L11
              /   \
             /     \
@@ -48,64 +48,64 @@ A representa√ß√£o da √°rvore √© dada por:
  /   \    /   \   /   \    /   \
 T1   T2  T3   T4 T5   T6  T7   T8
 
-Onde Lij representa o lock de √≠ndice j de altura i.
-E Tk representa a thread de √≠ndice k (com valor de 1 a 2^(altura da √°rvore)).
+Onde Lij representa o lock de Ìndice j de altura i.
+E Tk representa a thread de Ìndice k (com valor de 1 a 2^(altura da ·rvore)).
 
------------------- Exclus√£o m√∫tua: ------------------
+------------------ Exclus„o m˙tua: ------------------
 
-Prova por indu√ß√£o sobre a altura da √°rvore (h).
+Prova por induÁ„o sobre a altura da ·rvore (h).
 
-Hip√≥tese de indu√ß√£o:
-Em uma 2-thread Peterson locks binary tree de altura h h√° exclus√£o m√∫tua.
+HipÛtese de induÁ„o:
+Em uma 2-thread Peterson locks binary tree de altura h h· exclus„o m˙tua.
 
 Caso base: n = 1
   L11
  /   \
 T1   T2
 
-Este √© o caso habitual do Peterson lock, onde temos duas threads disputando um lock.
-Logo h√° exclus√£o m√∫tua.
+Este È o caso habitual do Peterson lock, onde temos duas threads disputando um lock.
+Logo h· exclus„o m˙tua.
 
 Caso indutivo: n = h+1 (para h >= 1)
-As duas sub√°rvores(de altura h) da raiz dividem as threads em dois conjuntos que disputam por locks distintos.
-Logo as execu√ß√µes das "subthreads" est√£o dependentes da raiz, ou dos locks internos das sub√°rvores.
-Pela hip√≥tese de indu√ß√£o, h√° exclus√£o m√∫tua para as sub√°rvores de altura h.
-E como a raiz √© um Peterson lock, ent√£o a hip√≥tese √© valida.
+As duas sub·rvores(de altura h) da raiz dividem as threads em dois conjuntos que disputam por locks distintos.
+Logo as execuÁıes das "subthreads" est„o dependentes da raiz, ou dos locks internos das sub·rvores.
+Pela hipÛtese de induÁ„o, h· exclus„o m˙tua para as sub·rvores de altura h.
+E como a raiz È um Peterson lock, ent„o a hipÛtese È valida.
 
 ------------------ Deadlock-freedom e Starvation-freedom: ------------------
 
-Prova por indu√ß√£o sobre a altura da √°rvore (h).
+Prova por induÁ„o sobre a altura da ·rvore (h).
 
-Hip√≥tese de indu√ß√£o:
-Em uma 2-thread Peterson locks binary tree de altura h √© deadlock-free e starvation-free.
+HipÛtese de induÁ„o:
+Em uma 2-thread Peterson locks binary tree de altura h È deadlock-free e starvation-free.
 
 Caso base: n = 1
   L11
  /   \
 T1   T2
 
-Este √© o caso habitual do Peterson lock, onde temos duas threads disputando um lock.
-Logo √© deadlock-free e starvation-free.
+Este È o caso habitual do Peterson lock, onde temos duas threads disputando um lock.
+Logo È deadlock-free e starvation-free.
 
 Caso indutivo: n = h+1 (para h >= 1)
-As duas sub√°rvores(de altura h) da raiz dividem as threads em dois conjuntos que disputam por locks distintos.
-Pela hip√≥tese de indu√ß√£o, as sub√°rvores de altura h s√£o deadlock-free e starvation-free.
-J√° que o id das sub√°vores da raiz s√£o distintos, √© garantido que a aquisi√ß√£o do lock ser√° alternado entre as
-sub√°rvores, pois a raiz √© um Peterson lock.
-Tornando ent√£o a hip√≥tese v√°lida.
+As duas sub·rvores(de altura h) da raiz dividem as threads em dois conjuntos que disputam por locks distintos.
+Pela hipÛtese de induÁ„o, as sub·rvores de altura h s„o deadlock-free e starvation-free.
+J· que o id das sub·vores da raiz s„o distintos, È garantido que a aquisiÁ„o do lock ser· alternado entre as
+sub·rvores, pois a raiz È um Peterson lock.
+Tornando ent„o a hipÛtese v·lida.
 
-======= Exerc√≠cio 15: =======
+======= ExercÌcio 15: =======
 
-A seguinte execu√ß√£o mostra que o algoritmo FastPath n√£o satisfaz a exclus√£o m√∫tua:
+A seguinte execuÁ„o mostra que o algoritmo FastPath n„o satisfaz a exclus„o m˙tua:
 
 write_a(x = A) -> read_a(y == -1) -> write_b(x = B) -> read_b(y == -1) -> write_a(y = A)
     -> read_a(x != A) -> lock_a -> CS_a -> read_b(x == B) -> CS_b
 
-A declara√ß√£o dos cientistas da Cantaloupe-Melon University n√£o est√° correta.
+A declaraÁ„o dos cientistas da Cantaloupe-Melon University n„o est· correta.
 
-======= Exerc√≠cio 16: =======
+======= ExercÌcio 16: =======
 
-Pelo c√≥digo, vemos que:
+Pelo cÛdigo, vemos que:
 
 Valor inicial: goRight = false
 
@@ -113,87 +113,87 @@ RIGHT: write_r(last = R) -> read_r(goRight == true) -> CS_r
 STOP:  write_s(last = S) -> read_s(goRight == false) -> write_s(goRight = true) -> read_s(last == S) -> CS_s
 DOWN:  write_d(last = D) -> read_d(goRight == false) -> write_d(goRight = true) -> read_d(last != D) -> CS_d
 
------------------- No m√°ximo uma thread ter√° o valor STOP: ------------------
-Hip√≥tese: √â poss√≠vel que mais de uma thread ter o valor STOP.
-Isso implica na exist√™ncia de duas thread A e B que ter√£o o valor STOP.
-Para que isso aconte√ßa, necessariamente I ou II s√£o v√°lidos:
+------------------ No m·ximo uma thread ter· o valor STOP: ------------------
+HipÛtese: … possÌvel que mais de uma thread ter o valor STOP.
+Isso implica na existÍncia de duas thread A e B que ter„o o valor STOP.
+Para que isso aconteÁa, necessariamente I ou II s„o v·lidos:
 
 I) write_a(goRight = true) -> read_b(goRight == false)
 Fazendo com que B tenha valor RIGHT.
 
 II) read_b(goRight == false) -> write_a(goRight = true)
-Como a vari√°vel 'last' n√£o pode assumir dois valores, ou A ou B ter√° o valor DOWN.
+Como a vari·vel 'last' n„o pode assumir dois valores, ou A ou B ter· o valor DOWN.
 
-Como I e II rejeitam a hip√≥tese, ent√£o n√£o √© poss√≠vel que mais de uma thread ter o valor STOP.
+Como I e II rejeitam a hipÛtese, ent„o n„o È possÌvel que mais de uma thread ter o valor STOP.
 
 ------------------
 
-A execu√ß√£o a seguir mostra que √© poss√≠vel uma thread ter o valor STOP.
+A execuÁ„o a seguir mostra que È possÌvel uma thread ter o valor STOP.
 write_s(last = S) -> read_s(goRight == false) -> write_s(goRight = true) -> read_s(last == S)
 
 ------------------
 
-Conclus√£o: No m√°ximo uma thread ter√° o valor STOP.
+Conclus„o: No m·ximo uma thread ter· o valor STOP.
 
------------------- No m√°ximo n-1 threads ter√£o o valor DOWN:  ------------------
+------------------ No m·ximo n-1 threads ter„o o valor DOWN:  ------------------
 
-Hip√≥tese: Todas as n threads ter√£o o valor DOWN.
+HipÛtese: Todas as n threads ter„o o valor DOWN.
 Isso implica em I ou II:
 
 I) write_i(goRight = true) -> read_j(goRight == false)
 Fazendo com que pelo menos uma thread tenha valor RIGHT.
 
 II) read_i(goRight == false) -> write_i(goRight = true) [para todo i variando de 1 a n]
-Logo existe uma thread(√≠ndice l) que executou por √∫ltimo:
+Logo existe uma thread(Ìndice l) que executou por ˙ltimo:
 write_l(last = L)
-Isso implica que esta thread ter√° como valor STOP.
+Isso implica que esta thread ter· como valor STOP.
 
 
-Como I e II rejeitam a hip√≥tese, ent√£o n√£o √© poss√≠vel que as n threads tenham o valor DOWN.
+Como I e II rejeitam a hipÛtese, ent„o n„o È possÌvel que as n threads tenham o valor DOWN.
 
 ------------------
 
-Caso todas as threads executem as instru√ß√µes a seguir (para todo i variando de 1 a n):
+Caso todas as threads executem as instruÁıes a seguir (para todo i variando de 1 a n):
 write_i(last = I) -> read_i(goRight == false)
 
-Seguidos da execu√ß√£o de (para todo i variando de 1 a n):
+Seguidos da execuÁ„o de (para todo i variando de 1 a n):
 write_i(goRight = true) -> read_i(last == I)
 
-Como last ter√° o valor do √≠ndice da √∫ltima thread que executou:
+Como last ter· o valor do Ìndice da ˙ltima thread que executou:
 write_l(last = L)
 
-Necessariamente l ter√° o valor STOP, e as demais n-1 threads ter√£o o valor DOWN.
+Necessariamente l ter· o valor STOP, e as demais n-1 threads ter„o o valor DOWN.
 
 ------------------
 
-Conclus√£o: No m√°ximo n-1 threads ter√£o o valor DOWN.
+Conclus„o: No m·ximo n-1 threads ter„o o valor DOWN.
 
------------------- No m√°ximo n-1 threads ter√£o o valor RIGHT:  ------------------
+------------------ No m·ximo n-1 threads ter„o o valor RIGHT:  ------------------
 
-Hip√≥tese: Todas as n threads ter√£o o valor RIGHT.
+HipÛtese: Todas as n threads ter„o o valor RIGHT.
 Isso implica em I ou II:
 
 I) read_i(goRight == false) -> write_i(goRight = true) [para todo i variando de 1 a n]
-Logo nenhuma thread ter√° o valor RIGHT.
+Logo nenhuma thread ter· o valor RIGHT.
 
 II) write_i(goRight = true) -> read_j(goRight == false)
 Como:
 read_i(goRight == false) -> write_i(goRight = true)
-Logo, o valor de i ser√° diferente de RIGHT.
+Logo, o valor de i ser· diferente de RIGHT.
 
 
-Como I e II rejeitam a hip√≥tese, ent√£o n√£o √© poss√≠vel que as n threads tenham o valor RIGHT.
+Como I e II rejeitam a hipÛtese, ent„o n„o È possÌvel que as n threads tenham o valor RIGHT.
 
 ------------------
 
-Caso a primeira thread execute as instru√ß√µes:
+Caso a primeira thread execute as instruÁıes:
 write_1(last = 1) -> read_1(goRight == false) -> write_1(goRight = true)
-Esta ter√° um valor diferente de RIGHT.
+Esta ter· um valor diferente de RIGHT.
 
-As demais threads executar√£o as instru√ß√µes a seguir (para todo i variando de 2 a n):
+As demais threads executar„o as instruÁıes a seguir (para todo i variando de 2 a n):
 write_i(last = I) -> read_i(goRight == false)
-Logo ter√£o o valor RIGHT.
+Logo ter„o o valor RIGHT.
 
 ------------------
 
-Conclus√£o: No m√°ximo n-1 threads ter√£o o valor RIGHT.
+Conclus„o: No m·ximo n-1 threads ter„o o valor RIGHT.
