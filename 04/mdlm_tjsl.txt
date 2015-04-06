@@ -18,7 +18,7 @@ que não é verdade, pois para entrar em CS_a, read_a(turn == A). Mesmo que na
 iteração seguinte write_b(turn = B), essa alteração não surtirá efeito, já que
 read_b(busy = true).
 
-Deadlock-freedom:
+Deadlock-freedom & Starvation-freedom:
 ------------------------------------
 
 Considere a seguinte execução:
@@ -28,20 +28,6 @@ write_a(turn = A) -> read_a(busy == false) -> write_b(turn == B) -> read_b(busy 
 
 A partir de então tanto A quanto B permanecerão indefinidamente no loop mais
 interno, pois ambos farão a leitura read(busy == true).
-
-Starvation-freedom:
-------------------------------------
-
-XXX: Não foi explicitamente dito no livro, mas pelos exemplos dados (Peterson
-Lock e Filter Lock), quando um algoritmo satisfaz a exclusão mútua e é
-starvation-free, ele é deadlock-free.
-
-Suponhamos que Flaky Lock seja starvation-free. Provamos que o protocolo
-satisfaz exclusão mútua. Poderíamos então deduzir que o algoritmo é
-deadlock-free. No entanto isso é uma contradição, já que provamos que o Flaky
-Lock não é deadlock-free.
-
-FlakyLock, portanto, não é starvation-free.
 
 ======= Exercício 13: =======
 
