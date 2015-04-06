@@ -1,4 +1,4 @@
-﻿Programação Paralela - Trabalho 3
+﻿Programação Paralela - Trabalho 4
 =================================
 Daker Fernandes <dakerfp@gmail.com>; Emiliano Firmino <emiliano.firmino@gmail.com>
 
@@ -87,7 +87,7 @@ para o valor de seu thread id. Quando *C* liberar o lock, __busy__ será
 alterado para *false* permitindo *A* e *B* sairem do primeiro loop.
 
 Supondo que *A* sai do loop antes de *B* alterar o valor de __turn__, *B*
-altera o valor de __turn__ e também sai do loop, *A* ou *B* alterar __busy__
+altera o valor de __turn__ e também sai do loop, *A* ou *B* altera __busy__
 para *true*. Mas *A* é o primeiro a verificar se __turn__ contém seu valor e
 descobre que não, antes de *B* executar *A* entra novamente no primeiro loop e
 altera __turn__ para seu thread id. *B* então verifica se __turn__ contém seu
@@ -121,6 +121,73 @@ Is there an upper bound on the number of times the tree-lock can be acquired
 and released between the time a thread starts acquiring the tree-lock and when
 it succeeds?
 
+.Representação da tree-lock
+-------------------------------
+             [PL]
+             /  \
+            /    \
+           /      \
+          /        \
+         /          \
+        /            \
+       /              \
+     [PL]            [PL]
+     /  \            /  \
+    /    \          /    \
+   /      \        /      \
+ [PL]    [PL]    [PL]    [PL]
+ /  \    /  \    /  \    /  \
+t0  t1  t2  t3  t4  t5  t6  t7
+-------------------------------
+
+Considerando que Peterson Lock atende as três propriedades.
+
+__resposta 1__:
+
+Supondo que a tree-lock não atenda a propriedade de exclusão mútua, duas
+ou mais threads precisam ser capazes de adquirir o lock.
+
+Para adquirir o lock é necessário a thread adquira todos os locks partindo do
+nó folha ao nó raiz. Consequentemente, é necessário que duas threads adquiram
+o nó raiz, como Peterson lock satisfaz a propriedade de exclusão mútua, não
+é possível duas threads adquirirem o lock, o mesmo vale para todas os nós
+precedentes ao nó raiz, logo por contradição não é possível duas threads
+adquirirem o lock.
+
+Portanto a tree-lock atende o princípio da exclusão mútua.
+
+__resposta 2__:
+
+Supondo que a tree-lock não atenda a propriedade de __deadlock-free__. É
+necessário que exista uma condição onde threads estejam tentando adquirir o
+lock e nunca consigam.
+
+Para que isso aconteça, um dos nós da árvore precisa violar a propriedade, como
+todos os nós são Peterson Lock e este atende a propriedade. Logo por
+contradição árvore atende a propriedade de __deadlock-free__.
+
+__resposta 3__:
+
+Supondo que a tree-lock não atenda a propriedade de __starvation-free__. É necessário
+que assim como na questão anterior um dos nós da árvore viole a proprieade, como
+todos os nós atende a propriedade. Logo por contradição a árvore atende a
+propriedade de __starvation-free__.
+
+__resposta 4__:
+
+Supondo que árvore é sempre balanceada, o número de nós folhas é metade do
+número de threads do sistema, e a altura da árvore log2 do número de folhas.
+
+O pior caso para a espera e adquirir o lock é a soma do pior caso em cada
+um dos nós da árvore das folhas até a raiz. Como no Peterson Lock, a espera
+em adquirir o lock é de no máximo um turno. Podemos inferir que o pior
+caso para adquirir a árvore como um todo é igual a altura da árvore.
+
+.Tempo máximo de espera para adquirir o lock
+---------------------------------------
+MaxWait = ceil( log2( count(thread) ) )
+---------------------------------------
+
 __exercício 15__: In practice, almost all lock acquisitions are uncontended, so
 the most practical measure of a lock's performance is the number of steps
 needed for a thread to acquire a lock when no other thread is concurrently
@@ -130,7 +197,7 @@ Scientist at Cataloupe-Melon University have divised the following "wrapper"
 for an arbitrary lock, shown in Fig. 2.16. They claim that if the base Lock
 class provides mutual exclusion and is starvation-free, so does the FastPath
 lock, but it can be acquired in a constant number of steps in the absance of
-contention.  Sketch an argument why they are right, or give a counterexample.
+contention. Sketch an argument why they are right, or give a counterexample.
 
 [source java]
 -----------------------------------------------------
