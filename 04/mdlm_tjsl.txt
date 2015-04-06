@@ -23,9 +23,8 @@ Deadlock-freedom:
 
 Considere a seguinte execução:
 
-write_a(turn = A) -> read_a(busy == false) -> write_a(busy = true) -> write_b(turn == B) -> read_a(turn == B)
-
-A thread A realizará outra iteração após read_a(turn == B).
+write_a(turn = A) -> read_a(busy == false) -> write_b(turn == B) -> read_b(busy == false)
+    -> write_a(busy = true) -> read_a(turn != A) -> write_a(turn = A) -> read_b(turn != B)
 
 A partir de então tanto A quanto B permanecerão indefinidamente no loop mais
 interno, pois ambos farão a leitura read(busy == true).
