@@ -38,6 +38,65 @@ class Flaky implements Lock {
 * Is this protocol starvation-free?
 * Is this protocol deadlock-free?
 
+__resposta 1__:
+
+Para que a exclusão mútua seja satisfeita nunca mais de uma thread pode
+adquirir o lock.
+
+Portanto supondo que o lock não satisfaça, duas ou mais threads precisam
+adquirir o lock.  Supondo duas threads A e B tenham adquirido o lock, para que
+isso aconteça ambas precisam ter passado pelos dois loops de espera, o loop de
+busy no qual a thread atribui seu id para o turn, e o segundo loop onde ela
+atribui *true* para __busy__ e o __turn__ seja seu id.
+
+Para que isso aconteça __busy__ precisa ser *false* para ambas as threads
+sairem do primeiro loop, e __turn__ precisa está com o valor de sua thread id.
+Como __turn__ é alterado apenas dentro do primeiro loop, __turn__ só poderá
+conter o valor da última threads a modificá-lo. Apenas uma das threads será o
+valor de __turn__ e apenas dentro do primeiro loop é preciso modificar e ambas
+as threads sairam dele antes de __busy__ ser *true*, logo por contradição
+apenas uma thread pode adquiri o lock nunca as duas.
+
+Portanto o lock atende o princípio da exclusão mútua.
+
+__resposta 2__:
+
+Para que o protocolo seja __starvation-free__ a thread que queira adquirir o lock
+em algum momento irá conseguir.
+
+Supondo que o lock não satisfaça a propriedade, é necessário que uma thread que
+esteja tentando adquirir o lock nunca consiga que __turn__ possua seu thread id
+quando ela tentar sair dos segundo loop. A principal característica de __turn__
+é que seu valor é sempre da última thread a alterá-lo. Se tivermos uma thread
+que é muito lenta, ou uma outra muito mais rápida.
+
+É possível que sempre que a thread lenta alterar __turn__ e antes dela
+verificar se __turn__ contém seu thread id, a thread rápida altere __turn__
+para seu thread id assim sempre adquira o lock em detrimento da thread lenta.
+
+Portanto esse protocolo *NÃO* é __starvation-free__.
+
+__resposta 3__:
+
+Para que o protocolo seja __deadlock-free__ quando uma thread tentar adquirir o
+lock e ninguém estiver usando, ela irá em algum momento conseguir.
+
+Supondo duas threads *A* e *B* estejam tentando adquir o lock enquanto *C* o
+esteja usando. As threads *A* e *B* vão está em loop ocupado, alterado __turn__
+para o valor de seu thread id. Quando *C* liberar o lock, __busy__ será
+alterado para *false* permitindo *A* e *B* sairem do primeiro loop.
+
+Supondo que *A* sai do loop antes de *B* alterar o valor de __turn__, *B*
+altera o valor de __turn__ e também sai do loop, *A* ou *B* alterar __busy__
+para *true*. Mas *A* é o primeiro a verificar se __turn__ contém seu valor e
+descobre que não, antes de *B* executar *A* entra novamente no primeiro loop e
+altera __turn__ para seu thread id. *B* então verifica se __turn__ contém seu
+thread id e como *A* foi o último a modificá-lo, *B* não sai do segundo loop e
+ambas as threads ficam permanentemente no primeiro loop aguardando __busy__ ser
+*false* o que nunca irá acontecer.
+
+Portanto esse protocolo *NÃO* é __deadlock-free__.
+
 __exercício 13__: Another way to generalize the two-thread Peterson lock is to
 arrange a number of 2-thread Peterson locks in a binary tree. Suppose n is a
 power of two.
