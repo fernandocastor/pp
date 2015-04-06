@@ -8,7 +8,15 @@ Pelo código, vemos que:
 write_a(turn = A) -> read_a(busy == false) -> write_a(busy = true) -> read_a(turn == A) -> CS_a
 write_b(turn = B) -> read_b(busy == false) -> write_b(busy = true) -> read_b(turn == B) -> CS_b
 
-Suponha que a thread A seja a primeira a entrar na CS (critical section). Isso só acontece se `read_a(turn == A) -> CS_a`. Se uma thread B executar a escrita write_b(turn = B) logo após a CS_a [CS_a -> write_b(turn = B)], ela não entrará na CS_b, pois read_b(busy == true) durante toda a execução de CS_a. Se a thread B já tiver executado `write_b(turn = B) -> read_b(busy == false)` antes de A entrar na CS_a, B não irá entrar na CS_b já que para isso read_b(turn == B), o que não é verdade, pois para entrar em CS_a, read_a(turn == A). Mesmo que na iteração seguinte write_b(turn = B), essa alteração não surtirá efeito, já que read_b(busy = true).
+Suponha que a thread A seja a primeira a entrar na CS (critical section). Isso
+só acontece se `read_a(turn == A) -> CS_a`. Se uma thread B executar a escrita
+write_b(turn = B) logo após a CS_a [CS_a -> write_b(turn = B)], ela não entrará
+na CS_b, pois read_b(busy == true) durante toda a execução de CS_a. Se a thread
+B já tiver executado `write_b(turn = B) -> read_b(busy == false)` antes de A
+entrar na CS_a, B não irá entrar na CS_b já que para isso read_b(turn == B), o
+que não é verdade, pois para entrar em CS_a, read_a(turn == A). Mesmo que na
+iteração seguinte write_b(turn = B), essa alteração não surtirá efeito, já que
+read_b(busy = true).
 
 Deadlock-freedom:
 ------------------------------------
@@ -19,14 +27,20 @@ write_a(turn = A) -> read_a(busy == false) -> write_a(busy = true) -> write_b(tu
 
 A thread A realizará outra iteração após read_a(turn == B).
 
-A partir de então tanto A quanto B permanecerão indefinidamente no loop mais interno, pois ambos farão a leitura read(busy == true).
+A partir de então tanto A quanto B permanecerão indefinidamente no loop mais
+interno, pois ambos farão a leitura read(busy == true).
 
 Starvation-freedom:
 ------------------------------------
 
-XXX: Não foi explicitamente dito no livro, mas pelos exemplos dados (Peterson Lock e Filter Lock), quando um algoritmo satisfaz a exclusão mútua e é starvation-free, ele é deadlock-free.
+XXX: Não foi explicitamente dito no livro, mas pelos exemplos dados (Peterson
+Lock e Filter Lock), quando um algoritmo satisfaz a exclusão mútua e é
+starvation-free, ele é deadlock-free.
 
-Suponhamos que Flaky Lock seja starvation-free. Provamos que o protocolo satisfaz exclusão mútua. Poderíamos então deduzir que o algoritmo é deadlock-free. No entanto isso é uma contradição, já que provamos que o Flaky Lock não é deadlock-free.
+Suponhamos que Flaky Lock seja starvation-free. Provamos que o protocolo
+satisfaz exclusão mútua. Poderíamos então deduzir que o algoritmo é
+deadlock-free. No entanto isso é uma contradição, já que provamos que o Flaky
+Lock não é deadlock-free.
 
 FlakyLock, portanto, não é starvation-free.
 
@@ -91,7 +105,8 @@ Logo é deadlock-free e starvation-free.
 Caso indutivo: n = h+1 (para h >= 1)
 As duas subárvores(de altura h) da raiz dividem as threads em dois conjuntos que disputam por locks distintos.
 Pela hipótese de indução, as subárvores de altura h são deadlock-free e starvation-free.
-Como a requisição dos locks é feita das folhas para a raiz, então é necessário que a raiz seja deadlock-free e starvation-free.
+Como a requisição dos locks é feita das folhas para a raiz, então é necessário que a raiz seja deadlock-free
+e starvation-free.
 E como a raiz é um Peterson lock então a hipótese é válida.
 
 ======= Exercício 15: =======
