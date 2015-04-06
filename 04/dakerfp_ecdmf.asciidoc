@@ -241,7 +241,7 @@ class Bouncer {
     last = i;
     if (goRight)
       return RIGHT;
-    goRight = false;
+    goRight = true;
     if (last == i)
       return STOP;
     else
