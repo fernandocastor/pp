@@ -56,7 +56,7 @@ E Tk representa a thread de índice k (com valor de 1 a 2^(altura da árvore)).
 Prova por indução sobre a altura da árvore (h).
 
 Hipótese de indução:
-Em uma 2-thread Peterson locks binary tree de altura h não há exclusão mútua.
+Em uma 2-thread Peterson locks binary tree de altura h há exclusão mútua.
 
 Caso base: n = 1
   L11
@@ -64,12 +64,12 @@ Caso base: n = 1
 T1   T2
 
 Este é o caso habitual do Peterson lock, onde temos duas threads disputando um lock.
-Logo não há exclusão mútua.
+Logo há exclusão mútua.
 
 Caso indutivo: n = h+1 (para h >= 1)
 As duas subárvores(de altura h) da raiz dividem as threads em dois conjuntos que disputam por locks distintos.
 Logo as execuções das "subthreads" estão dependentes da raiz, ou dos locks internos das subárvores.
-Pela hipótese de indução, não há exclusão mútua para as subárvores de altura h.
+Pela hipótese de indução, há exclusão mútua para as subárvores de altura h.
 E como a raiz é um Peterson lock, então a hipótese é valida.
 
 ------------------ Deadlock-freedom e Starvation-freedom: ------------------
