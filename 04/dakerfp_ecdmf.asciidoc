@@ -42,6 +42,26 @@ __exercício 13__: Another way to generalize the two-thread Peterson lock is to
 arrange a number of 2-thread Peterson locks in a binary tree. Suppose n is a
 power of two.
 
+Each thread is assigned a leaf lock which it shares with one other thread. Each
+lock threats one thread as thread 0 and other as thread 1.
+
+In the tree-lock's acquire method, the thread acquires every two-thread
+Peterson lock from that thread's leaf to the root. The tree-lock's release
+method for the tree-lock unlocks each of the 2-thread Peterson locks that
+thread has acquired, from the root back to its leaf. At any time, a thread can
+be delayed for a finite duration. (In other words, threads can take naps, or
+even vacations, but they do not drop dead.) For each property, either sketch a
+proof that it holds, or describe a (possibly infinite) execution where it is
+violated.
+
+1. mutual exclusion
+2. freedom from deadlock
+3. freedom from starvation
+
+Is there an upper bound on the number of times the tree-lock can be acquired
+and released between the time a thread starts acquiring the tree-lock and when
+it succeeds?
+
 __exercício 15__: In practice, almost all lock acquisitions are uncontended, so
 the most practical measure of a lock's performance is the number of steps
 needed for a thread to acquire a lock when no other thread is concurrently
