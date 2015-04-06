@@ -30,6 +30,70 @@ Suponhamos que Flaky Lock seja starvation-free. Provamos que o protocolo satisfa
 
 FlakyLock, portanto, não é starvation-free.
 
+======= Exercício 13: =======
+
+A representação da árvore é dada por:
+              L11
+             /   \
+            /     \
+           /       \
+          /         \
+         /           \
+        /             \
+       /               \
+      L21              L22
+     /   \            /   \
+    /     \          /     \
+   /       \        /       \
+  L31      L32     L33      L34
+ /   \    /   \   /   \    /   \
+T1   T2  T3   T4 T5   T6  T7   T8
+
+Onde Lij representa o lock de índice j de altura i.
+E Tk representa a thread de índice k (com valor de 1 a 2^(altura da árvore)).
+
+------------------ Exclusão mútua: ------------------
+
+Prova por indução sobre a altura da árvore (h).
+
+Hipótese de indução:
+Em uma 2-thread Peterson locks binary tree de altura h não há exclusão mútua.
+
+Caso base: n = 1
+  L11
+ /   \
+T1   T2
+
+Este é o caso habitual do Peterson lock, onde temos duas threads disputando um lock.
+Logo não há exclusão mútua.
+
+Caso indutivo: n = h+1 (para h >= 1)
+As duas subárvores(de altura h) da raiz dividem as threads em dois conjuntos que disputam por locks distintos.
+Logo as execuções das "subthreads" estão dependentes da raiz, ou dos locks internos das subárvores.
+Pela hipótese de indução, não há exclusão mútua para as subárvores de altura h.
+E como a raiz é um Peterson lock, então a hipótese é valida.
+
+------------------ Deadlock-freedom e Starvation-freedom: ------------------
+
+Prova por indução sobre a altura da árvore (h).
+
+Hipótese de indução:
+Em uma 2-thread Peterson locks binary tree de altura h é deadlock-free e starvation-free.
+
+Caso base: n = 1
+  L11
+ /   \
+T1   T2
+
+Este é o caso habitual do Peterson lock, onde temos duas threads disputando um lock.
+Logo é deadlock-free e starvation-free.
+
+Caso indutivo: n = h+1 (para h >= 1)
+As duas subárvores(de altura h) da raiz dividem as threads em dois conjuntos que disputam por locks distintos.
+Pela hipótese de indução, as subárvores de altura h são deadlock-free e starvation-free.
+Como a requisição dos locks é feita das folhas para a raiz, então é necessário que a raiz seja deadlock-free e starvation-free.
+E como a raiz é um Peterson lock então a hipótese é válida.
+
 ======= Exercício 15: =======
 
 A seguinte execução mostra que o algoritmo FastPath não satisfaz a exclusão mútua:
@@ -133,4 +197,3 @@ Logo terão o valor RIGHT.
 ------------------
 
 Conclusão: No máximo n-1 threads terão o valor RIGHT.
-
