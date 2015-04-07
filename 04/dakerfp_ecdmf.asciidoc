@@ -255,8 +255,8 @@ class Bouncer {
 Uma thread retornará STOP sse last == i na comparação da linha 14.
 Quando a primeira thread chega a linha 15 as seguintes condições podem ocorrer a uma outra thread qualquer:
 
-1 - ela está antes ou na linha 12
-2 - já passou da linha 12
+1 - ela está antes ou na linha 11
+2 - já passou da linha 11
 
 No caso 1, essa outra thread retornará RIGHT devido a alteração da atual thread feita na linha 13.
 No caso 2, a outra thread não poderá retornar STOP porquê last já é diferente de seu índice, caso contrário
@@ -265,6 +265,15 @@ a thread atual falharia no check last == 1.
 Logo apenas uma thread pode retornar STOP.
 
 * At most n - 1 threads get the value DOWN
+
+Para as n linhas retornarem DOWN, todas as threads devem ter passado pela verificação da linha 11,
+caso contrário ao menos uma retornará RIGHT. Nesse caso, no máximo n - 1 threads retornarão DOWN.
+
+Suponha que todas elas passaram pela linha 11, então as n threads devem retornar STOP ou DOWN.
+No entanto last deverá ter o valor de pelo menos uma das atuais threads, que deverá ter sucesso na linha 14
+Ao menos uma thread retornará STOP.
+Logo, também nesse outro caso, no máximo n - 1 treads retornarão DOWN. 
+
 * At most n - 1 threads get the value RIGHT
 
 Para retornar RIGHT é necessário que goRight seja igual a true.
