@@ -1,0 +1,100 @@
+Nome: Jose Fernando Santos de Carvalho - jfsc
+        Josino Rodrigues Neto - jrn4
+Disciplina: pp 2015.1
+Trabalho: 4
+
+Ex.11
+MUTEX? 
+SIM
+
+Prova:  Wa(turn = me) -> Ra(busy == false) ->
+        Wa(busy = TRUE) -> Ra (turn == me) ->
+        Wb(turn = me) -> Rb(busy == TRUE)
+        
+------
+
+STARVATION-FREE? 
+NÃO
+
+Prova:  Após Thread B deixar a região crítica pela enésima vez ->
+        Wa(turn = me) -> Wb(turn = me) -> Rb(busy == FALSE) ->
+        Wb(busy = TRUE) -> Ra(busy == TRUE) -> Rb(turn == me)*
+
+*Essa sequência pode se repetir sem a garantia que A progredir.
+        
+-------
+
+DEADLOCK-FREE?
+NÃO
+
+Prova:  Wa(turn = me) -> Wb( turn = me) ->
+        Ra(busy == FALSE) -> Wa(busy = TRUE) ->
+        Rb(busy == TRUE)* -> Ra(turn != me) ->
+        Wa(turn = me)**
+*Thread B aguardando por busy ==true
+**Thread A também aguardando por busy ==true
+
+
+
+Ex. 13
+    Sabemos que o lock de Peterson garante:
+    I) Satisfaz a exclusão mútua;
+    II) Livre de inanição;
+    III) livre de deadlock;
+    
+    Peterson Lock:
+    final private AtomicBoolean[] flag = new AtomicBoolean[2];
+    
+    private volatile int victim;
+    
+    public void lock() {
+        int eu = Thread.currentThread().get();
+        int ele = 1 - i;
+        flag[eu].set(true);  // Quero entrar
+        waiting = eu ;        // Mas antes eu espero você
+        while ( flag[ele].get() && waiting == eu) {}; // wait
+    }
+    ----
+    
+    Portanto, suponhamos que os desafios enfrentado pelo Lock de Peterson em uma árvore binária serão:
+    A) Conter o acesso a cada nó de modo que até 2 Threads possam estar disputando a Região Crítica, caso contrário teremos inconsistência nas escritas;
+    B) Liberar(release) a Thread da disputa de acesso à região crítica, levando em consideração o path que ela percorreu;
+    C) Ponde onde eu passo no caminho até o no root, deixo um carimbo. Também, eu como thread sei meu nó inicial
+    D) Cada nó contem uma fila de espera de tamanho limitado. Caso esse tamanho esteja cheio, a thread deve esperar ou ir para outro nó de entrada (highest-node).
+    
+    Assim:
+    
+    //Fila de Threads que querem disputar o lock em determinado no
+    private final Map<String,Integer> ThreadQueue =
+    Collections.synchronizedMap(new HashMap<Integer,Integer>(1000));
+    
+    
+    new PetersonLockBTree(){
+        //monta a árvore
+    }
+    
+    public acquire-tree(){
+        int me = Thread.currentThread().Id();
+        Node node = listWithNode[Thread.currentThread().highest-node];
+        while (node.parent != NULL){
+            //Verificar quantidade  de threads no nó
+            while(node.workingThreads == 2){}; //Aguardar por uma vaga
+            node.lock();
+            node = node.parent;
+        }
+    }
+    public release-tree(){
+        Node node == rootnode;
+        //Havendo child com o carimbo da Thread corrente continue o processo
+        while(node.childLeft.isStamped(Thread.currentThread().id) ||   node.childRight.isStamped(Thread.currentThread().id)){
+            node.unlock();
+            if(node.childLeft.isStamped(Thread.currentThread().id)){
+                node = node.childLeft;
+            }else {
+                node = node.childRight;
+            }   
+        }
+    }
+    
+    + detalhes no grafico auxiliar
+    
