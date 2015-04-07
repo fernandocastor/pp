@@ -1,0 +1,221 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Trabalho 04
+; Leonardo Fernandes
+; Victor
+; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+Exercise 11. Programmers at the Flaky Computer Corporation designed the pro-
+tocol shown in Fig. 2.15 to achieve n-thread mutual exclusion. For each question,
+either sketch a proof, or display an execution where it fails.
+
+class Flaky implements Lock {
+	private int turn;
+	private boolean busy = false;
+	public void lock() {
+		int me = ThreadID.get();
+		do {
+			do {
+				turn = me;
+			} while (busy);
+			busy = true;
+		} while (turn != me);
+	}
+
+	public void unlock() {
+		busy = false;
+	}
+}
+
+
+- Does this protocol satisfy mutual exclusion?
+RESPOSTA:
+
+
+- Is this protocol starvation-free
+RESPOSTA: Não. Pode ocorrer Starvation baseado no seguinte exemplo:
+1 - Thread 1 entra no método lock(), entra no loop interno e altera turn para 1
+2 - Neste momento Thread 2 entra no método lock(), entra no loop interno e altera turn para 2
+3 - Thread 2 consegue sair do loop interno e altera busy para true
+4 - Thread 2 consegue sair do loop externo e entrar na região crítica (deixando Thread 1 "travada" no loop interno)
+5 - Thread 2 executa a região crítica, entra no método unlock() e altera busy para false
+6 - Antes que Thread 1 saia do loop interno, Thread 2 entra novamente no método lock(), entra no loop interno e altera turn para 2
+7 - Thread 2 sai do loop interno e altera busy para true.
+
+Neste momento, voltamos ao passo 3 e com isso a Thread 2 pode sempre se sobrepor sobre a Thread 1, que pode, ocasionalmente, ficar em Starvation.
+
+
+- is this protocol deadlock-free?
+RESPOSTA: NÃO. Pode ocorrer Deadlock baseado no seguinte exemplo:
+1 - Thread 1 entra no método lock(), entra no loop interno e altera turn para 1
+2 - Neste momento Thread 2 entra no método lock(), entra no loop interno e altera turn para 2
+3 - Thread 2 consegue sair do loop interno e altera busy para true
+4 - Antes de Thread 2 sair do loop externo, ocorre uma troca de contexto e Thread 1 altera novamente o valor de turn para 1
+5 - Thread 2 não consegue sair do loop externo e retorna ao loop interno.
+
+Como o valor de busy está setado para true, ninguém consegue mais sair do loop interno. (Pelo menos até alguém chamar o método unlock())
+
+
+
+-----------------------------------------------------------------------------
+Exercise 13. Another way to generalize the two-thread Peterson lock is to arrange
+a number of 2-thread Peterson locks in a binary tree. 
+Suppose n is a power of two.
+Each thread is assigned a leaf lock which it shares with one other thread. 
+Each lock treats one thread as thread 0 and the other as thread 1.
+In the tree-lock’s acquire method, the thread acquires every two-thread
+Peterson lock from that thread’s leaf to the root. 
+The tree-lock’s release method for the tree-lock unlocks each of the 2-thread 
+Peterson locks that thread has acquired, from the root back to its leaf. 
+At any time, a thread can be delayed for a finite duration. 
+(In other words, threads can take naps, or even vacations, but they do not
+drop dead.) For each property, either sketch a proof that it holds, or describe a
+(possibly infinite) execution where it is violated.
+
+1. mutual exclusion.
+RESPOSTA:
+O algoritmo satisfaz exclusão mútua.
+Caso n=1(base) (n é uma potência de 2)
+2^1 = 2 --> 2 threads e 1 folha
+Para uma folha usa-se o Algoritmo de Peterson, que possui exclusão mútua.
+
+Caso n=2 (n é uma potência de 2)
+2^2 = 4 --> 4 threads e 3 folhas
+Pode-se dividir a árvore em duas subárvores iguais com 2 threads e 1 folha (igual caso base).
+Como cada folha possui duas threads, usando o Algoritmo de Peterson, podemos inferir 
+que a solução possui exclusão mútua para n=2.
+
+Caso n=k (n é uma potência de 2)
+2^k --> 2^k threads e (2^k)-1 folhas
+Pode-se dividir a árvore por 2^(k-1) subárvores idênticas ao caso base.
+Com isso conseguimos exclusão mútua, para n=k, dado os casos anteriores.
+(divide and conquer)
+
+2. freedom from deadlock.
+RESPOSTAS:
+O algoritmo satisfaz deadlock-free.
+Similar a prova anterior. Como o algoritmo de Peterson satisfaz deadlock para o caso base.
+E o caso onde n=k pode ser reduzido para o caso base, onde temos várias subárvores idênticas.
+O algoritmo de trava baseado em árvore também está livre de deadlock.
+
+3. freedom from starvation.
+RESPOSTA:
+O algoritmo satisfaz starvation-free.
+Similar ao item anterior.
+Além do mais, ele informa no enunciado que uma Thread pode ser retardada por um período
+finito, contudo uma thread não "morre".
+
+Is there an upper bound on the number of times the tree-lock can be acquired
+and released between the time a thread starts acquiring the tree-lock and when it
+succeeds?
+TODO?????
+
+
+-----------------------------------------------------------------------------
+Exercise 15. In practice, almost all lock acquisitions are uncontended (not comparable), so the most
+practical measure of a lock’s performance is the number of steps needed for a
+thread to acquire a lock when no other thread is concurrently trying to acquire
+the lock.
+Scientists at Cantaloupe-Melon University have devised the following “wrapper” for an arbitrary lock, 
+shown in Fig. 2.16. They claim that if the base Lock class
+provides mutual exclusion and is starvation-free, so does the FastPath lock, but
+it can be acquired in a constant number of steps in the absence of contention.
+Sketch an argument why they are right, or give a counterexample.
+
+class FastPath implements Lock {
+	private static ThreadLocal<Integer> myIndex;
+	private Lock lock;
+	private int x, y = -1;
+	public void lock() {
+		int i = myIndex.get();
+		x = i ;	             // I’m here
+		while (y != -1) {}   // is the lock free?
+		y = i;		     // me again?
+		if (x != i)          // Am I still here?
+			lock.lock(); // slow path
+	}
+	public void unlock() {
+		y = -1;
+		lock.unlock();
+	}
+}
+Figure 2.16 - Fast path mutual exclusion algorithm used in Exercise 15
+
+RESPOSTA:
+
+- Se não houver contenção, o número de passos para adquirir o Lock é constante.
+- O algoritmo não garante Exclusão mútua: 
+Dada as Threads T1, T2 e T3. 
+1 - Thread T1 sai do while e antes de alterar o valor de y ocorre troca de contexto.
+2 - Thread T2 passa pelo while(visto que y == -1), altera o valor de y e antes de invocar o método lock, ocorre a troca de contexto.
+3 - Thread T3 altera o valor de x e fica contida no while (y != -1)
+4 - Thread T1 altera y, e invoca o método lock, acessando a região crítica.
+5 - Thread T2 invoca o método lock e também acessa a região crítica.
+
+- O algoritmo não garante Starvation-free:
+Dada as Threads T1, T2 e T3. 
+1 - As três threads chegam ao mesmo tempo na contenção (while(y!=-1)). 
+2 - Thread T1 passa e altera o valor de y,bloqueando as outras 2 threads.
+3 - Thread T1 adquire o lock, executa a região crítica e libera o lock, alterando y para -1.
+4 - Thread T2 passa e altera o valor de y,bloqueando a Thread T3.
+5 - Thread T1 entra novamente no método lock e fica na contenção, junto com T3.
+6 - Thread T2 adquire o lock, executa a região crítica e libera o lock, alterando y para -1.
+7 - Thread T1 passa e altera o valor de y,bloqueando a Thread T3.
+OS passos 3 a 7 podem ser alternados entre T1 e T2 deixando T3 bloqueado indefinidamente.
+
+
+-----------------------------------------------------------------------------
+Exercise 16. Suppose n threads call the visit() method of the Bouncer class
+shown in Fig. 2.17. 
+
+class Bouncer {
+	public static final int DOWN = 0;
+	public static final int RIGHT = 1;
+	public static final int STOP = 2;
+	private boolean goRight = false;
+	private ThreadLocal<Integer> myIndex;
+	private int last = -1;
+	int visit() {
+		int i = myIndex.get();
+		last = i;
+		if (goRight)
+			return RIGHT;
+		goRight = true;
+		if (last == i)
+			return STOP;
+		else
+			return DOWN;
+	}
+}
+Figure 2.17-The Bouncer class implementation.
+
+
+Prove that—
+At most one thread gets the value STOP.
+Dada as Threads T1, T2 e T3. 
+RESPOSTA:
+1 - Se a Thread T1 executa completamente, antes das outras duas Threads alterarem o valor de last, T1 conseguria o valor de STOP.
+
+At most n − 1 threads get the value DOWN.
+RESPOSTA:
+1 - Thread T1 altera last=1, nega a condição (pois goRight==false) e antes de alterar goRight, ocorre a troca de contexto.
+2 - Thread T2 altera last=2, nega a condição (pois goRight==false), altera goRight=true, e antes da condição last==i, ocorre a troca de contexto.
+3 - Thread T3 altera last=3, entra na condição (pois goRight==true) e retorna RIGHT.
+4 - Thread T1 nega a condição (pois last!=i) e retorna DOWN.
+5 - Thread T2 nega a condição (pois last!=i) e retorna DOWN.
+
+
+At most n − 1 threads get the value RIGHT.
+RESPOSTA:
+1 - Thread T1 altera last=1, nega a condição (pois goRight==false) e altera goRight=true, ocorrendo a troca de contexto.
+2 - Thread T2 altera last=2, entra na condição (pois goRight==true) e retorna RIGHT.
+3 - Thread T3 altera last=3, entra na condição (pois goRight==true) e retorna RIGHT.
+
+
+Note that the last two proofs are not symmetric. ?? (Não entendi)
+
+
+
+
+
+
