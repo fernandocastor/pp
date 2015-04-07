@@ -228,6 +228,7 @@ A ausência de contenção ocorre quando o lock não está sendo utilizado por n
 thread permitindo ser adquirido imediatamente.
 
 Supondo para o caso onde o lock está livre e apenas uma thread chama o método lock().
+
 1. atribui seu *thread id* para __i__
 2. atribui seu *thread id* para __x__
 3. verifica que o lock está livre, o valor de __y__ é -1
@@ -242,21 +243,25 @@ Supondo um outro caso onde o lock está sem contenção e duas threads (A e B)
 tentam adquirir ao mesmo tempo.  1.
 
 Thread A:
+
 1. atribui seu *thread id* para __i__
 2. atribui seu *thread id* para __x__
 3. verifica que o lock está livre, o valor de __y__ é -1
 
 Preempção, Thread B:
+
 1. atribui seu *thread id* para __i__
 2. atribui seu *thread id* para __x__
 3. verifica que o lock está livre, o valor de __y__ é -1
 
 Preempção, Thread A:
+
 4. atribui seu *thread id* para __y__, assim indicando que o lock está ocupado
 5. verifica __x__ foi alterado, o que ocorreu
 6. chama o lock() lento
 
 Preempção, Thread B:
+
 4. atribui seu *thread id* para __y__, assim indicando que o lock está ocupado
 5. verifica __x__ foi alterado, não foi, assim adquiri o lock sem chamar o método lento
 
@@ -297,8 +302,8 @@ Uma thread retornará STOP sse last == i na comparação da linha 14.  Quando a
 primeira thread chega a linha 15 as seguintes condições podem ocorrer a uma
 outra thread qualquer:
 
-1 - ela está antes ou na linha 11
-2 - já passou da linha 11
+1. ela está antes ou na linha 11
+2. já passou da linha 11
 
 No caso 1, essa outra thread retornará RIGHT devido a alteração da atual thread
 feita na linha 13.  No caso 2, a outra thread não poderá retornar STOP porquê
