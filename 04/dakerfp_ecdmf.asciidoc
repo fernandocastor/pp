@@ -1,0 +1,335 @@
+﻿Programação Paralela - Trabalho 4
+=================================
+Daker Fernandes <dakerfp@gmail.com>; Emiliano Firmino <emiliano.firmino@gmail.com>
+
+Questão:
+--------
+Do livro AMP, devem ser feitos (no mínimo) os seguintes exercícios:
+
+*Capítulo 2*. 11, 13, 15, 16
+
+__exercício 11__: Programmer as the Flaky Computer Corporation designed the
+protocol show in Fig. 2.15 to achieve n-thread mutual exclusion. For each
+question, either sketch a proof, or display an execution where it fails.
+
+[source java]
+-----------------------------------------------------
+class Flaky implements Lock {
+  private int turn;
+  private boolean busy = false;
+
+  public void lock() {
+    int me = ThreadID.get();
+    do {
+      do {
+        turn = me;
+      } while (busy);
+      busy = true;
+    } while (turn != me);
+  }
+
+  public void unlock() {
+    busy = false;
+  }
+}
+-----------------------------------------------------
+
+* Does this protocol satisfy mutual exclusion?
+* Is this protocol starvation-free?
+* Is this protocol deadlock-free?
+
+__resposta 1__:
+
+Para que a exclusão mútua seja satisfeita nunca mais de uma thread pode
+adquirir o lock.
+
+Portanto supondo que o lock não satisfaça, duas ou mais threads precisam
+adquirir o lock.  Supondo duas threads A e B tenham adquirido o lock, para que
+isso aconteça ambas precisam ter passado pelos dois loops de espera, o loop de
+busy no qual a thread atribui seu id para o turn, e o segundo loop onde ela
+atribui *true* para __busy__ e o __turn__ seja seu id.
+
+Para que isso aconteça __busy__ precisa ser *false* para ambas as threads
+sairem do primeiro loop, e __turn__ precisa está com o valor de sua thread id.
+Como __turn__ é alterado apenas dentro do primeiro loop, __turn__ só poderá
+conter o valor da última threads a modificá-lo. Apenas uma das threads será o
+valor de __turn__ e apenas dentro do primeiro loop é preciso modificar e ambas
+as threads sairam dele antes de __busy__ ser *true*, logo por contradição
+apenas uma thread pode adquiri o lock nunca as duas.
+
+Portanto o lock atende o princípio da exclusão mútua.
+
+__resposta 2__:
+
+Para que o protocolo seja __starvation-free__ a thread que queira adquirir o lock
+em algum momento irá conseguir.
+
+Supondo que o lock não satisfaça a propriedade, é necessário que uma thread que
+esteja tentando adquirir o lock nunca consiga que __turn__ possua seu thread id
+quando ela tentar sair dos segundo loop. A principal característica de __turn__
+é que seu valor é sempre da última thread a alterá-lo. Se tivermos uma thread
+que é muito lenta, ou uma outra muito mais rápida.
+
+É possível que sempre que a thread lenta alterar __turn__ e antes dela
+verificar se __turn__ contém seu thread id, a thread rápida altere __turn__
+para seu thread id assim sempre adquira o lock em detrimento da thread lenta.
+
+Portanto esse protocolo *NÃO* é __starvation-free__.
+
+__resposta 3__:
+
+Para que o protocolo seja __deadlock-free__ quando uma thread tentar adquirir o
+lock e ninguém estiver usando, ela irá em algum momento conseguir.
+
+Supondo duas threads *A* e *B* estejam tentando adquir o lock enquanto *C* o
+esteja usando. As threads *A* e *B* vão está em loop ocupado, alterado __turn__
+para o valor de seu thread id. Quando *C* liberar o lock, __busy__ será
+alterado para *false* permitindo *A* e *B* sairem do primeiro loop.
+
+Supondo que *A* sai do loop antes de *B* alterar o valor de __turn__, *B*
+altera o valor de __turn__ e também sai do loop, *A* ou *B* altera __busy__
+para *true*. Mas *A* é o primeiro a verificar se __turn__ contém seu valor e
+descobre que não, antes de *B* executar *A* entra novamente no primeiro loop e
+altera __turn__ para seu thread id. *B* então verifica se __turn__ contém seu
+thread id e como *A* foi o último a modificá-lo, *B* não sai do segundo loop e
+ambas as threads ficam permanentemente no primeiro loop aguardando __busy__ ser
+*false* o que nunca irá acontecer.
+
+Portanto esse protocolo *NÃO* é __deadlock-free__.
+
+__exercício 13__: Another way to generalize the two-thread Peterson lock is to
+arrange a number of 2-thread Peterson locks in a binary tree. Suppose n is a
+power of two.
+
+Each thread is assigned a leaf lock which it shares with one other thread. Each
+lock threats one thread as thread 0 and other as thread 1.
+
+In the tree-lock's acquire method, the thread acquires every two-thread
+Peterson lock from that thread's leaf to the root. The tree-lock's release
+method for the tree-lock unlocks each of the 2-thread Peterson locks that
+thread has acquired, from the root back to its leaf. At any time, a thread can
+be delayed for a finite duration. (In other words, threads can take naps, or
+even vacations, but they do not drop dead.) For each property, either sketch a
+proof that it holds, or describe a (possibly infinite) execution where it is
+violated.
+
+1. mutual exclusion
+2. freedom from deadlock
+3. freedom from starvation
+
+Is there an upper bound on the number of times the tree-lock can be acquired
+and released between the time a thread starts acquiring the tree-lock and when
+it succeeds?
+
+.Representação da tree-lock
+-------------------------------
+             [PL]
+             /  \
+            /    \
+           /      \
+          /        \
+         /          \
+        /            \
+       /              \
+     [PL]            [PL]
+     /  \            /  \
+    /    \          /    \
+   /      \        /      \
+ [PL]    [PL]    [PL]    [PL]
+ /  \    /  \    /  \    /  \
+t0  t1  t2  t3  t4  t5  t6  t7
+-------------------------------
+
+Considerando que Peterson Lock atende as três propriedades.
+
+__resposta 1__:
+
+Supondo que a tree-lock não atenda a propriedade de exclusão mútua, duas
+ou mais threads precisam ser capazes de adquirir o lock.
+
+Para adquirir o lock é necessário a thread adquira todos os locks partindo do
+nó folha ao nó raiz. Consequentemente, é necessário que duas threads adquiram
+o nó raiz, como Peterson lock satisfaz a propriedade de exclusão mútua, não
+é possível duas threads adquirirem o lock, o mesmo vale para todas os nós
+precedentes ao nó raiz, logo por contradição não é possível duas threads
+adquirirem o lock.
+
+Portanto a tree-lock atende o princípio da exclusão mútua.
+
+__resposta 2__:
+
+Supondo que a tree-lock não atenda a propriedade de __deadlock-free__. É
+necessário que exista uma condição onde threads estejam tentando adquirir o
+lock e nunca consigam.
+
+Para que isso aconteça, um dos nós da árvore precisa violar a propriedade, como
+todos os nós são Peterson Lock e este atende a propriedade. Logo por
+contradição árvore atende a propriedade de __deadlock-free__.
+
+__resposta 3__:
+
+Supondo que a tree-lock não atenda a propriedade de __starvation-free__. É necessário
+que assim como na questão anterior um dos nós da árvore viole a proprieade, como
+todos os nós atende a propriedade. Logo por contradição a árvore atende a
+propriedade de __starvation-free__.
+
+__resposta 4__:
+
+Supondo que árvore é sempre balanceada, o número de nós folhas é metade do
+número de threads do sistema, e a altura da árvore log2 do número de folhas.
+
+O pior caso para a espera e adquirir o lock é a soma do pior caso em cada
+um dos nós da árvore das folhas até a raiz. Como no Peterson Lock, a espera
+em adquirir o lock é de no máximo um turno. Podemos inferir que o pior
+caso para adquirir a árvore como um todo é igual a altura da árvore.
+
+.Tempo máximo de espera para adquirir o lock
+---------------------------------------
+MaxWait = ceil( log2( count(thread) ) )
+---------------------------------------
+
+__exercício 15__: In practice, almost all lock acquisitions are uncontended, so
+the most practical measure of a lock's performance is the number of steps
+needed for a thread to acquire a lock when no other thread is concurrently
+trying to acquire the lock.
+
+Scientist at Cataloupe-Melon University have divised the following "wrapper"
+for an arbitrary lock, shown in Fig. 2.16. They claim that if the base Lock
+class provides mutual exclusion and is starvation-free, so does the FastPath
+lock, but it can be acquired in a constant number of steps in the absance of
+contention. Sketch an argument why they are right, or give a counterexample.
+
+[source java]
+-----------------------------------------------------
+class FastPath implements Lock {
+  private static ThreadLocal<Integer> myIndex;
+  private Lock lock;
+  private int x, y = -1;
+
+  public void lock() {
+    int i = myIndex.get();
+    x = i;                  // I'm here
+    while (y != -1) {}      // is the lock free?
+    y = i;                  // me again?
+    if (x != i)             // Am I still here?
+      lock.lock();          // slow path
+  }
+
+  public void unlock() {
+    y = -1;
+    lock.unlock();
+  }
+}
+-----------------------------------------------------
+
+__resposta__:
+
+A ausência de contenção ocorre quando o lock não está sendo utilizado por nenhuma
+thread permitindo ser adquirido imediatamente.
+
+Supondo para o caso onde o lock está livre e apenas uma thread chama o método lock().
+
+1. atribui seu *thread id* para __i__
+2. atribui seu *thread id* para __x__
+3. verifica que o lock está livre, o valor de __y__ é -1
+4. atribui seu id para __y__, assim indicando que o lock está ocupado
+5. verifica que nenhuma outra thread tentou adquirir o lock, __x__ não foi alterado
+   assim adquiri o lock sem chamar o método mais lento
+
+Então para o caso que apenas uma thread quer adquirir o lock sem contenção, o número
+de passos é 5.
+
+Supondo um outro caso onde o lock está sem contenção e duas threads (A e B)
+tentam adquirir ao mesmo tempo.  1.
+
+Thread A:
+
+1. atribui seu *thread id* para __i__
+2. atribui seu *thread id* para __x__
+3. verifica que o lock está livre, o valor de __y__ é -1
+
+Preempção, Thread B:
+
+1. atribui seu *thread id* para __i__
+2. atribui seu *thread id* para __x__
+3. verifica que o lock está livre, o valor de __y__ é -1
+
+Preempção, Thread A:
+
+4. atribui seu *thread id* para __y__, assim indicando que o lock está ocupado
+5. verifica __x__ foi alterado, o que ocorreu
+6. chama o lock() lento
+
+Preempção, Thread B:
+
+4. atribui seu *thread id* para __y__, assim indicando que o lock está ocupado
+5. verifica __x__ foi alterado, não foi, assim adquiri o lock sem chamar o método lento
+
+Portanto, este lock não atende a propriedade de *exclusão mutua*, o tempo de
+acesso é constante quando sem contenção.
+
+__exercício 16__: Suppose n threads call visit() method of the Bouncer class shown in
+Fig. 2.17. Prove that--
+
+[source java]
+-----------------------------------------------------
+class Bouncer {
+  public static int DOWN  = 0;
+  public static int RIGHT = 1;
+  public static int STOP  = 2;
+
+  private boolean goRight = false;
+  private ThreadLocal<Integer> myIndex; // initialize myIndex
+  private int last = -1;
+
+  int visit() {
+    int i = myIndex.get();
+    last = i;
+    if (goRight)
+      return RIGHT;
+    goRight = true;
+    if (last == i)
+      return STOP;
+    else
+      return DOWN;
+  }
+}
+-----------------------------------------------------
+
+* At most one thread gets the value STOP
+
+Uma thread retornará STOP sse last == i na comparação da linha 14.  Quando a
+primeira thread chega a linha 15 as seguintes condições podem ocorrer a uma
+outra thread qualquer:
+
+1. ela está antes ou na linha 11
+2. já passou da linha 11
+
+No caso 1, essa outra thread retornará RIGHT devido a alteração da atual thread
+feita na linha 13.  No caso 2, a outra thread não poderá retornar STOP porquê
+last já é diferente de seu índice, caso contrário a thread atual falharia no
+check last == 1.
+
+Logo apenas uma thread pode retornar STOP.
+
+* At most n - 1 threads get the value DOWN
+
+Para as n linhas retornarem DOWN, todas as threads devem ter passado pela
+verificação da linha 11, caso contrário ao menos uma retornará RIGHT. Nesse
+caso, no máximo n - 1 threads retornarão DOWN.
+
+Suponha que todas elas passaram pela linha 11, então as n threads devem
+retornar STOP ou DOWN.  No entanto last deverá ter o valor de pelo menos uma
+das atuais threads, que deverá ter sucesso na linha 14 Ao menos uma thread
+retornará STOP.  Logo, também nesse outro caso, no máximo n - 1 treads
+retornarão DOWN.
+
+* At most n - 1 threads get the value RIGHT
+
+Para retornar RIGHT é necessário que goRight seja igual a true.  Pelo código
+vemos que write(goRight = true) só acontece sse goRight for falso, que é seu
+estado inicial. Então para retornar RIGHT ao menos uma thread deve retornar
+algum outro valor logo após fazer write(goRight = true).  Logo, no máximo n - 1
+threads retornarão RIGHT.
+
+Note that the last two proofs are not symmetric.
