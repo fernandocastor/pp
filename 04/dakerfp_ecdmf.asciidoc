@@ -251,6 +251,19 @@ class Bouncer {
 -----------------------------------------------------
 
 * At most one thread gets the value STOP
+
+Uma thread retornará STOP sse last == i na comparação da linha 14.
+Quando a primeira thread chega a linha 15 as seguintes condições podem ocorrer a uma outra thread qualquer:
+
+1 - ela está antes ou na linha 12
+2 - já passou da linha 12
+
+No caso 1, essa outra thread retornará RIGHT devido a alteração da atual thread feita na linha 13.
+No caso 2, a outra thread não poderá retornar STOP porquê last já é diferente de seu índice, caso contrário
+a thread atual falharia no check last == 1.
+
+Logo apenas uma thread pode retornar STOP.
+
 * At most n - 1 threads get the value DOWN
 * At most n - 1 threads get the value RIGHT
 
