@@ -9,7 +9,13 @@ SIM
 
 Prova:  Wa(turn = me) -> Ra(busy == false) ->
         Wa(busy = TRUE) -> Ra (turn == me) ->
-        Wb(turn = me) -> Rb(busy == TRUE)
+        Wb(turn = me) -> Rb(busy == TRUE).
+        Para provar que o mutex é real, devemos apresentar a ordem de eventos da contradição. 
+        Ou seja:
+        I) Supor o cenário: Ra(turn==a) -> Rb(turn==b)
+        II) Apresentar a ordem de eventos absurda:
+        Wb(turn=b) -> Rb(busy==false) -> Wa(busy==true) -> Ra(turn==a) -> Rb(turn==b),
+        o que é impossível.
         
 ------
 
