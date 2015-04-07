@@ -222,6 +222,47 @@ class FastPath implements Lock {
 }
 -----------------------------------------------------
 
+__resposta__:
+
+A ausência de contenção ocorre quando o lock não está sendo utilizado por nenhuma
+thread permitindo ser adquirido imediatamente.
+
+Supondo para o caso onde o lock está livre e apenas uma thread chama o método lock().
+1. atribui seu *thread id* para __i__
+2. atribui seu *thread id* para __x__
+3. verifica que o lock está livre, o valor de __y__ é -1
+4. atribui seu id para __y__, assim indicando que o lock está ocupado
+5. verifica que nenhuma outra thread tentou adquirir o lock, __x__ não foi alterado
+   assim adquiri o lock sem chamar o método mais lento
+
+Então para o caso que apenas uma thread quer adquirir o lock sem contenção, o número
+de passos é 5.
+
+Supondo um outro caso onde o lock está sem contenção e duas threads (A e B)
+tentam adquirir ao mesmo tempo.  1.
+
+Thread A:
+1. atribui seu *thread id* para __i__
+2. atribui seu *thread id* para __x__
+3. verifica que o lock está livre, o valor de __y__ é -1
+
+Preempção, Thread B:
+1. atribui seu *thread id* para __i__
+2. atribui seu *thread id* para __x__
+3. verifica que o lock está livre, o valor de __y__ é -1
+
+Preempção, Thread A:
+4. atribui seu *thread id* para __y__, assim indicando que o lock está ocupado
+5. verifica __x__ foi alterado, o que ocorreu
+6. chama o lock() lento
+
+Preempção, Thread B:
+4. atribui seu *thread id* para __y__, assim indicando que o lock está ocupado
+5. verifica __x__ foi alterado, não foi, assim adquiri o lock sem chamar o método lento
+
+Portanto, este lock não atende a propriedade de *exclusão mutua*, o tempo de
+acesso é constante quando sem contenção.
+
 __exercício 16__: Suppose n threads call visit() method of the Bouncer class shown in
 Fig. 2.17. Prove that--
 
@@ -252,34 +293,38 @@ class Bouncer {
 
 * At most one thread gets the value STOP
 
-Uma thread retornará STOP sse last == i na comparação da linha 14.
-Quando a primeira thread chega a linha 15 as seguintes condições podem ocorrer a uma outra thread qualquer:
+Uma thread retornará STOP sse last == i na comparação da linha 14.  Quando a
+primeira thread chega a linha 15 as seguintes condições podem ocorrer a uma
+outra thread qualquer:
 
 1 - ela está antes ou na linha 11
 2 - já passou da linha 11
 
-No caso 1, essa outra thread retornará RIGHT devido a alteração da atual thread feita na linha 13.
-No caso 2, a outra thread não poderá retornar STOP porquê last já é diferente de seu índice, caso contrário
-a thread atual falharia no check last == 1.
+No caso 1, essa outra thread retornará RIGHT devido a alteração da atual thread
+feita na linha 13.  No caso 2, a outra thread não poderá retornar STOP porquê
+last já é diferente de seu índice, caso contrário a thread atual falharia no
+check last == 1.
 
 Logo apenas uma thread pode retornar STOP.
 
 * At most n - 1 threads get the value DOWN
 
-Para as n linhas retornarem DOWN, todas as threads devem ter passado pela verificação da linha 11,
-caso contrário ao menos uma retornará RIGHT. Nesse caso, no máximo n - 1 threads retornarão DOWN.
+Para as n linhas retornarem DOWN, todas as threads devem ter passado pela
+verificação da linha 11, caso contrário ao menos uma retornará RIGHT. Nesse
+caso, no máximo n - 1 threads retornarão DOWN.
 
-Suponha que todas elas passaram pela linha 11, então as n threads devem retornar STOP ou DOWN.
-No entanto last deverá ter o valor de pelo menos uma das atuais threads, que deverá ter sucesso na linha 14
-Ao menos uma thread retornará STOP.
-Logo, também nesse outro caso, no máximo n - 1 treads retornarão DOWN. 
+Suponha que todas elas passaram pela linha 11, então as n threads devem
+retornar STOP ou DOWN.  No entanto last deverá ter o valor de pelo menos uma
+das atuais threads, que deverá ter sucesso na linha 14 Ao menos uma thread
+retornará STOP.  Logo, também nesse outro caso, no máximo n - 1 treads
+retornarão DOWN.
 
 * At most n - 1 threads get the value RIGHT
 
-Para retornar RIGHT é necessário que goRight seja igual a true.
-Pelo código vemos que write(goRight = true) só acontece sse goRight for falso,
-que é seu estado inicial. Então para retornar RIGHT ao menos uma thread deve
-retornar algum outro valor logo após fazer write(goRight = true).
-Logo, no máximo n - 1 threads retornarão RIGHT.
+Para retornar RIGHT é necessário que goRight seja igual a true.  Pelo código
+vemos que write(goRight = true) só acontece sse goRight for falso, que é seu
+estado inicial. Então para retornar RIGHT ao menos uma thread deve retornar
+algum outro valor logo após fazer write(goRight = true).  Logo, no máximo n - 1
+threads retornarão RIGHT.
 
 Note that the last two proofs are not symmetric.
