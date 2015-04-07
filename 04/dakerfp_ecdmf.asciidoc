@@ -252,6 +252,12 @@ class Bouncer {
 
 * At most one thread gets the value STOP
 * At most n - 1 threads get the value DOWN
-* At most n - 1 threads get the value right
+* At most n - 1 threads get the value RIGHT
+
+Para retornar RIGHT é necessário que goRight seja igual a true.
+Pelo código vemos que write(goRight = true) só acontece sse goRight for falso,
+que é seu estado inicial. Então para retornar RIGHT ao menos uma thread deve
+retornar algum outro valor logo após fazer write(goRight = true).
+Logo, no máximo n - 1 threads retornarão RIGHT.
 
 Note that the last two proofs are not symmetric.
