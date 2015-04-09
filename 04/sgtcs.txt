@@ -1,0 +1,103 @@
+Silas Garrido - sgtcs@cin.ufpe.br
+
+Exercise 11:
+Supor que a thread1 e a thread2 conseguem atingir à região crítica:
+ * write1(turn=1) -> read1(busy==false) -> write1(busy=true) -> read1(turn==1); /* Thread1 consegue entrar na região crítica */
+ * write2(turn=2) -> read2(busy==false) -> write2(busy=true) -> read2(turn==2); /* Thread2 consegue entrar na região crítica */
+
+Situação 1: supor que uma primeira thread, de maneira isolada, tenha acesso à região crítica:
+ * write1(turn=1) -> read1(busy==false) -> write1(busy=true) -> read1(turn==1) [Thread1 consegue acesso à região crítica] -> write2(turn=2) -> read2(busy==true);
+Desde que a thread1 (ou outra thread qualquer) tenha realizado esses quatro primeiros passos, qualquer outra thread que vier posteriormente (como a thread2, no exemplo), em qualquer quantidade, de forma concorrente ou não, não terá acesso à região crítica.
+
+Situação 2: supor que várias threads, de maneira concorrente, tentam acessar a região crítica:
+ * write1(turn=1) -> write2(turn=2) -> read1(busy==false) -> read2(busy==false) -> write1(busy=true) -> write2(busy=true) -> [Se outra thread alterar "turn" a partir desse momento, acontecerá um deadlock. Logo, vamos considerar que isso não acontece.] -> read1(turn==2) -> read2(turn==2) -> thread2 consegue acessar a região crítica -> write1(turn=1);
+Logo, desde que não ocorra deadlock, se N threads chegarem à linha 10, somente a última terá acesso à região crítica. Caso contrário, cairão na Situação 1.
+
+ 11.2/3: 1. T2 define turn=2 (linha 8);
+         2. T2 define busy=true (linha 10);
+         3. T1 define turn=1 (linha 8);
+         4. T2 entra no "while (turn != me)" e volta p/ linha 6;
+         5. T1 permanece no while da linha 9 pois "busy" foi definido como "true" por T2;
+         6. T2 também ficará preso no "do while" uma vez que "busy" foi definido como "true" pelo próprio T2.
+
+Exercise 13:
+  __    __    __    __
+ |T1|  |T2|  |T3|  |T4|              {Supor que T1 e T4 ganham concorrência com T2 e T3}
+   \ __ /      \ __ /
+    |T1|        |T4|                 {Supor que T4 ganha concorrência com T1}
+      \          /
+       \        /
+        \      /
+         \ __ /
+          |T4|                       {T4 consegue acesso à região crítica}
+
+ 13.1: Exclusão Mútua: Sabendo que o número de threads é uma potência de 2, a concorrência acontecerá de par em par, como ilustrado na figura acima. Ao final da concorrência (nó raíz), existirá somente uma (1) thread que terá acesso à região crítica. Logo, como o método de Peterson garante exclusão mútua (Lemma 2.3.3), esta generalização também garantirá, com as devidas sincronizações nos nós diferentes dos folhas e raiz.
+
+ 13.2/3: Deadlock e Starvation: De acordo com a imagem acima, poderá ocorrer uma espera excessiva de T1 por T4 ou vice-versa. Entretanto, desde que existam N^2 (com N>1) threads disputando uma região, a demora excessiva não irá configurar um deadlock ou starvation pois, em algum momento, a thread retardatalha chegará para concorrer com a thread que está em espera. Logo, a generalização é livre de deadlock e starvation.
+
+ 13.4: Teoricamente, não. Entretanto, com um número elevado de threads o tempo de espera pode ser extremamente alto, tornando a generalização inviável na prática.
+
+Exercise 15:
+ Abaixo é apresentada uma situação em que a exclusão mútua não é garantida. Duas threads são utilizadas (T1 e T2).
+ 
+ 1.  T2 define i=2 (linha 6);
+ 2.  T1 define i=1 (linha 6);
+ 3.  T2 define x=2 (linha 7);
+ 4.  T1 define x=1 (linha 7);
+ 5.  T2 passa pela condição do "while" (linha 8);
+ 6.  T1 passa pela condição do "while) (linha 8);
+ 7.  T2 define y=1 (linha 9);
+ 8.  T1 define y=1 (linha 9);
+ 9.  T1 não entra no "if" pois x==i==1 (linha 10);
+ 10. T2 entra no "if" pois x!=i (linha 10);
+ 11. T1 entra na região crítica;
+ 12. T2 chama o método lock() e entra na região crítica.
+
+ * Com isso, duas threads terão acesso à região crítica fazendo com que a exclusão mútua não seja garantida.
+
+ Como será mostrado no exemplo abaixo, o método também não é starvation-free:
+
+ 1.  T2 define i=2 (linha 6);
+ 2.  T1 define i=1 (linha 6);
+ 3.  T2 define x=2 (linha 7);
+ 4.  T1 define x=1 (linha 7);
+ 5.  T1 passa pela condição do "while" (linha 8);
+ 6.  T1 define y=1 (linha9);
+ 7.  T1 entra na região crítica sem acessar o "if";
+ 8.  T2 fica preso no "while", aguardando que a T1 chame unlock() (linha 8);
+ 9.  T3 define i=3 (linha 6);
+ 10. T3 define x=3 (linha 7);
+ 11. T3, juntamente com T2, fica presa no "while", aguardando que a T1 chame unlock() (linha 8);
+ 12. T1 finaliza a operação realizada na região crítica e chama o método unlock();
+ 13. T1 define y=-1 (linha 14);
+ 14. T1 define lock.unlock() (linha 15);
+ 15. T3 passa pela condição "while" (linha 8);
+ 16. T3 define y=3 (linha 8);
+ 17. T3 entra na região crítica sem acessar o "if";
+ 18. T2 fica preso no "while", aguardando que a T1 chame unlock() (linha 8);
+
+Logo, considerando o exemplo acima, existirá a possibilidade de T2 ficar presa no while por um tempo indeterminado.
+
+
+Exercise 16:
+ 16.1: Supor que uma das threads retornou "stop". Para que isso tenha acontecido "goRight" deve estar definido com "true". Dessa forma, qualquer thread que vier posteriormente não passará pelo primeiro "if" (linha 11). Caso várias threads tenham sido executadas em paralelo no momento em que uma delas retornou o valor "stop" (fazendo com que várias threads cheguem à linha 13), somente para uma delas a condição "last==i" será verdadeira. Isso acontece pelo fato do índice (representado pelo "i") ser único. Logo, não existirá possibilidade que permita mais de uma thread retornar "stop".
+
+Situação 1
+Supor que uma das threads retornaram "stop", sem concorrência:
+ * write1(last=1) -> read1(goRight==false) -> write1(goRight=true) -> read1(last==1) -> return STOP;
+Qualquer outra thread que vier posteriormente, de forma concorrente ou não, retornará "right":
+ * write2(last=2) -> read2(goRight==true) -> return RIGHT;
+
+Situação 2:
+Supor que várias threads (concorrentes) chegaram à linha 13. Somente a última retornará STOP, como ilustrado abaixo:
+ * write1(last=1) -> write2(last=2) -> read1(goRight==false) -> read2(goRight==false) -> write1(goRight=true) -> write2(goRight=true) -> read1(last==2) -> return DOWN -> read2(last==2) -> return STOP;
+
+ 16.2: Supor que existam duas threads e que, em uma delas, foi retornado "down". Para que uma das threads tenha retornado "DOWN", obrigatoriamente, a outra thread deve ter executado a instrução da linha 10. Assim, a thread que não retornar "DOWN", retornará ou "RIGHT" ou "STOP". Esse exemplo pode ser generalizado para os casos em que N>2 (threads) com o seguinte argumento: Supor que N-1 threads tenha retorndo "DOWN". Para que isso tenha acontecido, a thread N (última thread a ser executada) deve estar, obrigatoriamente, depois da linha 10. Essa é a mesma situação ilustrada no exemplo com duas threads. Logo, não existirá possibilidade da quantidade de retornor "down" ser maior que N-1.
+
+Abaixo está ilustrada as duas possíveis situações que evidenciam que, no maximo, N-1 threads retornarão "DOWN". Estes casos consideram que N-1 threads retornaram "DOWN", mostrando as possíveis situações para as duas últimas:
+
+ * write1(last=1) -> read1(goRight==false) -> write2(last=2) -> read2(goRight==false) -> write1(goRight=true) -> write2(goRight=true) -> read1(last==2) -> return DOWN -> read2(last==2) -> return STOP;
+
+* write1(last=1) -> read1(goRight==false) -> write1(goRight=true) -> write2(last=2) -> read1(last==2) -> return DOWN -> read2(goRight==true) -> return RIGHT;
+
+ 16.3: Para que uma thread retorne "right", pelo menos uma (1) thread deve ter passado pela linha 13, retornando "stop" ou "down". Logo, não existirá possibilidade do número de retornos de "right" ser maior que N-1.
