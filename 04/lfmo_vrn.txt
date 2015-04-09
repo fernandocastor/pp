@@ -2,7 +2,7 @@
 ; Trabalho 04
 ; Leonardo Fernandes
 ; Victor
-; 
+;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 Exercise 11. Programmers at the Flaky Computer Corporation designed the pro-
@@ -24,13 +24,13 @@ class Flaky implements Lock {
 
 	public void unlock() {
 		busy = false;
-	}
+        }
 }
 
 
 - Does this protocol satisfy mutual exclusion?
 RESPOSTA:
-
+Sim
 
 - Is this protocol starvation-free
 RESPOSTA: Não. Pode ocorrer Starvation baseado no seguinte exemplo:
@@ -189,30 +189,25 @@ class Bouncer {
 }
 Figure 2.17-The Bouncer class implementation.
 
-
 Prove that—
 At most one thread gets the value STOP.
-Dada as Threads T1, T2 e T3. 
 RESPOSTA:
-1 - Se a Thread T1 executa completamente, antes das outras duas Threads alterarem o valor de last, T1 conseguria o valor de STOP.
+Somente uma Thread pode retornar STOP, visto que apenas a última Thread pode alterar o valor de last para ser igual ao seu i(identificador).
+Caso outra Thread altere last, mesmo depois de uma Thread retornar STOP, ela não consegue atingir a condição if(last==i), pois o valor de goRight foi alterado para True, o que faz qq outra Thread retornar RIGHT.
+
 
 At most n − 1 threads get the value DOWN.
 RESPOSTA:
-1 - Thread T1 altera last=1, nega a condição (pois goRight==false) e antes de alterar goRight, ocorre a troca de contexto.
-2 - Thread T2 altera last=2, nega a condição (pois goRight==false), altera goRight=true, e antes da condição last==i, ocorre a troca de contexto.
-3 - Thread T3 altera last=3, entra na condição (pois goRight==true) e retorna RIGHT.
-4 - Thread T1 nega a condição (pois last!=i) e retorna DOWN.
-5 - Thread T2 nega a condição (pois last!=i) e retorna DOWN.
+Se n Threads acessam visit() e TODAS as n conseguem chegar a condição if(last==i), no máximo UMA alterou last para ser o seu i(identificador) (Caso anterior). 
+Todas as ourtas n-1 Threads retornaram DOWN.
+Para o caso de nenhuma das Threads terem alterado last para seu i(identificador), significa que uma nova Thread alterou por último e retornou RIGHT.
 
 
 At most n − 1 threads get the value RIGHT.
 RESPOSTA:
-1 - Thread T1 altera last=1, nega a condição (pois goRight==false) e altera goRight=true, ocorrendo a troca de contexto.
-2 - Thread T2 altera last=2, entra na condição (pois goRight==true) e retorna RIGHT.
-3 - Thread T3 altera last=3, entra na condição (pois goRight==true) e retorna RIGHT.
-
-
-Note that the last two proofs are not symmetric. ?? (Não entendi)
+Se n Threads acessam visit() e TODAS as n conseguem chegar a condição if(goRight), pelo menos UMA não irá entrar na condição, 
+visto que inicialmente goRight é False.
+s
 
 
 
