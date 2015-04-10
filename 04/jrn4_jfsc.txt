@@ -104,3 +104,54 @@ Ex. 13
     
     + detalhes no grafico auxiliar
     
+    
+    15. 2-threads
+        WA(i = id_A)        WB(i = id_B)*
+        WA(x = id_A)        WB(x = id_B)
+        RA(y == -1)         RB(y == -1)
+        WA(y = id_B)*       WB(y = id_B)
+        RA(id_B == id_B)    RB(id_B == id_B)  
+        CS                  CS
+        
+        n-threads
+        WA(i = id_A)        WB(i = id_B)        WC(i = id_C)
+        WA(x = id_A)        WB(x = id_B)        WC(x = id_C)
+        RA(y == -1)         RB(y == -1)         RC(y == -1)
+        WA(y = id_B)        WB(y = id_C)        WC(y = id_C)
+        RA(id_B == id_B)    RB(id_B == id_B)    RB(id_C == id_C)
+        CS                  CS                  CS
+        obs. . No entanto, não atende a propriedade de mutex.
+
+    16.
+        class Bouncer {
+          public static int DOWN  = 0;
+          public static int RIGHT = 1;
+          public static int STOP  = 2;
+
+          private boolean goRight = false;
+          private ThreadLocal<Integer> myIndex; // initialize myIndex
+          private int last = -1;
+
+          int visit() {
+            int i = myIndex.get();
+            last = i;
+            if (goRight)
+              return RIGHT;
+            goRight = true;
+            if (last == i)
+              return STOP;
+            else
+              return DOWN;
+          }
+        }
+        WA(i = id_A)  ->  WB(i = id_B) ->
+        WA(last = id_B) -> WB(last = id_B) ->
+        WC(i = id_C) -> WC(last = id_C) ->
+        RC(goRight == false) -> RA(goRight == false) -> 
+        WC(goRight = true)-> RA(goRight == true) -> 
+        RB(goRight == true) -> RC(id_C == id_C) -> C(return STOP) -> 
+        A(return DOWN) -> B(return RIGHT) 
+        
+        I) 3 threads executam visit mas apenas uma obter o STOP devido ao fato que apenas 1 Thread em todo montante ( a última a chamar) irá ler (last == meu_id)
+        II) Enquanto goRight = true não for executado e a thread não for a última a setar last= meu id, as threads que sobram retornam DOWN
+        III) Assim que uma thread seta goRight = true, as demais vão retornar RIGTH
