@@ -1,0 +1,22 @@
+Nome: Jose Fernando Santos de Carvalho
+Descrição APP: Calculo de hash de senhas
+
+#Versão Sequencial
+real	0m1.518s
+user	0m0.658s
+sys	0m1.076s
+
+Versão paralela SH
+real	0m1.007s
+user	0m1.146s
+sys	0m1.966s
+
+
+Versão em C:
+real	0m0.140s
+user	0m0.086s
+sys	0m0.200s
+
+Versão .Net
+Fonte: http://elekto.com.br/Blog/problemas-agradavelmente-paralelos
+

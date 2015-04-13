@@ -1,0 +1,33 @@
+#!/bin/bash
+#Jose Fernando
+#Descrição: Armazenador de Hash de senhas Sequencial
+#TEMPO DE EXECUCAO
+#real	0m1.518s
+#user	0m0.658s
+#sys	0m1.076s
+
+ARRAY_DE_SENHAS[0]=SENHA_0
+HASH_DAS_SENHAS[0]=HASH_VALUE_0
+
+function gerarArrayDeSenhas
+{
+for i in {0..500}
+do
+ARRAY_DE_SENHAS[$i]=SENHA_$i
+echo ${ARRAY_DE_SENHAS[$i]} > /dev/null;
+done
+}
+
+function armazenarHashDeSenhas
+{
+for i in {0..500}
+do
+HASH_DAS_SENHAS[$i]=$(echo -n ${ARRAY_DE_SENHAS[$i]} | md5)
+done
+}
+
+gerarArrayDeSenhas
+armazenarHashDeSenhas
+
+
+
