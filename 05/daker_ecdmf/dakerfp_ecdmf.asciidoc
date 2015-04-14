@@ -1,0 +1,123 @@
+﻿Programação Paralela - Trabalho 5
+=================================
+Daker Fernandes <dakerfp@gmail.com>; Emiliano Firmino <emiliano.firmino@gmail.com>
+
+Questão:
+--------
+
+Escolha uma aplicação que você ache interessante e que possa ser executada
+de forma embaraçosamente paralela e com pouquíssimas ou nenhuma operacão de
+entrada e saída. (Re-)Implemente essa aplicação de forma paralela usando (i)
+uma linguagem de shell scripting; (ii) processos em C (fork/join); e (iii)
+threads, podendo ser na linguagem que você quiser. A versão sequencial da
+aplicacão que você resolver usar não precisa ter sido implementada por
+você. Em outras palavras, pode pegar algo pronto que esteja disponível na
+Internet (não esquecer de indicar a fonte). As versões paralelas, porém,
+têm que ser de sua autoria. Rode as versões paralelas e a sequencial, medindo
+e registrando o tempo de cada execução e tire as médias dos tempos das três
+ultímas execuções de cada uma. Sua entrega deverá consistir em (i) versões
+paralelas e sequencial do programa; e (ii) os resultados da medicão, com
+informações resumidas sobre a plataforma onde foram realizadas (número de
+processadores, memória, cache, etc.).
+
+Resposta:
+~~~~~~~~~
+
+Nós escolhemos fazer o algoritmo de TOP N para texto, onde é lido um .txt
+e gerado um ranking com as dez palavras mais utilizadas nele.
+
+Fontes:
+^^^^^^^
+
+* link:Sequencial[topn_lite.cpp]
+* link:Paralelo_Shell[parallel.sh]
+* link:Paralelo_Fork[topn_lite2.cpp]
+* link:Paralelo_Thread[topn_lite3.cpp]
+
+Execução:
+^^^^^^^^^
+
+.Tempo do Sequencial
+-----------------------
+# time ./topn_lite sample/*.txt > /dev/null
+./topn_lite sample/*.txt > /dev/null  4.49s user 0.03s system 99% cpu 4.519 total
+./topn_lite sample/*.txt > /dev/null  4.54s user 0.03s system 99% cpu 4.574 total
+./topn_lite sample/*.txt > /dev/null  4.53s user 0.03s system 99% cpu 4.559 total
+./topn_lite sample/*.txt > /dev/null  4.51s user 0.03s system 99% cpu 4.541 total
+./topn_lite sample/*.txt > /dev/null  4.48s user 0.03s system 99% cpu 4.512 total
+./topn_lite sample/*.txt > /dev/null  4.48s user 0.03s system 99% cpu 4.512 total
+./topn_lite sample/*.txt > /dev/null  4.52s user 0.03s system 99% cpu 4.556 total
+./topn_lite sample/*.txt > /dev/null  5.35s user 0.10s system 97% cpu 5.605 total
+./topn_lite sample/*.txt > /dev/null  4.62s user 0.03s system 99% cpu 4.654 total
+./topn_lite sample/*.txt > /dev/null  4.54s user 0.03s system 99% cpu 4.582 total
+-----------------------
+
+.Tempo de Paralelo Shell
+-----------------------
+# time ./parallel.sh > /dev/null
+./parallel.sh > /dev/null  6.68s user 0.08s system 371% cpu 1.816 total
+./parallel.sh > /dev/null  6.67s user 0.07s system 385% cpu 1.751 total
+./parallel.sh > /dev/null  6.65s user 0.07s system 379% cpu 1.770 total
+./parallel.sh > /dev/null  6.70s user 0.08s system 379% cpu 1.788 total
+./parallel.sh > /dev/null  6.64s user 0.07s system 378% cpu 1.774 total
+./parallel.sh > /dev/null  6.66s user 0.07s system 386% cpu 1.740 total
+./parallel.sh > /dev/null  6.67s user 0.07s system 380% cpu 1.771 total
+./parallel.sh > /dev/null  6.64s user 0.07s system 383% cpu 1.751 total
+./parallel.sh > /dev/null  6.68s user 0.07s system 375% cpu 1.798 total
+./parallel.sh > /dev/null  6.70s user 0.08s system 377% cpu 1.794 total
+-----------------------
+
+.Tempo do Paralelo Fork
+-----------------------
+# time ./topn_lite2 sample/*.txt > /dev/null
+./topn_lite2 sample/*.txt > /dev/null  6.64s user 0.06s system 383% cpu 1.750 total
+./topn_lite2 sample/*.txt > /dev/null  6.64s user 0.06s system 378% cpu 1.773 total
+./topn_lite2 sample/*.txt > /dev/null  6.64s user 0.06s system 383% cpu 1.749 total
+./topn_lite2 sample/*.txt > /dev/null  6.65s user 0.06s system 382% cpu 1.754 total
+./topn_lite2 sample/*.txt > /dev/null  6.63s user 0.06s system 383% cpu 1.746 total
+./topn_lite2 sample/*.txt > /dev/null  6.65s user 0.06s system 381% cpu 1.759 total
+./topn_lite2 sample/*.txt > /dev/null  6.70s user 0.06s system 382% cpu 1.770 total
+./topn_lite2 sample/*.txt > /dev/null  6.69s user 0.06s system 386% cpu 1.747 total
+./topn_lite2 sample/*.txt > /dev/null  6.63s user 0.06s system 382% cpu 1.750 total
+./topn_lite2 sample/*.txt > /dev/null  6.65s user 0.06s system 384% cpu 1.744 total
+-----------------------
+
+.Tempos do Paralelo Thread
+-----------------------
+# time ./topn_lite3 sample/*.txt > /dev/null
+./topn_lite3 sample/*.txt > /dev/null  6.80s user 0.06s system 382% cpu 1.791 total
+./topn_lite3 sample/*.txt > /dev/null  6.88s user 0.07s system 384% cpu 1.804 total
+./topn_lite3 sample/*.txt > /dev/null  6.84s user 0.06s system 382% cpu 1.802 total
+./topn_lite3 sample/*.txt > /dev/null  6.82s user 0.06s system 382% cpu 1.800 total
+./topn_lite3 sample/*.txt > /dev/null  6.83s user 0.06s system 378% cpu 1.820 total
+./topn_lite3 sample/*.txt > /dev/null  6.84s user 0.06s system 382% cpu 1.804 total
+./topn_lite3 sample/*.txt > /dev/null  6.83s user 0.06s system 379% cpu 1.817 total
+./topn_lite3 sample/*.txt > /dev/null  6.82s user 0.06s system 380% cpu 1.808 total
+./topn_lite3 sample/*.txt > /dev/null  6.80s user 0.06s system 381% cpu 1.796 total
+./topn_lite3 sample/*.txt > /dev/null  6.80s user 0.06s system 377% cpu 1.818 total
+-----------------------
+
+.Tempo Médio
+[frame="topbot",options="header"]
+|========================
+|                 | Média (3 últimas)
+| Sequencial      | 4.947
+| Paralelo_Shell  | 1.781
+| Paralelo_Fork   | 1.747
+| Paralelo_Thread | 1.807
+|========================
+
+.Plataforma
+----------------------------
+MacBook Pro - A1502 EMC 2875
+
+Intel(R) Core(TM) i5-4278U CPU @ 2.60 GHz
+
+Cores: 2
+Threads: 4
+Level 1 Cache: 128 KB
+Level 2 Cache: 512 KB
+Level 3 Cache: 3072 KB
+
+8 GB RAM
+----------------------------
