@@ -1,12 +1,8 @@
 #! /bin/bash
 
-files=("big.txt" "big2.txt" "big3.txt" "big4.txt")
-
-for i in "${files[@]}"
+for txt in `ls *.txt`
 do
-	./count $i > $i.out &
+	./topn_lite $txt > /dev/null &
 done
 
 wait
-
-find -name "*.out" | xargs ./join
