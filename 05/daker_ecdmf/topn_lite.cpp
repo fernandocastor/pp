@@ -14,6 +14,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <queue>
 
 int main(int argc, char ** argv) {
     std::fstream file;
@@ -41,7 +42,17 @@ int main(int argc, char ** argv) {
                return lhs.second > rhs.second;
         });
 
+    std::priority_queue<std::pair<unsigned int, std::string> > heap;
     for (const auto &w : list) {
-        std::cout << w.first << " : " << w.second << "\n";
+        std::pair<unsigned int, std::string> p;
+        p.first = w.second;
+        p.second = w.first;
+        heap.push(p);
+    }
+
+    for (int i = 0; i < 10; i++)
+    {
+        std::cout << heap.top().second << std::endl;
+        heap.pop();
     }
 }
