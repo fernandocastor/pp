@@ -5,6 +5,7 @@
 
 all:
 	g++ --std=c++11 topn_lite.cpp -o topn_lite
+	g++ --std=c++11 topn_lite2.cpp -o topn_lite2
 
 clean:
 	rm topn_lite
