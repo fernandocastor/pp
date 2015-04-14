@@ -52,7 +52,7 @@ void topn(char * filename) {
 
     for (int i = 0; i < 10; i++)
     {
-        std::cout << heap.top().second << std::endl;
+        std::cout << heap.top().second << " " << heap.top().first << std::endl;
         heap.pop();
     }
 
