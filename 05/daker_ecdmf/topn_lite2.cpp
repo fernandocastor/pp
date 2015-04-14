@@ -17,24 +17,9 @@
 #include <queue>
 #include <unistd.h>
 
-int main(int argc, char ** argv) {
-    int id = 0;
-    bool is_parent = true;
-    for (id = 1; id < argc - 1; id++) {
-        int pid = fork();
-        if (pid == 0) {
-            // child
-            is_parent = false;
-            break;
-        } else if (pid > 0) {
-            // parent
-        }
-    }
-
-    std::cout << "proc with id " << id << "\n";
-
+void topn(char * filename) {
     std::fstream file;
-    file.open(argv[id], std::fstream::in);
+    file.open(filename, std::fstream::in);
 
     std::unordered_map<std::string, unsigned int> dict;
 
@@ -71,7 +56,24 @@ int main(int argc, char ** argv) {
         std::cout << heap.top().second << std::endl;
         heap.pop();
     }
+}
 
+int main(int argc, char ** argv) {
+    int id = 0;
+    bool is_parent = true;
+    for (id = 1; id < argc - 1; id++) {
+        int pid = fork();
+        if (pid == 0) {
+            // child
+            is_parent = false;
+            break;
+        } else if (pid > 0) {
+            // parent
+        }
+    }
+
+    std::cout << "proc with id " << id << "\n";
+    topn(argv[id]);
 
     if (is_parent) {
         for (int i = 0; i < id - 1; i++) {
