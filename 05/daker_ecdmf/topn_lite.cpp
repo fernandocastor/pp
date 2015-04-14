@@ -16,9 +16,9 @@
 #include <vector>
 #include <queue>
 
-int main(int argc, char ** argv) {
+void topn(char * filename) {
     std::fstream file;
-    file.open(argv[1], std::fstream::in);
+    file.open(filename, std::fstream::in);
 
     std::unordered_map<std::string, unsigned int> dict;
 
@@ -54,5 +54,13 @@ int main(int argc, char ** argv) {
     {
         std::cout << heap.top().second << std::endl;
         heap.pop();
+    }
+
+}
+
+int main(int argc, char ** argv) {
+    for (int i = 1; i < argc; i++) {
+        std::cout << "topn of " << argv[i] << "\n";
+        topn(argv[i]);
     }
 }
