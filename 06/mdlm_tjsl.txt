@@ -1,0 +1,80 @@
+21
+Sejam dois objetos p e q "quiescent consistents", e um objeto O, que é definido pela união dos dois objetos p e q, O também 
+será "quiescent consistent", pois o período quiescente de p e q também será um período quiescente de O.
+
+
+23
+Consistencia quiescente, mas não sequancial
+
+       p.enq(x)           p.enq(y)
+A --|............|-----|............|----------------------
+
+                 p.deq(y)                       p.deq(x)
+B -------|....................|--------------|............|
+
+Consistencia sequencial, mas não quiescente
+
+        p.enq(x)           p.deq(y)
+A ---|............|-----|............|-------------------
+
+                          p.enq(y)            p.deq(x)
+B --------------------|............|-------|............|
+
+
+24
+
+Fig 3.13
+
+ Há consistência quiescente. Essa propriedade só exige que a chamada r.read(2) ocorra depois das outras 3, já que houve um 
+ período de inatividade entre essas duas subhistórias. E as 3 chamadas que se sobrepoem podem ser organizadas em qualquer 
+ ordem. Podemos portanto organizar as chamadas da seguinte forma: r.write(1) -> r.read(1) -> r.write(2) -> r.read(2)
+
+ Há consistência sequencial. Essa propriedade só exige que r.write(1) -> r.read(2), então podemos organizar as chamadas da 
+ seguinte forma: r.write(1) -> r.read(1) -> r.write(2) -> r.read(2)
+
+ É linearizável, pois as 3 execuções que se sobrepoem podem ser rearranjadas em qualquer ordem. A única exigência é que 
+ r.read(2) aconteça depois das outras 3 execuções.
+
+ Fig 3.14
+
+  Há consistência quiescente. A única exigência é que <r.read(1) B> aconteça depois das outras 3 execuções, já que
+  <r.read(1) B> é separado das outras execuções por um período de inatividade. As chamadas podem ser oranizadas da seguinte
+  forma:  <r.write(2) C> -> <r.write(1) B> -> <r.read(1) A> -> <r.read(1) B>
+
+  Há consistência sequencial, já que a única exigência é que <r.write(1) B> -> <r.read(1) B>. As chamadas podem ser
+  organizadas da seguinte forma: <r.write(1) B> -> <r.read(1) A> -> <r.read(1) B> -> <r.write(2) C>
+
+  É linearizável, pois as 3 execuções com exceção de <r.read(1) B> se sobrepoem e podem ser executadas em qualquer ordem
+  entre si. A única exigência é que elas sejam executadas antes da leitura na thread B. A seguinte execução é válida:
+  <r.write(2) C> -> <r.write(1) B> -> <r.read(1) A> -> <r.read(1) B>
+
+25
+Não, pois com a retirada da condição L2 nem na mesma thread a ordem das execuções seria preservada, o que fere a consistência
+sequencial.
+
+27
+Na sequência de execução a seguir, podemos verificar uma inconsistência linear.
+
+         enq(x)                    deq(Exception)
+A ---|............|--------------|................|--------------------
+
+                   enq(y)                              deq(y)
+B -------------|..............|-------------------|............|-------
+
+Caso B comece a executar enq(y) quando a thread A estiver para executar a linha 10, o valor de slot ficará com o valor 1 e
+items[1] terá o valor y, mas ao término da execução de enq(x), items[1] terá o valor x, com isso a fila ficará com os seguintes valores:
+
+items[0] = null
+items[1] = y
+head = 0
+tail = 2
+
+Quando A executar deq() lançará uma exceção, e logo após a thread B retornará y.
+
+28
+De fato, o modificador volatile garante que a atribuição e a leitura de v seja feita atomicamente, mas isso não influencia
+no fato de haver (ou não divisão por zero). A linguagem Java não garante consistência sequencial. Então (possivelmente por
+motivo de otimização feita pelo compilador) a linha 6 não necessariamente seria executada depois da linha 5, o que para um
+programa não-paralelo não faria diferença. Mas para o caso em que read e write sejam executados em threads diferentes, a
+reordenação pode fazer com que a divisão 100/x seja executada depois da atribuição 'v = true' (o que faz com que o reader
+entre no if), mas antes da atribuição 'x = 42', o que acarreta na divisão por zero.
