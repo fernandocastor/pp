@@ -1,0 +1,56 @@
+Silas Garrido - sgtcs@cin.ufpe.br
+
+Exercise 21:
+Para ter consistência quiescente alguns princípios devem ser obedecidos:
+a) não poderá existir chamadas de métodos pendentes;
+b) chamadas a métodos separadas por um período de quiescência deve parecer ter o mesmo efeito que sua chamada em tempo real.
+Já para ser composicional, além de cada um dos objetos de um sistema ter que obedecer a uma propriedade P, este sistema, como um todo, também deve obedecer às propriedades de P. Dessa forma, se pegarmos um conjunto de objetos que tem consistência quiescente e analisarmos como um todo, ele continuará tendo consistência quiescente. Logo, essa é uma propriedade composicional.
+
+
+Exercise 23:
+* É consistente quiescente mas não é sequencialmente consistente:
+
+p.stack.push(x)   p.stack.push(y)   p.stack.pop(x)
+|------------|    |------------|    |------------|
+         p.stack.push(z)
+         |------------|
+
+
+* É sequencialmente consistente mas não é consistente quiescente:
+
+p.stack.push(x)                    p.stack.pop[x] 
+|------------|                     |------------|
+                 p.stack.push(y)                     p.stack.pop[y]
+                 |------------|                      |------------|
+
+
+Exercise 24:
+ Figure 3.13:
+  Quiescently Consistent: Sim, pois todos os valores que foram lidos já foram escritos em algum momento na memória e sem incosistências.
+  Sequentially consistent: Sim, pois num momento posterior podemos organizar as chamadas da seguinte maneira: r.write(1) -> r.read(1) -> r.write(2) -> r.read(2).
+  Linearizable: Sim, pois num momento posterior podemos organizar as chamadas da seguinte maneira: r.write(1) -> r.read(1) -> r.write(2) -> r.read(2).
+
+ Figure 3.14:
+  Quiescently Consistent: Sim, pois todos os valores que foram lidos já foram escritos em algum momento na memória e sem incosistências.
+  Sequentially consistent: Sim, pois num momento posterior podemos organizar as chamadas da seguinte maneira: r.write(2) -> r.write(1) -> r.read(1) -> r.read(1).
+  Linearizable: Sim, pois num momento posterior podemos organizar as chamadas da seguinte maneira: r.write(2) -> r.write(1) -> r.read(1) -> r.read(1).
+
+
+Exercise 25:
+ Sim, pois na consistência sequencial a história original (H) não precisa ser preservada, ou seja, as chamadas podem ocorrer em momentos diferentes. Tirando a condição L2, que diz que o H original precisa ser preservado, a linearizabilidade resulta em uma consistência sequencial.
+
+
+Exercise 27:
+1.  T1 define slot=0 (linha 8);
+2.  T1 passa pelo "while" da linha 9;
+3.  T2 define slot=1 (linha 8);
+4.  T2 passa pelo "while" da linha 9;
+5.  T2 define item[1] = x;
+6.  T3 define slot=0 (linha 16);
+7.  T3 define value=NULL (linha 17);
+8.  T3 gera uma exceção (linha 19);
+
+T3 irá gerar uma exceção mesmo a fila estando com um elemento (adicionado por T2). Logo, o método não possui linearizabilidade.
+
+Exercise 28:
+ Não é garantido que "y" nunca será dividido por zero. Como Java é uma linguagem que não garante linearizabilidade e consistência sequencial, mesmo que "v" tenha sido definido como "volátil", é possível que o valor de "x" (linha 5) seja definido como "42" após "v" ter sido definido com "true". Dessa forma, existirá a possibilidade de "y" ser dividido por zero.
