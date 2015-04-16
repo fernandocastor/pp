@@ -1,0 +1,78 @@
+
+Exercise 21. Explain why quiescent consistency is compositional.
+
+A consistência de quiecente (quiescent consistency) é composicional, objetos de modo quiescentemente consistentes podem ser compostas para
+construir objetos quiescentemente consistentes mais complexos.
+Assim, supondo que um objeto X é composto por dois objetos Y e Z que obedecem a consistência de quietude. Por definição, os métodos executados por Y e Z obedecem a esta consistência. Como as chamadas só podem vir de X, então qualquer chamada de X também obedece a consistência de quietude.
+
+
+Exercise 23. Give an example of an execution that is quiescently consistent but not sequentially consistent, and another that is sequentially consistent but not quiescently consistent.
+
+
+>> consistência de quietude mas não sequencial:
+
+A-----|write(x)=a|--------------------------------------------------------
+
+B--------------|write(x)=b)|----------------------|write(x)=e|------------
+
+C----------|write(x)=c|---------------------|write(x)=d|--|read(x)=b|-----
+
+
+
+>> sequencialmente consistente mas não tem consistência de quietude:
+
+A-----|write(x)=a|------------------------------------------------
+
+B---------------------|write(x)=b|--------------------------------
+
+C--------------------------------------|read(x)=a|----------------
+
+
+Exercise 24. For each of the histories shown in Figs. 3.13 and 3.14, are they quiescently consistent? Sequentially consistent? Linearizable? Justify your answer.
+
+Para a Figura 3.13:
+
+Quiescently consistent: Sim. Devido ao overlap existente, é possível que a última escrita seja a 2. Assim o programa consegue ler 2. Respeitando a consistência de quietude.
+
+Sequentially consistent: Não. As chamadas de método são organizadas corretamente mantendo a ordem mútua das chamadas de método em cada thread. Assim o programa não conseguiria ler 2. Não respeitando a consistência sequencial.
+
+Linearizable: Sim. Devido ao overlap existente, é possível que a última escrita seja a 2. Assim o programa consegue ler 2. Respeitando a consistência linear.
+
+Para a Figura 3.14:
+
+Quiescently consistent: Sim. Devido ao overlap existente, é possível que a última escrita seja a 1. Assim o programa consegue ler 1. Respeitando a consistência de quietude.
+
+Sequentially consistent: Sim. As chamadas de método são organizadas corretamente mantendo a ordem mútua das chamadas de método em cada thread. Assim não respeita a consistência sequencial.
+
+Linearizable: Sim. Devido ao overlap existente, é possível que a última escrita seja a 1. Assim o programa consegue ler 1. Respeitando a consistência linear.
+
+
+Exercise 25. If we drop condition L2 from the linearizability definition, is the resulting property the same as sequential consistency? Explain.
+
+L2 if method call m0 precedes method call m1 in H, then the same is true in S
+Não. Sem a condição L2 não teremos mais nenhuma regra sobre a ordem do programa. Assim a consistência sequencial também é perdida.
+
+
+Exercise 27.
+Give an example showing that this implementation is not linearizable:
+
+Considerando duas threads A e B, além de uma FIFO com pelo menos dois elementos.
+Ambas as Thread A e B executam deq()
+Supondo que:
+	1. A Thread A pare após a execução da linha 20.
+	2. A Thread B inicia sua execução pegando um valor atualizado do head fila.
+	3. A Thread B finaliza a execução do método deq() antes da Thread A.
+Assim a Thread B que inicia depois da Thread A retorna o segundo elemento da fila antes do primeiro valor ser retornado.
+
+A --[en(a)]-------------[   deq(a)  ]----
+
+B -----------[en(b)]------[deq(b)]-------
+
+Quebrando assim a linearibilidade.
+
+
+Exercise 28. Consider the class shown in Fig. 3.16. According to what you have been told about the Java memory model, will the reader method ever divide by zero?
+
+Não. O volatile é uma marcação que induz a JVM a não realizar caches na variável, ou então, a esperar a escrita de uma outra thread antes de realizar a leitura. 
+Java não garante linearizabilidade, nem consistência sequencial. Pela execução do algoritmo é possível que a variavel x seja atribuída com o valor 42, após a variável v receber o valor true. Assim mesmo que a variável v tenha sido declarada como "volátil" ainda existirá a possibilidade de ocorrer uma exceção por divisão por zero.
+
