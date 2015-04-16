@@ -1,0 +1,61 @@
+﻿Programação Paralela - Trabalho 5
+=================================
+Daker Fernandes <dakerfp@gmail.com>; Emiliano Firmino <emiliano.firmino@gmail.com>
+
+Questão:
+--------
+Do livro AMP, devem ser feitos (no mínimo) os seguintes exercícios:
+
+*Capítulo 3*. 21, 23, 24, 25, 27, 28
+en 
+__exercício 21__:
+
+É composicional porquê o estado final, após um intervalo, da composição de dois registros
+que são quiescientes será alguma computação da ordenação dos passos. Isso é mesmo a definição da quiescência.
+
+__exercício 23__: 
+
+Quiescente mas não sequencial:
+
+[source txt]
+---------------------------------------------------------------------
+A ...........|----enq(x)-----|.........|----deq(y)-----|........................
+
+B ............|---------enq(y)-----------|................|----deq(x)-----|.....
+---------------------------------------------------------------------
+
+Sequencial mas não quiescente:
+
+[source txt]
+-----------------------------que n----------------------------------------
+A ......|----enq(x)-----|.........|----deq(y)-----|..............................
+
+B .........................|------enq(y)-----------|.......|----deq(x)-----|.....
+---------------------------------------------------------------------
+
+
+__exercício 24__:
+
+3.13:
+
+É sequencial porque write(2) pode ter efeito após write(1) e portanto satisfaz a read(2) no final.
+É quiesciente porque read(2) ocorre após um intervalo de tempo do conflito das outras 3 chamadas.
+É linearizável porque read(2) ocorre após as outras 3 chamadas.
+
+3.14:
+
+É sequencial porque write(1) pode ter efeito após write(2), que por sua vez vem antes do read(2) e portanto satisfaz ao read(1) no final.
+É quiesciente porque read(1) ocorre após um intervalo de tempo do conflito das outras 3 chamadas.
+É linearizável porque read(1) ocorre após as outras 3 chamadas que podem vir na ordem write(2), read(2), write(1).
+
+
+__exercício 25__:
+
+Não. Não há garantia que a ordem seja preservada em toda a história, nem mesmo em uma dada thread.
+
+__exercício 27__:
+
+__exercício 28__:
+
+Se o compilador for antes do Java 5 não, porque o valatile apenas garante que a leitura e a escrita são atômicas, não garante a ordem em threads diferentes. A partir do Java 5 sim, o compilador cria barreiras de memória.
+
