@@ -1,0 +1,96 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Trabalho 05 - 
+Alunos:
+Leonardo Fernandes Mendonça de Oliveira
+Victor
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+Exercise 21. Explain why quiescent consistency is compositional.
+RESPOSTA:
+Uma propriedade é composicional se, cada objeto do sistema satisfaz P, então o sistema como um todo satisfaz P.
+Dado que um objeto A é quiescently consistent e um objeto B que também é quiescently consistent.
+Se A e B forem compostos para executar como um sistema maior, ambos terão um período de quiescência entre eles.
+E se for definido um objeto C, que é composto apenas pelos objetos A e B, podemos dizer que C é quiescentemente consistente,
+visto que A e B somente serão acessados durante uma chamada de métodos de C, o período de quiescência de C é também um 
+período de quisciencia de A e B.
+
+------------------------------------------------------------------------------------------------
+Exercise 23. Give an example of an execution that is quiescently consistent but
+not sequentially consistent, and another that is sequentially consistent but not
+quiescently consistent.
+RESPOSTA:
+quiescently consistent but not sequentially consistent
+Dada duas filas Q1 e Q2(FIFO)
+T1:  --- Q1.enq(x)---Q2.enq(x)-----------Q1.deq():y-----------
+T2:  ---------Q2.enq(y)-----Q1.enq(y)-----Q2.deq():x ---------
+
+sequentially consistent but not quiescently consistent
+T1:  --- enq(x) ---------------------------
+T2:  ------------- enq(y) ---- deq():y ----
+
+
+------------------------------------------------------------------------------------------------
+Exercise 24. For each of the histories shown in Figs. 3.13 and 3.14 (page 66), are they quiescently
+consistent? Sequentially consistent? Linearizable? Justify your answer.
+RESPOSTA:
+3.13
+Quiescently consistent? Sim, visto que houve um período quiescente, e as 3 chamadas anteriores podem ser organizadas de qq forma.
+Sequentially consistent?Sim. Visto que a única condição é que r.write(1)->r.read(2), na Thread B, então podemos organizar da seguinte forma:
+                              B.r.write(1)->A.r.read(1)->C.r.write(2)->B.r.read(2) 
+Linearizable? Sim, visto que apenas a execução B.r.read(2) não se sobrepõe, podemos organizar a execução das 3 chamadas anteriores de qq forma.
+
+3.14
+quiescently consistent? Sim, visto que houve um período quiescente, e as 3 chamadas anteriores podem ser organizadas de qq forma.
+Sequentially consistent? Sim. Visto que a única condição é que r.write(1)->r.read(1), na Thread B, então podemos organizar da seguinte forma:
+                              C.r.write(2)->B.r.write(2)->A.r.read(1)->B.r.read(1) 
+Linearizable?  Sim, visto que apenas a execução B.r.read(1) não se sobrepõe, podemos organizar a execução das 3 chamadas anteriores de qq forma.
+
+------------------------------------------------------------------------------------------------
+Exercise 25. If we drop condition L2 from the linearizability definition, is the
+resulting property the same as sequential consistency? Explain.
+RESPOSTA:
+Não, pois a ordem de execução sequencial (na mesma Thread) não seria mantida.
+
+------------------------------------------------------------------------------------------------
+Exercise 27. The AtomicInteger class (in the java.util.concurrent.atomic
+package) is a container for an integer value. One of its methods is
+boolean compareAndSet(int expect, int update).
+This method compares the object s current value to expect. If the values are
+equal, then it atomically replaces the object s value with update and returns true.
+Otherwise, it leaves the object s value unchanged, and returns false. This class also
+provides
+
+int get()
+
+which returns the object s actual value.
+Consider the FIFO queue implementation shown in Fig. 3.15. It stores its items
+in an array items, which, for simplicity, we will assume has unbounded size. It
+has two AtomicInteger fields: tail is the index of the next slot from which to
+remove an item, and head is the index of the next slot in which to place an item.
+Give an example showing that this implementation is not linearizable.
+RESPOSTA:
+
+------------------------------------------------------------------------------------------------
+Exercise 28. Consider the class shown in Fig. 3.16. According to what you have been
+told about the Java memory model, will the reader method ever divide by zero?
+1 class VolatileExample {
+2   int x = 0;
+3   volatile boolean v = false;
+4   public void writer() {
+5     x = 42;
+6     v = true;
+7   }
+8   public void reader() {
+9     if (v == true) {
+10     int y = 100/x;
+11    }
+12  }  
+13 }
+Figure 3.16 Volatile field example from Exercise 28.
+RESPOSTA:
+Pode ocorrer sim a divisão por 0.
+O modificador volatile garante apenas que não ocorrerá troca de contexto durante a leitura ou escrita da variável, mas nada garante 
+sobre os eventos anteriores ou posteriores.
+E dado que o JAVA não garante consistência sequencial, ou seja, a linha 6 pode ocorrer antes da linha 5 (por motivos de performance).
+Uma Thread pode alterar v=true (linha 6), depois pode ocorrer a troca de contexto e uma outra Thread pode executar a linha 10, onde ocorrer a divisão 
+por zero.
