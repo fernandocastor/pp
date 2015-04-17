@@ -1,0 +1,34 @@
+21. Explain why quiescent consistency is compositional.
+R.Quiscent não liga para O TODO, mas para a resposta entre intervalos de quietude
+
+23. Give an example of an execution that is quiescently consistent but not sequentially consistent, and another that is sequentially consistent but not quiescently consistent.
+R.
+I) -----[q.write(7)]------[q.write(-3)]---[q.read(7)]-------
+
+II)
+A -----[q.enq(x)]------[q.deq(y)]-----------
+B --------[q.enq(y)]------[q.deq(x)]--------
+
+24.
+Fig.3.13
+Quicently Consistent:Sim,  ha uma ordem consistente nas chamadas dos metodos de forma que após o último intervalo quiciente o retorno é r.read(2)
+Sequentially Consistent: Sim, mesmo intercaladas (enviando para frente ou tras) ha uma sequência.
+Linearizable(ve a ordem entre chamadas de threads diferentes): sim, pois o ponto de linearizability (ponto onde o resultado pode estar visível a todos, pode estar antes  da read)
+
+Fig.3.14
+Todas as afirmativas são positivas e se enquadram no mesmo racioncínio da figura anterior
+
+
+25. If we drop condition L2 from the linearizability definition, is the resulting property the same as sequential consistency? Explain.
+--
+
+27.
+É possível observar que em um cenário com 3 threads A, B e C, pode-se:
+A- enfileirar
+B- enfileira e para antes de concluir todo o metodo (linha 9)
+C- Desenfileira o item que a thread A inseriu.
+
+28. O compilador pode reordenar a ordem da atribuição das variáveis para fins de performance, por exemplo. O fato é que java não garante consistencia sequencial nem linearizabilidade devido ao seu modelo de momória. Assim, pode-se ter uma divisão por zero.
+
+Program Order: ordem que a thread faz uma chamada
+Java nao garante consistencia sequencial
