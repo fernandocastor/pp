@@ -1,10 +1,9 @@
+#TEMPO DE EXECUCAO
+#real	0m1.060s
+
 #!/bin/bash
 #Jose Fernando
 #Descrição: Armazenador de Hash de senhas Sequencial
-#TEMPO DE EXECUCAO
-#real	0m1.007s
-#user	0m1.146s
-#sys	0m1.966s
 
 ARRAY_DE_SENHAS[0]=SENHA_0
 HASH_DAS_SENHAS[0]=HASH_VALUE_0

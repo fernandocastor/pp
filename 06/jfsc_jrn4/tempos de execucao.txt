@@ -1,22 +1,21 @@
-Nome: Jose Fernando Santos de Carvalho
+Nome: Jose Fernando Santos de Carvalho 
+        Josino Rodrigues
 Descrição APP: Calculo de hash de senhas
+               Fonte: http://elekto.com.br/Blog/problemas-agradavelmente-paralelos
+
+Computador:
+i5 2CORE (4 virtuais), 2.3 GHz + Turbo Boost (2.9GHz), 8GB RAM
 
 #Versão Sequencial
-real	0m1.518s
-user	0m0.658s
-sys	0m1.076s
+#real	0m1.740s
 
 Versão paralela SH
-real	0m1.007s
-user	0m1.146s
-sys	0m1.966s
-
+#real	0m1.060s
 
 Versão em C:
-real	0m0.140s
-user	0m0.086s
-sys	0m0.200s
+real	0m0.100s
 
-Versão .Net
-Fonte: http://elekto.com.br/Blog/problemas-agradavelmente-paralelos
+Versão Java:
+#real	0m0.560s
+
 
