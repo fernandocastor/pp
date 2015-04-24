@@ -1,0 +1,74 @@
+Silas Garrido - sgtcs@cin.ufpe.br
+
+A aplicação sequencial utilizada consiste em rodar quatro métodos de classificação do MOA Framework [1]: Hoeffding Tree, Naive Bayes, Perceptron e Majority Class. Para essa finalidade foi criado um script (class5_seq.cpp) que chama e executa, de forma sequencial, cada um desses métodos por linha de comando. Os outros scripts realizam os seguintes procedimentos:
+class5_thread.cpp - Chama esses métodos, de forma paralela, utilizando threads;
+class5_fork.cpp - Chama esses métodos, de forma paralela, utilizando processos (fork());
+class5_shell.sh - Chama os quatro métodos simultanemanete utilizando Shell.
+Todos os códigos estão na pasta sgtcs_code.
+
+Os procedimentos foram realizados numa máquina contendo 4GB de memória principal; processador Intel Core i5-4210U com dois núcles físicos e dois virtuais com 1.7GHz de frequência (Turbo Max de 2.7GHz); memória cache de 3MB; e sistema operacional Ubuntu 14.04 LTS 64-bit.
+
+Algoritmo Sequencial:
+real	8m50.052s (530.052s)
+user	8m59.506s
+sys	0m6.898s
+
+real	8m57.288s (537.288s)
+user	9m8.742s
+sys	0m6.736s
+
+real	8m56.143s (536.143s)
+user	9m5.268s
+sys	0m6.612s
+
+Média real: 8m54.494s (534.494s)
+
+
+Algoritmo utilizando threads:
+real	5m9.031s (309.031s)
+user	12m25.832s
+sys	0m9.877s
+
+real	5m14.989s (314.989s)
+user	12m24.896s
+sys	0m9.597s
+
+real	5m7.409s (307.409s)
+user	12m32.787s
+sys	0m9.624s
+
+Média real: 5m10.476s (310.476s)
+
+
+Algoritmo utilizando processos (fork):
+real	5m4.629s (304.629s)
+user	5m7.618s
+sys	0m2.364s
+
+real	5m14.657s (314.657s)
+user	5m16.270s
+sys	0m3.044s
+
+real	5m9.641s (309.641s)
+user	5m13.551s
+sys	0m2.369s
+
+Média real: 5m09.642s (309.642s)
+
+
+Algoritmo utilizando uma linguagem de shell scripting:
+real	5m11.173s (311.173s)
+user	5m14.920s
+sys	0m2.483s
+
+real	5m5.767s (305.767s)
+user	5m8.732s
+sys	0m2.357s
+
+real	5m23.116s (323.116s)
+user	5m24.429s
+sys	0m2.642s
+
+Média real: 5m14.352s (313.352s)
+
+[1] http://moa.cms.waikato.ac.nz/
