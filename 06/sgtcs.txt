@@ -69,6 +69,6 @@ real	5m23.116s (323.116s)
 user	5m24.429s
 sys	0m2.642s
 
-Média real: 5m14.352s (313.352s)
+Média real: 5m13.352s (313.352s)
 
 [1] http://moa.cms.waikato.ac.nz/
