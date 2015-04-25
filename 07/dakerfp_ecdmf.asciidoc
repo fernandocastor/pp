@@ -1,0 +1,31 @@
+﻿Programação Paralela - Trabalho 7
+=================================
+Daker Fernandes <dakerfp@gmail.com>; Emiliano Firmino <emiliano.firmino@gmail.com>
+
+Questão:
+--------
+
+1. Implemente um programa de contagem estatística (conforme descrito no
+Perfbook). Seu programa deve executar um número N de *threads contadoras* (TCs)
+parametrizavél. Estas funcionam em um laço, incrementando seus contadores
+locais a cada iteração. Além disso, deve executar uma *thread leitora*
+responsável por ler os valores atuais dos contadores das TCs e produzir uma
+soma global desses valores, imprimindo-a. A execução deve parar quando o valor
+da soma total atingir um limite K, também parametrizavél.  Execute esse
+programa para valores de K maiores que K ≥ 231 e meça o tempo de execução. Qual
+o efeito de tornar __volatile__ o contador de cada thread? O tempo de execução
+muda? O tipo do atributo contador influencia esse tempo de execução? Compare os
+resultados para __int__, __float__, __double__ e __long__.  Os intervalos entre
+leituras dos contadores de cada thread influencia o tempo total da execuçãoa?
+Para medir o tempo, realize pelo menos dez execuções e use a média das útimas
+três execuções como seu tempo oficial.
+
+2. Verifique, para o programa do exemplo anterior, o efeito de usar contadores
+do tipos *AtomicInteger* e/ou *AtomicLong* no tempo de execução.
+
+3. Torne exato (ou seja, não mais estatístico) o contador do item 1. Torná-lo
+exato significa que a soma total não pode passar de K. Uma abordagem
+__fastpath__ pode ajudar nesse caso? Em caso afirmativo, mostre como. Em caso
+negativo, mostre porque não. Qual o desempenho desse contador? Empregue a mesma
+metodologia de medição descrita nos items anteriores.
+
