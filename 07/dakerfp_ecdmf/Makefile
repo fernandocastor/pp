@@ -4,6 +4,7 @@
 #
 
 all:
+	@javac AtomicStatCounter.java
 	@mkdir -p l i d f lv iv fv dv
 	@cpp -DTYPE=long   -DVOLATILE="" StatCounter.src | sed '/^#/ d' > l/StatCounter.java
 	@cpp -DTYPE=int    -DVOLATILE="" StatCounter.src | sed '/^#/ d' > i/StatCounter.java
@@ -23,5 +24,5 @@ all:
 	@cd fv; javac *.java; cd ..
 
 clean:
-	@rm -r l i d f lv iv fv dv
+	@rm -r l i d f lv iv fv dv *.class
 
