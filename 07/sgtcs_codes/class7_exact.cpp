@@ -16,7 +16,7 @@ ul num_online_thread = NR_THREADS-1;
 bool finish = false;
 
 vector<atomic<int>> ctrandmax (NR_THREADS-1);
-ul globalcountmax = pow(2,10);
+ul globalcountmax = pow(2,31);
 ul globalcount = 0;
 ul globalreserve = 0;
 vector<thread> counterp (NR_THREADS);
