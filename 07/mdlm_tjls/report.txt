@@ -1,0 +1,41 @@
+Todos os testes foram realizados em um Intel(R) Core(TM) i7-3770, 3.40GHz, 8 cores.
+
+O counterMax foi setado para K=2^32
+
+01
+- Tempo de execução normal
+Tipo do contador: int; Volatile: não; Intervalo entre leituras: 100ms; Tempo médio: 1175ms
+
+- Qual o efeito de tornar volatile o contador de cada thread?
+Tipo do contador: int; Volatile: sim; Intervalo entre leituras: 100ms; Tempo médio: 7055ms
+
+O uso de um contador volatile aumenta consideravelmente o tempo de execução médio do programa. De todas as alterações pedidadas na questão, esta foi a mais impactante.
+
+- Compare os resultados para int, float, double e long
+Tipo do contador: float; Volatile: não; Intervalo entre leituras: 100ms; Tempo médio: erro de precisão
+Tipo do contador: double; Volatile: não; Intervalo entre leituras: 100ms; Tempo médio: 1556ms
+Tipo do contador: long; Volatile: não; Intervalo entre leituras: 100ms; Tempo médio: 1155ms
+
+O uso de long não aparenta fazer diferença no tempo de execução do progama. A diferença no tempo médio de execução usando int ou long é desprezível.
+Por outro lado, o uso de double apresenta um pequeno, mas significativo, aumento no tempo médio.
+
+- Os intervalos dos contadores de cada thread influencia o tempo total da execução?
+Tipo do contador: int; Volatile: não; Intervalo entre leituras: 30ms; Tempo médio: 1065ms
+Tipo do contador: int; Volatile: não; Intervalo entre leituras: 300ms; Tempo médio: 1614ms
+
+Nota-se uma diferença no tempo de execução ao mudar o intervalo entre leituras. 
+Com intervalos maiores, a precisão do contador diminui, o que contribui para
+que a contagem execute mais vezes após ultrapassar o valor máximo, antes de ser
+percebida pela thread de leitura.
+
+02
+- Verifique, para o programa do exemplo anterior, o efeito de usar contadores dos
+  tipos AtomicInteger e/ou AtomicLong no tempo de execução.
+
+Tempo médio de execução com AtomicInteger: 7134ms
+
+O desempenho é notadamente afetado ao utilizar AtomicInteger nas operações.
+
+03
+A abordagem fastpath auxilia na execução no contador exato ao diminuir o número de operações atomicas utilizadas.
+O desempenho médio deste contador foi de 13720ms
