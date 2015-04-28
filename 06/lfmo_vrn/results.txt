@@ -1,0 +1,139 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Leonardo Fernandes
+; Victor
+;
+; Resultado das Execuções
+;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+The value of PI can be calculated in a number of ways. Consider the following method of approximating PI
+- Inscribe a circle in a square
+- Randomly generate points in the square
+- Determine the number of points in the square that are also in the circle
+- Let r be the number of points in the circle divided by the number of points in the square
+- PI ~ 4 r
+
+Pseudo-code:
+--------------
+npoints = 10000
+circle_count = 0
+
+do j = 1,npoints
+  generate 2 random numbers between 0 and 1
+  xcoordinate = random1
+  ycoordinate = random2
+  if (xcoordinate, ycoordinate) inside circle
+  then circle_count = circle_count + 1
+end do
+
+PI = 4.0*circle_count/npoints
+--------------
+
+1 - More points generated, the better the approximation
+2 - Note that most of the time in running this program would be spent executing the loop 
+3 - Leads to an embarrassingly parallel solution (Computationally intensive, Minimal communication, Minimal I/O)
+
+--------------------------------------------------------------------------------------------------------
+
+Machine:
+Processador: Intel(R) Core(TM) i5-2410M CPU @ 2.30GHz. Model 42 (Codename: SandyBridge)
+Level 1 (L1): 64KB para cada CORE.
+Level 2 (L2): 256KB para cada core.
+Level 3 (L3): 3MB total.
+Memória 6GB com clock de Clock Memória: 166MHz
+OS Linux Mint. 3.13.0-37-generic #64-Ubuntu SMP Mon Sep 22 21:28:38 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux (result from uname -a)
+-----------------------
+
+Results:
+
+
+- Java Sequential - (jdk: 1.8.0_40):
+Valor do PI: 3.1417736
+Tempo de Execucao: 37.133 segundos.
+Para 10000000 Pontos.
+Pontos Dentro do circulo: 7854434 Pontos.
+
+Valor do PI: 3.1421116
+Tempo de Execucao: 38.199 segundos.
+Para 10000000 Pontos.
+Pontos Dentro do circulo: 7855279 Pontos.
+Raio do circulo: 1000000
+
+Valor do PI: 3.1426176
+Tempo de Execucao: 37.25 segundos.
+Para 10000000 Pontos.
+Pontos Dentro do circulo: 7856544 Pontos.
+Raio do circulo: 1000000
+
+----------------------------
+
+- Java Parallel (2 Threads) - (jdk: 1.8.0_40):
+Valor do PI: 3.1424316
+Tempo de Execucao: 24.143 segundos.
+Para 10000000 Pontos.
+Pontos Dentro do circulo: 7856079 Pontos.
+
+Valor do PI: 3.1413128
+Tempo de Execucao: 27.783 segundos.
+Para 10000000 Pontos.
+Pontos Dentro do circulo: 7853282 Pontos.
+Raio do circulo: 1000000
+
+Valor do PI: 3.1414972
+Tempo de Execuao: 28.981 segundos.
+Para 10000000 Pontos.
+Pontos Dentro do circulo: 7853743 Pontos.
+Raio do circulo: 1000000
+
+----------------------------
+
+C Sequential:
+Valor do PI ~: 3.141784
+Tempo de Execucao (segundos): 2.400691
+Para 10000000 Pontos:
+Pontos Dentro do circulo: ~: 7854459
+
+Valor do PI ~: 3.142000
+Tempo de Execucao (segundos): 2.423461
+Para 10000000 Pontos:
+Pontos Dentro do circulo: ~: 7855000
+
+Valor do PI ~: 3.142048
+Tempo de Execucao (segundos): 2.428491
+Para 10000000 Pontos:
+Pontos Dentro do circulo: ~: 7855121
+
+----------------------------
+
+C with (Fork/Join) - (2 process):
+Valor do PI ~: 3.141156
+Tempo de Execucao (segundos): 2.400522
+Para 10000000 Pontos:
+Pontos Dentro do circulo: ~: 7852889
+
+Valor do PI ~: 3.140820
+Tempo de Execucao (segundos): 2.402909
+Para 10000000 Pontos:
+Pontos Dentro do circulo: ~: 7852049
+
+Valor do PI ~: 3.141359
+Tempo de Execucao (segundos): 2.410739
+Para 10000000 Pontos:
+Pontos Dentro do circulo: ~: 7853397
+
+----------------------------
+Obs. Como a execução em C aconteceu muito rápida. O tempo entre a versão sequencial e com fork/join não mudou muito. 
+Contudo, quando aumentamos o número de pontos a serem gerados para 100000000 (cem milhões), o tempo de execução ficou:
+Sequencial~:Tempo de Execucao (segundos): 24.051934
+Paralelo~: Tempo de Execucao (segundos): 12.828148
+
+
+
+
+
+
+
+
+
+
+

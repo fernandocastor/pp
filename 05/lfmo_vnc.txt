@@ -70,6 +70,7 @@ remove an item, and head is the index of the next slot in which to place an item
 Give an example showing that this implementation is not linearizable.
 RESPOSTA:
 
+
 ------------------------------------------------------------------------------------------------
 Exercise 28. Consider the class shown in Fig. 3.16. According to what you have been
 told about the Java memory model, will the reader method ever divide by zero?
