@@ -1,7 +1,7 @@
 import java.util.concurrent.atomic.AtomicLong;
 public class AtomicStatCounter
 {
-    public void runUntil(final int n, final int k) {
+    public void runUntil(final int n, final long k) {
         CounterThread[] threads = new CounterThread[n];
         for (int i = 0; i < n; i++) {
             threads[i] = new CounterThread();
@@ -36,7 +36,7 @@ public class AtomicStatCounter
         }
 
         AtomicStatCounter statCounter = new AtomicStatCounter();
-        statCounter.runUntil(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
+        statCounter.runUntil(Integer.parseInt(args[0]), Long.parseLong(args[1]));
     }
 
     private class CounterThread extends Thread {

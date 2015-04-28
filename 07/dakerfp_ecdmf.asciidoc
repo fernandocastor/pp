@@ -20,8 +20,62 @@ leituras dos contadores de cada thread influencia o tempo total da execuçãoa?
 Para medir o tempo, realize pelo menos dez execuções e use a média das útimas
 três execuções como seu tempo oficial.
 
+.Média de Execução para 2\^31
+[frame="topbot",options="header"]
+|==================================================
+|        | 1     | 2    | 4    | 6    | 8    | 10
+| Int    |       | 6.18 | 5.63 | 5.35 | 5.16 | 5.20
+| Long   | 7.26  | 6.32 | 5.62 | 5.31 | 5.23 | 5.20
+| Float  |       |      |      |      |      |
+| Double | 11.38 | 9.27 | 8.43 | 7.99 | 7.97 | 7.72
+|==================================================
+
+.Média de Execução para 2\^31 com Volátil
+[frame="topbot",options="header"]
+|=======================================================
+|        | 1     | 2     | 4     | 6     | 8     | 10
+| Int    |       | 22.98 | 28.19 | 28.12 | 28.25 | 28.43
+| Long   | 22.70 | 22.73 | 28.18 | 28.14 | 28.79 | 28.67
+| Float  |       |       |       |       |       |
+| Double | 22.85 | 23.03 | 27.90 | 27.84 | 28.17 | 28.18
+|=======================================================
+
+.Média de Execução para 2\^31 4 threads com Long sem volátil com delay
+[frame="topbot",options="header"]
+|=======================================================
+|            | 0    | 10   | 50   | 100  | 200  | 500
+| AtomicLong | 7.26 | 4.58 | 4.60 | 4.57 | 4.85 | 4.95
+|=======================================================
+
+
+I) Qual o efeito de usar volátil? O tempo de execução muda?
+
+Usar volátil faz com que o tempo de execução aumente em 3x ou 4x comparado a
+não usá-lo.
+
+II) O tipo do atributo do contador influencia o tempo de execução?
+
+Sim, entre ponto flutuante e escalar. Porém Int e Long não parece haver
+diferença em máquina 64bits. Float não executou para o tamanho especificado.
+
+III) Os intervalos entre leituras do contadores afeta o tempo total?
+
+Sim, é necessário um delay entre leituras para evitar contenção nas threads.
+Mas qualquer valor acima de certo patamar, o incremento no delay prejudica
+a precisão do contador em terminar assim que atingir K.
+
 2. Verifique, para o programa do exemplo anterior, o efeito de usar contadores
 do tipos *AtomicInteger* e/ou *AtomicLong* no tempo de execução.
+
+.Média de Execução para 2\^31 com AtomicLong
+[frame="topbot",options="header"]
+|=======================================================
+|               | 1     | 2     | 4     | 6     | 8     | 10
+| volatile Long | 22.70 | 22.73 | 28.18 | 28.14 | 28.79 | 28.67
+| AtomicLong    | 22.70 | 28.53 | 29.82 | 29.65 | 29.40 | 29.20
+|=======================================================
+
+Aparentemente, o uso de AtomicLong é equivalente Long com volátil.
 
 3. Torne exato (ou seja, não mais estatístico) o contador do item 1. Torná-lo
 exato significa que a soma total não pode passar de K. Uma abordagem
