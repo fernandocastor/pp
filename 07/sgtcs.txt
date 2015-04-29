@@ -1,0 +1,167 @@
+Silas Garrido - sgtcs@cin.ufpe.br
+
+Questão 1:
+
+* Tempo de execução com globalcountmax = 2^31 e definindo o contador das threads como "volatile":
+Read Count = 2147483648
+
+real	0m48.258s
+user	3m12.028s
+sys	0m0.040s
+
+Read Count = 2147483648
+
+real	0m47.386s
+user	3m8.335s
+sys	0m0.064s
+
+Read Count = 2147483648
+
+real	0m48.867s
+user	3m14.337s
+sys	0m0.032s
+
+--- Média: 0m48.170s ---
+
+* Tempo de execução com globalcountmax = 2^31 e definindo o contador das threads como "long":
+Read Count = 2147483648
+
+real	0m45.892s
+user	3m3.014s
+sys	0m0.036s
+
+Read Count = 2147483648
+
+real	0m44.770s
+user	2m57.462s
+sys	0m0.036s
+
+Read Count = 2147483648
+
+real	0m43.113s
+user	2m50.961s
+sys	0m0.036s
+
+--- Média: 0m44.592s ---
+
+* Tempo de execução com globalcountmax = 2^31 e definindo o contador das threads como "double":
+Read Count = 2147483648
+
+real	0m44.238s
+user	2m56.197s
+sys	0m0.052s
+
+Read Count = 2147483648
+
+real	0m41.820s
+user	2m46.253s
+sys	0m0.020s
+
+Read Count = 2147483648
+
+real	0m44.723s
+user	2m57.522s
+sys	0m0.047s
+
+--- Média: 0m43.594s ---
+
+* Tempo de execução com globalcountmax = 2^31 e definindo o contador das threads como "int":
+Read Count = 2147483648
+
+real	0m47.774s
+user	3m9.779s
+sys	0m0.028s
+
+Read Count = 2147483648
+
+real	0m47.933s
+user	3m9.989s
+sys	0m0.076s
+
+Read Count = 2147483648
+
+real	0m49.565s
+user	3m16.798s
+sys	0m0.064s
+
+--- Média: 0m48.424s ---
+
+Com os tipos definidos como "int" o tempo de execução foi ligeiramente maior que o segundo mais lento, definido como "volatile". O mais rápido foi com o tipo "double". Com o tipo "float", não foi possível medir o tempo com 2^31 (overflow). Com relação aos intevalos entre as leituras, quanto menos chamadas ao read_count(), menor será o tempo de execução uma vez que menos travas serão realizadas.
+
+
+
+
+
+
+
+Questão 2:
+* Tempo de execução com globalcountmax = 2^31 e definindo o contador das threads como "atomic<int>":
+Read Count = 2147483648
+
+real	1m31.859s
+user	6m5.318s
+sys	0m0.128s
+
+Read Count = 2147483648
+
+real	1m32.005s
+user	6m5.682s
+sys	0m0.068s
+
+Read Count = 2147483648
+
+real	1m35.482s
+user	6m19.521s
+sys	0m0.142s
+
+--- Média: 1m33.115s ---
+
+* Tempo de execução com globalcountmax = 2^31 e definindo o contador das threads como "atomic<long>":
+Read Count = 2147483648
+
+real	1m33.430s
+user	6m10.746s
+sys	0m0.080s
+
+Read Count = 2147483648
+
+real	1m35.166s
+user	6m17.505s
+sys	0m0.172s
+
+Read Count = 2147483648
+
+real	1m35.346s
+user	6m18.751s
+sys	0m0.120s
+
+--- Média: 1m34.647s ---
+
+
+
+
+
+
+
+Questão 3:
+Read Count = 2147483648
+
+real	1m45.996s
+user	7m1.335s
+sys	0m0.028s
+
+Read Count = 2147483648
+
+real	1m40.962s
+user	6m40.885s
+sys	0m0.052s
+
+Read Count = 2147483648
+
+real	1m47.146s
+user	7m5.407s
+sys	0m0.332s
+
+--- Média: 1m44.701s ---
+
+Sim, uma abordagem de fastpath pode contribuir para redução do tempo de execução dos contadores. Isso é feito simplesmente incrementando o contador local de cada thread no lugar de incrementar o contador global. Assim, overheads associados à exclusão mútua, por exemplo, não acontecerão. A qualquer momento, quando for solicitado os valores incrementados até então, o resultado será uma composição do contador global com o somatório dos contadores locais de cada thread.
