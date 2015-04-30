@@ -1,0 +1,3 @@
+Silas Garrido - sgtcs@cin.ufpe.br
+
+Tanto o código da questão 1 quanto o da questão 2 estão na pasta "sgtcs_codes". Pra primeira questão foram utilizadas duas deque para garantir as propriedades solicitadas. Pra segunda questão foi criado um único vetor estático que insere elementos a partir do seu meio. A inserção pode ocorrer simultaneamente nos dois lados (esquerdo e direito).
