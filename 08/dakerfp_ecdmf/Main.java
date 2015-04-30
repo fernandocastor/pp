@@ -10,7 +10,6 @@ public class Main {
 
         @Override
         public void run() {
-            // TODO Auto-generated method stub
             super.run();
             Random r = new Random();
             while (true) {
@@ -33,7 +32,7 @@ public class Main {
 
                 }
             }
-        }           
+        }
     };
 
     public void test() {

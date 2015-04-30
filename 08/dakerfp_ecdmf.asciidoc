@@ -50,5 +50,9 @@ Essa classe tem operações +addFirst()+, +addLast()+, +removeFirst()+ e
 elemento no fimm, remover o último elemento da lista e remover o primeiro,
 respectivamente. +LinkedList+ não é uma classe segura para __threads__.
 
+link:dakerfp_ecdmf/Deque.java[Deque]
+
 2. Implemente uma solução para a questão 1 que: (i) empregue hashing conforme
 descrito na Seção 6.1.2.3; ou (ii) necessite de apenas uma lista ligada.
+
+link:dakerfp_ecdmf/HashDeque.java[HashDeque]

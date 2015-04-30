@@ -7,7 +7,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 
 /**
- * Our Thread Safe Deque class.
+ * Our Thread Safe HashDeque class.
  * @param <T> the type of boxed value
  */
 public class HashDeque<T> {
