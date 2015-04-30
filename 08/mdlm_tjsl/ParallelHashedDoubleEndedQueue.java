@@ -28,7 +28,7 @@ public class ParallelHashedDoubleEndedQueue<T> {
 		this.leftLock.lock();
 		i = moveRight(this.lidx);
 		this.bucketLock[i].lock();
-		e = this.deq[i].removeFirst();
+		e = this.deq[i].pollFirst();
 		if (e != null)
 			this.lidx = i;
 		this.bucketLock[i].unlock();
@@ -44,7 +44,7 @@ public class ParallelHashedDoubleEndedQueue<T> {
 		this.rightLock.lock();
 		i = moveLeft(this.ridx);
 		this.bucketLock[i].lock();
-		e = this.deq[i].removeLast();
+		e = this.deq[i].pollLast();
 		if (e != null)
 			this.ridx = i;
 		this.bucketLock[i].unlock();

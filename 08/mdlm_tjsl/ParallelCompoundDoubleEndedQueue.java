@@ -18,10 +18,10 @@ public class ParallelCompoundDoubleEndedQueue<T> {
 		T e;
 
 		this.leftLock.lock();
-		e = this.ldeq.removeFirst();
+		e = this.ldeq.pollFirst();
 		if (e == null) {
 			this.rightLock.lock();
-			e = this.rdeq.removeFirst();
+			e = this.rdeq.pollFirst();
 
 			// XXX
 			this.ldeq = this.rdeq;
@@ -38,14 +38,14 @@ public class ParallelCompoundDoubleEndedQueue<T> {
 		T e;
 
 		this.rightLock.lock();
-		e = this.rdeq.removeLast();
+		e = this.rdeq.pollLast();
 		if (e == null) {
 			this.rightLock.unlock();
 			this.leftLock.lock();
 			this.rightLock.lock();
-			e = this.rdeq.removeLast();
+			e = this.rdeq.pollLast();
 			if (e == null) {
-				e = this.ldeq.removeLast();
+				e = this.ldeq.pollLast();
 
 				// XXX
 				this.rdeq = this.ldeq;
