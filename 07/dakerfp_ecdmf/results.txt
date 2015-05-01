@@ -1,0 +1,606 @@
+# Double
+java StatCounter 1 2147483648 > /dev/null  10.94s user 2.32s system 200% cpu 6.603 total
+java StatCounter 1 2147483648 > /dev/null  11.36s user 2.44s system 196% cpu 7.008 total
+java StatCounter 1 2147483648 > /dev/null  11.09s user 2.35s system 198% cpu 6.780 total
+java StatCounter 1 2147483648 > /dev/null  11.29s user 2.43s system 197% cpu 6.940 total
+java StatCounter 1 2147483648 > /dev/null  11.65s user 2.63s system 194% cpu 7.329 total
+java StatCounter 1 2147483648 > /dev/null  11.22s user 2.55s system 195% cpu 7.029 total
+java StatCounter 1 2147483648 > /dev/null  11.21s user 2.37s system 198% cpu 6.848 total
+java StatCounter 1 2147483648 > /dev/null  11.09s user 2.35s system 200% cpu 6.709 total
+java StatCounter 1 2147483648 > /dev/null  11.38s user 2.46s system 196% cpu 7.027 total
+java StatCounter 1 2147483648 > /dev/null  11.67s user 2.51s system 197% cpu 7.178 total
+
+Média: 11.38
+
+java StatCounter 2 2147483648 > /dev/null  9.45s user 1.28s system 282% cpu 3.794 total
+java StatCounter 2 2147483648 > /dev/null  9.49s user 1.25s system 280% cpu 3.836 total
+java StatCounter 2 2147483648 > /dev/null  9.19s user 1.27s system 287% cpu 3.639 total
+java StatCounter 2 2147483648 > /dev/null  9.23s user 1.19s system 287% cpu 3.629 total
+java StatCounter 2 2147483648 > /dev/null  9.27s user 1.26s system 288% cpu 3.644 total
+java StatCounter 2 2147483648 > /dev/null  9.31s user 1.18s system 289% cpu 3.625 total
+java StatCounter 2 2147483648 > /dev/null  9.26s user 1.27s system 288% cpu 3.644 total
+java StatCounter 2 2147483648 > /dev/null  9.27s user 1.20s system 289% cpu 3.619 total
+java StatCounter 2 2147483648 > /dev/null  9.27s user 1.19s system 287% cpu 3.639 total
+java StatCounter 2 2147483648 > /dev/null  9.28s user 1.23s system 289% cpu 3.629 total
+
+Média: 9.27
+
+java StatCounter 4 2147483648 > /dev/null  8.42s user 0.65s system 379% cpu 2.390 total
+java StatCounter 4 2147483648 > /dev/null  8.44s user 0.66s system 381% cpu 2.387 total
+java StatCounter 4 2147483648 > /dev/null  8.37s user 0.61s system 380% cpu 2.360 total
+java StatCounter 4 2147483648 > /dev/null  8.33s user 0.61s system 383% cpu 2.330 total
+java StatCounter 4 2147483648 > /dev/null  8.63s user 0.64s system 381% cpu 2.433 total
+java StatCounter 4 2147483648 > /dev/null  8.43s user 0.60s system 383% cpu 2.358 total
+java StatCounter 4 2147483648 > /dev/null  8.36s user 0.59s system 376% cpu 2.379 total
+java StatCounter 4 2147483648 > /dev/null  8.40s user 0.61s system 383% cpu 2.351 total
+java StatCounter 4 2147483648 > /dev/null  8.49s user 0.66s system 381% cpu 2.399 total
+java StatCounter 4 2147483648 > /dev/null  8.41s user 0.63s system 379% cpu 2.385 total
+
+Média: 8.43
+
+java StatCounter 6 2147483648 > /dev/null  8.06s user 0.44s system 380% cpu 2.233 total
+java StatCounter 6 2147483648 > /dev/null  7.99s user 0.44s system 383% cpu 2.195 total
+java StatCounter 6 2147483648 > /dev/null  7.96s user 0.41s system 379% cpu 2.201 total
+java StatCounter 6 2147483648 > /dev/null  7.92s user 0.40s system 386% cpu 2.154 total
+java StatCounter 6 2147483648 > /dev/null  8.07s user 0.43s system 385% cpu 2.202 total
+java StatCounter 6 2147483648 > /dev/null  8.06s user 0.42s system 382% cpu 2.218 total
+java StatCounter 6 2147483648 > /dev/null  8.02s user 0.42s system 386% cpu 2.185 total
+java StatCounter 6 2147483648 > /dev/null  8.07s user 0.42s system 380% cpu 2.232 total
+java StatCounter 6 2147483648 > /dev/null  7.97s user 0.44s system 386% cpu 2.178 total
+java StatCounter 6 2147483648 > /dev/null  7.94s user 0.43s system 380% cpu 2.202 total
+
+Média: 7.99
+
+java StatCounter 8 2147483648 > /dev/null  7.84s user 0.31s system 381% cpu 2.136 total
+java StatCounter 8 2147483648 > /dev/null  7.82s user 0.37s system 377% cpu 2.165 total
+java StatCounter 8 2147483648 > /dev/null  7.85s user 0.32s system 382% cpu 2.136 total
+java StatCounter 8 2147483648 > /dev/null  7.84s user 0.30s system 382% cpu 2.129 total
+java StatCounter 8 2147483648 > /dev/null  7.87s user 0.34s system 380% cpu 2.161 total
+java StatCounter 8 2147483648 > /dev/null  7.74s user 0.32s system 381% cpu 2.112 total
+java StatCounter 8 2147483648 > /dev/null  7.84s user 0.34s system 377% cpu 2.166 total
+java StatCounter 8 2147483648 > /dev/null  7.92s user 0.31s system 382% cpu 2.151 total
+java StatCounter 8 2147483648 > /dev/null  7.96s user 0.31s system 381% cpu 2.172 total
+java StatCounter 8 2147483648 > /dev/null  8.04s user 0.32s system 385% cpu 2.166 total
+
+Média: 7.97
+
+java StatCounter 10 2147483648 > /dev/null  7.90s user 0.27s system 372% cpu 2.196 total
+java StatCounter 10 2147483648 > /dev/null  7.67s user 0.26s system 376% cpu 2.108 total
+java StatCounter 10 2147483648 > /dev/null  7.71s user 0.25s system 377% cpu 2.109 total
+java StatCounter 10 2147483648 > /dev/null  7.71s user 0.26s system 378% cpu 2.107 total
+java StatCounter 10 2147483648 > /dev/null  7.65s user 0.26s system 376% cpu 2.100 total
+java StatCounter 10 2147483648 > /dev/null  7.68s user 0.27s system 380% cpu 2.092 total
+java StatCounter 10 2147483648 > /dev/null  7.75s user 0.27s system 375% cpu 2.132 total
+java StatCounter 10 2147483648 > /dev/null  7.69s user 0.27s system 378% cpu 2.103 total
+java StatCounter 10 2147483648 > /dev/null  7.68s user 0.27s system 377% cpu 2.103 total
+java StatCounter 10 2147483648 > /dev/null  7.80s user 0.27s system 380% cpu 2.117 total
+
+Média: 7.72
+
+# Double Volatile
+java StatCounter 1 2147483648 > /dev/null  22.70s user 4.78s system 200% cpu 13.678 total
+java StatCounter 1 2147483648 > /dev/null  22.70s user 4.72s system 200% cpu 13.647 total
+java StatCounter 1 2147483648 > /dev/null  22.71s user 4.79s system 200% cpu 13.687 total
+java StatCounter 1 2147483648 > /dev/null  22.67s user 4.77s system 200% cpu 13.665 total
+java StatCounter 1 2147483648 > /dev/null  22.77s user 4.80s system 200% cpu 13.717 total
+java StatCounter 1 2147483648 > /dev/null  22.66s user 4.78s system 201% cpu 13.648 total
+java StatCounter 1 2147483648 > /dev/null  22.75s user 4.74s system 200% cpu 13.677 total
+java StatCounter 1 2147483648 > /dev/null  22.37s user 5.09s system 200% cpu 13.660 total
+java StatCounter 1 2147483648 > /dev/null  22.72s user 4.75s system 200% cpu 13.680 total
+java StatCounter 1 2147483648 > /dev/null  23.47s user 5.01s system 199% cpu 14.307 total
+
+Média: 22.85
+
+java StatCounter 2 2147483648 > /dev/null  22.65s user 3.28s system 287% cpu 9.005 total
+java StatCounter 2 2147483648 > /dev/null  23.90s user 3.40s system 283% cpu 9.643 total
+java StatCounter 2 2147483648 > /dev/null  23.38s user 3.32s system 284% cpu 9.371 total
+java StatCounter 2 2147483648 > /dev/null  22.82s user 3.38s system 287% cpu 9.124 total
+java StatCounter 2 2147483648 > /dev/null  23.21s user 3.32s system 286% cpu 9.248 total
+java StatCounter 2 2147483648 > /dev/null  23.17s user 3.36s system 286% cpu 9.260 total
+java StatCounter 2 2147483648 > /dev/null  23.44s user 3.41s system 287% cpu 9.334 total
+java StatCounter 2 2147483648 > /dev/null  23.13s user 3.10s system 287% cpu 9.119 total
+java StatCounter 2 2147483648 > /dev/null  22.93s user 3.22s system 286% cpu 9.134 total
+java StatCounter 2 2147483648 > /dev/null  23.04s user 3.27s system 286% cpu 9.174 total
+
+Média: 23.03
+
+java StatCounter 4 2147483648 > /dev/null  28.03s user 2.28s system 385% cpu 7.860 total
+java StatCounter 4 2147483648 > /dev/null  27.77s user 2.35s system 380% cpu 7.907 total
+java StatCounter 4 2147483648 > /dev/null  27.90s user 2.10s system 384% cpu 7.810 total
+java StatCounter 4 2147483648 > /dev/null  27.92s user 2.46s system 386% cpu 7.864 total
+java StatCounter 4 2147483648 > /dev/null  28.13s user 2.34s system 391% cpu 7.781 total
+java StatCounter 4 2147483648 > /dev/null  28.05s user 2.36s system 390% cpu 7.796 total
+java StatCounter 4 2147483648 > /dev/null  28.27s user 2.31s system 392% cpu 7.789 total
+java StatCounter 4 2147483648 > /dev/null  28.04s user 2.55s system 390% cpu 7.828 total
+java StatCounter 4 2147483648 > /dev/null  27.66s user 2.41s system 382% cpu 7.849 total
+java StatCounter 4 2147483648 > /dev/null  28.01s user 2.42s system 389% cpu 7.808 total
+
+Média: 27.90
+
+java StatCounter 6 2147483648 > /dev/null  27.77s user 1.64s system 384% cpu 7.653 total
+java StatCounter 6 2147483648 > /dev/null  27.93s user 1.67s system 384% cpu 7.708 total
+java StatCounter 6 2147483648 > /dev/null  27.38s user 1.78s system 378% cpu 7.698 total
+java StatCounter 6 2147483648 > /dev/null  27.82s user 1.64s system 388% cpu 7.578 total
+java StatCounter 6 2147483648 > /dev/null  28.03s user 1.68s system 392% cpu 7.569 total
+java StatCounter 6 2147483648 > /dev/null  28.19s user 1.50s system 393% cpu 7.539 total
+java StatCounter 6 2147483648 > /dev/null  28.02s user 1.66s system 392% cpu 7.553 total
+java StatCounter 6 2147483648 > /dev/null  27.89s user 1.67s system 390% cpu 7.573 total
+java StatCounter 6 2147483648 > /dev/null  27.77s user 1.66s system 389% cpu 7.559 total
+java StatCounter 6 2147483648 > /dev/null  27.88s user 1.68s system 391% cpu 7.547 total
+
+Média: 27.84
+
+java StatCounter 8 2147483648 > /dev/null  27.28s user 1.29s system 375% cpu 7.599 total
+java StatCounter 8 2147483648 > /dev/null  27.81s user 1.35s system 387% cpu 7.534 total
+java StatCounter 8 2147483648 > /dev/null  28.24s user 1.23s system 392% cpu 7.515 total
+java StatCounter 8 2147483648 > /dev/null  28.13s user 1.30s system 392% cpu 7.505 total
+java StatCounter 8 2147483648 > /dev/null  28.01s user 1.31s system 391% cpu 7.496 total
+java StatCounter 8 2147483648 > /dev/null  28.01s user 1.29s system 393% cpu 7.446 total
+java StatCounter 8 2147483648 > /dev/null  28.34s user 1.25s system 392% cpu 7.535 total
+java StatCounter 8 2147483648 > /dev/null  28.38s user 1.24s system 393% cpu 7.526 total
+java StatCounter 8 2147483648 > /dev/null  28.16s user 1.31s system 392% cpu 7.514 total
+java StatCounter 8 2147483648 > /dev/null  27.97s user 1.29s system 393% cpu 7.430 total
+
+Média: 28.17
+
+java StatCounter 10 2147483648 > /dev/null  28.33s user 1.03s system 393% cpu 7.466 total
+java StatCounter 10 2147483648 > /dev/null  28.69s user 0.96s system 392% cpu 7.547 total
+java StatCounter 10 2147483648 > /dev/null  28.60s user 1.00s system 392% cpu 7.536 total
+java StatCounter 10 2147483648 > /dev/null  28.06s user 1.06s system 393% cpu 7.408 total
+java StatCounter 10 2147483648 > /dev/null  27.95s user 1.05s system 393% cpu 7.367 total
+java StatCounter 10 2147483648 > /dev/null  28.43s user 0.97s system 392% cpu 7.496 total
+java StatCounter 10 2147483648 > /dev/null  28.56s user 0.93s system 393% cpu 7.487 total
+java StatCounter 10 2147483648 > /dev/null  28.15s user 1.04s system 392% cpu 7.431 total
+java StatCounter 10 2147483648 > /dev/null  28.49s user 1.03s system 391% cpu 7.533 total
+java StatCounter 10 2147483648 > /dev/null  27.91s user 1.07s system 390% cpu 7.412 total
+
+Média: 28.18
+
+# Float
+1 Thread Counter - Never finish
+2 Thread Counter - Never finish
+4 Thread Counter - Never finish
+6 Thread Counter - Never finish
+8 Thread Counter - Never finish
+10 Thread Counter - Never finish
+
+Devido float ter precisão inteira limitada, o incremento de 1 para no valor de
+16777216 por thread.
+
+# Float Volatile
+Mesmo que o item anterior.
+
+# Int
+1 Thread Counter - Never fish. Because overflow.
+
+java StatCounter 2 2147483648 > /dev/null  6.16s user 0.82s system 289% cpu 2.409 total
+java StatCounter 2 2147483648 > /dev/null  6.17s user 0.84s system 287% cpu 2.437 total
+java StatCounter 2 2147483648 > /dev/null  6.17s user 0.82s system 287% cpu 2.427 total
+java StatCounter 2 2147483648 > /dev/null  6.16s user 0.83s system 288% cpu 2.423 total
+java StatCounter 2 2147483648 > /dev/null  6.27s user 0.81s system 290% cpu 2.441 total
+java StatCounter 2 2147483648 > /dev/null  6.19s user 0.84s system 289% cpu 2.434 total
+java StatCounter 2 2147483648 > /dev/null  6.15s user 0.82s system 288% cpu 2.418 total
+java StatCounter 2 2147483648 > /dev/null  6.18s user 0.83s system 287% cpu 2.442 total
+java StatCounter 2 2147483648 > /dev/null  6.13s user 0.84s system 289% cpu 2.412 total
+java StatCounter 2 2147483648 > /dev/null  6.24s user 0.82s system 290% cpu 2.433 total
+
+Média: 6.18
+
+java StatCounter 4 2147483648 > /dev/null  5.63s user 0.45s system 374% cpu 1.624 total
+java StatCounter 4 2147483648 > /dev/null  5.68s user 0.45s system 378% cpu 1.619 total
+java StatCounter 4 2147483648 > /dev/null  5.64s user 0.42s system 380% cpu 1.592 total
+java StatCounter 4 2147483648 > /dev/null  5.62s user 0.42s system 378% cpu 1.595 total
+java StatCounter 4 2147483648 > /dev/null  5.59s user 0.42s system 376% cpu 1.596 total
+java StatCounter 4 2147483648 > /dev/null  5.64s user 0.42s system 379% cpu 1.596 total
+java StatCounter 4 2147483648 > /dev/null  5.64s user 0.39s system 379% cpu 1.591 total
+java StatCounter 4 2147483648 > /dev/null  5.68s user 0.46s system 376% cpu 1.629 total
+java StatCounter 4 2147483648 > /dev/null  5.64s user 0.42s system 381% cpu 1.590 total
+java StatCounter 4 2147483648 > /dev/null  5.58s user 0.40s system 379% cpu 1.578 total
+
+Média: 5.63
+
+java StatCounter 6 2147483648 > /dev/null  5.48s user 0.30s system 378% cpu 1.527 total
+java StatCounter 6 2147483648 > /dev/null  5.34s user 0.28s system 374% cpu 1.500 total
+java StatCounter 6 2147483648 > /dev/null  5.26s user 0.28s system 373% cpu 1.482 total
+java StatCounter 6 2147483648 > /dev/null  5.39s user 0.30s system 378% cpu 1.504 total
+java StatCounter 6 2147483648 > /dev/null  5.34s user 0.27s system 379% cpu 1.480 total
+java StatCounter 6 2147483648 > /dev/null  5.36s user 0.26s system 375% cpu 1.498 total
+java StatCounter 6 2147483648 > /dev/null  5.36s user 0.28s system 379% cpu 1.486 total
+java StatCounter 6 2147483648 > /dev/null  5.36s user 0.29s system 380% cpu 1.488 total
+java StatCounter 6 2147483648 > /dev/null  5.34s user 0.28s system 371% cpu 1.510 total
+java StatCounter 6 2147483648 > /dev/null  5.36s user 0.31s system 375% cpu 1.510 total
+
+Média: 5.35
+
+java StatCounter 8 2147483648 > /dev/null  5.47s user 0.23s system 378% cpu 1.507 total
+java StatCounter 8 2147483648 > /dev/null  5.15s user 0.21s system 373% cpu 1.437 total
+java StatCounter 8 2147483648 > /dev/null  5.15s user 0.22s system 375% cpu 1.430 total
+java StatCounter 8 2147483648 > /dev/null  5.26s user 0.23s system 376% cpu 1.458 total
+java StatCounter 8 2147483648 > /dev/null  5.11s user 0.21s system 377% cpu 1.412 total
+java StatCounter 8 2147483648 > /dev/null  5.24s user 0.21s system 376% cpu 1.448 total
+java StatCounter 8 2147483648 > /dev/null  5.12s user 0.22s system 378% cpu 1.409 total
+java StatCounter 8 2147483648 > /dev/null  5.12s user 0.21s system 374% cpu 1.424 total
+java StatCounter 8 2147483648 > /dev/null  5.21s user 0.21s system 365% cpu 1.481 total
+java StatCounter 8 2147483648 > /dev/null  5.17s user 0.22s system 377% cpu 1.430 total
+
+Média: 5.16
+
+java StatCounter 10 2147483648 > /dev/null  5.18s user 0.17s system 377% cpu 1.416 total
+java StatCounter 10 2147483648 > /dev/null  5.18s user 0.18s system 372% cpu 1.441 total
+java StatCounter 10 2147483648 > /dev/null  5.11s user 0.17s system 378% cpu 1.397 total
+java StatCounter 10 2147483648 > /dev/null  5.22s user 0.18s system 378% cpu 1.428 total
+java StatCounter 10 2147483648 > /dev/null  5.11s user 0.17s system 372% cpu 1.417 total
+java StatCounter 10 2147483648 > /dev/null  5.11s user 0.18s system 379% cpu 1.394 total
+java StatCounter 10 2147483648 > /dev/null  5.25s user 0.19s system 379% cpu 1.432 total
+java StatCounter 10 2147483648 > /dev/null  5.21s user 0.18s system 378% cpu 1.426 total
+java StatCounter 10 2147483648 > /dev/null  5.17s user 0.18s system 374% cpu 1.431 total
+java StatCounter 10 2147483648 > /dev/null  5.22s user 0.17s system 378% cpu 1.424 total
+
+Média: 5.20
+
+# Integer Volatile
+1 Thread Counter - never finish.
+
+java StatCounter 2 2147483648 > /dev/null  22.81s user 3.26s system 284% cpu 9.157 total
+java StatCounter 2 2147483648 > /dev/null  23.10s user 3.22s system 286% cpu 9.192 total
+java StatCounter 2 2147483648 > /dev/null  23.00s user 3.30s system 286% cpu 9.193 total
+java StatCounter 2 2147483648 > /dev/null  22.81s user 3.21s system 286% cpu 9.076 total
+java StatCounter 2 2147483648 > /dev/null  22.98s user 3.24s system 286% cpu 9.161 total
+java StatCounter 2 2147483648 > /dev/null  22.95s user 3.22s system 285% cpu 9.163 total
+java StatCounter 2 2147483648 > /dev/null  23.41s user 3.29s system 285% cpu 9.356 total
+java StatCounter 2 2147483648 > /dev/null  22.90s user 3.21s system 286% cpu 9.104 total
+java StatCounter 2 2147483648 > /dev/null  23.09s user 3.28s system 285% cpu 9.228 total
+java StatCounter 2 2147483648 > /dev/null  22.95s user 3.31s system 287% cpu 9.145 total
+
+Média: 22.98
+
+java StatCounter 4 2147483648 > /dev/null  28.05s user 2.17s system 389% cpu 7.751 total
+java StatCounter 4 2147483648 > /dev/null  28.45s user 2.16s system 392% cpu 7.800 total
+java StatCounter 4 2147483648 > /dev/null  28.33s user 2.41s system 392% cpu 7.833 total
+java StatCounter 4 2147483648 > /dev/null  28.43s user 2.38s system 392% cpu 7.854 total
+java StatCounter 4 2147483648 > /dev/null  28.21s user 2.38s system 390% cpu 7.836 total
+java StatCounter 4 2147483648 > /dev/null  28.45s user 2.33s system 391% cpu 7.855 total
+java StatCounter 4 2147483648 > /dev/null  28.27s user 2.27s system 389% cpu 7.835 total
+java StatCounter 4 2147483648 > /dev/null  28.37s user 2.35s system 392% cpu 7.830 total
+java StatCounter 4 2147483648 > /dev/null  28.20s user 2.33s system 388% cpu 7.852 total
+java StatCounter 4 2147483648 > /dev/null  28.01s user 2.39s system 390% cpu 7.782 total
+
+Média: 28.19
+
+java StatCounter 6 2147483648 > /dev/null  28.28s user 1.50s system 392% cpu 7.585 total
+java StatCounter 6 2147483648 > /dev/null  28.16s user 1.67s system 393% cpu 7.589 total
+java StatCounter 6 2147483648 > /dev/null  28.10s user 1.63s system 392% cpu 7.571 total
+java StatCounter 6 2147483648 > /dev/null  28.08s user 1.62s system 393% cpu 7.550 total
+java StatCounter 6 2147483648 > /dev/null  28.23s user 1.63s system 393% cpu 7.585 total
+java StatCounter 6 2147483648 > /dev/null  28.14s user 1.64s system 392% cpu 7.593 total
+java StatCounter 6 2147483648 > /dev/null  28.20s user 1.49s system 392% cpu 7.555 total
+java StatCounter 6 2147483648 > /dev/null  28.12s user 1.68s system 392% cpu 7.596 total
+java StatCounter 6 2147483648 > /dev/null  28.11s user 1.67s system 390% cpu 7.620 total
+java StatCounter 6 2147483648 > /dev/null  28.13s user 1.50s system 392% cpu 7.541 total
+
+Média: 28.12
+
+java StatCounter 8 2147483648 > /dev/null  28.02s user 1.25s system 391% cpu 7.481 total
+java StatCounter 8 2147483648 > /dev/null  28.16s user 1.27s system 389% cpu 7.561 total
+java StatCounter 8 2147483648 > /dev/null  27.89s user 1.28s system 391% cpu 7.449 total
+java StatCounter 8 2147483648 > /dev/null  28.50s user 1.22s system 393% cpu 7.556 total
+java StatCounter 8 2147483648 > /dev/null  27.95s user 1.28s system 388% cpu 7.526 total
+java StatCounter 8 2147483648 > /dev/null  28.37s user 1.26s system 393% cpu 7.530 total
+java StatCounter 8 2147483648 > /dev/null  28.40s user 1.13s system 393% cpu 7.505 total
+java StatCounter 8 2147483648 > /dev/null  28.45s user 1.27s system 391% cpu 7.598 total
+java StatCounter 8 2147483648 > /dev/null  28.28s user 1.26s system 391% cpu 7.541 total
+java StatCounter 8 2147483648 > /dev/null  28.02s user 1.25s system 387% cpu 7.561 total
+
+Média: 28.25
+
+java StatCounter 10 2147483648 > /dev/null  28.09s user 1.01s system 391% cpu 7.424 total
+java StatCounter 10 2147483648 > /dev/null  27.97s user 1.02s system 390% cpu 7.426 total
+java StatCounter 10 2147483648 > /dev/null  28.38s user 0.98s system 387% cpu 7.568 total
+java StatCounter 10 2147483648 > /dev/null  28.44s user 0.99s system 391% cpu 7.516 total
+java StatCounter 10 2147483648 > /dev/null  28.12s user 1.08s system 392% cpu 7.432 total
+java StatCounter 10 2147483648 > /dev/null  27.97s user 1.05s system 392% cpu 7.389 total
+java StatCounter 10 2147483648 > /dev/null  28.49s user 1.01s system 392% cpu 7.508 total
+java StatCounter 10 2147483648 > /dev/null  28.51s user 1.00s system 392% cpu 7.526 total
+java StatCounter 10 2147483648 > /dev/null  28.45s user 0.90s system 392% cpu 7.477 total
+java StatCounter 10 2147483648 > /dev/null  28.34s user 1.05s system 392% cpu 7.480 total
+
+Média: 28.43
+
+# Long
+java StatCounter 1 2147483648 > /dev/null  7.29s user 1.51s system 204% cpu 4.313 total
+java StatCounter 1 2147483648 > /dev/null  7.26s user 1.49s system 203% cpu 4.300 total
+java StatCounter 1 2147483648 > /dev/null  7.19s user 1.56s system 204% cpu 4.288 total
+java StatCounter 1 2147483648 > /dev/null  7.27s user 1.49s system 202% cpu 4.314 total
+java StatCounter 1 2147483648 > /dev/null  7.28s user 1.50s system 203% cpu 4.307 total
+java StatCounter 1 2147483648 > /dev/null  7.28s user 1.50s system 204% cpu 4.300 total
+java StatCounter 1 2147483648 > /dev/null  7.28s user 1.48s system 203% cpu 4.303 total
+java StatCounter 1 2147483648 > /dev/null  7.26s user 1.51s system 203% cpu 4.300 total
+java StatCounter 1 2147483648 > /dev/null  7.25s user 1.46s system 202% cpu 4.294 total
+java StatCounter 1 2147483648 > /dev/null  7.27s user 1.51s system 203% cpu 4.308 total
+
+Média: 7.26
+
+java StatCounter 2 2147483648 > /dev/null  6.20s user 0.81s system 288% cpu 2.432 total
+java StatCounter 2 2147483648 > /dev/null  6.22s user 0.80s system 289% cpu 2.425 total
+java StatCounter 2 2147483648 > /dev/null  6.19s user 0.76s system 289% cpu 2.398 total
+java StatCounter 2 2147483648 > /dev/null  6.18s user 0.83s system 286% cpu 2.446 total
+java StatCounter 2 2147483648 > /dev/null  6.28s user 0.79s system 290% cpu 2.437 total
+java StatCounter 2 2147483648 > /dev/null  6.12s user 0.81s system 287% cpu 2.412 total
+java StatCounter 2 2147483648 > /dev/null  6.20s user 0.83s system 287% cpu 2.445 total
+java StatCounter 2 2147483648 > /dev/null  6.28s user 0.83s system 287% cpu 2.473 total
+java StatCounter 2 2147483648 > /dev/null  6.44s user 0.87s system 288% cpu 2.534 total
+java StatCounter 2 2147483648 > /dev/null  6.24s user 0.85s system 286% cpu 2.475 total
+
+Média: 6.32
+
+java StatCounter 4 2147483648 > /dev/null  5.72s user 0.45s system 379% cpu 1.627 total
+java StatCounter 4 2147483648 > /dev/null  5.79s user 0.45s system 378% cpu 1.650 total
+java StatCounter 4 2147483648 > /dev/null  5.76s user 0.42s system 377% cpu 1.635 total
+java StatCounter 4 2147483648 > /dev/null  5.69s user 0.46s system 381% cpu 1.613 total
+java StatCounter 4 2147483648 > /dev/null  5.59s user 0.41s system 377% cpu 1.591 total
+java StatCounter 4 2147483648 > /dev/null  5.58s user 0.41s system 380% cpu 1.575 total
+java StatCounter 4 2147483648 > /dev/null  5.58s user 0.40s system 374% cpu 1.596 total
+java StatCounter 4 2147483648 > /dev/null  5.67s user 0.45s system 377% cpu 1.619 total
+java StatCounter 4 2147483648 > /dev/null  5.67s user 0.44s system 381% cpu 1.602 total
+java StatCounter 4 2147483648 > /dev/null  5.54s user 0.41s system 376% cpu 1.578 total
+
+Média: 5.62
+
+java StatCounter 6 2147483648 > /dev/null  5.35s user 0.29s system 377% cpu 1.493 total
+java StatCounter 6 2147483648 > /dev/null  5.28s user 0.28s system 371% cpu 1.498 total
+java StatCounter 6 2147483648 > /dev/null  5.31s user 0.29s system 376% cpu 1.486 total
+java StatCounter 6 2147483648 > /dev/null  5.38s user 0.28s system 378% cpu 1.495 total
+java StatCounter 6 2147483648 > /dev/null  5.25s user 0.28s system 376% cpu 1.471 total
+java StatCounter 6 2147483648 > /dev/null  5.27s user 0.27s system 378% cpu 1.464 total
+java StatCounter 6 2147483648 > /dev/null  5.28s user 0.27s system 379% cpu 1.462 total
+java StatCounter 6 2147483648 > /dev/null  5.38s user 0.28s system 380% cpu 1.489 total
+java StatCounter 6 2147483648 > /dev/null  5.25s user 0.27s system 371% cpu 1.484 total
+java StatCounter 6 2147483648 > /dev/null  5.32s user 0.29s system 375% cpu 1.496 total
+
+Média: 5.31
+
+java StatCounter 8 2147483648 > /dev/null  5.50s user 0.23s system 378% cpu 1.515 total
+java StatCounter 8 2147483648 > /dev/null  5.17s user 0.21s system 374% cpu 1.438 total
+java StatCounter 8 2147483648 > /dev/null  5.23s user 0.22s system 379% cpu 1.438 total
+java StatCounter 8 2147483648 > /dev/null  5.15s user 0.23s system 371% cpu 1.448 total
+java StatCounter 8 2147483648 > /dev/null  5.13s user 0.20s system 379% cpu 1.405 total
+java StatCounter 8 2147483648 > /dev/null  5.12s user 0.20s system 378% cpu 1.406 total
+java StatCounter 8 2147483648 > /dev/null  5.17s user 0.21s system 373% cpu 1.439 total
+java StatCounter 8 2147483648 > /dev/null  5.27s user 0.21s system 378% cpu 1.445 total
+java StatCounter 8 2147483648 > /dev/null  5.16s user 0.22s system 378% cpu 1.422 total
+java StatCounter 8 2147483648 > /dev/null  5.29s user 0.22s system 369% cpu 1.490 total
+
+Média: 5.23
+
+java StatCounter 10 2147483648 > /dev/null  5.17s user 0.18s system 373% cpu 1.434 total
+java StatCounter 10 2147483648 > /dev/null  5.10s user 0.18s system 378% cpu 1.394 total
+java StatCounter 10 2147483648 > /dev/null  5.17s user 0.17s system 377% cpu 1.414 total
+java StatCounter 10 2147483648 > /dev/null  5.18s user 0.18s system 377% cpu 1.420 total
+java StatCounter 10 2147483648 > /dev/null  5.33s user 0.19s system 374% cpu 1.473 total
+java StatCounter 10 2147483648 > /dev/null  5.16s user 0.17s system 376% cpu 1.419 total
+java StatCounter 10 2147483648 > /dev/null  5.21s user 0.17s system 374% cpu 1.436 total
+java StatCounter 10 2147483648 > /dev/null  5.20s user 0.18s system 375% cpu 1.433 total
+java StatCounter 10 2147483648 > /dev/null  5.15s user 0.17s system 378% cpu 1.403 total
+java StatCounter 10 2147483648 > /dev/null  5.26s user 0.17s system 374% cpu 1.449 total
+
+Média: 5.20
+
+# Long Volatile
+java StatCounter 1 2147483648 > /dev/null  22.85s user 4.77s system 200% cpu 13.746 total
+java StatCounter 1 2147483648 > /dev/null  22.69s user 4.79s system 200% cpu 13.684 total
+java StatCounter 1 2147483648 > /dev/null  22.72s user 4.77s system 201% cpu 13.678 total
+java StatCounter 1 2147483648 > /dev/null  22.77s user 4.80s system 201% cpu 13.713 total
+java StatCounter 1 2147483648 > /dev/null  22.44s user 5.02s system 200% cpu 13.669 total
+java StatCounter 1 2147483648 > /dev/null  22.69s user 4.83s system 200% cpu 13.703 total
+java StatCounter 1 2147483648 > /dev/null  22.71s user 4.77s system 200% cpu 13.678 total
+java StatCounter 1 2147483648 > /dev/null  22.77s user 4.84s system 200% cpu 13.739 total
+java StatCounter 1 2147483648 > /dev/null  22.66s user 4.80s system 200% cpu 13.674 total
+java StatCounter 1 2147483648 > /dev/null  22.69s user 4.77s system 200% cpu 13.660 total
+
+Média: 22.70
+
+java StatCounter 2 2147483648 > /dev/null  22.76s user 3.35s system 283% cpu 9.197 total
+java StatCounter 2 2147483648 > /dev/null  23.08s user 3.33s system 285% cpu 9.248 total
+java StatCounter 2 2147483648 > /dev/null  22.70s user 3.22s system 285% cpu 9.066 total
+java StatCounter 2 2147483648 > /dev/null  23.04s user 3.22s system 284% cpu 9.219 total
+java StatCounter 2 2147483648 > /dev/null  22.68s user 3.29s system 285% cpu 9.097 total
+java StatCounter 2 2147483648 > /dev/null  23.14s user 3.34s system 285% cpu 9.274 total
+java StatCounter 2 2147483648 > /dev/null  23.15s user 3.31s system 285% cpu 9.258 total
+java StatCounter 2 2147483648 > /dev/null  22.42s user 3.20s system 286% cpu 8.949 total
+java StatCounter 2 2147483648 > /dev/null  22.90s user 3.33s system 286% cpu 9.143 total
+java StatCounter 2 2147483648 > /dev/null  22.87s user 3.26s system 285% cpu 9.157 total
+
+Média: 22.73
+
+java StatCounter 4 2147483648 > /dev/null  28.43s user 2.41s system 392% cpu 7.851 total
+java StatCounter 4 2147483648 > /dev/null  28.26s user 2.32s system 388% cpu 7.862 total
+java StatCounter 4 2147483648 > /dev/null  28.28s user 2.39s system 392% cpu 7.807 total
+java StatCounter 4 2147483648 > /dev/null  28.32s user 2.46s system 393% cpu 7.833 total
+java StatCounter 4 2147483648 > /dev/null  28.23s user 2.39s system 389% cpu 7.856 total
+java StatCounter 4 2147483648 > /dev/null  28.24s user 2.19s system 391% cpu 7.779 total
+java StatCounter 4 2147483648 > /dev/null  28.49s user 2.32s system 393% cpu 7.841 total
+java StatCounter 4 2147483648 > /dev/null  28.32s user 2.37s system 390% cpu 7.865 total
+java StatCounter 4 2147483648 > /dev/null  28.12s user 2.28s system 392% cpu 7.752 total
+java StatCounter 4 2147483648 > /dev/null  28.11s user 2.25s system 386% cpu 7.852 total
+
+Média: 28.18
+
+java StatCounter 6 2147483648 > /dev/null  28.23s user 1.57s system 394% cpu 7.550 total
+java StatCounter 6 2147483648 > /dev/null  28.33s user 1.62s system 393% cpu 7.614 total
+java StatCounter 6 2147483648 > /dev/null  28.07s user 1.66s system 391% cpu 7.596 total
+java StatCounter 6 2147483648 > /dev/null  27.99s user 1.73s system 390% cpu 7.604 total
+java StatCounter 6 2147483648 > /dev/null  28.28s user 1.57s system 393% cpu 7.588 total
+java StatCounter 6 2147483648 > /dev/null  28.15s user 1.63s system 392% cpu 7.586 total
+java StatCounter 6 2147483648 > /dev/null  28.30s user 1.62s system 393% cpu 7.594 total
+java StatCounter 6 2147483648 > /dev/null  28.05s user 1.66s system 390% cpu 7.605 total
+java StatCounter 6 2147483648 > /dev/null  28.22s user 1.64s system 392% cpu 7.602 total
+java StatCounter 6 2147483648 > /dev/null  28.15s user 1.60s system 391% cpu 7.596 total
+
+Média: 28.14
+
+java StatCounter 8 2147483648 > /dev/null  27.90s user 1.26s system 385% cpu 7.560 total
+java StatCounter 8 2147483648 > /dev/null  29.30s user 1.24s system 390% cpu 7.816 total
+java StatCounter 8 2147483648 > /dev/null  27.74s user 1.27s system 384% cpu 7.540 total
+java StatCounter 8 2147483648 > /dev/null  29.43s user 1.28s system 393% cpu 7.804 total
+java StatCounter 8 2147483648 > /dev/null  28.03s user 1.22s system 392% cpu 7.453 total
+java StatCounter 8 2147483648 > /dev/null  28.98s user 1.26s system 386% cpu 7.816 total
+java StatCounter 8 2147483648 > /dev/null  28.21s user 1.24s system 393% cpu 7.483 total
+java StatCounter 8 2147483648 > /dev/null  29.48s user 1.28s system 392% cpu 7.831 total
+java StatCounter 8 2147483648 > /dev/null  27.70s user 1.26s system 386% cpu 7.494 total
+java StatCounter 8 2147483648 > /dev/null  29.21s user 1.27s system 389% cpu 7.819 total
+
+Média: 28.79
+
+java StatCounter 10 2147483648 > /dev/null  29.78s user 1.06s system 393% cpu 7.847 total
+java StatCounter 10 2147483648 > /dev/null  29.90s user 1.04s system 392% cpu 7.880 total
+java StatCounter 10 2147483648 > /dev/null  28.00s user 1.00s system 391% cpu 7.411 total
+java StatCounter 10 2147483648 > /dev/null  27.87s user 0.99s system 386% cpu 7.472 total
+java StatCounter 10 2147483648 > /dev/null  29.44s user 1.03s system 391% cpu 7.786 total
+java StatCounter 10 2147483648 > /dev/null  29.15s user 1.05s system 393% cpu 7.676 total
+java StatCounter 10 2147483648 > /dev/null  27.96s user 0.97s system 391% cpu 7.398 total
+java StatCounter 10 2147483648 > /dev/null  28.11s user 1.04s system 393% cpu 7.408 total
+java StatCounter 10 2147483648 > /dev/null  28.10s user 0.97s system 392% cpu 7.406 total
+java StatCounter 10 2147483648 > /dev/null  29.81s user 1.06s system 392% cpu 7.859 total
+
+Média: 28.67
+
+# AtomicLong
+java AtomicStatCounter 1 2147483648 > /dev/null  23.42s user 4.84s system 200% cpu 14.066 total
+java AtomicStatCounter 1 2147483648 > /dev/null  22.72s user 4.77s system 200% cpu 13.692 total
+java AtomicStatCounter 1 2147483648 > /dev/null  22.78s user 4.73s system 200% cpu 13.705 total
+java AtomicStatCounter 1 2147483648 > /dev/null  22.67s user 4.82s system 200% cpu 13.694 total
+java AtomicStatCounter 1 2147483648 > /dev/null  22.71s user 4.83s system 200% cpu 13.712 total
+java AtomicStatCounter 1 2147483648 > /dev/null  22.63s user 4.83s system 200% cpu 13.676 total
+java AtomicStatCounter 1 2147483648 > /dev/null  22.69s user 4.76s system 200% cpu 13.662 total
+java AtomicStatCounter 1 2147483648 > /dev/null  22.76s user 4.78s system 200% cpu 13.708 total
+java AtomicStatCounter 1 2147483648 > /dev/null  22.70s user 4.86s system 200% cpu 13.727 total
+java AtomicStatCounter 1 2147483648 > /dev/null  22.66s user 4.82s system 200% cpu 13.678 total
+
+Média: 22.70
+
+java AtomicStatCounter 2 2147483648 > /dev/null  23.98s user 3.17s system 286% cpu 9.464 total
+java AtomicStatCounter 2 2147483648 > /dev/null  31.50s user 4.21s system 286% cpu 12.474 total
+java AtomicStatCounter 2 2147483648 > /dev/null  31.18s user 4.16s system 286% cpu 12.355 total
+java AtomicStatCounter 2 2147483648 > /dev/null  30.80s user 4.02s system 285% cpu 12.205 total
+java AtomicStatCounter 2 2147483648 > /dev/null  31.28s user 4.25s system 286% cpu 12.408 total
+java AtomicStatCounter 2 2147483648 > /dev/null  23.35s user 3.08s system 285% cpu 9.250 total
+java AtomicStatCounter 2 2147483648 > /dev/null  23.34s user 3.05s system 285% cpu 9.237 total
+java AtomicStatCounter 2 2147483648 > /dev/null  31.04s user 4.09s system 287% cpu 12.230 total
+java AtomicStatCounter 2 2147483648 > /dev/null  31.21s user 4.20s system 285% cpu 12.417 total
+java AtomicStatCounter 2 2147483648 > /dev/null  23.34s user 3.15s system 285% cpu 9.286 total
+
+Média: 28.53
+
+java AtomicStatCounter 4 2147483648 > /dev/null  29.27s user 2.12s system 389% cpu 8.067 total
+java AtomicStatCounter 4 2147483648 > /dev/null  36.47s user 2.75s system 392% cpu 10.005 total
+java AtomicStatCounter 4 2147483648 > /dev/null  43.91s user 3.13s system 390% cpu 12.037 total
+java AtomicStatCounter 4 2147483648 > /dev/null  30.48s user 2.16s system 391% cpu 8.328 total
+java AtomicStatCounter 4 2147483648 > /dev/null  29.07s user 2.13s system 385% cpu 8.097 total
+java AtomicStatCounter 4 2147483648 > /dev/null  29.41s user 2.18s system 392% cpu 8.041 total
+java AtomicStatCounter 4 2147483648 > /dev/null  29.29s user 2.05s system 391% cpu 8.009 total
+java AtomicStatCounter 4 2147483648 > /dev/null  29.68s user 1.97s system 394% cpu 8.033 total
+java AtomicStatCounter 4 2147483648 > /dev/null  30.16s user 2.28s system 390% cpu 8.312 total
+java AtomicStatCounter 4 2147483648 > /dev/null  29.62s user 2.00s system 394% cpu 8.009 total
+
+Média: 29.82
+
+java AtomicStatCounter 6 2147483648 > /dev/null  30.90s user 1.57s system 393% cpu 8.250 total
+java AtomicStatCounter 6 2147483648 > /dev/null  29.41s user 1.39s system 393% cpu 7.826 total
+java AtomicStatCounter 6 2147483648 > /dev/null  31.63s user 1.59s system 394% cpu 8.423 total
+java AtomicStatCounter 6 2147483648 > /dev/null  30.94s user 1.63s system 391% cpu 8.315 total
+java AtomicStatCounter 6 2147483648 > /dev/null  29.22s user 1.51s system 388% cpu 7.908 total
+java AtomicStatCounter 6 2147483648 > /dev/null  29.26s user 1.43s system 391% cpu 7.831 total
+java AtomicStatCounter 6 2147483648 > /dev/null  29.42s user 1.56s system 391% cpu 7.914 total
+java AtomicStatCounter 6 2147483648 > /dev/null  29.77s user 1.45s system 394% cpu 7.916 total
+java AtomicStatCounter 6 2147483648 > /dev/null  29.93s user 1.49s system 393% cpu 7.977 total
+java AtomicStatCounter 6 2147483648 > /dev/null  29.25s user 1.60s system 393% cpu 7.841 total
+
+Média: 29.65
+
+java AtomicStatCounter 8 2147483648 > /dev/null  28.91s user 1.13s system 390% cpu 7.694 total
+java AtomicStatCounter 8 2147483648 > /dev/null  29.21s user 1.22s system 392% cpu 7.747 total
+java AtomicStatCounter 8 2147483648 > /dev/null  28.97s user 1.18s system 393% cpu 7.654 total
+java AtomicStatCounter 8 2147483648 > /dev/null  29.43s user 1.13s system 392% cpu 7.792 total
+java AtomicStatCounter 8 2147483648 > /dev/null  29.81s user 1.17s system 394% cpu 7.852 total
+java AtomicStatCounter 8 2147483648 > /dev/null  29.36s user 1.17s system 389% cpu 7.832 total
+java AtomicStatCounter 8 2147483648 > /dev/null  29.08s user 1.20s system 393% cpu 7.696 total
+java AtomicStatCounter 8 2147483648 > /dev/null  29.09s user 1.15s system 393% cpu 7.687 total
+java AtomicStatCounter 8 2147483648 > /dev/null  29.92s user 1.12s system 388% cpu 7.997 total
+java AtomicStatCounter 8 2147483648 > /dev/null  29.21s user 1.20s system 387% cpu 7.844 total
+
+Média: 29.40
+
+java AtomicStatCounter 10 2147483648 > /dev/null  29.06s user 0.97s system 394% cpu 7.610 total
+java AtomicStatCounter 10 2147483648 > /dev/null  29.09s user 0.97s system 392% cpu 7.651 total
+java AtomicStatCounter 10 2147483648 > /dev/null  29.57s user 0.95s system 392% cpu 7.767 total
+java AtomicStatCounter 10 2147483648 > /dev/null  29.55s user 0.96s system 393% cpu 7.753 total
+java AtomicStatCounter 10 2147483648 > /dev/null  29.32s user 0.93s system 394% cpu 7.676 total
+java AtomicStatCounter 10 2147483648 > /dev/null  28.74s user 0.96s system 390% cpu 7.612 total
+java AtomicStatCounter 10 2147483648 > /dev/null  29.95s user 0.95s system 392% cpu 7.870 total
+java AtomicStatCounter 10 2147483648 > /dev/null  29.01s user 0.92s system 394% cpu 7.594 total
+java AtomicStatCounter 10 2147483648 > /dev/null  29.25s user 0.98s system 393% cpu 7.689 total
+java AtomicStatCounter 10 2147483648 > /dev/null  29.36s user 0.98s system 394% cpu 7.691 total
+
+Média: 29.20
+
+# Long Variando Delay between leituras
+
+# Sleep of 10ms
+java StatCounter 4 2147483648 > /dev/null  4.57s user 0.03s system 361% cpu 1.270 total
+java StatCounter 4 2147483648 > /dev/null  4.61s user 0.03s system 372% cpu 1.243 total
+java StatCounter 4 2147483648 > /dev/null  4.50s user 0.02s system 373% cpu 1.211 total
+java StatCounter 4 2147483648 > /dev/null  4.54s user 0.02s system 374% cpu 1.218 total
+java StatCounter 4 2147483648 > /dev/null  4.53s user 0.02s system 371% cpu 1.226 total
+java StatCounter 4 2147483648 > /dev/null  4.49s user 0.03s system 361% cpu 1.249 total
+java StatCounter 4 2147483648 > /dev/null  4.54s user 0.03s system 363% cpu 1.258 total
+java StatCounter 4 2147483648 > /dev/null  4.62s user 0.04s system 358% cpu 1.302 total
+java StatCounter 4 2147483648 > /dev/null  4.60s user 0.06s system 339% cpu 1.373 total
+java StatCounter 4 2147483648 > /dev/null  4.56s user 0.03s system 367% cpu 1.249 total
+
+# Sleep of 50ms
+java StatCounter 4 2147483648 > /dev/null  4.62s user 0.03s system 369% cpu 1.257 total
+java StatCounter 4 2147483648 > /dev/null  4.54s user 0.03s system 372% cpu 1.225 total
+java StatCounter 4 2147483648 > /dev/null  4.52s user 0.03s system 369% cpu 1.229 total
+java StatCounter 4 2147483648 > /dev/null  4.59s user 0.02s system 375% cpu 1.230 total
+java StatCounter 4 2147483648 > /dev/null  4.53s user 0.02s system 373% cpu 1.218 total
+java StatCounter 4 2147483648 > /dev/null  4.67s user 0.02s system 373% cpu 1.258 total
+java StatCounter 4 2147483648 > /dev/null  4.67s user 0.02s system 369% cpu 1.272 total
+java StatCounter 4 2147483648 > /dev/null  4.51s user 0.02s system 373% cpu 1.216 total
+java StatCounter 4 2147483648 > /dev/null  4.70s user 0.03s system 368% cpu 1.284 total
+java StatCounter 4 2147483648 > /dev/null  4.63s user 0.03s system 358% cpu 1.298 total
+
+# Sleep of 100ms
+java StatCounter 4 2147483648 > /dev/null  4.54s user 0.02s system 368% cpu 1.238 total
+java StatCounter 4 2147483648 > /dev/null  4.49s user 0.02s system 372% cpu 1.211 total
+java StatCounter 4 2147483648 > /dev/null  4.53s user 0.03s system 368% cpu 1.238 total
+java StatCounter 4 2147483648 > /dev/null  4.68s user 0.02s system 375% cpu 1.251 total
+java StatCounter 4 2147483648 > /dev/null  4.53s user 0.03s system 367% cpu 1.240 total
+java StatCounter 4 2147483648 > /dev/null  4.54s user 0.03s system 370% cpu 1.234 total
+java StatCounter 4 2147483648 > /dev/null  4.80s user 0.03s system 374% cpu 1.292 total
+java StatCounter 4 2147483648 > /dev/null  4.55s user 0.02s system 372% cpu 1.230 total
+java StatCounter 4 2147483648 > /dev/null  4.57s user 0.02s system 372% cpu 1.232 total
+java StatCounter 4 2147483648 > /dev/null  4.57s user 0.02s system 372% cpu 1.233 total
+
+# Sleep of 200ms
+java StatCounter 4 2147483648 > /dev/null  4.85s user 0.03s system 369% cpu 1.319 total
+java StatCounter 4 2147483648 > /dev/null  4.99s user 0.03s system 371% cpu 1.353 total
+java StatCounter 4 2147483648 > /dev/null  4.95s user 0.02s system 376% cpu 1.321 total
+java StatCounter 4 2147483648 > /dev/null  4.96s user 0.02s system 376% cpu 1.324 total
+java StatCounter 4 2147483648 > /dev/null  4.87s user 0.02s system 373% cpu 1.311 total
+java StatCounter 4 2147483648 > /dev/null  4.95s user 0.02s system 376% cpu 1.322 total
+java StatCounter 4 2147483648 > /dev/null  4.88s user 0.02s system 375% cpu 1.305 total
+java StatCounter 4 2147483648 > /dev/null  4.90s user 0.02s system 374% cpu 1.317 total
+java StatCounter 4 2147483648 > /dev/null  4.82s user 0.03s system 369% cpu 1.310 total
+java StatCounter 4 2147483648 > /dev/null  4.94s user 0.02s system 376% cpu 1.318 total
+
+# Sleep of 500ms
+java StatCounter 4 2147483648 > /dev/null  4.95s user 0.02s system 377% cpu 1.320 total
+java StatCounter 4 2147483648 > /dev/null  4.94s user 0.02s system 375% cpu 1.321 total
+java StatCounter 4 2147483648 > /dev/null  4.86s user 0.03s system 371% cpu 1.314 total
+java StatCounter 4 2147483648 > /dev/null  5.12s user 0.02s system 376% cpu 1.367 total
+java StatCounter 4 2147483648 > /dev/null  4.88s user 0.02s system 374% cpu 1.310 total
+java StatCounter 4 2147483648 > /dev/null  4.87s user 0.02s system 374% cpu 1.310 total
+java StatCounter 4 2147483648 > /dev/null  4.89s user 0.03s system 365% cpu 1.345 total
+java StatCounter 4 2147483648 > /dev/null  4.93s user 0.02s system 375% cpu 1.319 total
+java StatCounter 4 2147483648 > /dev/null  4.97s user 0.02s system 376% cpu 1.328 total
+java StatCounter 4 2147483648 > /dev/null  4.94s user 0.02s system 375% cpu 1.321 total
