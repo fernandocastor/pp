@@ -1,0 +1,63 @@
+
+
+import java.util.LinkedList;
+
+public class Deque<T> {
+
+	private LinkedList<T> deque = new LinkedList<T>();
+
+	private Object lockLeft = new Object();
+	private Object lockRight = new Object();
+	
+	public void addFirst(T item, String threadName) {
+		synchronized (lockLeft) {
+			
+			deque.addFirst(item);
+		    
+		    System.out.println("<---Thread "+ threadName+"--->"+"- Push left:"+item);
+		    System.out.println("<---Thread "+ threadName+"--->"+"-Current size: "+deque.size());
+		}
+		
+	}
+
+	public void addLast(T item, String threadName) {
+		synchronized (lockRight) {
+			
+			deque.addLast(item);
+			
+		    System.out.println("<---Thread "+ threadName+"--->" + "- Push right: "+ item);
+		    System.out.println("<---Thread "+ threadName+"--->" + "-current size: "+deque.size());
+
+		}
+	}
+	
+	public void removeFirst(String threadName) {
+		synchronized (lockLeft) {
+			if(!isEmpty()){
+				
+				deque.removeFirst();
+
+				System.out.println("<---Thread "+ threadName+"--->"+"- Pop left" );
+			    System.out.println("<---Thread "+ threadName+"--->"+"-current size:"+deque.size());
+
+		    }
+		}
+	}
+	
+	public void removeLast(String threadName) throws InterruptedException {
+		synchronized (lockRight) {
+			if(!isEmpty()){
+				
+				deque.removeLast();
+				System.out.println("<---Thread "+ threadName+"--->"+"-Pop rigth" );
+			    System.out.println("<---Thread "+ threadName+"--->"+"-current size:"+deque.size());
+
+			}
+		}
+	}
+	
+	public boolean isEmpty() {
+	      return (deque.size() == 0);
+	}
+
+}

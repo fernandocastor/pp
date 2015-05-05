@@ -1,0 +1,23 @@
+import java.util.Random;
+
+
+public class Execution {
+
+	public static void main(String[] args) {
+
+		DequeWithLinkedList<Object> deque = new DequeWithLinkedList<>();
+
+
+        for (int i = 0; i < 5; i++) {
+    		new Thread(new SimulationDeque(deque)).start();
+
+        }
+		
+		//new Thread(new SimulationDeque(deque)).start();
+		//new Thread(new SimulationDeque(deque)).start();
+		//new Thread(new SimulationDeque(deque)).start();
+		//new Thread(new SimulationDeque(deque)).start();
+
+	}
+
+}

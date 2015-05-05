@@ -1,0 +1,90 @@
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.LinkedList;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+public class DequeWithLinkedList<T> {
+
+	private LinkedList<T> deque = new LinkedList<T>();
+
+	//locks to remove items
+	private ReentrantLock leftReentratLock = new ReentrantLock();
+	private ReentrantLock rightReentratLock = new ReentrantLock();
+	
+	//locks to add items
+	private Object lefMutex = new Object();
+	private Object rightMutex = new Object();
+
+	/*
+	 * 
+	 */
+	
+	public void pushLeft(T item, String threadName) {
+		synchronized (lefMutex) {
+			deque.addFirst(item);
+			printExecutionLog("Push Left", threadName);
+
+		}
+
+	}
+
+	public void pushRight(T item, String threadName) {
+		synchronized (rightMutex) {
+			deque.addLast(item);
+			printExecutionLog("Push Right", threadName);
+
+		}
+
+	}
+
+	public void popLeft(String threadName) throws InterruptedException {
+
+			while (!isEmpty()) {
+				try {
+					deque.removeFirst();
+					printExecutionLog("Pop Left", threadName);
+					rightReentratLock.wait();
+				} finally {
+					rightReentratLock.notify();
+				}
+			}
+
+	}
+
+	public void popRight(String threadName) throws InterruptedException {
+		synchronized (rightReentratLock) {
+			while (!isEmpty()) {
+				try {
+					deque.removeLast();
+					printExecutionLog("Pop Right", threadName);
+					lockRight.wait();
+				} finally {
+					lockRight.notify();
+				}
+			}
+
+		}
+
+	}
+
+	private boolean isEmpty() {
+		return (deque.size() == 0);
+	}
+
+	private void printExecutionLog(String action, String threadName) {
+		System.out.println("<---Thread Name: " + threadName + " -> " + action);
+		System.out.println("<---Thread Name: " + threadName + " -> " + "Deque Current Size: " + deque.size());
+		System.out.println("<------------------------------------------------------------------------>");
+	}
+	
+	private void blockAccessOtherEnd(Lock lock){
+		lock.lock();
+	}
+	
+	private void unblockAccessOtherEnd(Lock lock){
+		lock.unlock();
+	}
+	
+}

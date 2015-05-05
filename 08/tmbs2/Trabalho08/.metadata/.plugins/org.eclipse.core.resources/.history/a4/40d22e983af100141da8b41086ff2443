@@ -1,0 +1,81 @@
+import java.util.LinkedList;
+import java.util.concurrent.locks.ReentrantLock;
+
+public class DequeWithLinkedList<T> {
+
+	private LinkedList<T> deque = new LinkedList<T>();
+
+	private ReentrantLock lockLeft = new ReentrantLock();
+	private ReentrantLock lockRight = new ReentrantLock();
+
+	public void pushLeft(T item, String threadName) throws InterruptedException {
+		try {
+			if (lockLeft.tryLock()) {
+				deque.addFirst(item);
+				printExecutionLog("Push Left", threadName);
+
+			}
+		} finally {
+			lockLeft.unlock();
+		}
+
+	}
+
+	public void pushRight(T item, String threadName) {
+		try {
+			if (lockRight.tryLock()) {
+				deque.addLast(item);
+				printExecutionLog("Push Right", threadName);
+
+			}
+		} finally {
+			lockRight.unlock();
+		}
+
+	}
+
+	public void popLeft(String threadName) throws InterruptedException {
+		try {
+			lockLeft.notify();
+			lockLeft.lock();
+			lockRight.wait();
+
+			if (!isEmpty()) {
+				deque.removeFirst();
+				printExecutionLog("Pop Left", threadName);
+
+			}
+		} finally {
+			lockLeft.unlock();
+		}
+
+	}
+
+	public void popRight(String threadName) throws InterruptedException {
+		try {
+			lockRight.notify();
+			lockRight.lock();
+			lockLeft.wait();
+
+			if (!isEmpty()) {
+				deque.removeLast();
+				printExecutionLog("Pop Right", threadName);
+
+			}
+		} finally {
+			lockLeft.unlock();
+		}
+
+	}
+
+	private boolean isEmpty() {
+		return (deque.size() == 0);
+	}
+
+	private void printExecutionLog(String action, String threadName) {
+		System.out.println("<---Thread Name: " + threadName + " ->" + action);
+		System.out.println("<---Thread Name:" + threadName + " ->" + "- Deque Current Size: " + deque.size());
+		System.out.println("<------------------------------------------------------------------------>");
+	}
+
+}

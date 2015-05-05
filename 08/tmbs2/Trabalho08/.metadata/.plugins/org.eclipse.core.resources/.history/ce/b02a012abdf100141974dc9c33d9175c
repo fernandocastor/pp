@@ -1,0 +1,15 @@
+
+public class Execution {
+
+	public static void main(String[] args) {
+
+		DequeWithLinkedList<Object> deque = new DequeWithLinkedList<>();
+
+		new Thread(new SimulationDeque(deque)).start();
+		new Thread(new SimulationDeque(deque)).start();
+		new Thread(new SimulationDeque(deque)).start();
+		new Thread(new SimulationDeque(deque)).start();
+
+	}
+
+}

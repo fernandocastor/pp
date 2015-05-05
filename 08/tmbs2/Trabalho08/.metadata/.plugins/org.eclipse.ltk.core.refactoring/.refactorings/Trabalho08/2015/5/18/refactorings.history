@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;DequeSimulationThreads&apos; to &apos;SimulationDeque&apos;&#x0A;- Original project: &apos;Trabalho08&apos;&#x0A;- Original element: &apos;DequeSimulationThreads&apos;&#x0A;- Renamed element: &apos;SimulationDeque&apos;&#x0A;- Update references to refactored element&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;DequeSimulationThreads&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;{DequeSimulationThreads.java[DequeSimulationThreads" matchStrategy="1" name="SimulationDeque" qualified="false" references="true" similarDeclarations="false" stamp="1430611177909" textual="false" version="1.0"/>
+</session>

@@ -1,0 +1,38 @@
+
+
+import java.util.Random;
+
+public class SimulationDeque extends Thread{
+	
+	Deque<Object> deque = new Deque<>();
+
+	public SimulationDeque(Deque<Object> deque) {
+		this.deque = deque;
+	}
+	@Override
+	public void run() {
+		super.run();
+		boolean isRun = true;
+		Random random = new Random();
+        while (isRun) {
+            try {
+                switch (random.nextInt(4)) {
+                case 0:
+                    deque.addFirst(1, this.getName());
+                    break;
+                case 1:
+                     deque.removeFirst(this.getName());
+                    break;
+                case 2:
+                    deque.addLast(5, this.getName());
+                    break;
+                case 3:
+                    deque.popRight(this.getName());                       
+                    break;
+                }
+            } catch (Exception e) {
+            	isRun =false;
+            }
+        }
+	}
+}
