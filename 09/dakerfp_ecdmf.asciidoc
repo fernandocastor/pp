@@ -1,0 +1,85 @@
+﻿Programação Paralela - Trabalho 4
+=================================
+Daker Fernandes <dakerfp@gmail.com>; Emiliano Firmino <emiliano.firmino@gmail.com>
+
+Questão:
+--------
+
+1. Implemente uma trava TAS com __backoff__ exponencial, usando a interface
++Lock+ como base. Sua trava deve funcionar da maneira *mais eficiente possível*
+e não precisa ser reentrante. Crie um teste que usa essa implementação para
+proteger o acesso a um objeto contador que possui apenas um método,
+incrementa(), auto-explicativo. Construa um programa onde, durante 2 minutos,
+10 threads executam o método +incrementar()+ repetidamente. Quantas vezes cada
+thread conseguiu executar +incrementar()+? Considere que a escolha do objeto a
+partir do qual cada thread fará o incremento é aleatória. E se forem 50
+threads? E 100? E 200? Agora desligue a política de __backoff__ que você
+utilizou. Como o número de execuções foi afetado em cada caso? E se sua
+política de __backoff__ fosse aditiva, ao invés de exponencial? Agora retire o
+limite de tempo e faça com que cada thread execute o método +incrementar()+
+1.000 vezes. Qual o tempo de execução em cada um dos cenários descritos
+anteriormente? Compare o desempenho da sua trava com a da classe
++ReentrantLock+ de Java. Modifique sua trava para que ela torne-se uma TTAS e
+repita os experimentos. Apresente os resultados para todos esses casos e
+lembre-se que, para experimentos com desempenho, várias execuções são
+necessárias!
+
+2. Agora implemente uma trava de fila tão eficiente quanto possível. E repita o
+experimento anterior utilizando-a. Os resultados mudaram? Por quê?
+
+Exercícios do AMP:
+
+85. Fig. 7.3 shows an alternative implementation of +CLHLock+ in
+which a thread reuses its own node instead of its predecessor node. Explain how
+this implementation can go wrong.
+
+.Figure 7.33 An incorrect attempt to implement a CLHLock.
+--------------------
+1  public class BadCLHLock implements Lock {
+2    // most recent lock holder
+3    AtomicReference<Qnode> tail = new Qnode();
+4    // thread-local variable
+5    ThreadLocal<Qnode> myNode;
+6    public void lock() {
+7      Qnode qnode = myNode.get();
+8      qnode.locked = true;
+9      // Make me the new tail, and find my predecessor
+10     Qnode pred = tail.getAndSet(qnode);
+11     // spin while predecessor holds lock
+12     while (pred.locked()) {}
+13   }
+14   public void unlock() {
+15     // reuse my node next time
+16     myNode.get().locked = false;
+17   }
+18   static class Qnode {
+19     public boolean locked = false;
+20   }
+21 }
+--------------------
+
+86. Imagine __n__ threads, each of which executes method +foo()+ followed by
+method +bar()+. Suppose we want to make sure that no thread starts +bar()+
+until all threads have finished +foo()+. For this kind of syncronization, we
+place a __barrier__ between +foo()+ and +bar()+.
+
+First barrier implementation: We have a counter protected by a
+test-and-test-and-set lock. Each thread locks the counter, increments it,
+releases the lock, and spins, rereading the counter until it reaches __n__.
+
+Second barrier implementation: We have an n-element array +b[0..n-1]+, all +0+.
+Thread zero sets +b[0]+ to +1+. Every thread +i+, for +0 < i < n-1+, spins until +b[i-1]+
+is +1+, sets +b[i]+ to +1+, and wait until +b[i+1]+ becomes +2+, at which point it
+proceeds to leave the barrier. Thread +n-1+, upon detecting that +b[n-2]+ is +1+,
+sets +b[n-1]+ to +2+ and leaves the barrier.
+
+Compare (in ten lines) the behavior of these two implementation on a bus-based
+cache-coherent architecture. Explain which approach you expect will perform
+better under low load and high load.
+
+91. Design an +isLocked()+ method that tests whether any thread is holding a lock (but
+does not acquire the lock). Give implementation for
+
+* Any +testAndSet()+ spin lock
+* The CLH queue lock, and
+* The MCS queue lock
