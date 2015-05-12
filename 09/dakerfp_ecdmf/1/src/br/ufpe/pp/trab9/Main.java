@@ -19,10 +19,17 @@ public class Main
         int runDuration = args.length > 0 ? Integer.parseInt(args[0]) : 5;
         int numThreads = args.length > 1 ? Integer.parseInt(args[1]) : 10;
 
-        TASLocker locker = new TASLocker();
+        Counter[]   counter = new Counter[10];
+
+        TASLocker[] locker  = new TASLocker[10];
+
         Worker[] worker = new Worker[numThreads];
 
-        final Counter counter = new Counter();
+        for (int i = 0; i < 10; i++) {
+            counter[i] = new Counter();
+            locker[i] = new TASLocker();
+        }
+
 
         for (int i = 0; i < worker.length; i++) {
             worker[i] = new Worker(counter, locker);
@@ -50,7 +57,12 @@ public class Main
             }
         }
 
-        System.out.println("Counted to " + counter.get());
+        long sum = 0;
+        for (int i = 0; i < 10; i++) {
+            System.out.println("Counter " + i + " counter to " + counter[i].get());
+            sum += counter[i].get();
+        }
+        System.out.println("Total " + sum);
 
         for (int i = 0; i < worker.length; i++) {
             System.out.println("Worker " + i + " counted to " + worker[i].getMyIncrement());
