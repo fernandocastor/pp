@@ -50,8 +50,7 @@ public class TASLocker implements Lock {
                 interrupted = true;
             }
 
-            //limit <<= 1;
-            limit += 1000;
+            limit <<= 1;
             if (limit > MAX_DELAY)
                 limit = MAX_DELAY;
         };

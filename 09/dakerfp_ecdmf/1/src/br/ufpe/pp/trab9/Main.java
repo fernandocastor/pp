@@ -13,6 +13,8 @@ import br.ufpe.pp.trab9.TASLocker;
 import br.ufpe.pp.trab9.Counter;
 import br.ufpe.pp.trab9.Worker;
 
+import java.util.concurrent.locks.Lock;
+
 public class Main
 {
     public static void main(String[] args) {
@@ -20,7 +22,9 @@ public class Main
         int numThreads = args.length > 1 ? Integer.parseInt(args[1]) : 10;
 
         Counter   counter = new Counter();
-        TASLocker locker  = new TASLocker();
+        // TASLocker locker  = new TASLocker();
+        // ReentrantLock locker = new ReentrantLock();
+        TTASLocker locker  = new TTASLocker();
 
         Worker[] worker = new Worker[numThreads];
 
@@ -32,7 +36,6 @@ public class Main
             worker[i].start();
         }
 
-        /*
         try {
             Thread.sleep(runDuration * 1000);
         } catch (InterruptedException ie) {
@@ -42,7 +45,6 @@ public class Main
         for (int i = 0; i < worker.length; i++) {
             worker[i].interrupt();
         }
-        */
 
         for (int i = 0; i < worker.length; i++) {
             try {

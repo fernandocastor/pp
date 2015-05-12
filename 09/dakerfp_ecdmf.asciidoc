@@ -24,6 +24,95 @@ repita os experimentos. Apresente os resultados para todos esses casos e
 lembre-se que, para experimentos com desempenho, várias execuções são
 necessárias!
 
+I) Execute durante 2 minutos, 10 threads. Quantas vezes cada thread conseguiu executar?
+
+.Resultados da Execução
+[frame="topbot",options="header"]
+|==================================================
+|       | 1          | 2          | 3
+| #0    | 536415043  | 135816768  | 2414878761
+| #1    | 156941133  | 2057680250 | 123137455
+| #2    | 128549715  | 166888579  | 610286255
+| #3    | 2445158418 | 151839822  | 347336530
+| #4    | 178684799  | 125259392  | 173832951
+| #5    | 160148449  | 1695786906 | 233412206
+| #6    | 473797860  | 146095127  | 210709405
+| #7    | 254997603  | 832236667  | 653660243
+| #8    | 1431284403 | 328283539  | 790358829
+| #9    | 187703843  | 310693315  | 214435850
+| Total | 5953681266 | 5950580365 | 5772048485
+|==================================================
+
+II) Considere que a escolha do objeto é aleatória. E se forem 50 threads? E 100? E 200?
+
+.Execução com multiplos contadores e lockes
+[frame="topbot",options="header"]
+|============================================================
+|       | 10         | 50         | 100        | 200
+| Total | 4759349162 | 4519452106 | 4448533729 | 4238684315
+|       | 4674014477 | 4599072352 | 4543543420 | 4205954527
+|       | 4742642053 | 4530124750 | 4548533395 | 4149083171
+|============================================================
+
+III) Desligue a política de backoff, como isso alterou o resultado.
+
+.Execução sem a política de backoff
+[frame="topbot",options="header"]
+|============================================================
+|       | 10        | 50        | 100      | 200
+| Total | 412863577 | 118614462 | 50975745 | 31687862
+|============================================================
+
+Sem a política houve um signficiativo impacto no desempenho.
+
+IV) Se a política de backoff fosse aditiva ao invés de exponencial?
+
+.Resposta execução incremento linear
+[frame="topbot",options="header"]
+|============================================================
+|       | 10         | 50         | 100        | 200
+| Total | 5944272066 | 5745597799 | 5535612726 |5346107621
+|============================================================
+
+O desempenho foi melhor usando um increment linear que exponencial.
+
+V) Retire o limite de tempo, faça cada uma executar 1000. Qual o tempo de execução.
+
+.Resposta execução 1000x
+[frame="topbot",options="header"]
+|============================================================
+|       | 10    | 50    | 100   | 200
+| Total | 0.10s | 0.13s | 0.17s | 0.21
+|============================================================
+
+VI) Compare o desempenho com o ReentrantLock.
+
+.Resposta execução com ReentrantLock
+[frame="topbot",options="header"]
+|============================================================
+|       | 10         | 50         | 100        | 200
+| Total | 4035549364 | 3864051971 | 3844789884 | 3726530113
+|============================================================
+
+Desempenho inferior a implementação usando TASLocker.
+
+VII)
+
+.Resposta execução com TTALocker
+[frame="topbot",options="header"]
+|============================================================
+|       | 10         | 50         | 100        | 200
+| Total | 5663723339 | 5524631199 | 4983246531 | 4732940846
+|============================================================
+
+.Resposta execução com TTALocker com incremento linear
+[frame="topbot",options="header"]
+|============================================================
+|       | 10         | 50         | 100        | 200
+| Total | 5670895295 | 5582943104 | 5066367782 | 5184116993
+|============================================================
+
+
 2. Agora implemente uma trava de fila tão eficiente quanto possível. E repita o
 experimento anterior utilizando-a. Os resultados mudaram? Por quê?
 

@@ -30,10 +30,6 @@ public class Worker extends Thread {
             } finally {
                 lock.unlock();
             }
-
-            if (myIncrement >= 1000) {
-                return;
-            }
         }
     }
 
