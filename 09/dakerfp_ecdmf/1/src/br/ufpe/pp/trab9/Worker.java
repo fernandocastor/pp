@@ -11,31 +11,28 @@ import br.ufpe.pp.trab9.Counter;
 import java.util.concurrent.locks.Lock;
 
 public class Worker extends Thread {
-    private Counter[]  counter;
-    private Lock[]     lock;
-    private XORShift32 random;
+    private Counter counter;
+    private Lock lock;
 
     private long myIncrement;
 
-    public Worker(Counter[] counter, Lock[] lock) {
-        this.random = new XORShift32(hashCode());
+    public Worker(Counter counter, Lock lock) {
         this.counter = counter;
         this.lock = lock;
     }
 
     public void run() {
         while (!Thread.currentThread().isInterrupted()) {
-            int r = Math.abs(random.nextInt() % lock.length);
-
-            Counter c = counter[r];
-            Lock    l = lock[r];
-
-            l.lock();
+            lock.lock();
             try {
-                c.increment();
+                counter.increment();
                 myIncrement++;
             } finally {
-                l.unlock();
+                lock.unlock();
+            }
+
+            if (myIncrement >= 1000) {
+                return;
             }
         }
     }
