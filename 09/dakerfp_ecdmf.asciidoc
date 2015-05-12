@@ -1,0 +1,217 @@
+﻿Programação Paralela - Trabalho 4
+=================================
+Daker Fernandes <dakerfp@gmail.com>; Emiliano Firmino <emiliano.firmino@gmail.com>
+
+Questão:
+--------
+
+1. Implemente uma trava TAS com __backoff__ exponencial, usando a interface
++Lock+ como base. Sua trava deve funcionar da maneira *mais eficiente possível*
+e não precisa ser reentrante. Crie um teste que usa essa implementação para
+proteger o acesso a um objeto contador que possui apenas um método,
+incrementa(), auto-explicativo. Construa um programa onde, durante 2 minutos,
+10 threads executam o método +incrementar()+ repetidamente. Quantas vezes cada
+thread conseguiu executar +incrementar()+? Considere que a escolha do objeto a
+partir do qual cada thread fará o incremento é aleatória. E se forem 50
+threads? E 100? E 200? Agora desligue a política de __backoff__ que você
+utilizou. Como o número de execuções foi afetado em cada caso? E se sua
+política de __backoff__ fosse aditiva, ao invés de exponencial? Agora retire o
+limite de tempo e faça com que cada thread execute o método +incrementar()+
+1.000 vezes. Qual o tempo de execução em cada um dos cenários descritos
+anteriormente? Compare o desempenho da sua trava com a da classe
++ReentrantLock+ de Java. Modifique sua trava para que ela torne-se uma TTAS e
+repita os experimentos. Apresente os resultados para todos esses casos e
+lembre-se que, para experimentos com desempenho, várias execuções são
+necessárias!
+
+I) Execute durante 2 minutos, 10 threads. Quantas vezes cada thread conseguiu executar?
+
+.Resultados da Execução
+[frame="topbot",options="header"]
+|==================================================
+|       | 1          | 2          | 3
+| #0    | 536415043  | 135816768  | 2414878761
+| #1    | 156941133  | 2057680250 | 123137455
+| #2    | 128549715  | 166888579  | 610286255
+| #3    | 2445158418 | 151839822  | 347336530
+| #4    | 178684799  | 125259392  | 173832951
+| #5    | 160148449  | 1695786906 | 233412206
+| #6    | 473797860  | 146095127  | 210709405
+| #7    | 254997603  | 832236667  | 653660243
+| #8    | 1431284403 | 328283539  | 790358829
+| #9    | 187703843  | 310693315  | 214435850
+| Total | 5953681266 | 5950580365 | 5772048485
+|==================================================
+
+[lowerroman, start=2]
+II) Considere que a escolha do objeto é aleatória. E se forem 50 threads? E 100? E 200?
+
+.Execução com multiplos contadores e lockes
+[frame="topbot",options="header"]
+|============================================================
+|       | 10         | 50         | 100        | 200
+| Total | 4759349162 | 4519452106 | 4448533729 | 4238684315
+|       | 4674014477 | 4599072352 | 4543543420 | 4205954527
+|       | 4742642053 | 4530124750 | 4548533395 | 4149083171
+|============================================================
+
+[lowerroman, start=3]
+III) Desligue a política de backoff, como isso alterou o resultado.
+
+.Execução sem a política de backoff
+[frame="topbot",options="header"]
+|============================================================
+|       | 10        | 50        | 100      | 200
+| Total | 412863577 | 118614462 | 50975745 | 31687862
+|============================================================
+
+Sem a política houve um signficiativo impacto no desempenho.
+
+[lowerroman, start=4]
+IV) Se a política de backoff fosse aditiva ao invés de exponencial?
+
+.Resposta execução incremento linear
+[frame="topbot",options="header"]
+|============================================================
+|       | 10         | 50         | 100        | 200
+| Total | 5944272066 | 5745597799 | 5535612726 |5346107621
+|============================================================
+
+O desempenho foi melhor usando um increment linear que exponencial.
+
+[lowerroman, start=5]
+V) Retire o limite de tempo, faça cada uma executar 1000. Qual o tempo de execução.
+
+.Resposta execução 1000x
+[frame="topbot",options="header"]
+|============================================================
+|       | 10    | 50    | 100   | 200
+| Total | 0.10s | 0.13s | 0.17s | 0.21
+|============================================================
+
+
+[lowerroman, start=6]
+VI) Compare o desempenho com o ReentrantLock.
+
+.Resposta execução com ReentrantLock
+[frame="topbot",options="header"]
+|============================================================
+|       | 10         | 50         | 100        | 200
+| Total | 4035549364 | 3864051971 | 3844789884 | 3726530113
+|============================================================
+
+Desempenho inferior a implementação usando TASLocker.
+
+[lowerroman, start=7]
+VII) Altere o TASLocker para um TTASLocker e repita o experimento
+
+.Resposta execução com TTASLocker
+[frame="topbot",options="header"]
+|============================================================
+|       | 10         | 50         | 100        | 200
+| Total | 5663723339 | 5524631199 | 4983246531 | 4732940846
+|============================================================
+
+.Resposta execução com TTALocker com incremento linear
+[frame="topbot",options="header"]
+|============================================================
+|       | 10         | 50         | 100        | 200
+| Total | 5670895295 | 5582943104 | 5066367782 | 5184116993
+|============================================================
+
+[start=2]
+2. Agora implemente uma trava de fila tão eficiente quanto possível. E repita o
+experimento anterior utilizando-a. Os resultados mudaram? Por quê?
+
+Exercícios do AMP:
+
+[start=85]
+85. Fig. 7.3 shows an alternative implementation of +CLHLock+ in
+which a thread reuses its own node instead of its predecessor node. Explain how
+this implementation can go wrong.
+
+.Figure 7.33 An incorrect attempt to implement a CLHLock.
+--------------------
+1  public class BadCLHLock implements Lock {
+2    // most recent lock holder
+3    AtomicReference<Qnode> tail = new Qnode();
+4    // thread-local variable
+5    ThreadLocal<Qnode> myNode;
+6    public void lock() {
+7      Qnode qnode = myNode.get();
+8      qnode.locked = true;
+9      // Make me the new tail, and find my predecessor
+10     Qnode pred = tail.getAndSet(qnode);
+11     // spin while predecessor holds lock
+12     while (pred.locked()) {}
+13   }
+14   public void unlock() {
+15     // reuse my node next time
+16     myNode.get().locked = false;
+17   }
+18   static class Qnode {
+19     public boolean locked = false;
+20   }
+21 }
+--------------------
+
+There's a risk of deadlock when reusing the same Qnode.
+
+.Example
+----------------------------------------
+* Let's T1, T2 be two concurrent threads.
+* Let's QN1, QN2 be QNodes of each thread respectively.
+
+Deadlock Scenario:
+1. T1 and T2 never acquired the lock:
+
+Tail -> Null
+
+2. T1 acquires the lock
+
+Tail -> QN1(true)
+
+3. T2 try to acquire the lock, but because T1 have it, must wait
+
+Tail -> QN2(true) -> QN1(true)
+
+4. T1 releases the lock
+
+Tail -> QN2(true) -> QN1(false)
+
+5. But before, T2 check QN1 had release the lock, T1 try to reacquire it.
+
+Tail -> QN1(true) -> QN2(true) -> QN1(true)
+
+6. Because QN2 points to QN1 as its predecessor, and QN1 knows nothing about.
+QN2 thinks that QN1 still holds the lock, and QN1 have to wait QN2 release it.
+Deadlock condition happen and nobody will be able to acquire the lock.
+----------------------------------------
+
+[start=86]
+86. Imagine __n__ threads, each of which executes method +foo()+ followed by
+method +bar()+. Suppose we want to make sure that no thread starts +bar()+
+until all threads have finished +foo()+. For this kind of syncronization, we
+place a __barrier__ between +foo()+ and +bar()+.
+
+First barrier implementation: We have a counter protected by a
+test-and-test-and-set lock. Each thread locks the counter, increments it,
+releases the lock, and spins, rereading the counter until it reaches __n__.
+
+Second barrier implementation: We have an n-element array +b[0..n-1]+, all +0+.
+Thread zero sets +b[0]+ to +1+. Every thread +i+, for +0 < i < n-1+, spins until +b[i-1]+
+is +1+, sets +b[i]+ to +1+, and wait until +b[i+1]+ becomes +2+, at which point it
+proceeds to leave the barrier. Thread +n-1+, upon detecting that +b[n-2]+ is +1+,
+sets +b[n-1]+ to +2+ and leaves the barrier.
+
+Compare (in ten lines) the behavior of these two implementation on a bus-based
+cache-coherent architecture. Explain which approach you expect will perform
+better under low load and high load.
+
+[start=91]
+91. Design an +isLocked()+ method that tests whether any thread is holding a lock (but
+does not acquire the lock). Give implementation for
+
+* Any +testAndSet()+ spin lock
+* The CLH queue lock, and
+* The MCS queue lock
