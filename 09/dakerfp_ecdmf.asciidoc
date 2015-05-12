@@ -191,7 +191,7 @@ Deadlock condition happen and nobody will be able to acquire the lock.
 [start=86]
 86. Imagine __n__ threads, each of which executes method +foo()+ followed by
 method +bar()+. Suppose we want to make sure that no thread starts +bar()+
-until all threads have finished +foo()+. For this kind of syncronization, we
+until all threads have finished +foo()+. For this kind of synchronization, we
 place a __barrier__ between +foo()+ and +bar()+.
 
 First barrier implementation: We have a counter protected by a
@@ -208,10 +208,64 @@ Compare (in ten lines) the behavior of these two implementation on a bus-based
 cache-coherent architecture. Explain which approach you expect will perform
 better under low load and high load.
 
+----------------------------------------------------------------------------------
+The first implementation all threads share the same cache line that contains
+counter.  So each increment in this counter, invalidate this cache line in all
+other processor causing a communication spike in the bus for each increment.
+
+The second implementation, assuming the elements in the array are cache
+aligned, the cache line is invalidated only when the thread i-1 reaches the
+barrier, then thread i can update the value of his cache line. So only one
+invalidation can happen between threads, except when the last element of the
+array is reach.
+
+The second implementation is more bus friendly than the first one, but require
+more space and control. I think over high load the bus friendly will perform
+better, but in low load the first might perform a little better.
+----------------------------------------------------------------------------------
+
+
 [start=91]
 91. Design an +isLocked()+ method that tests whether any thread is holding a lock (but
 does not acquire the lock). Give implementation for
 
 * Any +testAndSet()+ spin lock
+
+------------------------------------------------------------------------
+public class TASLock implements java.util.concurrent.locks.Lock {
+    private AtomicBoolean state = new AtomicBoolean(false);
+    // ...
+    boolean isLocked() {
+        return state.get();
+    }
+    // ...
+}
+------------------------------------------------------------------------
+
 * The CLH queue lock, and
+
+------------------------------------------------------------------------
+public CLHLock implements java.util.concurrent.locks.Lock {
+    private AtomicReference<QNode> tail = new AtomicReference<QNode>(null);
+    // ...
+    boolean isLocked {
+        QNode node = tail.get();
+        return node != null && node.locked;
+    }
+    // ...
+}
+------------------------------------------------------------------------
+
 * The MCS queue lock
+
+------------------------------------------------------------------------
+public MCSLock implements java.util.concurrent.locks.Lock {
+    private AtomicReference<QNode> tail = new AtomicReference<QNode>(null);
+    // ...
+    boolean isLocked {
+        QNode node = tail.get();
+        return node != null && node.locked;
+    }
+    // ...
+}
+------------------------------------------------------------------------
