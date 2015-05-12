@@ -43,6 +43,7 @@ I) Execute durante 2 minutos, 10 threads. Quantas vezes cada thread conseguiu ex
 | Total | 5953681266 | 5950580365 | 5772048485
 |==================================================
 
+[lowerroman, start=2]
 II) Considere que a escolha do objeto é aleatória. E se forem 50 threads? E 100? E 200?
 
 .Execução com multiplos contadores e lockes
@@ -54,6 +55,7 @@ II) Considere que a escolha do objeto é aleatória. E se forem 50 threads? E 10
 |       | 4742642053 | 4530124750 | 4548533395 | 4149083171
 |============================================================
 
+[lowerroman, start=3]
 III) Desligue a política de backoff, como isso alterou o resultado.
 
 .Execução sem a política de backoff
@@ -65,6 +67,7 @@ III) Desligue a política de backoff, como isso alterou o resultado.
 
 Sem a política houve um signficiativo impacto no desempenho.
 
+[lowerroman, start=4]
 IV) Se a política de backoff fosse aditiva ao invés de exponencial?
 
 .Resposta execução incremento linear
@@ -76,6 +79,7 @@ IV) Se a política de backoff fosse aditiva ao invés de exponencial?
 
 O desempenho foi melhor usando um increment linear que exponencial.
 
+[lowerroman, start=5]
 V) Retire o limite de tempo, faça cada uma executar 1000. Qual o tempo de execução.
 
 .Resposta execução 1000x
@@ -85,6 +89,8 @@ V) Retire o limite de tempo, faça cada uma executar 1000. Qual o tempo de execu
 | Total | 0.10s | 0.13s | 0.17s | 0.21
 |============================================================
 
+
+[lowerroman, start=6]
 VI) Compare o desempenho com o ReentrantLock.
 
 .Resposta execução com ReentrantLock
@@ -96,9 +102,10 @@ VI) Compare o desempenho com o ReentrantLock.
 
 Desempenho inferior a implementação usando TASLocker.
 
-VII)
+[lowerroman, start=7]
+VII) Altere o TASLocker para um TTASLocker e repita o experimento
 
-.Resposta execução com TTALocker
+.Resposta execução com TTASLocker
 [frame="topbot",options="header"]
 |============================================================
 |       | 10         | 50         | 100        | 200
@@ -112,12 +119,13 @@ VII)
 | Total | 5670895295 | 5582943104 | 5066367782 | 5184116993
 |============================================================
 
-
+[start=2]
 2. Agora implemente uma trava de fila tão eficiente quanto possível. E repita o
 experimento anterior utilizando-a. Os resultados mudaram? Por quê?
 
 Exercícios do AMP:
 
+[start=85]
 85. Fig. 7.3 shows an alternative implementation of +CLHLock+ in
 which a thread reuses its own node instead of its predecessor node. Explain how
 this implementation can go wrong.
@@ -147,6 +155,40 @@ this implementation can go wrong.
 21 }
 --------------------
 
+There's a risk of deadlock when reusing the same Qnode.
+
+.Example
+----------------------------------------
+* Let's T1, T2 be two concurrent threads.
+* Let's QN1, QN2 be QNodes of each thread respectively.
+
+Deadlock Scenario:
+1. T1 and T2 never acquired the lock:
+
+Tail -> Null
+
+2. T1 acquires the lock
+
+Tail -> QN1(true)
+
+3. T2 try to acquire the lock, but because T1 have it, must wait
+
+Tail -> QN2(true) -> QN1(true)
+
+4. T1 releases the lock
+
+Tail -> QN2(true) -> QN1(false)
+
+5. But before, T2 check QN1 had release the lock, T1 try to reacquire it.
+
+Tail -> QN1(true) -> QN2(true) -> QN1(true)
+
+6. Because QN2 points to QN1 as its predecessor, and QN1 knows nothing about.
+QN2 thinks that QN1 still holds the lock, and QN1 have to wait QN2 release it.
+Deadlock condition happen and nobody will be able to acquire the lock.
+----------------------------------------
+
+[start=86]
 86. Imagine __n__ threads, each of which executes method +foo()+ followed by
 method +bar()+. Suppose we want to make sure that no thread starts +bar()+
 until all threads have finished +foo()+. For this kind of syncronization, we
@@ -166,6 +208,7 @@ Compare (in ten lines) the behavior of these two implementation on a bus-based
 cache-coherent architecture. Explain which approach you expect will perform
 better under low load and high load.
 
+[start=91]
 91. Design an +isLocked()+ method that tests whether any thread is holding a lock (but
 does not acquire the lock). Give implementation for
 
