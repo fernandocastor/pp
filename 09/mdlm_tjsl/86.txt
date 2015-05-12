@@ -1,0 +1,3 @@
+A segunda implementação é melhor.
+No primeiro caso, cada checagem do valor do contador por uma Thread faz com que as outras Threads não possam checar/modificar o valor do contador.
+No segundo caso, as checagens são feitas em valores que são acessados por no máximo duas Threads, logo o bloqueio destes valores é menor que o do primeiro caso.

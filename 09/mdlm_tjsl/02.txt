@@ -1,0 +1,19 @@
+Using Alock
+Number of Threads: 10
+Average increments: 109721.1
+Total increments: 1097211
+Elapsed time for running 1000 times: 0.009848165s
+
+Number of Threads: 50
+Average increments: 1092.9
+Total increments: 54645
+Elapsed time for running 1000 times: 0.038880705s
+
+Number of Threads: 100
+Average increments: 953143.44
+Total increments: 95314344
+Elapsed time for running 1000 times: 5783.259155095s
+
+Number of Threads: 200
+Average increments: 701449.7
+Total increments: 140289940
