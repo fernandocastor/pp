@@ -15,10 +15,15 @@ public class SpinLockThread extends Thread {
 	@Override
 	public void run() {
 		
-		//perNThreads();
-		oneThousandExecutions();
+		perNThreads();
+		//oneThousandExecutions();
+		//System.out.println(isLocked());
 		
 	}	
+//	private boolean isLocked() {
+//		return counter.mutex.isLocked();
+//	}
+
 	private void perNThreads(){
 		
 		long timeStart, timeEnd, result;

@@ -1,0 +1,10 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1348\cocoasubrtf110
+{\fonttbl\f0\froman\fcharset0 TimesNewRomanPSMT;}
+{\colortbl;\red255\green255\blue255;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\f0\fs24 \cf0 E.86\
+\pard\pardeftab708\ri182\sl276\slmult1\sa200
+\cf0 A primeira implementa\'e7\'e3o usa algoritmo a ideia do algoritmo TTAS com chamadas h\'e1 getAndSet() que atrasam os threads, mesmo aqueles que n\'e3o espera o lock, congestionando assim a transmiss\'e3o no barramento. Al\'e9m do problema de conten\'e7\'e3o j\'e1 que todos os Threads estar\'e3o disputando para incrementar na vari\'e1vel compartilhada. A segunda implementa\'e7\'e3o uma b [i] ser\'e1 incrementada diretamente em seu \'edndice (i) o que ir\'e1 evitar os problemas da implementa\'e7\'e3o TTAS Lock.\
+E.91 - IsLocked() est\'e1 no c\'f3digo enviado}
