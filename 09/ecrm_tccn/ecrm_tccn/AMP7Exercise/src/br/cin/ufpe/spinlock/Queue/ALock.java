@@ -13,10 +13,11 @@ public class ALock implements Lock {
 		}
 	};
 	
-	AtomicInteger tail;
+	AtomicInteger tail; //The threads share an AtomicInteger tail field, initially zero.
 	volatile boolean[] flag;
 	int size;
 	
+	//Disadvantage is that you need to to say the size of the array
 	public ALock(int capacity) {
 		size = capacity;
 		tail = new AtomicInteger(0);
@@ -26,8 +27,8 @@ public class ALock implements Lock {
 
 	@Override
 	public void lock() {
-		int slot = tail.getAndIncrement() % size;
-		mySlotIndex.set(slot);
+		int slot = tail.getAndIncrement() % size; //To acquire the lock, each thread atomically increments tail.
+		mySlotIndex.set(slot); // The slot is used as an index into a Boolean flag array.
 		while (!flag[slot]) {
 		}
 	}
