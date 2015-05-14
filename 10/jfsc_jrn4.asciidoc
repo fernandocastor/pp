@@ -14,45 +14,69 @@ Reimplement the SimpleReadWriteLock class using Java synchronized ,
 
 [source, java]
 ---------------------------------------------------
-  public class SimpleReadWriteLock implements ReadWriteLock {
+public class SimpleReadWriteLock implements ReadWriteLock {
   int readers;
   boolean writer;
-  Lock readLock;
-  Lock writeLock;
+  Object lock;
+  Lock readLock, writeLock;
 
   public SimpleReadWriteLock() {
     writer = false;
     readers = 0;
+    lock = new Object();
     readLock = new ReadLock();
     writeLock = new WriteLock();
   }
   ...
   class ReadLock implements Lock {
-    public synchronized void lock() {
-      while (writer) {
-        try { wait();
-        } catch (InterruptedException e) {}
+  @Override
+  public void lock() {
+    synchronized (lock) {
+      try {
+        while(writer){
+          wait();
+        }
+        readers++;;
+      } catch (InterruptedException e) {
+        e.printStackTrace();
       }
-    readers++;
+
+    }
+
   }
-  public synchronized void unlock() {
-    readers--;
-    if (readers == 0) notifyAll();
-  }
+  @Override
+  public void unlock() {
+    synchronized (lock) {
+      readers--;
+      if(readers == 0)
+        notifyAll();
+    }
   ...
   protected class WriteLock implements Lock {
-    public synchronized void lock() {
-      while (readers > 0) {
-        try {
+  @Override
+  public void lock() {
+    synchronized (lock) {
+      try{
+        while(readers > 0 || writer){
           wait();
-        } catch (InterruptedException e) {}
+        }
+        writer = true;
+      } catch (InterruptedException e) {
+        e.printStackTrace();
       }
-      writer = true;
+
+    }
+
   }
-  public synchronized void unlock() {
-    writer = false;
-    notifyAll();
-  }
+
+  @Override
+  public void unlock() {
+    synchronized (lock) {
+      writer = false;
+      notifyAll();
+
+    }
+
 ---------------------------------------------------
 
 
@@ -130,39 +154,35 @@ public class BathroomConditional {
 [source, java]
 ----------------------------------------------
 public class BathroomSync {
-  Object femalesyn, malesyn, allsyn;
   volatile boolean areYouThere;
 
   public BathroomSync(){
-    malesyn = new Object();
-    femalesyn = new Object();
-    allsyn = new Object();
     areYouThere = false;
   }
 
   public void enterMale(){
-    synchronized (malesyn){
+    synchronized (this){
       try {
-        while (areYouThere) {malesyn.wait();}
+        while (areYouThere) {wait();}
       } catch (Exception e) {
         e.printStackTrace();
       }finally{ areYouThere = true;}
     }
   }
-  public synchronized void enterFemale(){
-    synchronized (femalesyn){
+  public void enterFemale(){
+    synchronized (this){
       try {
-        while (areYouThere) {femalesyn.wait();}
+        while (areYouThere) {wait();}
       } catch (Exception e) {
         e.printStackTrace();
       }finally{ areYouThere = true;}
     }
   }
   public void leaveMale(){
-    synchronized (femalesyn){
+    synchronized (this){
       try{
         areYouThere = false;
-        femalesyn.notifyAll();
+        notifyAll();
       }catch (Exception e){
         e.printStackTrace();
       }
@@ -170,10 +190,10 @@ public class BathroomSync {
 
   }
   public void leaveFemale(){
-    synchronized (malesyn){
+    synchronized (this){
       try{
         areYouThere = false;
-        malesyn.notifyAll();
+        notifyAll();
       }catch (Exception e){
         e.printStackTrace();
       }
@@ -181,9 +201,45 @@ public class BathroomSync {
   }
 }
 ----------------------------------------------
+Com a classe BathroomSync é possível fazer com que apenas uma pessoa do sexo oposto esteja no banheiro. Para tal, foi utilizado o mecanismo de exclusão mútua do metodo synchronized através de lock intríseco:
+----------------------------------------------
+...
+synchronized (this){
+      try {
+        while (areYouThere) {wait();}
+      } catch (Exception e) {
+        e.printStackTrace();
+      }finally{ areYouThere = true;}
+    }
+...
+----------------------------------------------
 
+A fim de suspender a operação da thread enquanto houver uma outra no " banheiro", foi criada a variável areYouThere (ver trecho sincronized).
 
+No momento que a thread "sai do banheiro", ela deve adquirir o lock intríseco de synchronized e informa a todas as threads suspensas que é hora de outra thread entrar em operação:
+----------------------------------------------
+public void leaveMale(){
+  synchronized (this){
+    try{
+      areYouThere = false;
+      notifyAll();
+    }catch (Exception e){
+      e.printStackTrace();
+    }
+  }
 
+}
+public void leaveFemale(){
+  synchronized (this){
+    try{
+      areYouThere = false;
+      notifyAll();
+    }catch (Exception e){
+      e.printStackTrace();
+    }
+  }
+}
+----------------------------------------------
 
 Exercise 98
 -----------
