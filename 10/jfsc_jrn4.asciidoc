@@ -15,7 +15,7 @@ Reimplement the SimpleReadWriteLock class using Java synchronized ,
 [source, java]
 ---------------------------------------------------
 public class SimpleReadWriteLock implements ReadWriteLock {
-   int readers;
+  int readers;
   boolean writer;
   Object lock;
   Lock readLock, writeLock;
