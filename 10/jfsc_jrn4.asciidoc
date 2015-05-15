@@ -82,25 +82,30 @@ In the shared bathroom problem , there are two classes of threads, called male a
 [source, java]
 ---------------------------------------------
 public class BathroomConditional {
-  Lock lck;
+    Lock lck;
   Condition conditional;
   volatile boolean areYouThere;
+  int amountOfMale,amountOfFemale;
 
   public BathroomConditional(){
     lck = new ReentrantLock();
     conditional = lck.newCondition();
     areYouThere = false;
+    amountOfMale = 0;
+    amountOfFemale = 0;
   }
 
   public void enterMale(){
     try{
       lck.lock();
     try {
-      while (areYouThere) {conditional.await();}
+      while (areYouThere && (amountOfFemale>0)) {conditional.await();}
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
       areYouThere = true;
+      amountOfMale++;
+      System.out.println("HOMENS: "+amountOfMale );
     }finally{
       lck.unlock();
     }
@@ -109,11 +114,16 @@ public class BathroomConditional {
     try{
       lck.lock();
     try {
-      while (areYouThere) {conditional.await();}
+      while (areYouThere && (amountOfMale>0)) {
+        
+        conditional.await();
+        }
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
       areYouThere = true;
+      amountOfFemale++;
+      System.out.println("MULHERES: "+amountOfFemale);
     }finally{
       lck.unlock();
     }
@@ -122,6 +132,7 @@ public class BathroomConditional {
     try{
       lck.lock();
       areYouThere = false;
+      amountOfMale--;
       conditional.signalAll();
     }finally{
       lck.unlock();
@@ -131,6 +142,7 @@ public class BathroomConditional {
     try{
       lck.lock();
       areYouThere = false;
+      amountOfFemale--;
       conditional.signalAll();
     }finally{
       lck.unlock();
@@ -145,46 +157,50 @@ public class BathroomConditional {
 [source, java]
 ----------------------------------------------
 public class BathroomSync {
-  volatile boolean areYouThere;
+    volatile boolean areYouThere;
+  volatile int amountOfMale,amountOfFemale;
   Object lock;
   public BathroomSync(){
     areYouThere = false;
     lock = new Object();
+    amountOfMale = 0;
+    amountOfFemale = 0;
   }
 
   public void enterMale(){
     synchronized (lock){
       try {
-        while (areYouThere) {lock.wait();}
+        while (areYouThere && (amountOfFemale>0)) {lock.wait();}
       } catch (Exception e) {
         e.printStackTrace();
-      }finally{ areYouThere = true;}
+      }finally{areYouThere = true; amountOfMale++;}
     }
   }
   public void enterFemale(){
     synchronized (lock){
       try {
-        while (areYouThere) {lock.wait();}
+        while (areYouThere && (amountOfMale>0)) {lock.wait();}
       } catch (Exception e) {
         e.printStackTrace();
-      }finally{ areYouThere = true;}
+      }finally{ areYouThere = true; amountOfFemale++;}
     }
   }
   public void leaveMale(){
     synchronized (lock){
       try{
         areYouThere = false;
+        amountOfMale--;
         lock.notifyAll();
       }catch (Exception e){
         e.printStackTrace();
       }
     }
-
   }
   public void leaveFemale(){
     synchronized (lock){
       try{
         areYouThere = false;
+        amountOfFemale--;
         lock.notifyAll();
       }catch (Exception e){
         e.printStackTrace();
@@ -193,12 +209,12 @@ public class BathroomSync {
   }
 }
 ----------------------------------------------
-Com a classe BathroomSync é possível fazer com que apenas uma pessoa do sexo oposto esteja no banheiro. Para tal, foi utilizado o mecanismo de exclusão mútua do metodo synchronized através de lock intríseco:
+Com a classe BathroomSync é possível fazer com que pessoas do sexo estejam no banheiro. Para tal, foi utilizado o mecanismo de exclusão mútua do metodo synchronized através de lock intríseco e contadores que informam a quantidade de pessoas do mesmo sexo no lugar:
 ----------------------------------------------
 ...
 synchronized (lock){
       try {
-        while (areYouThere) {lock.wait();}
+        while (areYouThere && (amountOfFemale>0)) {lock.wait();}
       } catch (Exception e) {
         e.printStackTrace();
       }finally{ areYouThere = true;}
@@ -210,27 +226,28 @@ A fim de suspender a operação da thread enquanto houver uma outra no " banheiro"
 
 No momento que a thread "sai do banheiro", ela deve adquirir o lock intríseco de synchronized e informa a todas as threads suspensas que é hora de outra thread entrar em operação:
 ----------------------------------------------
-public void leaveMale(){
-  synchronized (lock){
-    try{
-      areYouThere = false;
-      lock.notifyAll();
-    }catch (Exception e){
-      e.printStackTrace();
+ public void leaveMale(){
+    synchronized (lock){
+      try{
+        areYouThere = false;
+        amountOfMale--;
+        lock.notifyAll();
+      }catch (Exception e){
+        e.printStackTrace();
+      }
     }
   }
-
-}
-public void leaveFemale(){
-  synchronized (lock){
-    try{
-      areYouThere = false;
-      lock.notifyAll();
-    }catch (Exception e){
-      e.printStackTrace();
+  public void leaveFemale(){
+    synchronized (lock){
+      try{
+        areYouThere = false;
+        amountOfFemale--;
+        lock.notifyAll();
+      }catch (Exception e){
+        e.printStackTrace();
+      }
     }
   }
-}
 ----------------------------------------------
 
 Exercise 98
