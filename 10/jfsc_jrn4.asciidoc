@@ -61,17 +61,13 @@ public class SimpleReadWriteLock implements ReadWriteLock {
           writer = true;
         } catch (InterruptedException e) {
           e.printStackTrace();
-        }
-        
+        } 
       }
-      
     }
     
     @Override
     public void unlock() {
-      synchronized (lock) {
-        writer = false;
-        lock.notifyAll();
+        writer = false; 
     }
 ---------------------------------------------------
 
