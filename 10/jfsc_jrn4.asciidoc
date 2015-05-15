@@ -15,68 +15,64 @@ Reimplement the SimpleReadWriteLock class using Java synchronized ,
 [source, java]
 ---------------------------------------------------
 public class SimpleReadWriteLock implements ReadWriteLock {
-  int readers;
+   int readers;
   boolean writer;
   Object lock;
   Lock readLock, writeLock;
-
-  public SimpleReadWriteLock() {
+  
+  public SimpleReadWriteLock(){
     writer = false;
     readers = 0;
     lock = new Object();
     readLock = new ReadLock();
-    writeLock = new WriteLock();
+    writeLock = new WriteLock(); 
   }
   ...
   class ReadLock implements Lock {
-  @Override
-  public void lock() {
-    synchronized (lock) {
-      try {
-        while(writer){
-          wait();
+   @Override
+    public void lock() {
+      synchronized (lock) {
+        try {
+          while(writer){
+            lock.wait();
+          }
+          readers++;;
+        } catch (InterruptedException e) {
+          e.printStackTrace();
         }
-        readers++;;
-      } catch (InterruptedException e) {
-        e.printStackTrace();
       }
-
-    }
-
-  }
-  @Override
-  public void unlock() {
-    synchronized (lock) {
-      readers--;
-      if(readers == 0)
-        notifyAll();
-    }
+    } 
+    @Override
+    public void unlock() {
+      synchronized (lock) {
+        readers--;
+        if(readers == 0)
+          lock.notifyAll();    
+      }
   ...
   protected class WriteLock implements Lock {
   @Override
-  public void lock() {
-    synchronized (lock) {
-      try{
-        while(readers > 0 || writer){
-          wait();
+    public void lock() {
+      synchronized (lock) {
+        try{
+          while(readers > 0 || writer){
+            lock.wait();
+          }
+          writer = true;
+        } catch (InterruptedException e) {
+          e.printStackTrace();
         }
-        writer = true;
-      } catch (InterruptedException e) {
-        e.printStackTrace();
+        
       }
-
+      
     }
-
-  }
-
-  @Override
-  public void unlock() {
-    synchronized (lock) {
-      writer = false;
-      notifyAll();
-
+    
+    @Override
+    public void unlock() {
+      synchronized (lock) {
+        writer = false;
+        lock.notifyAll();
     }
-
 ---------------------------------------------------
 
 
@@ -155,34 +151,35 @@ public class BathroomConditional {
 ----------------------------------------------
 public class BathroomSync {
   volatile boolean areYouThere;
-
+  Object lock;
   public BathroomSync(){
     areYouThere = false;
+    lock = new Object();
   }
 
   public void enterMale(){
-    synchronized (this){
+    synchronized (lock){
       try {
-        while (areYouThere) {wait();}
+        while (areYouThere) {lock.wait();}
       } catch (Exception e) {
         e.printStackTrace();
       }finally{ areYouThere = true;}
     }
   }
   public void enterFemale(){
-    synchronized (this){
+    synchronized (lock){
       try {
-        while (areYouThere) {wait();}
+        while (areYouThere) {lock.wait();}
       } catch (Exception e) {
         e.printStackTrace();
       }finally{ areYouThere = true;}
     }
   }
   public void leaveMale(){
-    synchronized (this){
+    synchronized (lock){
       try{
         areYouThere = false;
-        notifyAll();
+        lock.notifyAll();
       }catch (Exception e){
         e.printStackTrace();
       }
@@ -190,10 +187,10 @@ public class BathroomSync {
 
   }
   public void leaveFemale(){
-    synchronized (this){
+    synchronized (lock){
       try{
         areYouThere = false;
-        notifyAll();
+        lock.notifyAll();
       }catch (Exception e){
         e.printStackTrace();
       }
