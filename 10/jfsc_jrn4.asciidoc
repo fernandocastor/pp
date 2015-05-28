@@ -87,13 +87,11 @@ In the shared bathroom problem , there are two classes of threads, called male a
 public class BathroomConditional {
     Lock lck;
   Condition conditional;
-  volatile boolean areYouThere;
   int amountOfMale,amountOfFemale;
 
   public BathroomConditional(){
     lck = new ReentrantLock();
     conditional = lck.newCondition();
-    areYouThere = false;
     amountOfMale = 0;
     amountOfFemale = 0;
   }
@@ -102,11 +100,10 @@ public class BathroomConditional {
     try{
       lck.lock();
     try {
-      while (areYouThere && (amountOfFemale>0)) {conditional.await();}
+      while (amountOfFemale>0) {conditional.await();}
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-      areYouThere = true;
       amountOfMale++;
       System.out.println("HOMENS: "+amountOfMale );
     }finally{
@@ -117,14 +114,13 @@ public class BathroomConditional {
     try{
       lck.lock();
     try {
-      while (areYouThere && (amountOfMale>0)) {
+      while (amountOfMale>0) {
         
         conditional.await();
         }
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-      areYouThere = true;
       amountOfFemale++;
       System.out.println("MULHERES: "+amountOfFemale);
     }finally{
@@ -134,7 +130,6 @@ public class BathroomConditional {
   public void leaveMale(){
     try{
       lck.lock();
-      areYouThere = false;
       amountOfMale--;
       conditional.signalAll();
     }finally{
@@ -144,7 +139,6 @@ public class BathroomConditional {
   public void leaveFemale(){
     try{
       lck.lock();
-      areYouThere = false;
       amountOfFemale--;
       conditional.signalAll();
     }finally{
