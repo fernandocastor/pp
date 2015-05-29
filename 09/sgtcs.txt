@@ -1,0 +1,3053 @@
+Silas Garrido - sgtcs@cin.ufpe.br
+
+** Construa um programa onde, durante 2 minutos, 10 threads executam o método incrementar() repetidamente. Quantas vezes cada thread conseguiu
+executar incrementar()?
+
+Thread 1: 262364158
+Thread 2: 260817816
+Thread 3: 260214340
+Thread 4: 260386439
+Thread 5: 285538001
+Thread 6: 279408467
+Thread 7: 254821044
+Thread 8: 296127417
+Thread 9: 264168861
+Thread 10: 304372088
+Final Count: 2728218631
+
+** E se forem 50 threads?
+
+Thread 1: 41773499
+Thread 2: 41836290
+Thread 3: 41515395
+Thread 4: 44203716
+Thread 5: 43650669
+Thread 6: 43562241
+Thread 7: 41343971
+Thread 8: 43415034
+Thread 9: 43510638
+Thread 10: 43880710
+Thread 11: 42417250
+Thread 12: 43768040
+Thread 13: 41472231
+Thread 14: 42345541
+Thread 15: 41741570
+Thread 16: 45089110
+Thread 17: 42344149
+Thread 18: 42633748
+Thread 19: 40576419
+Thread 20: 44154247
+Thread 21: 42720384
+Thread 22: 43986747
+Thread 23: 38904473
+Thread 24: 42746227
+Thread 25: 40371846
+Thread 26: 43570544
+Thread 27: 42438199
+Thread 28: 40284948
+Thread 29: 40532044
+Thread 30: 42381425
+Thread 31: 41862205
+Thread 32: 41470644
+Thread 33: 41498513
+Thread 34: 43012785
+Thread 35: 42232323
+Thread 36: 44219894
+Thread 37: 42160927
+Thread 38: 43281117
+Thread 39: 43211482
+Thread 40: 43819138
+Thread 41: 41520568
+Thread 42: 42648920
+Thread 43: 41530387
+Thread 44: 43001030
+Thread 45: 42326421
+Thread 46: 43809248
+Thread 47: 39842847
+Thread 48: 44237459
+Thread 49: 40723916
+Thread 50: 43622072
+Final Count: 2123203201
+
+** E 100?
+Thread 1: 17046656
+Thread 2: 17459136
+Thread 3: 24505251
+Thread 4: 18291201
+Thread 5: 18022001
+Thread 6: 17664231
+Thread 7: 17710217
+Thread 8: 18280803
+Thread 9: 18568665
+Thread 10: 16535677
+Thread 11: 18010071
+Thread 12: 16780976
+Thread 13: 18533825
+Thread 14: 17120253
+Thread 15: 17246823
+Thread 16: 17798000
+Thread 17: 20183840
+Thread 18: 20181119
+Thread 19: 18502243
+Thread 20: 19556956
+Thread 21: 20740565
+Thread 22: 20872789
+Thread 23: 19847772
+Thread 24: 21184409
+Thread 25: 19047505
+Thread 26: 21389855
+Thread 27: 21258436
+Thread 28: 20726953
+Thread 29: 20460428
+Thread 30: 21058307
+Thread 31: 20814833
+Thread 32: 18869998
+Thread 33: 18980792
+Thread 34: 18317492
+Thread 35: 20070882
+Thread 36: 19204997
+Thread 37: 19085061
+Thread 38: 19863041
+Thread 39: 20416971
+Thread 40: 20629324
+Thread 41: 19381642
+Thread 42: 19667582
+Thread 43: 19646042
+Thread 44: 19098642
+Thread 45: 19496570
+Thread 46: 19643823
+Thread 47: 19250722
+Thread 48: 20148271
+Thread 49: 19800900
+Thread 50: 20553446
+Thread 51: 19981498
+Thread 52: 20879763
+Thread 53: 20146935
+Thread 54: 20495317
+Thread 55: 20930219
+Thread 56: 18403736
+Thread 57: 20185071
+Thread 58: 19362337
+Thread 59: 19640148
+Thread 60: 18734808
+Thread 61: 19729951
+Thread 62: 19491563
+Thread 63: 19459907
+Thread 64: 18845390
+Thread 65: 20355414
+Thread 66: 20197553
+Thread 67: 19840047
+Thread 68: 19652232
+Thread 69: 18852704
+Thread 70: 18988266
+Thread 71: 19477669
+Thread 72: 19538840
+Thread 73: 20610283
+Thread 74: 19814688
+Thread 75: 19324034
+Thread 76: 19634570
+Thread 77: 19738918
+Thread 78: 19872583
+Thread 79: 20684236
+Thread 80: 19470310
+Thread 81: 19978704
+Thread 82: 19390809
+Thread 83: 19260191
+Thread 84: 20281097
+Thread 85: 19619623
+Thread 86: 20391395
+Thread 87: 21033938
+Thread 88: 19707997
+Thread 89: 19692044
+Thread 90: 20213755
+Thread 91: 20131181
+Thread 92: 19844787
+Thread 93: 19894845
+Thread 94: 18982266
+Thread 95: 20361842
+Thread 96: 19981768
+Thread 97: 19324370
+Thread 98: 19666864
+Thread 99: 20739542
+Thread 100: 20386342
+Final Count: 1958748344
+
+** E 200?
+Thread 1: 8694511
+Thread 2: 9347976
+Thread 3: 10099885
+Thread 4: 9078867
+Thread 5: 8288024
+Thread 6: 8994461
+Thread 7: 11098240
+Thread 8: 9416644
+Thread 9: 9619449
+Thread 10: 9081132
+Thread 11: 10759274
+Thread 12: 9562337
+Thread 13: 8347927
+Thread 14: 10156213
+Thread 15: 9111816
+Thread 16: 8871403
+Thread 17: 10255528
+Thread 18: 8770827
+Thread 19: 9437869
+Thread 20: 10324215
+Thread 21: 9268455
+Thread 22: 9592411
+Thread 23: 8410574
+Thread 24: 9513855
+Thread 25: 10073346
+Thread 26: 8947865
+Thread 27: 8574421
+Thread 28: 8722413
+Thread 29: 10381962
+Thread 30: 8649956
+Thread 31: 8959187
+Thread 32: 8443255
+Thread 33: 9009664
+Thread 34: 8464519
+Thread 35: 9063381
+Thread 36: 9725092
+Thread 37: 9155918
+Thread 38: 8340152
+Thread 39: 8641747
+Thread 40: 7621601
+Thread 41: 8720120
+Thread 42: 9451211
+Thread 43: 8288720
+Thread 44: 12133201
+Thread 45: 8220884
+Thread 46: 9647025
+Thread 47: 8825631
+Thread 48: 8605701
+Thread 49: 9302663
+Thread 50: 9498976
+Thread 51: 8506701
+Thread 52: 9360016
+Thread 53: 9414635
+Thread 54: 8968431
+Thread 55: 9309325
+Thread 56: 9221854
+Thread 57: 9248981
+Thread 58: 10212239
+Thread 59: 9877448
+Thread 60: 9224521
+Thread 61: 8954157
+Thread 62: 8757759
+Thread 63: 9269007
+Thread 64: 8367033
+Thread 65: 8710954
+Thread 66: 9106068
+Thread 67: 9037898
+Thread 68: 9378981
+Thread 69: 8692477
+Thread 70: 9262359
+Thread 71: 10798348
+Thread 72: 9331240
+Thread 73: 8960834
+Thread 74: 8110741
+Thread 75: 10083670
+Thread 76: 9122880
+Thread 77: 8185203
+Thread 78: 9643917
+Thread 79: 9025760
+Thread 80: 8714154
+Thread 81: 9082385
+Thread 82: 9101562
+Thread 83: 10912096
+Thread 84: 8930276
+Thread 85: 9293043
+Thread 86: 9536067
+Thread 87: 11082817
+Thread 88: 9810772
+Thread 89: 9183365
+Thread 90: 8479213
+Thread 91: 9619753
+Thread 92: 11221198
+Thread 93: 9177740
+Thread 94: 8250653
+Thread 95: 10453509
+Thread 96: 11812853
+Thread 97: 9867077
+Thread 98: 12247388
+Thread 99: 11473535
+Thread 100: 8148237
+Thread 101: 11253769
+Thread 102: 8844554
+Thread 103: 8639919
+Thread 104: 9066070
+Thread 105: 12366350
+Thread 106: 9282500
+Thread 107: 9244204
+Thread 108: 8545379
+Thread 109: 9900053
+Thread 110: 8850663
+Thread 111: 8979631
+Thread 112: 9540472
+Thread 113: 9217365
+Thread 114: 10151320
+Thread 115: 11949989
+Thread 116: 12700570
+Thread 117: 12797050
+Thread 118: 9683430
+Thread 119: 8773274
+Thread 120: 9403019
+Thread 121: 9168558
+Thread 122: 9697057
+Thread 123: 11750519
+Thread 124: 11592754
+Thread 125: 9352391
+Thread 126: 9881773
+Thread 127: 8187886
+Thread 128: 9387597
+Thread 129: 8930475
+Thread 130: 10422629
+Thread 131: 11917239
+Thread 132: 10994098
+Thread 133: 10173092
+Thread 134: 11333990
+Thread 135: 11008444
+Thread 136: 9152874
+Thread 137: 9728444
+Thread 138: 10439542
+Thread 139: 9155068
+Thread 140: 9913627
+Thread 141: 9856064
+Thread 142: 9084510
+Thread 143: 8372985
+Thread 144: 10422941
+Thread 145: 10756226
+Thread 146: 7852463
+Thread 147: 11500502
+Thread 148: 11368164
+Thread 149: 10493709
+Thread 150: 11576630
+Thread 151: 10832443
+Thread 152: 8650976
+Thread 153: 11465087
+Thread 154: 11746021
+Thread 155: 11745482
+Thread 156: 11543356
+Thread 157: 8982860
+Thread 158: 9762555
+Thread 159: 9304160
+Thread 160: 8819796
+Thread 161: 9385760
+Thread 162: 10673915
+Thread 163: 10437084
+Thread 164: 10758747
+Thread 165: 9196450
+Thread 166: 12794370
+Thread 167: 10910380
+Thread 168: 11085874
+Thread 169: 9618208
+Thread 170: 11114690
+Thread 171: 10482928
+Thread 172: 11798147
+Thread 173: 10342128
+Thread 174: 11428063
+Thread 175: 9089417
+Thread 176: 10689601
+Thread 177: 9732706
+Thread 178: 9846762
+Thread 179: 11245468
+Thread 180: 11024924
+Thread 181: 9204020
+Thread 182: 9525631
+Thread 183: 10595221
+Thread 184: 9136851
+Thread 185: 10703120
+Thread 186: 9333898
+Thread 187: 12135279
+Thread 188: 9178679
+Thread 189: 9586516
+Thread 190: 10052166
+Thread 191: 9231272
+Thread 192: 11532194
+Thread 193: 8443896
+Thread 194: 11112633
+Thread 195: 9697092
+Thread 196: 10331674
+Thread 197: 10689735
+Thread 198: 11112816
+Thread 199: 10964608
+Thread 200: 10359719
+Final Count: 1954208844
+
+** Agora desligue a política de backoff que você utilizou. Como o número de execuções foi afetado em cada caso?
+
+** 10 Threads
+Thread 1: 24817758
+Thread 2: 23972968
+Thread 3: 27055338
+Thread 4: 24513792
+Thread 5: 28739903
+Thread 6: 27847276
+Thread 7: 27034783
+Thread 8: 25551115
+Thread 9: 28268826
+Thread 10: 28866957
+Final Count: 266668716
+
+** 50 Threads
+Thread 1: 1703690
+Thread 2: 1636506
+Thread 3: 1483922
+Thread 4: 1638655
+Thread 5: 1724106
+Thread 6: 1406687
+Thread 7: 1806204
+Thread 8: 1681988
+Thread 9: 1546708
+Thread 10: 1724028
+Thread 11: 1763704
+Thread 12: 790079
+Thread 13: 2107414
+Thread 14: 1724317
+Thread 15: 683880
+Thread 16: 854688
+Thread 17: 699453
+Thread 18: 1740093
+Thread 19: 2023462
+Thread 20: 1969835
+Thread 21: 1330508
+Thread 22: 1858493
+Thread 23: 1690696
+Thread 24: 1674084
+Thread 25: 1709297
+Thread 26: 1809633
+Thread 27: 643240
+Thread 28: 646512
+Thread 29: 667809
+Thread 30: 747418
+Thread 31: 677414
+Thread 32: 630322
+Thread 33: 582104
+Thread 34: 551367
+Thread 35: 596719
+Thread 36: 611587
+Thread 37: 1711487
+Thread 38: 950730
+Thread 39: 1886285
+Thread 40: 683142
+Thread 41: 1471502
+Thread 42: 525552
+Thread 43: 595943
+Thread 44: 610410
+Thread 45: 652091
+Thread 46: 661211
+Thread 47: 608817
+Thread 48: 557055
+Thread 49: 617587
+Thread 50: 571651
+Final Count: 59240085
+
+** 100 Threads
+Thread 1: 404743
+Thread 2: 199583
+Thread 3: 301738
+Thread 4: 371624
+Thread 5: 310097
+Thread 6: 291122
+Thread 7: 358914
+Thread 8: 324875
+Thread 9: 226590
+Thread 10: 385102
+Thread 11: 273898
+Thread 12: 427234
+Thread 13: 318968
+Thread 14: 357142
+Thread 15: 347465
+Thread 16: 272341
+Thread 17: 231020
+Thread 18: 385850
+Thread 19: 276799
+Thread 20: 227116
+Thread 21: 224190
+Thread 22: 268509
+Thread 23: 358579
+Thread 24: 254533
+Thread 25: 311233
+Thread 26: 236401
+Thread 27: 329661
+Thread 28: 269450
+Thread 29: 296233
+Thread 30: 345537
+Thread 31: 278449
+Thread 32: 295036
+Thread 33: 184813
+Thread 34: 252349
+Thread 35: 311946
+Thread 36: 363694
+Thread 37: 283734
+Thread 38: 276057
+Thread 39: 299366
+Thread 40: 207393
+Thread 41: 334542
+Thread 42: 344414
+Thread 43: 274559
+Thread 44: 212249
+Thread 45: 340837
+Thread 46: 295842
+Thread 47: 267949
+Thread 48: 301382
+Thread 49: 224351
+Thread 50: 233207
+Thread 51: 315193
+Thread 52: 289245
+Thread 53: 269143
+Thread 54: 295965
+Thread 55: 169694
+Thread 56: 326582
+Thread 57: 127152
+Thread 58: 276936
+Thread 59: 336607
+Thread 60: 253726
+Thread 61: 283406
+Thread 62: 331609
+Thread 63: 327636
+Thread 64: 230791
+Thread 65: 263055
+Thread 66: 270799
+Thread 67: 340902
+Thread 68: 259902
+Thread 69: 301602
+Thread 70: 267330
+Thread 71: 297939
+Thread 72: 224748
+Thread 73: 331362
+Thread 74: 364065
+Thread 75: 253151
+Thread 76: 283048
+Thread 77: 296846
+Thread 78: 146691
+Thread 79: 203857
+Thread 80: 230857
+Thread 81: 183218
+Thread 82: 380292
+Thread 83: 302429
+Thread 84: 201394
+Thread 85: 326807
+Thread 86: 200768
+Thread 87: 294879
+Thread 88: 243352
+Thread 89: 302520
+Thread 90: 217030
+Thread 91: 233110
+Thread 92: 367675
+Thread 93: 167041
+Thread 94: 221116
+Thread 95: 164584
+Thread 96: 262070
+Thread 97: 265575
+Thread 98: 226946
+Thread 99: 291446
+Thread 100: 362230
+Final Count: 28153037
+
+** 200 Threads
+Thread 1: 149967
+Thread 2: 64328
+Thread 3: 135626
+Thread 4: 66485
+Thread 5: 71382
+Thread 6: 116440
+Thread 7: 18487
+Thread 8: 73574
+Thread 9: 150594
+Thread 10: 49065
+Thread 11: 38929
+Thread 12: 115239
+Thread 13: 38574
+Thread 14: 176202
+Thread 15: 105031
+Thread 16: 137335
+Thread 17: 92284
+Thread 18: 148212
+Thread 19: 149424
+Thread 20: 83296
+Thread 21: 57573
+Thread 22: 119484
+Thread 23: 72555
+Thread 24: 93902
+Thread 25: 51097
+Thread 26: 36207
+Thread 27: 169438
+Thread 28: 134460
+Thread 29: 156985
+Thread 30: 70600
+Thread 31: 154166
+Thread 32: 66349
+Thread 33: 100237
+Thread 34: 103952
+Thread 35: 76520
+Thread 36: 124655
+Thread 37: 113586
+Thread 38: 118678
+Thread 39: 65189
+Thread 40: 61279
+Thread 41: 141895
+Thread 42: 77624
+Thread 43: 33697
+Thread 44: 51052
+Thread 45: 47568
+Thread 46: 21909
+Thread 47: 44422
+Thread 48: 33740
+Thread 49: 43387
+Thread 50: 117282
+Thread 51: 33946
+Thread 52: 117676
+Thread 53: 112453
+Thread 54: 89814
+Thread 55: 35973
+Thread 56: 72012
+Thread 57: 65171
+Thread 58: 70070
+Thread 59: 130523
+Thread 60: 29482
+Thread 61: 39416
+Thread 62: 41524
+Thread 63: 120141
+Thread 64: 71627
+Thread 65: 120220
+Thread 66: 93465
+Thread 67: 57574
+Thread 68: 150013
+Thread 69: 30236
+Thread 70: 46815
+Thread 71: 42001
+Thread 72: 23823
+Thread 73: 95493
+Thread 74: 38995
+Thread 75: 43136
+Thread 76: 48250
+Thread 77: 38577
+Thread 78: 44037
+Thread 79: 26001
+Thread 80: 22340
+Thread 81: 29156
+Thread 82: 48912
+Thread 83: 31984
+Thread 84: 32142
+Thread 85: 27679
+Thread 86: 34981
+Thread 87: 31284
+Thread 88: 43886
+Thread 89: 53718
+Thread 90: 20678
+Thread 91: 23365
+Thread 92: 32714
+Thread 93: 44579
+Thread 94: 40813
+Thread 95: 34343
+Thread 96: 26019
+Thread 97: 41799
+Thread 98: 43901
+Thread 99: 42845
+Thread 100: 41947
+Thread 101: 45592
+Thread 102: 40353
+Thread 103: 137633
+Thread 104: 23402
+Thread 105: 42708
+Thread 106: 47314
+Thread 107: 32818
+Thread 108: 57795
+Thread 109: 56936
+Thread 110: 91904
+Thread 111: 56154
+Thread 112: 38813
+Thread 113: 38951
+Thread 114: 24780
+Thread 115: 36966
+Thread 116: 29560
+Thread 117: 38910
+Thread 118: 53610
+Thread 119: 23701
+Thread 120: 53024
+Thread 121: 80611
+Thread 122: 173230
+Thread 123: 105311
+Thread 124: 99187
+Thread 125: 96420
+Thread 126: 54491
+Thread 127: 74414
+Thread 128: 70110
+Thread 129: 121749
+Thread 130: 97354
+Thread 131: 103278
+Thread 132: 56082
+Thread 133: 124883
+Thread 134: 36469
+Thread 135: 106899
+Thread 136: 49529
+Thread 137: 75088
+Thread 138: 107966
+Thread 139: 89868
+Thread 140: 76591
+Thread 141: 103357
+Thread 142: 154236
+Thread 143: 43694
+Thread 144: 77243
+Thread 145: 120456
+Thread 146: 197111
+Thread 147: 174052
+Thread 148: 91069
+Thread 149: 100003
+Thread 150: 47278
+Thread 151: 75925
+Thread 152: 109662
+Thread 153: 178141
+Thread 154: 107976
+Thread 155: 182366
+Thread 156: 99958
+Thread 157: 78745
+Thread 158: 108496
+Thread 159: 99872
+Thread 160: 32296
+Thread 161: 37871
+Thread 162: 49337
+Thread 163: 40123
+Thread 164: 136875
+Thread 165: 33629
+Thread 166: 36708
+Thread 167: 49686
+Thread 168: 34997
+Thread 169: 32033
+Thread 170: 37527
+Thread 171: 46031
+Thread 172: 58803
+Thread 173: 203947
+Thread 174: 60539
+Thread 175: 122102
+Thread 176: 55108
+Thread 177: 52912
+Thread 178: 50260
+Thread 179: 54084
+Thread 180: 38775
+Thread 181: 26003
+Thread 182: 37307
+Thread 183: 29110
+Thread 184: 103958
+Thread 185: 146921
+Thread 186: 91427
+Thread 187: 103229
+Thread 188: 140754
+Thread 189: 103306
+Thread 190: 81435
+Thread 191: 177829
+Thread 192: 113359
+Thread 193: 74809
+Thread 194: 118713
+Thread 195: 112450
+Thread 196: 82472
+Thread 197: 49967
+Thread 198: 46283
+Thread 199: 43351
+Thread 200: 40976
+Final Count: 15124907
+
+** E se sua política de backoff fosse aditiva, ao invés de exponencial?
+
+** 10 Threads
+Thread 1: 203799289
+Thread 2: 219566578
+Thread 3: 210771849
+Thread 4: 214372117
+Thread 5: 219420676
+Thread 6: 225288354
+Thread 7: 213199662
+Thread 8: 217932681
+Thread 9: 193113874
+Thread 10: 228167308
+Final Count: 2145632388
+
+** 50 Threads
+Thread 1: 30664649
+Thread 2: 30546221
+Thread 3: 30580860
+Thread 4: 30423870
+Thread 5: 32196418
+Thread 6: 31364203
+Thread 7: 32044902
+Thread 8: 31342628
+Thread 9: 31055042
+Thread 10: 31357578
+Thread 11: 32031018
+Thread 12: 31932993
+Thread 13: 31792900
+Thread 14: 30753717
+Thread 15: 31599511
+Thread 16: 31329356
+Thread 17: 29877121
+Thread 18: 30714787
+Thread 19: 30947928
+Thread 20: 31334349
+Thread 21: 31455820
+Thread 22: 29634227
+Thread 23: 31062185
+Thread 24: 30854036
+Thread 25: 31145801
+Thread 26: 31931090
+Thread 27: 32155921
+Thread 28: 30468477
+Thread 29: 30964278
+Thread 30: 31439060
+Thread 31: 31144467
+Thread 32: 31183327
+Thread 33: 31765819
+Thread 34: 31660520
+Thread 35: 31317668
+Thread 36: 31428142
+Thread 37: 31379185
+Thread 38: 29486537
+Thread 39: 30969618
+Thread 40: 31923314
+Thread 41: 31953612
+Thread 42: 31182197
+Thread 43: 31722124
+Thread 44: 30897355
+Thread 45: 32085894
+Thread 46: 30985580
+Thread 47: 32002867
+Thread 48: 30811081
+Thread 49: 31453998
+Thread 50: 30851507
+Final Count: 1561205758
+
+** 100 Threads
+Thread 1: 15308630
+Thread 2: 15388343
+Thread 3: 18205520
+Thread 4: 15228497
+Thread 5: 14944025
+Thread 6: 15895968
+Thread 7: 15630698
+Thread 8: 15534395
+Thread 9: 15409980
+Thread 10: 15717860
+Thread 11: 15399093
+Thread 12: 15843857
+Thread 13: 15222615
+Thread 14: 15462639
+Thread 15: 15788215
+Thread 16: 15750473
+Thread 17: 16800237
+Thread 18: 16677769
+Thread 19: 16556678
+Thread 20: 16774175
+Thread 21: 16776352
+Thread 22: 16586320
+Thread 23: 16217566
+Thread 24: 16602651
+Thread 25: 16123743
+Thread 26: 16447204
+Thread 27: 16564122
+Thread 28: 17252270
+Thread 29: 16054336
+Thread 30: 16594696
+Thread 31: 16582732
+Thread 32: 16440261
+Thread 33: 16515497
+Thread 34: 16342174
+Thread 35: 16788351
+Thread 36: 16494873
+Thread 37: 16774994
+Thread 38: 16635771
+Thread 39: 16712943
+Thread 40: 16517855
+Thread 41: 16567219
+Thread 42: 16014166
+Thread 43: 16430724
+Thread 44: 16912192
+Thread 45: 16795925
+Thread 46: 16878831
+Thread 47: 16701258
+Thread 48: 16601076
+Thread 49: 16664897
+Thread 50: 16626896
+Thread 51: 16643199
+Thread 52: 16728224
+Thread 53: 16882957
+Thread 54: 16783236
+Thread 55: 16674536
+Thread 56: 16989608
+Thread 57: 16782623
+Thread 58: 16895871
+Thread 59: 16987569
+Thread 60: 16862761
+Thread 61: 16788902
+Thread 62: 16933288
+Thread 63: 16566988
+Thread 64: 17208043
+Thread 65: 16635311
+Thread 66: 16806356
+Thread 67: 17143876
+Thread 68: 16787347
+Thread 69: 16695540
+Thread 70: 16691969
+Thread 71: 17129479
+Thread 72: 16943198
+Thread 73: 16604403
+Thread 74: 16877631
+Thread 75: 16845901
+Thread 76: 17123803
+Thread 77: 16803864
+Thread 78: 17084936
+Thread 79: 16631911
+Thread 80: 16015495
+Thread 81: 16636806
+Thread 82: 16838488
+Thread 83: 16816055
+Thread 84: 17018153
+Thread 85: 16574005
+Thread 86: 17022697
+Thread 87: 16579080
+Thread 88: 17271965
+Thread 89: 16912294
+Thread 90: 16425405
+Thread 91: 16224841
+Thread 92: 16651852
+Thread 93: 16717083
+Thread 94: 16539420
+Thread 95: 16408608
+Thread 96: 16986797
+Thread 97: 16412802
+Thread 98: 16721843
+Thread 99: 16936612
+Thread 100: 16677180
+Final Count: 1653678373
+
+** 200 Threads
+Thread 1: 7987230
+Thread 2: 9904734
+Thread 3: 8683536
+Thread 4: 9600606
+Thread 5: 8786939
+Thread 6: 8769916
+Thread 7: 8884229
+Thread 8: 8793148
+Thread 9: 8665929
+Thread 10: 8855087
+Thread 11: 9377340
+Thread 12: 9020161
+Thread 13: 8849406
+Thread 14: 8991804
+Thread 15: 8525837
+Thread 16: 8740332
+Thread 17: 8592923
+Thread 18: 9441937
+Thread 19: 8576326
+Thread 20: 8916282
+Thread 21: 9491610
+Thread 22: 8432378
+Thread 23: 9863187
+Thread 24: 8821565
+Thread 25: 8278849
+Thread 26: 8518375
+Thread 27: 8620497
+Thread 28: 10264895
+Thread 29: 8542390
+Thread 30: 8660206
+Thread 31: 9249011
+Thread 32: 8938955
+Thread 33: 9646082
+Thread 34: 8521716
+Thread 35: 8719853
+Thread 36: 9196874
+Thread 37: 8705308
+Thread 38: 9014025
+Thread 39: 9066666
+Thread 40: 8525526
+Thread 41: 9007714
+Thread 42: 10332071
+Thread 43: 9602842
+Thread 44: 9846341
+Thread 45: 7981312
+Thread 46: 9079585
+Thread 47: 9701383
+Thread 48: 10532798
+Thread 49: 9485195
+Thread 50: 9475026
+Thread 51: 10041402
+Thread 52: 10090857
+Thread 53: 10231356
+Thread 54: 10208361
+Thread 55: 10561346
+Thread 56: 9148107
+Thread 57: 10404778
+Thread 58: 8897283
+Thread 59: 8836540
+Thread 60: 9029457
+Thread 61: 10634205
+Thread 62: 9483059
+Thread 63: 9670648
+Thread 64: 9426577
+Thread 65: 10739254
+Thread 66: 10246371
+Thread 67: 11156771
+Thread 68: 9445467
+Thread 69: 9496314
+Thread 70: 10879042
+Thread 71: 8976331
+Thread 72: 10163656
+Thread 73: 8691698
+Thread 74: 8827526
+Thread 75: 10031549
+Thread 76: 9681838
+Thread 77: 8647629
+Thread 78: 8673834
+Thread 79: 8839217
+Thread 80: 9508208
+Thread 81: 9272443
+Thread 82: 8589676
+Thread 83: 8837333
+Thread 84: 8810331
+Thread 85: 8868168
+Thread 86: 8719680
+Thread 87: 8936704
+Thread 88: 8129436
+Thread 89: 8672121
+Thread 90: 9027952
+Thread 91: 8686775
+Thread 92: 8597561
+Thread 93: 9119608
+Thread 94: 8725723
+Thread 95: 8326805
+Thread 96: 8670052
+Thread 97: 9116560
+Thread 98: 9996865
+Thread 99: 8621434
+Thread 100: 9542061
+Thread 101: 8450867
+Thread 102: 9241993
+Thread 103: 9754453
+Thread 104: 9181430
+Thread 105: 10219975
+Thread 106: 9916096
+Thread 107: 8668616
+Thread 108: 8614976
+Thread 109: 9045758
+Thread 110: 8570037
+Thread 111: 9578106
+Thread 112: 8868123
+Thread 113: 8886123
+Thread 114: 9304661
+Thread 115: 8810573
+Thread 116: 8879701
+Thread 117: 9396345
+Thread 118: 9494307
+Thread 119: 11116270
+Thread 120: 8940315
+Thread 121: 9897733
+Thread 122: 10341407
+Thread 123: 8546963
+Thread 124: 9249922
+Thread 125: 8814657
+Thread 126: 9183169
+Thread 127: 9846601
+Thread 128: 8785947
+Thread 129: 8755954
+Thread 130: 10471757
+Thread 131: 9091038
+Thread 132: 8808828
+Thread 133: 9604524
+Thread 134: 9358877
+Thread 135: 10260455
+Thread 136: 9590873
+Thread 137: 9857500
+Thread 138: 8725905
+Thread 139: 9244632
+Thread 140: 8728297
+Thread 141: 8775190
+Thread 142: 8156692
+Thread 143: 9031397
+Thread 144: 8839499
+Thread 145: 9801361
+Thread 146: 9323928
+Thread 147: 8858063
+Thread 148: 9637935
+Thread 149: 8435687
+Thread 150: 8803766
+Thread 151: 8643088
+Thread 152: 8639259
+Thread 153: 8510491
+Thread 154: 8596133
+Thread 155: 8745997
+Thread 156: 9385656
+Thread 157: 9762766
+Thread 158: 9174131
+Thread 159: 9942928
+Thread 160: 8941865
+Thread 161: 8166452
+Thread 162: 9149961
+Thread 163: 9075350
+Thread 164: 8961557
+Thread 165: 8709123
+Thread 166: 8699516
+Thread 167: 10727059
+Thread 168: 8486105
+Thread 169: 8950728
+Thread 170: 8668075
+Thread 171: 8407030
+Thread 172: 8329109
+Thread 173: 8601071
+Thread 174: 8755650
+Thread 175: 8912472
+Thread 176: 8578118
+Thread 177: 8574854
+Thread 178: 8551994
+Thread 179: 8996465
+Thread 180: 8916657
+Thread 181: 8881889
+Thread 182: 8594388
+Thread 183: 8679365
+Thread 184: 8858224
+Thread 185: 10351217
+Thread 186: 8748907
+Thread 187: 8633181
+Thread 188: 9186742
+Thread 189: 8942586
+Thread 190: 8562027
+Thread 191: 9138840
+Thread 192: 9023393
+Thread 193: 10266626
+Thread 194: 10328272
+Thread 195: 8951702
+Thread 196: 8688013
+Thread 197: 9295560
+Thread 198: 8881679
+Thread 199: 8105467
+Thread 200: 8996170
+Final Count: 1829463096
+
+** Agora retire o limite de tempo e faça com que cada thread execute o método incrementar() 1.000 vezes. Qual o tempo de execução em cada um dos cenários descritos anteriormente?
+
+** TAS com backoff expenencial
+
+** 10 Threads
+real	0m0.009s
+user	0m0.008s
+sys	0m0.000s
+
+real	0m0.003s
+user	0m0.000s
+sys	0m0.003s
+
+real	0m0.007s
+user	0m0.000s
+sys	0m0.007s
+
+** 50 Threads
+real	0m0.025s
+user	0m0.012s
+sys	0m0.012s
+
+real	0m0.042s
+user	0m0.019s
+sys	0m0.005s
+
+real	0m0.030s
+user	0m0.014s
+sys	0m0.009s
+
+** 100 Threads
+real	0m0.035s
+user	0m0.015s
+sys	0m0.015s
+
+real	0m0.055s
+user	0m0.026s
+sys	0m0.016s
+
+real	0m0.075s
+user	0m0.038s
+sys	0m0.010s
+
+** 200 Threads
+real	0m0.101s
+user	0m0.024s
+sys	0m0.044s
+
+real	0m0.077s
+user	0m0.033s
+sys	0m0.028s
+
+real	0m0.084s
+user	0m0.033s
+sys	0m0.028s
+
+** TAS sem backoff
+
+** 10 Threads
+real	0m0.011s
+user	0m0.019s
+sys	0m0.006s
+
+real	0m0.014s
+user	0m0.040s
+sys	0m0.004s
+
+real	0m0.010s
+user	0m0.020s
+sys	0m0.000s
+
+** 50 Threads
+real	0m0.040s
+user	0m0.133s
+sys	0m0.008s
+
+real	0m0.030s
+user	0m0.099s
+sys	0m0.000s
+
+real	0m0.053s
+user	0m0.189s
+sys	0m0.000s
+
+** 100 Threads
+real	0m0.334s
+user	0m1.305s
+sys	0m0.008s
+
+real	0m0.263s
+user	0m1.013s
+sys	0m0.000s
+
+real	0m0.287s
+user	0m1.108s
+sys	0m0.012s
+
+** 200 Threads
+real	0m0.743s
+user	0m2.838s
+sys	0m0.024s
+
+real	0m0.504s
+user	0m1.969s
+sys	0m0.016s
+
+real	0m0.185s
+user	0m0.681s
+sys	0m0.021s
+
+** TAS com backoff aditivo
+
+** 10 Threads
+real	0m0.011s
+user	0m0.004s
+sys	0m0.004s
+
+real	0m0.013s
+user	0m0.007s
+sys	0m0.000s
+
+real	0m0.008s
+user	0m0.004s
+sys	0m0.004s
+
+** 50 Threads
+real	0m0.019s
+user	0m0.016s
+sys	0m0.008s
+
+real	0m0.023s
+user	0m0.016s
+sys	0m0.009s
+
+real	0m0.014s
+user	0m0.010s
+sys	0m0.000s
+
+** 100 Threads
+real	0m0.024s
+user	0m0.012s
+sys	0m0.015s
+
+real	0m0.036s
+user	0m0.026s
+sys	0m0.017s
+
+real	0m0.035s
+user	0m0.027s
+sys	0m0.016s
+
+** 200 Threads
+real	0m0.041s
+user	0m0.029s
+sys	0m0.029s
+
+real	0m0.057s
+user	0m0.033s
+sys	0m0.037s
+
+real	0m0.046s
+user	0m0.033s
+sys	0m0.033s
+
+** Compare o desempenho da sua trava com a da classe ReentrantLock de Java (recursive_mutex em C++).
+
+** Com sleep de 2 min.
+
+** 10 Threads
+Thread 1: 42443661
+Thread 2: 42297199
+Thread 3: 42498701
+Thread 4: 42445192
+Thread 5: 42553580
+Thread 6: 42801080
+Thread 7: 42359468
+Thread 8: 42664516
+Thread 9: 42712511
+Thread 10: 42630376
+Final Count: 425406284
+
+** 50 Threads
+Thread 1: 8519167
+Thread 2: 8635138
+Thread 3: 8556171
+Thread 4: 8494774
+Thread 5: 8547690
+Thread 6: 8453548
+Thread 7: 8476294
+Thread 8: 8466092
+Thread 9: 8382938
+Thread 10: 8502468
+Thread 11: 8380031
+Thread 12: 8468952
+Thread 13: 8484586
+Thread 14: 8437345
+Thread 15: 8420860
+Thread 16: 8485632
+Thread 17: 8446966
+Thread 18: 8381341
+Thread 19: 8506601
+Thread 20: 8475806
+Thread 21: 8485688
+Thread 22: 8547776
+Thread 23: 8501056
+Thread 24: 8495787
+Thread 25: 8459055
+Thread 26: 8431850
+Thread 27: 8453611
+Thread 28: 8352812
+Thread 29: 8437893
+Thread 30: 8393466
+Thread 31: 8465409
+Thread 32: 8438583
+Thread 33: 8578105
+Thread 34: 8516516
+Thread 35: 8457051
+Thread 36: 8523142
+Thread 37: 8488730
+Thread 38: 8412370
+Thread 39: 8386817
+Thread 40: 8396917
+Thread 41: 8599466
+Thread 42: 8566909
+Thread 43: 8456383
+Thread 44: 8531476
+Thread 45: 8390427
+Thread 46: 8662318
+Thread 47: 8495118
+Thread 48: 8433228
+Thread 49: 8487427
+Thread 50: 8514608
+Final Count: 423882394
+
+** 100 Threads
+Thread 1: 4001037
+Thread 2: 4015704
+Thread 3: 4039947
+Thread 4: 4000137
+Thread 5: 4006781
+Thread 6: 4012409
+Thread 7: 4024420
+Thread 8: 3990054
+Thread 9: 4023101
+Thread 10: 4017325
+Thread 11: 3989261
+Thread 12: 3961533
+Thread 13: 4035750
+Thread 14: 4025244
+Thread 15: 3977934
+Thread 16: 4002677
+Thread 17: 3994329
+Thread 18: 4002570
+Thread 19: 4068752
+Thread 20: 4094618
+Thread 21: 4008182
+Thread 22: 3993319
+Thread 23: 4028781
+Thread 24: 4020569
+Thread 25: 4028062
+Thread 26: 3997088
+Thread 27: 4037999
+Thread 28: 4030837
+Thread 29: 4018415
+Thread 30: 3994032
+Thread 31: 4012578
+Thread 32: 3997813
+Thread 33: 4037262
+Thread 34: 4000875
+Thread 35: 4080990
+Thread 36: 4016549
+Thread 37: 4006978
+Thread 38: 4086437
+Thread 39: 3992734
+Thread 40: 3996072
+Thread 41: 4013616
+Thread 42: 3976637
+Thread 43: 3996998
+Thread 44: 4072535
+Thread 45: 4021750
+Thread 46: 3989528
+Thread 47: 4084950
+Thread 48: 4001316
+Thread 49: 3995385
+Thread 50: 4013601
+Thread 51: 4012835
+Thread 52: 4015972
+Thread 53: 3985088
+Thread 54: 4068626
+Thread 55: 4007291
+Thread 56: 4005127
+Thread 57: 3976197
+Thread 58: 3995270
+Thread 59: 4047860
+Thread 60: 3996138
+Thread 61: 3980034
+Thread 62: 4003961
+Thread 63: 3984896
+Thread 64: 3987273
+Thread 65: 3990330
+Thread 66: 4017905
+Thread 67: 4001469
+Thread 68: 4037253
+Thread 69: 4036094
+Thread 70: 4030667
+Thread 71: 3979946
+Thread 72: 4009359
+Thread 73: 3987294
+Thread 74: 4023097
+Thread 75: 3989417
+Thread 76: 4007715
+Thread 77: 4012362
+Thread 78: 3992089
+Thread 79: 4027245
+Thread 80: 3996964
+Thread 81: 3984304
+Thread 82: 3984177
+Thread 83: 4021342
+Thread 84: 4078283
+Thread 85: 3963949
+Thread 86: 4006388
+Thread 87: 3990883
+Thread 88: 3993041
+Thread 89: 4017676
+Thread 90: 4016110
+Thread 91: 3966664
+Thread 92: 4038038
+Thread 93: 4012492
+Thread 94: 4016610
+Thread 95: 3995285
+Thread 96: 3998942
+Thread 97: 4059536
+Thread 98: 4060925
+Thread 99: 4086872
+Thread 100: 4046688
+Final Count: 401379450
+
+** 200 Threads
+Thread 1: 2025838
+Thread 2: 2016589
+Thread 3: 2029583
+Thread 4: 2019631
+Thread 5: 2048870
+Thread 6: 2028515
+Thread 7: 2029988
+Thread 8: 2019990
+Thread 9: 2031679
+Thread 10: 2017036
+Thread 11: 2010078
+Thread 12: 2022877
+Thread 13: 2036260
+Thread 14: 1999342
+Thread 15: 2002216
+Thread 16: 2015770
+Thread 17: 2029894
+Thread 18: 2007945
+Thread 19: 2011860
+Thread 20: 2016671
+Thread 21: 2018102
+Thread 22: 2022660
+Thread 23: 2014024
+Thread 24: 2004399
+Thread 25: 2020236
+Thread 26: 2013717
+Thread 27: 1999220
+Thread 28: 2021949
+Thread 29: 2009539
+Thread 30: 2028453
+Thread 31: 2013213
+Thread 32: 1998842
+Thread 33: 2016159
+Thread 34: 2005404
+Thread 35: 2006933
+Thread 36: 2010439
+Thread 37: 2016811
+Thread 38: 2022458
+Thread 39: 2010437
+Thread 40: 1992039
+Thread 41: 2006446
+Thread 42: 2003303
+Thread 43: 1996099
+Thread 44: 2012107
+Thread 45: 1997166
+Thread 46: 2011481
+Thread 47: 1952241
+Thread 48: 2021811
+Thread 49: 2016036
+Thread 50: 2009827
+Thread 51: 2014142
+Thread 52: 2012028
+Thread 53: 1989536
+Thread 54: 2004080
+Thread 55: 2025617
+Thread 56: 1997738
+Thread 57: 1990482
+Thread 58: 1992629
+Thread 59: 2001288
+Thread 60: 2019250
+Thread 61: 1991145
+Thread 62: 2014242
+Thread 63: 2007311
+Thread 64: 2002730
+Thread 65: 1997138
+Thread 66: 2008850
+Thread 67: 2007731
+Thread 68: 2010268
+Thread 69: 1994476
+Thread 70: 2016329
+Thread 71: 2011449
+Thread 72: 1995235
+Thread 73: 1998272
+Thread 74: 2006159
+Thread 75: 1990056
+Thread 76: 2012476
+Thread 77: 2001799
+Thread 78: 1999021
+Thread 79: 2006379
+Thread 80: 1980315
+Thread 81: 1992135
+Thread 82: 1997981
+Thread 83: 2017856
+Thread 84: 2005582
+Thread 85: 2012036
+Thread 86: 2000358
+Thread 87: 2014668
+Thread 88: 2008647
+Thread 89: 1995335
+Thread 90: 2014582
+Thread 91: 2013091
+Thread 92: 2013214
+Thread 93: 2017245
+Thread 94: 1993928
+Thread 95: 1986318
+Thread 96: 2030800
+Thread 97: 1997812
+Thread 98: 2014309
+Thread 99: 1998332
+Thread 100: 2000135
+Thread 101: 2025053
+Thread 102: 2016850
+Thread 103: 2006995
+Thread 104: 1995785
+Thread 105: 2000608
+Thread 106: 2022556
+Thread 107: 2016091
+Thread 108: 2016651
+Thread 109: 2015210
+Thread 110: 2003823
+Thread 111: 2014253
+Thread 112: 2008682
+Thread 113: 2017957
+Thread 114: 1993730
+Thread 115: 1996511
+Thread 116: 2015587
+Thread 117: 2000895
+Thread 118: 2005644
+Thread 119: 2003333
+Thread 120: 1981577
+Thread 121: 2005290
+Thread 122: 2006119
+Thread 123: 2011304
+Thread 124: 2005621
+Thread 125: 2005767
+Thread 126: 2008458
+Thread 127: 2002094
+Thread 128: 2032317
+Thread 129: 1983201
+Thread 130: 1997601
+Thread 131: 2001796
+Thread 132: 2000414
+Thread 133: 2009797
+Thread 134: 1986547
+Thread 135: 1996579
+Thread 136: 1995825
+Thread 137: 2013791
+Thread 138: 2119326
+Thread 139: 1998666
+Thread 140: 1996736
+Thread 141: 1984639
+Thread 142: 2013941
+Thread 143: 2004393
+Thread 144: 2008095
+Thread 145: 2014218
+Thread 146: 2011201
+Thread 147: 2004389
+Thread 148: 2009890
+Thread 149: 1979771
+Thread 150: 2008813
+Thread 151: 1997900
+Thread 152: 1999664
+Thread 153: 2007442
+Thread 154: 2013889
+Thread 155: 1961543
+Thread 156: 2014456
+Thread 157: 2002932
+Thread 158: 1997553
+Thread 159: 1979556
+Thread 160: 2020865
+Thread 161: 2022729
+Thread 162: 1990597
+Thread 163: 2008434
+Thread 164: 2021561
+Thread 165: 2003661
+Thread 166: 2014315
+Thread 167: 2012981
+Thread 168: 1996396
+Thread 169: 2008489
+Thread 170: 2010880
+Thread 171: 2002733
+Thread 172: 1991412
+Thread 173: 2016791
+Thread 174: 2004411
+Thread 175: 1991729
+Thread 176: 2014947
+Thread 177: 2001058
+Thread 178: 2002277
+Thread 179: 2008164
+Thread 180: 2007126
+Thread 181: 1994222
+Thread 182: 2012043
+Thread 183: 2019836
+Thread 184: 2000912
+Thread 185: 2004879
+Thread 186: 2014939
+Thread 187: 1993830
+Thread 188: 2010935
+Thread 189: 2006898
+Thread 190: 1998251
+Thread 191: 2012610
+Thread 192: 2005362
+Thread 193: 2005606
+Thread 194: 1999454
+Thread 195: 1996823
+Thread 196: 2010572
+Thread 197: 1997357
+Thread 198: 2015259
+Thread 199: 1987169
+Thread 200: 1998347
+Final Count: 401500903
+
+** Executando o método increment() 1.000 vezes por thread
+
+** 10 Threads
+real	0m0.009s
+user	0m0.000s
+sys	0m0.015s
+
+real	0m0.011s
+user	0m0.000s
+sys	0m0.028s
+
+real	0m0.012s
+user	0m0.018s
+sys	0m0.012s
+
+** 50 Threads
+real	0m0.027s
+user	0m0.008s
+sys	0m0.083s
+
+real	0m0.027s
+user	0m0.020s
+sys	0m0.069s
+
+real	0m0.027s
+user	0m0.014s
+sys	0m0.073s
+
+** 100 Threads
+real	0m0.051s
+user	0m0.048s
+sys	0m0.133s
+
+real	0m0.045s
+user	0m0.028s
+sys	0m0.128s
+
+real	0m0.052s
+user	0m0.033s
+sys	0m0.145s
+
+** 200 Threads
+real	0m0.091s
+user	0m0.051s
+sys	0m0.285s
+
+real	0m0.090s
+user	0m0.055s
+sys	0m0.276s
+
+real	0m0.081s
+user	0m0.061s
+sys	0m0.232s
+
+** Modifique sua trava para que ela torne-se uma TTAS e repita os experimentos.
+
+** Com sleep de 2 minutos.
+
+** TTAS com backoff expenencial
+
+** 10 Threads
+Thread 1: 547485218
+Thread 2: 541655015
+Thread 3: 492243056
+Thread 4: 560556330
+Thread 5: 647403999
+Thread 6: 575109219
+Thread 7: 593423161
+Thread 8: 440361476
+Thread 9: 545578310
+Thread 10: 538140409
+Final Count: 5481956193
+
+** 50 Threads
+Thread 1: 19704419
+Thread 2: 20669392
+Thread 3: 19201067
+Thread 4: 19926177
+Thread 5: 20375233
+Thread 6: 20624103
+Thread 7: 20597616
+Thread 8: 21775029
+Thread 9: 20345642
+Thread 10: 19243170
+Thread 11: 19690474
+Thread 12: 22991795
+Thread 13: 20523515
+Thread 14: 21028033
+Thread 15: 19185374
+Thread 16: 20049905
+Thread 17: 19920742
+Thread 18: 21137641
+Thread 19: 20852744
+Thread 20: 19558162
+Thread 21: 18998619
+Thread 22: 20319116
+Thread 23: 20135329
+Thread 24: 19396776
+Thread 25: 21742849
+Thread 26: 20533253
+Thread 27: 19268877
+Thread 28: 19722372
+Thread 29: 19752597
+Thread 30: 19988424
+Thread 31: 20200901
+Thread 32: 20488226
+Thread 33: 20912266
+Thread 34: 21276775
+Thread 35: 19698111
+Thread 36: 21144512
+Thread 37: 20531420
+Thread 38: 18484138
+Thread 39: 20381095
+Thread 40: 19679362
+Thread 41: 21505277
+Thread 42: 20479160
+Thread 43: 18569735
+Thread 44: 19673802
+Thread 45: 20008689
+Thread 46: 21426060
+Thread 47: 20999542
+Thread 48: 20164410
+Thread 49: 20891642
+Thread 50: 21920027
+Final Count: 1015693595
+
+** 100 Threads
+Thread 1: 891748
+Thread 2: 980443
+Thread 3: 782503
+Thread 4: 683737
+Thread 5: 740422
+Thread 6: 816782
+Thread 7: 712935
+Thread 8: 780574
+Thread 9: 911636
+Thread 10: 905889
+Thread 11: 854899
+Thread 12: 760161
+Thread 13: 1054189
+Thread 14: 952079
+Thread 15: 989933
+Thread 16: 801945
+Thread 17: 1013761
+Thread 18: 863154
+Thread 19: 995722
+Thread 20: 1114363
+Thread 21: 980778
+Thread 22: 1020998
+Thread 23: 966939
+Thread 24: 1038200
+Thread 25: 1048190
+Thread 26: 1042438
+Thread 27: 918369
+Thread 28: 782150
+Thread 29: 956979
+Thread 30: 965727
+Thread 31: 833405
+Thread 32: 918469
+Thread 33: 1033987
+Thread 34: 1088210
+Thread 35: 928115
+Thread 36: 1185384
+Thread 37: 934659
+Thread 38: 1062308
+Thread 39: 845138
+Thread 40: 883397
+Thread 41: 917926
+Thread 42: 1017255
+Thread 43: 1010092
+Thread 44: 963779
+Thread 45: 963344
+Thread 46: 859419
+Thread 47: 973700
+Thread 48: 1034017
+Thread 49: 889235
+Thread 50: 1022140
+Thread 51: 1022990
+Thread 52: 1085764
+Thread 53: 1015937
+Thread 54: 1046186
+Thread 55: 931197
+Thread 56: 1068825
+Thread 57: 1023692
+Thread 58: 1006372
+Thread 59: 997922
+Thread 60: 1258313
+Thread 61: 920230
+Thread 62: 1049990
+Thread 63: 998679
+Thread 64: 920898
+Thread 65: 959030
+Thread 66: 876990
+Thread 67: 1236822
+Thread 68: 1127040
+Thread 69: 886537
+Thread 70: 1037568
+Thread 71: 1012090
+Thread 72: 936704
+Thread 73: 885862
+Thread 74: 1003626
+Thread 75: 981245
+Thread 76: 1115732
+Thread 77: 890039
+Thread 78: 998450
+Thread 79: 941034
+Thread 80: 813582
+Thread 81: 873154
+Thread 82: 930631
+Thread 83: 849525
+Thread 84: 929242
+Thread 85: 955527
+Thread 86: 908362
+Thread 87: 967085
+Thread 88: 1061550
+Thread 89: 1010507
+Thread 90: 800574
+Thread 91: 1099453
+Thread 92: 1039771
+Thread 93: 983935
+Thread 94: 1000248
+Thread 95: 929903
+Thread 96: 917093
+Thread 97: 1039536
+Thread 98: 1022034
+Thread 99: 1040775
+Thread 100: 978383
+Final Count: 96078256
+
+** 200 Threads
+Thread 1: 211639
+Thread 2: 303198
+Thread 3: 270723
+Thread 4: 248371
+Thread 5: 137113
+Thread 6: 183041
+Thread 7: 150840
+Thread 8: 268905
+Thread 9: 394157
+Thread 10: 152437
+Thread 11: 304961
+Thread 12: 168495
+Thread 13: 208235
+Thread 14: 295630
+Thread 15: 165901
+Thread 16: 233478
+Thread 17: 189292
+Thread 18: 369138
+Thread 19: 243358
+Thread 20: 314758
+Thread 21: 290742
+Thread 22: 300597
+Thread 23: 302384
+Thread 24: 314144
+Thread 25: 156212
+Thread 26: 295010
+Thread 27: 225193
+Thread 28: 190507
+Thread 29: 342938
+Thread 30: 217785
+Thread 31: 259756
+Thread 32: 300399
+Thread 33: 289240
+Thread 34: 302283
+Thread 35: 272060
+Thread 36: 303529
+Thread 37: 271814
+Thread 38: 294756
+Thread 39: 176578
+Thread 40: 206669
+Thread 41: 261168
+Thread 42: 309590
+Thread 43: 193056
+Thread 44: 106618
+Thread 45: 337509
+Thread 46: 261505
+Thread 47: 271294
+Thread 48: 157396
+Thread 49: 178787
+Thread 50: 338729
+Thread 51: 216553
+Thread 52: 304801
+Thread 53: 309027
+Thread 54: 168253
+Thread 55: 223200
+Thread 56: 251067
+Thread 57: 210547
+Thread 58: 340317
+Thread 59: 249877
+Thread 60: 309118
+Thread 61: 255161
+Thread 62: 279422
+Thread 63: 191868
+Thread 64: 154246
+Thread 65: 222971
+Thread 66: 266651
+Thread 67: 244156
+Thread 68: 189874
+Thread 69: 168099
+Thread 70: 210513
+Thread 71: 281633
+Thread 72: 303185
+Thread 73: 345134
+Thread 74: 161317
+Thread 75: 280133
+Thread 76: 175047
+Thread 77: 173197
+Thread 78: 230138
+Thread 79: 297519
+Thread 80: 275801
+Thread 81: 170968
+Thread 82: 177504
+Thread 83: 236431
+Thread 84: 313548
+Thread 85: 142084
+Thread 86: 247239
+Thread 87: 271961
+Thread 88: 132778
+Thread 89: 259682
+Thread 90: 159460
+Thread 91: 213540
+Thread 92: 156520
+Thread 93: 140840
+Thread 94: 142618
+Thread 95: 293838
+Thread 96: 210286
+Thread 97: 171200
+Thread 98: 225591
+Thread 99: 213449
+Thread 100: 138716
+Thread 101: 172910
+Thread 102: 130993
+Thread 103: 243250
+Thread 104: 237409
+Thread 105: 141995
+Thread 106: 261374
+Thread 107: 132871
+Thread 108: 252399
+Thread 109: 211137
+Thread 110: 177794
+Thread 111: 255604
+Thread 112: 273772
+Thread 113: 215356
+Thread 114: 204655
+Thread 115: 229870
+Thread 116: 217057
+Thread 117: 209175
+Thread 118: 249014
+Thread 119: 262008
+Thread 120: 352332
+Thread 121: 186838
+Thread 122: 272402
+Thread 123: 264666
+Thread 124: 281231
+Thread 125: 233606
+Thread 126: 273964
+Thread 127: 269811
+Thread 128: 211964
+Thread 129: 166401
+Thread 130: 289808
+Thread 131: 226897
+Thread 132: 176649
+Thread 133: 310972
+Thread 134: 119046
+Thread 135: 148776
+Thread 136: 252628
+Thread 137: 203651
+Thread 138: 136881
+Thread 139: 192791
+Thread 140: 124202
+Thread 141: 177897
+Thread 142: 155463
+Thread 143: 166879
+Thread 144: 169599
+Thread 145: 250568
+Thread 146: 265255
+Thread 147: 185196
+Thread 148: 309542
+Thread 149: 261267
+Thread 150: 259060
+Thread 151: 160942
+Thread 152: 188233
+Thread 153: 230689
+Thread 154: 184693
+Thread 155: 227566
+Thread 156: 204124
+Thread 157: 151925
+Thread 158: 247870
+Thread 159: 172615
+Thread 160: 217117
+Thread 161: 234481
+Thread 162: 217639
+Thread 163: 233080
+Thread 164: 213494
+Thread 165: 234690
+Thread 166: 342634
+Thread 167: 255275
+Thread 168: 255646
+Thread 169: 221957
+Thread 170: 265536
+Thread 171: 261660
+Thread 172: 251762
+Thread 173: 284380
+Thread 174: 177646
+Thread 175: 276794
+Thread 176: 199502
+Thread 177: 131143
+Thread 178: 282071
+Thread 179: 139995
+Thread 180: 226278
+Thread 181: 306980
+Thread 182: 312088
+Thread 183: 220646
+Thread 184: 149079
+Thread 185: 166976
+Thread 186: 319920
+Thread 187: 161664
+Thread 188: 177064
+Thread 189: 301938
+Thread 190: 149142
+Thread 191: 200426
+Thread 192: 181147
+Thread 193: 363777
+Thread 194: 251995
+Thread 195: 284360
+Thread 196: 206835
+Thread 197: 232835
+Thread 198: 238803
+Thread 199: 277621
+Thread 200: 294335
+Final Count: 46312949
+
+** TTAS sem backoff
+
+** 10 Threads
+Thread 1: 35617739
+Thread 2: 34959720
+Thread 3: 35751330
+Thread 4: 35339112
+Thread 5: 36503442
+Thread 6: 36058607
+Thread 7: 34756668
+Thread 8: 36118007
+Thread 9: 34743851
+Thread 10: 35799770
+Final Count: 355648246
+
+** 50 Threads
+Thread 1: 2177958
+Thread 2: 1639329
+Thread 3: 1543957
+Thread 4: 1595049
+Thread 5: 1774119
+Thread 6: 1549066
+Thread 7: 1556092
+Thread 8: 1785259
+Thread 9: 1543884
+Thread 10: 1553769
+Thread 11: 1999873
+Thread 12: 1825939
+Thread 13: 1617322
+Thread 14: 1548711
+Thread 15: 1798362
+Thread 16: 1946078
+Thread 17: 1448910
+Thread 18: 1473869
+Thread 19: 1912754
+Thread 20: 1830604
+Thread 21: 1622558
+Thread 22: 1702653
+Thread 23: 1318684
+Thread 24: 1411803
+Thread 25: 1443199
+Thread 26: 1344438
+Thread 27: 1369346
+Thread 28: 2190957
+Thread 29: 2255920
+Thread 30: 1933578
+Thread 31: 1637339
+Thread 32: 2066231
+Thread 33: 2265100
+Thread 34: 2091736
+Thread 35: 1634744
+Thread 36: 1673615
+Thread 37: 1617494
+Thread 38: 2128275
+Thread 39: 2155104
+Thread 40: 2161398
+Thread 41: 2037170
+Thread 42: 2127225
+Thread 43: 2152931
+Thread 44: 2024502
+Thread 45: 1845422
+Thread 46: 2130951
+Thread 47: 2316796
+Thread 48: 1937955
+Thread 49: 1929831
+Thread 50: 2078798
+Final Count: 90726657
+
+** 100 Threads
+Thread 1: 526227
+Thread 2: 594512
+Thread 3: 488531
+Thread 4: 620477
+Thread 5: 425896
+Thread 6: 489894
+Thread 7: 300622
+Thread 8: 460374
+Thread 9: 449584
+Thread 10: 426751
+Thread 11: 539874
+Thread 12: 376967
+Thread 13: 472645
+Thread 14: 414966
+Thread 15: 462503
+Thread 16: 597920
+Thread 17: 407978
+Thread 18: 475467
+Thread 19: 449300
+Thread 20: 489341
+Thread 21: 396220
+Thread 22: 581292
+Thread 23: 447516
+Thread 24: 449362
+Thread 25: 468370
+Thread 26: 500373
+Thread 27: 373399
+Thread 28: 430301
+Thread 29: 587852
+Thread 30: 409526
+Thread 31: 467309
+Thread 32: 357392
+Thread 33: 408842
+Thread 34: 499979
+Thread 35: 508774
+Thread 36: 389187
+Thread 37: 488851
+Thread 38: 458384
+Thread 39: 542987
+Thread 40: 428329
+Thread 41: 468672
+Thread 42: 504403
+Thread 43: 390855
+Thread 44: 447248
+Thread 45: 488421
+Thread 46: 340619
+Thread 47: 427148
+Thread 48: 430922
+Thread 49: 386219
+Thread 50: 470334
+Thread 51: 419371
+Thread 52: 435587
+Thread 53: 413058
+Thread 54: 321230
+Thread 55: 594279
+Thread 56: 411440
+Thread 57: 606304
+Thread 58: 387836
+Thread 59: 547970
+Thread 60: 512529
+Thread 61: 372916
+Thread 62: 539834
+Thread 63: 431903
+Thread 64: 454283
+Thread 65: 423404
+Thread 66: 605821
+Thread 67: 582281
+Thread 68: 556213
+Thread 69: 537015
+Thread 70: 498065
+Thread 71: 453494
+Thread 72: 413800
+Thread 73: 559544
+Thread 74: 607001
+Thread 75: 400523
+Thread 76: 553093
+Thread 77: 362173
+Thread 78: 432942
+Thread 79: 477646
+Thread 80: 399100
+Thread 81: 426250
+Thread 82: 435857
+Thread 83: 450565
+Thread 84: 453997
+Thread 85: 511319
+Thread 86: 541591
+Thread 87: 429922
+Thread 88: 459233
+Thread 89: 594114
+Thread 90: 471782
+Thread 91: 527144
+Thread 92: 427213
+Thread 93: 490153
+Thread 94: 435789
+Thread 95: 419409
+Thread 96: 506389
+Thread 97: 390122
+Thread 98: 417060
+Thread 99: 452731
+Thread 100: 481023
+Final Count: 46651233
+
+** 200 Threads
+Thread 1: 139713
+Thread 2: 59198
+Thread 3: 89822
+Thread 4: 68828
+Thread 5: 66102
+Thread 6: 113109
+Thread 7: 127607
+Thread 8: 132805
+Thread 9: 110258
+Thread 10: 104388
+Thread 11: 113178
+Thread 12: 97195
+Thread 13: 109791
+Thread 14: 93613
+Thread 15: 54691
+Thread 16: 72292
+Thread 17: 101276
+Thread 18: 137161
+Thread 19: 88152
+Thread 20: 86507
+Thread 21: 112787
+Thread 22: 80423
+Thread 23: 109775
+Thread 24: 112429
+Thread 25: 77871
+Thread 26: 102243
+Thread 27: 95380
+Thread 28: 49638
+Thread 29: 145141
+Thread 30: 97364
+Thread 31: 201874
+Thread 32: 103299
+Thread 33: 99859
+Thread 34: 99856
+Thread 35: 135180
+Thread 36: 92430
+Thread 37: 55161
+Thread 38: 76293
+Thread 39: 175790
+Thread 40: 100227
+Thread 41: 243072
+Thread 42: 125448
+Thread 43: 109324
+Thread 44: 170202
+Thread 45: 160185
+Thread 46: 113562
+Thread 47: 86070
+Thread 48: 174334
+Thread 49: 137475
+Thread 50: 105513
+Thread 51: 93396
+Thread 52: 118022
+Thread 53: 93731
+Thread 54: 175974
+Thread 55: 56807
+Thread 56: 104728
+Thread 57: 188064
+Thread 58: 101340
+Thread 59: 135917
+Thread 60: 114312
+Thread 61: 177591
+Thread 62: 194625
+Thread 63: 130483
+Thread 64: 163802
+Thread 65: 122137
+Thread 66: 159659
+Thread 67: 224860
+Thread 68: 93857
+Thread 69: 105650
+Thread 70: 101408
+Thread 71: 114152
+Thread 72: 178363
+Thread 73: 118352
+Thread 74: 163629
+Thread 75: 159067
+Thread 76: 102693
+Thread 77: 144861
+Thread 78: 240643
+Thread 79: 119891
+Thread 80: 103944
+Thread 81: 115873
+Thread 82: 47487
+Thread 83: 215768
+Thread 84: 125247
+Thread 85: 65945
+Thread 86: 128218
+Thread 87: 134465
+Thread 88: 96626
+Thread 89: 76535
+Thread 90: 80474
+Thread 91: 111112
+Thread 92: 121478
+Thread 93: 79061
+Thread 94: 116336
+Thread 95: 112674
+Thread 96: 91733
+Thread 97: 104077
+Thread 98: 109130
+Thread 99: 125114
+Thread 100: 115636
+Thread 101: 183624
+Thread 102: 125265
+Thread 103: 115768
+Thread 104: 185387
+Thread 105: 127076
+Thread 106: 170167
+Thread 107: 121714
+Thread 108: 89505
+Thread 109: 80440
+Thread 110: 207004
+Thread 111: 127771
+Thread 112: 144157
+Thread 113: 98520
+Thread 114: 99013
+Thread 115: 147506
+Thread 116: 65123
+Thread 117: 93356
+Thread 118: 84379
+Thread 119: 49191
+Thread 120: 83019
+Thread 121: 141152
+Thread 122: 100779
+Thread 123: 46776
+Thread 124: 150499
+Thread 125: 89135
+Thread 126: 159275
+Thread 127: 193407
+Thread 128: 113661
+Thread 129: 138405
+Thread 130: 138183
+Thread 131: 73546
+Thread 132: 157206
+Thread 133: 90681
+Thread 134: 131434
+Thread 135: 70693
+Thread 136: 78182
+Thread 137: 119463
+Thread 138: 111422
+Thread 139: 56060
+Thread 140: 77621
+Thread 141: 118140
+Thread 142: 60007
+Thread 143: 89796
+Thread 144: 110082
+Thread 145: 120806
+Thread 146: 70947
+Thread 147: 105849
+Thread 148: 63621
+Thread 149: 69970
+Thread 150: 108205
+Thread 151: 50491
+Thread 152: 109289
+Thread 153: 100827
+Thread 154: 68980
+Thread 155: 88844
+Thread 156: 78140
+Thread 157: 79210
+Thread 158: 73501
+Thread 159: 76711
+Thread 160: 93773
+Thread 161: 72642
+Thread 162: 87449
+Thread 163: 76626
+Thread 164: 86026
+Thread 165: 76055
+Thread 166: 91165
+Thread 167: 77827
+Thread 168: 143330
+Thread 169: 143250
+Thread 170: 103017
+Thread 171: 92578
+Thread 172: 159036
+Thread 173: 94252
+Thread 174: 126565
+Thread 175: 114849
+Thread 176: 148730
+Thread 177: 77795
+Thread 178: 132352
+Thread 179: 69434
+Thread 180: 103946
+Thread 181: 135671
+Thread 182: 109868
+Thread 183: 53325
+Thread 184: 72475
+Thread 185: 110452
+Thread 186: 43763
+Thread 187: 157228
+Thread 188: 84201
+Thread 189: 104420
+Thread 190: 88030
+Thread 191: 92724
+Thread 192: 111144
+Thread 193: 128932
+Thread 194: 91506
+Thread 195: 129009
+Thread 196: 101896
+Thread 197: 187864
+Thread 198: 66115
+Thread 199: 59715
+Thread 200: 110848
+Final Count: 22277702
+
+** TTAS com backoff aditivo
+
+** 10 Threads
+Thread 1: 269087272
+Thread 2: 282311022
+Thread 3: 277366257
+Thread 4: 269102100
+Thread 5: 273116111
+Thread 6: 279426261
+Thread 7: 280919971
+Thread 8: 282334421
+Thread 9: 280129583
+Thread 10: 284922478
+Final Count: 2778715476
+
+** 50 Threads
+Thread 1: 15383851
+Thread 2: 15250021
+Thread 3: 16292093
+Thread 4: 15529204
+Thread 5: 15998824
+Thread 6: 16148153
+Thread 7: 16246327
+Thread 8: 16187328
+Thread 9: 15933315
+Thread 10: 15961996
+Thread 11: 15973114
+Thread 12: 15949504
+Thread 13: 15675587
+Thread 14: 16267449
+Thread 15: 16155794
+Thread 16: 15441965
+Thread 17: 15494294
+Thread 18: 15707502
+Thread 19: 16175729
+Thread 20: 15999867
+Thread 21: 15199235
+Thread 22: 15515298
+Thread 23: 15933778
+Thread 24: 15542471
+Thread 25: 15286634
+Thread 26: 15826451
+Thread 27: 16117800
+Thread 28: 15516059
+Thread 29: 16013554
+Thread 30: 16720096
+Thread 31: 15834931
+Thread 32: 15098432
+Thread 33: 15877758
+Thread 34: 16349141
+Thread 35: 16105516
+Thread 36: 15136814
+Thread 37: 15579316
+Thread 38: 16290362
+Thread 39: 16139757
+Thread 40: 15514734
+Thread 41: 16613527
+Thread 42: 16311659
+Thread 43: 16303044
+Thread 44: 15299891
+Thread 45: 15473247
+Thread 46: 15430544
+Thread 47: 15162372
+Thread 48: 15744973
+Thread 49: 15553014
+Thread 50: 16332700
+Final Count: 791595025
+
+** 100 Threads
+Thread 1: 1078181
+Thread 2: 1257662
+Thread 3: 1279344
+Thread 4: 979152
+Thread 5: 1083067
+Thread 6: 1074282
+Thread 7: 1101236
+Thread 8: 1229088
+Thread 9: 1290675
+Thread 10: 1099646
+Thread 11: 1094634
+Thread 12: 1240774
+Thread 13: 1290469
+Thread 14: 1216690
+Thread 15: 1081601
+Thread 16: 1251115
+Thread 17: 1223198
+Thread 18: 1148200
+Thread 19: 1250186
+Thread 20: 1192563
+Thread 21: 1177227
+Thread 22: 1076987
+Thread 23: 1155400
+Thread 24: 1192705
+Thread 25: 1070515
+Thread 26: 1030305
+Thread 27: 1310391
+Thread 28: 1156465
+Thread 29: 1336464
+Thread 30: 1216527
+Thread 31: 1229047
+Thread 32: 1159959
+Thread 33: 1157359
+Thread 34: 1269736
+Thread 35: 1174437
+Thread 36: 1134828
+Thread 37: 1106000
+Thread 38: 1091797
+Thread 39: 1015183
+Thread 40: 1021433
+Thread 41: 1249953
+Thread 42: 1165121
+Thread 43: 1204003
+Thread 44: 1129080
+Thread 45: 1326371
+Thread 46: 1229834
+Thread 47: 1069605
+Thread 48: 1123308
+Thread 49: 1227206
+Thread 50: 980055
+Thread 51: 1288653
+Thread 52: 1194381
+Thread 53: 1113113
+Thread 54: 1168810
+Thread 55: 1166771
+Thread 56: 1141193
+Thread 57: 1380933
+Thread 58: 1289807
+Thread 59: 1312499
+Thread 60: 1208978
+Thread 61: 1180549
+Thread 62: 1145459
+Thread 63: 1343675
+Thread 64: 1308260
+Thread 65: 1331638
+Thread 66: 1124329
+Thread 67: 1153175
+Thread 68: 1165805
+Thread 69: 1159222
+Thread 70: 1277853
+Thread 71: 1290269
+Thread 72: 1231610
+Thread 73: 1073035
+Thread 74: 1124840
+Thread 75: 1245324
+Thread 76: 1253738
+Thread 77: 1212270
+Thread 78: 1211897
+Thread 79: 1169295
+Thread 80: 1179422
+Thread 81: 1027771
+Thread 82: 1092063
+Thread 83: 1229625
+Thread 84: 1228128
+Thread 85: 1298153
+Thread 86: 1215267
+Thread 87: 1114810
+Thread 88: 1175884
+Thread 89: 1208454
+Thread 90: 1099926
+Thread 91: 1187976
+Thread 92: 1076551
+Thread 93: 1110345
+Thread 94: 1285814
+Thread 95: 1135917
+Thread 96: 1205776
+Thread 97: 1225998
+Thread 98: 1121195
+Thread 99: 1157493
+Thread 100: 1172705
+Final Count: 118065718
+
+** 200 Threads
+Thread 1: 213871
+Thread 2: 233853
+Thread 3: 249168
+Thread 4: 204476
+Thread 5: 204161
+Thread 6: 214218
+Thread 7: 185475
+Thread 8: 217087
+Thread 9: 178246
+Thread 10: 220510
+Thread 11: 186225
+Thread 12: 185778
+Thread 13: 207334
+Thread 14: 217575
+Thread 15: 185628
+Thread 16: 199242
+Thread 17: 214012
+Thread 18: 203597
+Thread 19: 217814
+Thread 20: 198505
+Thread 21: 196019
+Thread 22: 220109
+Thread 23: 220334
+Thread 24: 192491
+Thread 25: 154268
+Thread 26: 175402
+Thread 27: 152463
+Thread 28: 203349
+Thread 29: 176808
+Thread 30: 194601
+Thread 31: 215488
+Thread 32: 186369
+Thread 33: 213149
+Thread 34: 226042
+Thread 35: 212099
+Thread 36: 183076
+Thread 37: 168306
+Thread 38: 212542
+Thread 39: 222748
+Thread 40: 185701
+Thread 41: 215998
+Thread 42: 180210
+Thread 43: 175095
+Thread 44: 153945
+Thread 45: 188476
+Thread 46: 186748
+Thread 47: 155484
+Thread 48: 261735
+Thread 49: 188167
+Thread 50: 206612
+Thread 51: 136229
+Thread 52: 184549
+Thread 53: 191955
+Thread 54: 187626
+Thread 55: 174857
+Thread 56: 164495
+Thread 57: 192977
+Thread 58: 192899
+Thread 59: 177223
+Thread 60: 210769
+Thread 61: 176228
+Thread 62: 162264
+Thread 63: 209287
+Thread 64: 224195
+Thread 65: 168052
+Thread 66: 149260
+Thread 67: 151014
+Thread 68: 201392
+Thread 69: 145544
+Thread 70: 203956
+Thread 71: 201032
+Thread 72: 174636
+Thread 73: 190171
+Thread 74: 181698
+Thread 75: 182641
+Thread 76: 188762
+Thread 77: 211997
+Thread 78: 194482
+Thread 79: 169499
+Thread 80: 219455
+Thread 81: 162920
+Thread 82: 189794
+Thread 83: 153755
+Thread 84: 163981
+Thread 85: 184615
+Thread 86: 180089
+Thread 87: 195535
+Thread 88: 213163
+Thread 89: 186292
+Thread 90: 205144
+Thread 91: 175631
+Thread 92: 199739
+Thread 93: 205574
+Thread 94: 214162
+Thread 95: 181164
+Thread 96: 182324
+Thread 97: 148234
+Thread 98: 192680
+Thread 99: 195943
+Thread 100: 155226
+Thread 101: 180225
+Thread 102: 199984
+Thread 103: 150221
+Thread 104: 165565
+Thread 105: 212149
+Thread 106: 191241
+Thread 107: 207094
+Thread 108: 185570
+Thread 109: 194534
+Thread 110: 157881
+Thread 111: 195193
+Thread 112: 145510
+Thread 113: 179793
+Thread 114: 165010
+Thread 115: 168582
+Thread 116: 154714
+Thread 117: 226390
+Thread 118: 204687
+Thread 119: 219835
+Thread 120: 186772
+Thread 121: 149581
+Thread 122: 180847
+Thread 123: 181010
+Thread 124: 181129
+Thread 125: 227396
+Thread 126: 229012
+Thread 127: 192799
+Thread 128: 174838
+Thread 129: 205297
+Thread 130: 175623
+Thread 131: 217046
+Thread 132: 157355
+Thread 133: 147955
+Thread 134: 168792
+Thread 135: 216280
+Thread 136: 165731
+Thread 137: 215151
+Thread 138: 173812
+Thread 139: 196399
+Thread 140: 183382
+Thread 141: 172924
+Thread 142: 164350
+Thread 143: 154720
+Thread 144: 195133
+Thread 145: 213243
+Thread 146: 196542
+Thread 147: 208506
+Thread 148: 195390
+Thread 149: 186221
+Thread 150: 186800
+Thread 151: 244794
+Thread 152: 193299
+Thread 153: 180897
+Thread 154: 182550
+Thread 155: 136409
+Thread 156: 170401
+Thread 157: 159953
+Thread 158: 171300
+Thread 159: 171748
+Thread 160: 256656
+Thread 161: 178043
+Thread 162: 184287
+Thread 163: 161388
+Thread 164: 179146
+Thread 165: 172607
+Thread 166: 190334
+Thread 167: 158336
+Thread 168: 181057
+Thread 169: 186714
+Thread 170: 171298
+Thread 171: 185522
+Thread 172: 163565
+Thread 173: 204397
+Thread 174: 217422
+Thread 175: 168855
+Thread 176: 168998
+Thread 177: 167028
+Thread 178: 149290
+Thread 179: 170115
+Thread 180: 193147
+Thread 181: 199034
+Thread 182: 230679
+Thread 183: 195277
+Thread 184: 206434
+Thread 185: 180247
+Thread 186: 212507
+Thread 187: 212193
+Thread 188: 155386
+Thread 189: 193596
+Thread 190: 184661
+Thread 191: 177905
+Thread 192: 175420
+Thread 193: 217472
+Thread 194: 185469
+Thread 195: 178350
+Thread 196: 179954
+Thread 197: 193766
+Thread 198: 198312
+Thread 199: 160194
+Thread 200: 159352
+Final Count: 37685696
+
+** Executando o método increment() 1.000 vezes por thread
+
+** TAS com backoff expenencial
+
+** 10 Threads
+real	0m0.010s
+user	0m0.000s
+sys	0m0.007s
+
+real	0m0.014s
+user	0m0.007s
+sys	0m0.000s
+
+real	0m0.015s
+user	0m0.010s
+sys	0m0.003s
+
+** 50 Threads
+real	0m0.254s
+user	0m0.858s
+sys	0m0.008s
+
+real	0m0.437s
+user	0m1.571s
+sys	0m0.000s
+
+real	0m0.254s
+user	0m0.796s
+sys	0m0.008s
+
+** 100 Threads
+real	0m0.537s
+user	0m1.822s
+sys	0m0.031s
+
+real	0m0.399s
+user	0m1.181s
+sys	0m0.004s
+
+real	0m0.649s
+user	0m2.296s
+sys	0m0.012s
+
+** 200 Threads
+real	0m1.392s
+user	0m5.111s
+sys	0m0.012s
+
+real	0m0.688s
+user	0m2.271s
+sys	0m0.008s
+
+real	0m1.377s
+user	0m5.053s
+sys	0m0.012s
+
+** TAS sem backoff
+
+** 10 Threads
+real	0m0.006s
+user	0m0.007s
+sys	0m0.003s
+
+real	0m0.009s
+user	0m0.008s
+sys	0m0.006s
+
+real	0m0.006s
+user	0m0.008s
+sys	0m0.000s
+
+** 50 Threads
+real	0m0.071s
+user	0m0.089s
+sys	0m0.024s
+
+real	0m0.073s
+user	0m0.262s
+sys	0m0.000s
+
+real	0m0.040s
+user	0m0.142s
+sys	0m0.000s
+
+** 100 Threads
+real	0m0.107s
+user	0m0.389s
+sys	0m0.004s
+
+real	0m0.061s
+user	0m0.186s
+sys	0m0.009s
+
+real	0m0.095s
+user	0m0.326s
+sys	0m0.012s
+
+** 200 Threads
+real	0m0.190s
+user	0m0.698s
+sys	0m0.004s
+
+real	0m0.167s
+user	0m0.617s
+sys	0m0.004s
+
+real	0m0.598s
+user	0m2.269s
+sys	0m0.004s
+
+** TAS com backoff aditivo
+
+** 10 Threads
+real	0m0.006s
+user	0m0.000s
+sys	0m0.005s
+
+real	0m0.010s
+user	0m0.008s
+sys	0m0.000s
+
+real	0m0.012s
+user	0m0.004s
+sys	0m0.004s
+
+** 50 Threads
+real	0m0.112s
+user	0m0.321s
+sys	0m0.008s
+
+real	0m0.121s
+user	0m0.392s
+sys	0m0.007s
+
+real	0m0.132s
+user	0m0.421s
+sys	0m0.004s
+
+** 100 Threads
+real	0m0.378s
+user	0m1.338s
+sys	0m0.013s
+
+real	0m0.401s
+user	0m1.429s
+sys	0m0.008s
+
+real	0m0.395s
+user	0m1.401s
+sys	0m0.020s
+
+** 200 Threads
+real	0m0.869s
+user	0m3.212s
+sys	0m0.024s
+
+real	0m1.033s
+user	0m3.818s
+sys	0m0.011s
+
+real	0m0.813s
+user	0m3.010s
+sys	0m0.020s
+
+Resumo: De todas as combinações utilizadas, o método TTAS com backoff exponencial com 10 threads conseguiu incrementar a maior quantidade de números quando comparado com os outros também com 10 threads. Uma observação é que, na medida em que o número de threads vão sendo aumentadas, menor vai sendo a quantidade de incrementos realizados no intervalo de 2 minutos (o aumento na quantidade de threads em excesso provoca um overhead por conta das disputas).
+
+Comprovadamente o método TTAS consegue ser mais eficiente quando comparado ao TAS. Entretanto, quando utilizando o "backoff", a implementação disponível no AMP parece não ser eficiente o suficiente para tirar proveito dessa funcionalidade. A linha 8 da figura 7.6 (while (state.get()) {}) faz com que, quando existe contensão, todas as threads fiquem executando o state.get() no mesmo intervalo de tempo. Com isso, a linha 12 será executada poucas vezes.
+
+Para esses experimentos o método TTAS com backoff foi implementado da mesma forma que se encontra no AMP. Dessa forma, quando o número de threads era muito grande (com grande probabilidade de contensão), o desempenho do TAS (que tirava proveito do backoff) foi bastante superior ao desempenho do TTAS (que tirava pouco proveito do backoff).
+
+** Questão 2: Implementação do CHLock() apresentou deadlock.
+
+** Exercícios AMP:
+
+** Exercise85: 
+ lock(T1)
+ T1: Recebe "myNode" da thread 1 (linha 7);
+ T1: Define "locked=true" (linha 8);
+ T1: Seta "myNode" em "tail" e seta em "pred" "tail" atual (possuindo locked=false) (linha 10);
+ T1: Como "pred" atual possui locked=false, passa do "while(pred.locked)" e pega a trava (linha 12);
+
+ unlock(T1)
+ T1: Seta "myNode.locked=false" (linha 19);
+
+ lock(T1)
+ T1: Define "locked=true" em myNode (linha 8);
+ T1: Seta "myNode" em "tail" e também seta em "pred" "myNode" (devido ao lock() anterior, no qual o mesmo "myNode" havia sido armazendo em tail) (linha 10);
+ T1: Como "pred" == "myNode" e o "locked" de "myNode" foi setado como "true", T1 ficará em loop infinito, sozinho (linha 12).
+
+
+** Exercise 86:
+ No primeiro caso, cada thread irá incrementar uma única vez uma variável compartilhada entre "n" threads. Depois de realizar o incremento, cada thread continuará lendo essa variável até que o valor "n" seja alcançado. O fato desta variável ser compartilhada e ficar tendo seu valor alterado constantemente, faz com que diversos "cache misses" aconteçam. No pior caso, uma thread verá a variável compartilhada ser alterada n-1 vezes. Já no segundo caso, cada thread ficará monitorando uma única posição do vetor que será alterada uma única vez. Dessa forma, com uma quantidade inferior de "cache misses", as leituras no segundo caso serão mais eficientes.
+
+** Exercise 91:
+ # TAS Lock
+ bool isLocked() {
+   return state.get();
+ }
+
+ # CLH Queue lock
+  bool isLocked() {
+    return (myNode.locked == true && myPred.locked == false);
+  }
+
+ # MCS Queue lock
+  bool isLocked() {
+    return ( !myNode.get().locked && myNode.get() == NULL );
+  }

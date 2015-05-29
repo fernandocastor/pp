@@ -1,0 +1,319 @@
+PP -Trabalho 10
+===============
+
+Jose Fernando <jfsc@cin.ufpe.br>;
+Josino Rodrigues <jrn4@cin.ufpe.br>
+
+
+Exercise 93
+----------
+Reimplement the SimpleReadWriteLock class using Java synchronized ,
+  wait() , notify() , and notifyAll() constructs in place of explict locks and
+  conditions. Hint: you must figure out how methods of the inner readâ€“write lock
+  classes can lock the outer SimpleReadWriteLock object.
+
+[source, java]
+---------------------------------------------------
+public class SimpleReadWriteLock implements ReadWriteLock {
+  int readers;
+  boolean writer;
+  Object lock;
+  Lock readLock, writeLock;
+  
+  public SimpleReadWriteLock(){
+    writer = false;
+    readers = 0;
+    lock = new Object();
+    readLock = new ReadLock();
+    writeLock = new WriteLock(); 
+  }
+  ...
+  class ReadLock implements Lock {
+   @Override
+    public void lock() {
+      synchronized (lock) {
+        try {
+          while(writer){
+            lock.wait();
+          }
+          readers++;;
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+      }
+    } 
+    @Override
+    public void unlock() {
+      synchronized (lock) {
+        readers--;
+        if(readers == 0)
+          lock.notifyAll();    
+      }
+  ...
+  protected class WriteLock implements Lock {
+  @Override
+    public void lock() {
+      synchronized (lock) {
+        try{
+          while(readers > 0 || writer){
+            lock.wait();
+          }
+          writer = true;
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        } 
+      }
+    }
+    
+    @Override
+    public void unlock() {
+      synchronized (lock) {
+        writer = false;
+        lock.notifyAll();
+      }
+    }
+---------------------------------------------------
+
+
+Exercise 96
+-----------
+
+In the shared bathroom problem , there are two classes of threads, called male and female . There is a single bathroom resource that must be used in the following way: 1. Mutual exclusion: persons of opposite sex may not occupy the bathroom simultaneously, 2. Starvation-freedom: everyone who needs to use the bathroom eventually enters. The protocol is implemented via the following four procedures: enterMale() delays the caller until it is ok for a male to enter the bathroom, leaveMale() is called when a male leaves the bathroom, while enterFemale() and leaveFemale() do the same for females. For example, enterMale();  teeth.brush(toothpaste); leaveMale();
+
+1.Implement this class using locks and condition variables.
+
+[source, java]
+---------------------------------------------
+public class BathroomConditional {
+    Lock lck;
+  Condition conditional;
+  int amountOfMale,amountOfFemale;
+
+  public BathroomConditional(){
+    lck = new ReentrantLock();
+    conditional = lck.newCondition();
+    amountOfMale = 0;
+    amountOfFemale = 0;
+  }
+
+  public void enterMale(){
+    try{
+      lck.lock();
+    try {
+      while (amountOfFemale>0) {conditional.await();}
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+      amountOfMale++;
+      System.out.println("HOMENS: "+amountOfMale );
+    }finally{
+      lck.unlock();
+    }
+  }
+  public void enterFemale(){
+    try{
+      lck.lock();
+    try {
+      while (amountOfMale>0) {
+        
+        conditional.await();
+        }
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+      amountOfFemale++;
+      System.out.println("MULHERES: "+amountOfFemale);
+    }finally{
+      lck.unlock();
+    }
+  }
+  public void leaveMale(){
+    try{
+      lck.lock();
+      amountOfMale--;
+      conditional.signalAll();
+    }finally{
+      lck.unlock();
+    }
+  }
+  public void leaveFemale(){
+    try{
+      lck.lock();
+      amountOfFemale--;
+      conditional.signalAll();
+    }finally{
+      lck.unlock();
+    }
+  }
+}
+---------------------------------------------
+
+
+2.Implement this class using synchronized , wait() , notify() , and notifyAll() For each implementation, explain why it satisfies mutual exclusion and starvation-freedom.
+
+[source, java]
+----------------------------------------------
+public class BathroomSync {
+    volatile boolean areYouThere;
+  volatile int amountOfMale,amountOfFemale;
+  Object lock;
+  public BathroomSync(){
+    areYouThere = false;
+    lock = new Object();
+    amountOfMale = 0;
+    amountOfFemale = 0;
+  }
+
+  public void enterMale(){
+    synchronized (lock){
+      try {
+        while (areYouThere && (amountOfFemale>0)) {lock.wait();}
+      } catch (Exception e) {
+        e.printStackTrace();
+      }finally{areYouThere = true; amountOfMale++;}
+    }
+  }
+  public void enterFemale(){
+    synchronized (lock){
+      try {
+        while (areYouThere && (amountOfMale>0)) {lock.wait();}
+      } catch (Exception e) {
+        e.printStackTrace();
+      }finally{ areYouThere = true; amountOfFemale++;}
+    }
+  }
+  public void leaveMale(){
+    synchronized (lock){
+      try{
+        areYouThere = false;
+        amountOfMale--;
+        lock.notifyAll();
+      }catch (Exception e){
+        e.printStackTrace();
+      }
+    }
+  }
+  public void leaveFemale(){
+    synchronized (lock){
+      try{
+        areYouThere = false;
+        amountOfFemale--;
+        lock.notifyAll();
+      }catch (Exception e){
+        e.printStackTrace();
+      }
+    }
+  }
+}
+----------------------------------------------
+Com a classe BathroomSync é possível fazer com que pessoas do sexo estejam no banheiro. Para tal, foi utilizado o mecanismo de exclusão mútua do metodo synchronized através de lock intríseco e contadores que informam a quantidade de pessoas do mesmo sexo no lugar:
+----------------------------------------------
+...
+synchronized (lock){
+      try {
+        while (areYouThere && (amountOfFemale>0)) {lock.wait();}
+      } catch (Exception e) {
+        e.printStackTrace();
+      }finally{ areYouThere = true;}
+    }
+...
+----------------------------------------------
+
+A fim de suspender a operação da thread enquanto houver uma outra no " banheiro", foi criada a variável areYouThere (ver trecho sincronized).
+
+No momento que a thread "sai do banheiro", ela deve adquirir o lock intríseco de synchronized e informa a todas as threads suspensas que é hora de outra thread entrar em operação:
+----------------------------------------------
+ public void leaveMale(){
+    synchronized (lock){
+      try{
+        areYouThere = false;
+        amountOfMale--;
+        lock.notifyAll();
+      }catch (Exception e){
+        e.printStackTrace();
+      }
+    }
+  }
+  public void leaveFemale(){
+    synchronized (lock){
+      try{
+        areYouThere = false;
+        amountOfFemale--;
+        lock.notifyAll();
+      }catch (Exception e){
+        e.printStackTrace();
+      }
+    }
+  }
+----------------------------------------------
+
+Exercise 98
+-----------
+Consider an application with distinct sets of active and passive threads, where we want to block the passive threads until all active threads give
+permission for the passive threads to proceed. A CountDownLatch encapsulates a counter, initialized to be n , the number of active threads. When an active method is ready for the passive threads to run, it calls countDown() , which ecrements the counter. Each passive thread calls await() , which blocks the thread until the counter reaches zero. (See Fig. 8.16 .).
+
+image:jfsc_jrn4/CodeAMP98.png[]
+
+
+Provide a CountDownLatch implementation. Do not worry about reusing the
+CountDownLatch object.
+
+[source, java]
+----------------------------------------------
+public class CountDown {
+
+  public static void main(String args[]) {
+
+    final CountDownLatch latch = new CountDownLatch(3);
+    Service service1 = new Service("1000nomes.txt", latch);
+    Service service2 = new Service("11188nomes.txt", latch);
+    Service service3 = new Service("2000nomes.txt", latch);
+
+    service1.start();
+    service2.start();
+    service3.start();
+
+    try {
+      latch.await(); // main thread is waiting on CountDownLatch to finish
+
+      Integer total = service1.getCountWords() + service2.getCountWords() + service3.getCountWords();
+      System.out.println("Palavras: "+ total);
+
+
+      System.out.println("All services are up, Application is starting now");
+    } catch (InterruptedException ie) {
+      ie.printStackTrace();
+    }
+  }
+}
+
+class Service extends Thread {
+  private final String path;
+  private final CountDownLatch latch;
+  private Integer countWords;
+
+  public Service(String path, CountDownLatch latch) {
+    this.path = path;
+    this.latch = latch;
+    this.countWords = 0;
+  }
+
+  @Override
+  public void run() {
+    try {
+      for (String line : Files.readAllLines(Paths.get(path))) {
+        if(line.contains("palavra"))
+          countWords++;
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }finally{
+      latch.countDown();
+    }
+  }
+
+  public Integer getCountWords() {
+    return countWords;
+  }
+}
+----------------------------------------------

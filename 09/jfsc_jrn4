@@ -1,0 +1,53 @@
+Nome: Jose Fernando Santos de Carvalho
+      Josino Rodrigues Neto
+Trab: 9
+
+Exercícios 1 & 2
+jfsc_jrn4.zip
+
+Exercícios AMP
+85.
+Resposta:
+Levando em consideração que uma thread TA ja tenha adquirido o lock e uma outra TB ainda não tenha configurado tail para si,
+ o escalonador pode selecionar TA para execução até configurar-se a si mesmo como tail e em modo de contenda(true). Isso deixaria todas as threads em
+1. Wa(TAIL->QNODEa)
+2. Wb(TAIL->QNODEb)
+3. Wa(TAIL-QNODEa)
+
+Assim, tem-se a possibilidade de um deadlock;
+
+86.
+Resposta:
+  A primeira barreira assemelha-se ao exercício 1. O fato é que o lock
+  test-test-and-set é uma algorítmo que mantém na cache local a variável
+  usada para testar se é possível realizar o lock da classe. Assim, quando
+  operação atômica object.getAndSet(true) for executada, toda a bus será
+  organizada( chaches invalidados) de forma que terão de obter o último valor
+  da memória compartilhada.
+  No caso da segunda barreira nós teremos um array onde as caches das CPUs serão
+  invalidadas apenas quando a última thread do array identificar que sua antecessora
+  tem o valor 1 e seu valor for 1.
+  Teoricamente, a segunda barreira pode ser mais rápida por particionar cada elemento
+  do array. Assim, invalidando menos vezes que a barreira 1. No entanto, isso vai
+  depender muito da implementação.
+
+91.Resposta:
+Any testAndSet();
+
+public boolean isLocked(){
+		return state.get();
+	}
+
+
+spin lock The CLH queue lock, and The MCS queue lock.
+
+public boolean isLocked(){
+		try{
+      return tail.get().locked;
+    }catch(NullpointerException e){
+      e.printStackTrace();
+
+    }
+    return false;
+
+	}
