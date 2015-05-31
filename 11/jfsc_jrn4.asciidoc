@@ -1,0 +1,51 @@
+PP -Trabalho 11
+===============
+
+Jose Fernando <jfsc@cin.ufpe.br>;
+Josino Rodrigues <jrn4@cin.ufpe.br>
+
+
+Exercise 101
+------------
+Explain why the fine-grained locking algorithm is not subject to deadlock.
+
+  Resposta: Deadlock caracteriza-se pela dependência circular de um recurso compartilhado por threads. No caso do fine-grained locking, essa possibilidade é eliminada quando a aquisição das travas é sempre iniciada a partir do sentinela até o elemento final da lista (tail). Outra característica é a identidade dos elementos baseada em um hash único distribuído em ordem crescente até o final da lista.
+
+
+Exercise 102
+------------
+Explain why the fine-grained list's add() method is linearizable.
+
+  Resposta: Devido ao ponto de linearizabilidade (linha 7 e 13). As alterações só tem efeito após adquirir a trava do elemento com uma chave maior (hash). Após isso, as alterações causa efeito em todo o ecossistema de threads de forma consistente.
+
+image:jfsc_jrn4/fglinear.png["fine-grained list's add()"]
+
+
+
+Exercise 103
+------------
+Explain why the optimistic and lazy locking algorithms are not subject to deadlock.
+
+Exercise 105
+------------
+Provide the code for the contains() method missing from the fine-grained algorithm. Explain why your implementation is correct.
+
+Exercise 106
+------------
+Is the optimistic list implementation still correct if we switch the order in which add() locks the pred and curr entries?
+
+Exercise 108
+------------
+Show that in the optimistic algorithm, the add() method needs to lock only pred
+
+Exercise 110
+------------
+Would the lazy algorithm still work if we marked a node as removed simply by setting its next field to null ? Why or why not? What about the lock-free algorithm?
+
+Exercise 112
+------------
+Your new employee claims that the lazy list?s validation method ( Fig. 9.16 ) can be simplified by dropping the check that pred.next is equal to curr . After all, the code always sets pred to the old value of curr , and before pred.next can be changed, the new value of curr must be marked, causing the validation to fail. Explain the error in this reasoning.
+
+Exercise 115
+------------
+In the lock-free algorithm, if an add() method call fails because pred does not point to curr , but pred is not marked, do we need to traverse the list again from head in order to attempt to complete the call?
