@@ -9,14 +9,15 @@ Exercise 101
 ------------
 Explain why the fine-grained locking algorithm is not subject to deadlock.
 
-  Resposta: Deadlock caracteriza-se pela dependência circular de um recurso compartilhado por threads. No caso do fine-grained locking, essa possibilidade é eliminada quando a aquisição das travas é sempre iniciada a partir do sentinela até o elemento final da lista (tail). Outra característica é a identidade dos elementos baseada em um hash único distribuído em ordem crescente até o final da lista.
+**Resposta:** Deadlock caracteriza-se pela dependênciacircular de um recurso compartilhado por threads. No caso do fine-grained locking, essa possibilidade é eliminada quando a aquisição das travas é sempre iniciada a partir do sentinela até o elemento final da lista (tail).
+Outra característica é a identidade dos elementos baseada em um hash único distribuído em ordem crescente até o final da lista.
 
 
 Exercise 102
 ------------
 Explain why the fine-grained list's add() method is linearizable.
 
-  Resposta: Devido ao ponto de linearizabilidade (linha 7 e 13). As alterações só tem efeito após adquirir a trava do elemento com uma chave maior (hash). Após isso, as alterações causa efeito em todo o ecossistema de threads de forma consistente.
+**Resposta:** Devido a composição do ponto de linearização (linha 7 e 13). As alterações só tem efeito após adquirir a trava do elemento com uma chave maior (hash). Após isso, as alterações causam efeito em todo o ecossistema de threads de forma consistente.
 
 image:jfsc_jrn4/fglinear.png["fine-grained list's add()"]
 
@@ -26,17 +27,101 @@ Exercise 103
 ------------
 Explain why the optimistic and lazy locking algorithms are not subject to deadlock.
 
+**Resposta:** A abordagem dos 2 algorítmos garantem o progresso da mesma forma da fine-grained: A aquisição dos locks ocorre ao percorrer a lista a partir do sentinela.
+
+No entanto, mesmo a chamada de um contains() partindo do último elemento enquanto as demais threads particem do sentinela, ocasionaria um deadlock.
+
+Abaixo um exemplo de chamada com sucesso do método **add()**. Ela foi escolhida pelo pontos de linearização serem os mesmos:
+
+
+image:jfsc_jrn4/Exe103Add.png[]
+------------------
+TS= Thread partindo do sentinela
+TT= Thread partindo do tail
+Aq= Aquisição do Lock
+En= Indice de um elemento na lista a partir do E0(Sentinela)
+--
+//////////////////////////////////////////////////
+Partindo do princípio que a Lista tem 4 elementos
+(inclusive o sentinela e tail), observar o
+resultado da prova de acordo com a linha 9 da Fig do exercicio
+103
+/////////////////////////////////////////////////
+
+TS(AqE1)->TT(AqE2)
+TS(AqE2)->TT(AqE1)
+
+------------------
+
+
 Exercise 105
 ------------
 Provide the code for the contains() method missing from the fine-grained algorithm. Explain why your implementation is correct.
+
+[source,java]
+-------------------------
+1.public boolean contains(T item) {
+2.    Node last = null, pred = null, curr = null;
+3.    int key = item.hashCode();
+4.    head.lock();
+5.    try {
+6.      pred = head;
+7.      curr = pred.next;
+8.      curr.lock();
+9.      try {
+10.        while (curr.key < key) {
+11.          pred.unlock();
+12.          pred = curr;
+13.          curr = curr.next;
+14.          curr.lock();
+15.        }
+16.        return (curr.key == key);
+17.      } finally {
+18.        curr.unlock();
+19.      }
+20.    } finally {
+21.      pred.unlock();
+22.    }
+23.  }
+-------------------------
+No código provido, os pontos de linearização (linhas 8, 11 e 14) são iguais àqueles encontrados no método de adição 'add()'. Deste modo, seguem a mesma ordem de aquisição de locks ao percorrerem a lista a partir do sentinela.
 
 Exercise 106
 ------------
 Is the optimistic list implementation still correct if we switch the order in which add() locks the pred and curr entries?
 
+*Resposta:* Não. Uma outra thread pode chamar o `remove()` e uma dependência circular pode ser ocasionada.
+
+[source,java]
+-----------------------------------
+1. public boolean remove(T item) {
+2.   int key = item.hashCode();
+3.   while (true) {
+4.     Entry pred = this.head;
+5.     Entry curr = pred.next;
+6.     while (curr.key < key) {
+7.       pred = curr; curr = curr.next;
+8.     }
+9.     pred.lock(); curr.lock();//Ordem de aquisição inversa àquela proposta no método add();
+10.     try {
+11.       if (validate(pred, curr)) {
+12.         if (curr.key == key) {
+13.           pred.next = curr.next;
+14.           return true;
+15         } else {
+16.           return false;
+17.         }
+18.       }
+19.     } finally {
+20.       pred.unlock(); curr.unlock();
+21.     }
+22.   }
+23. }
+-----------------------------------
+
 Exercise 108
 ------------
-Show that in the optimistic algorithm, the add() method needs to lock only pred
+Show that in the optimistic algorithm, the add() method needs to lock only pred.
 
 Exercise 110
 ------------
