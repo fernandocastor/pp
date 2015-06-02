@@ -1,5 +1,5 @@
-﻿Programação Paralela - Trabalho 4
-=================================
+﻿Programação Paralela - Trabalho 10
+==================================
 
 Daker Fernandes <dakerfp@gmail.com>
 
