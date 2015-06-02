@@ -12,7 +12,6 @@ Explain why the fine-grained locking algorithm is not subject to deadlock.
 **Resposta:** Deadlock caracteriza-se pela dependênciacircular de um recurso compartilhado por threads. No caso do fine-grained locking, essa possibilidade é eliminada quando a aquisição das travas é sempre iniciada a partir do sentinela até o elemento final da lista (tail).
 Outra característica é a identidade dos elementos baseada em um hash único distribuído em ordem crescente até o final da lista.
 
-
 Exercise 102
 ------------
 Explain why the fine-grained list's add() method is linearizable.
@@ -123,13 +122,34 @@ Exercise 108
 ------------
 Show that in the optimistic algorithm, the add() method needs to lock only pred.
 
+*Resposta*: Com a remoção de curr.lock do método 'add()', ha um risco de alteração no 'pred.next()'. No entato, ha um método de avaliação 'validate()' que garante que mesmo havendo uma remoção, o sistema continua consistente.
+
+[source,java]
+------------------
+private boolean validate(Entry pred, Entry curr) {
+   Entry entry = head;
+   while (entry.key <= pred.key) {
+     if (entry == pred)
+       return pred.next == curr;//Nesse ponto pode-se identificar se pred.next foi removido ou não.
+     entry = entry.next;
+   }
+   return false;
+ }
+------------------
+
 Exercise 110
 ------------
 Would the lazy algorithm still work if we marked a node as removed simply by setting its next field to null ? Why or why not? What about the lock-free algorithm?
 
+*Resposta:* No caso do algoritmo Lazy, anular a flag 'marked' invalida o método 'validate()' e 'contains()' que dependem dessa marcação.
+
 Exercise 112
 ------------
 Your new employee claims that the lazy list?s validation method ( Fig. 9.16 ) can be simplified by dropping the check that pred.next is equal to curr . After all, the code always sets pred to the old value of curr , and before pred.next can be changed, the new value of curr must be marked, causing the validation to fail. Explain the error in this reasoning.
+
+*Resposta:* O funcionário deve pensar nas seguintes possibildiades:
+I) É possível que a Thread esteja percorendo elementos que já foram removidos. Assim, pred pode apontar para um elemento já removido
+II)É possível que um novo elemento seja adicionado antes do atual pred.next. Deste modo, a validação não teria o status correto.
 
 Exercise 115
 ------------
