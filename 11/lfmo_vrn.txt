@@ -1,0 +1,79 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Exercício 11
+; Alunos: Leonardo Fernandes Mendonça de Oliveira
+;         Victor Neri
+;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+Exercise 101. Explain why the fine-grained locking algorithm is not subject to deadlock.
+O algoritmo é livre de deadlock por que todos os métodos que acessam o Lock seguem um protocolo rigoroso.
+Primeiro ele solicita o o lock do nó anterior (pred) e só após conseguir este Lock ele solicita o Lock do 
+nó posterior(curr) ou seja, não há espera circular. 
+
+Exercise 102. Explain why the fine-grained list’s add() method is linearizable.
+O algoritmo fine-grained é linear porque garante que o resultado da execução do método add() seja mantido (como se a execução fosse sequencial).
+Se executarmos o sistema com duas Threads A e B, que adicionam respectivamente x e y. Independente da ordem de execução, as sequências vão sempre apresentar o mesmo resultado.
+Se uma Thread acessa os pontos de linearização de add, que ocorre nas linhas 7 e 13, nenhuma outra Thread pode alterar o nó. 
+Desta forma, é garantida que o nó sempre esteja com o valor mais recente.
+
+
+Exercise 103. Explain why the optimistic and lazy locking algorithms are not subject to deadlock.
+Porque todos os métodos (add(), contains(), remove()) obtém e liberam o lock de um nó sempre 
+na mesma ordem (pred -> curr), impossibilitando que 2 ou mais nós entrem em deadlock.
+
+Exercise 105. Provide the code for the contains() method missing from the finegrained algorithm. Explain why your implementation is correct.
+public boolean contains(T item) {
+	Node pred = null, curr = null;
+	int key = item.hashCode();
+	head.lock();
+	try {
+		pred = head;
+		curr = pred.next;
+		curr.lock();
+		try {
+			while (curr.key < key) {
+			  pred.unlock();
+			  pred = curr;
+			  curr = curr.next;
+			  curr.lock();
+			}
+			if (curr.key == key) {
+				return true;
+			}
+			return false;
+		} finally {
+		    curr.unlock();
+		}
+	} finally {
+	    pred.unlock();
+        }
+}
+
+
+
+Exercise 106. Is the optimistic list implementation still correct if we switch the order in which add() locks the pred and curr entries?
+106 – Não, se ocorrer uma chamada para o método add() com os locks em ordem invertida, o primeiro lock a ser adquirido será o curr, no entanto, se alguma outra thread chamar  simultaneamente o método remove() e adquirir o lock do item anterior, no caso o pred isto  impossibilitará que o método add() continue com a inserção, pois o mesmo ficará aguardando a liberação do lock do pred para adquiri-lo. Algo similar acontece com a thread que chamou o método remove(), pois a mesmo aguardará aiberação do lock em curr para continuar a remoção. Estes dois eventos se configuram em uma espera circular o que pode ocasionar um deadlock.
+
+
+Exercise 108. Show that in the optimistic algorithm, the add() method needs to lock only pred.
+108 – Quando uma thread adquire o lock de pred no método add() ela bloqueia o acesso aos item seguintes o que garante que os elementos seguintes não serão modificados a partir deste momento. Mas caso uma thread tenha passado pelo pred enquanto fazia a busca e adquirido um lock em curr, fazendo modificações neste bloco enquanto o lock de pred era adquirido, o método validate() retornará false o que significa a existência de alguma inconsistência. Neste caso o método add()  tentará novamente a operação até que seu sucesso seja garantido.
+
+
+Exercise 110. Would the lazy algorithm still work if we marked a node as removed simply by setting its next field to null? Why or why not? What about the lock-free algorithm?
+110 – Não, o algoritmo Lazy não funcionará, pois se tentarmos remover um nó da lista apenas definindo o campo next deste nó como null, perderíamos a referência dos próximos nós da lista, o que impossibilitaria o acesso aos mesmos. Se for feita uma tentativa de acesso ao próximo nó da lista, provavelmente, resultaria em Null Pointer Exception.
+
+Exercise 112. Your new employee claims that the lazy list’s validation method (Fig. 9.16) can be simplified by dropping the check that pred.next is equal to
+curr . After all, the code always sets pred to the old value of curr, and before pred.next can be changed, the new value of curr must be marked, causing the 
+validation to fail. Explain the error in this reasoning.
+112 – Se a verificação pred.next == curr for descartada isto possibilita o a remoção errada de um item que acabou de ser adicionado. O exemplo dado em sala de aula explicou muito bem esta situação, suponha a seguinte lista:
+  Head -> A -> B -> D -> Tail
+
+Se tentarmos inserir X entre A e B enquanto removemos B aconteceria a remoção indesejada de X, pois o next de X seria B e o next de A passaria a ser D. Neste caso o X também vai ser removido, pois perderá a referência para os demais blocos da lista quando B for removido. 
+
+
+Exercise 115. In the lock-free algorithm, if an add() method call fails because pred does not point to curr, but pred is not marked, do we need to traverse the list
+again from head in order to attempt to complete the call?
+115 – Não, como a lista é crescente e ordenada é desnecessário percorre—lá novamente desde a cabeça, pois o pred é maior que todos os elementos anteriores e menor que o elemento que se quer inserir, sendo assim basta apenas verificar a partir dele.
+
+
