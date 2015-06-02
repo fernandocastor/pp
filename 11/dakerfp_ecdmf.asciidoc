@@ -1,0 +1,48 @@
+﻿Programação Paralela - Trabalho 4
+=================================
+
+Daker Fernandes <dakerfp@gmail.com>
+
+Emiliano Firmino <emiliano.firmino@gmail.com>
+
+Questão:
+--------
+
+[start=101]
+101. Explain why the fine-grained locking algorithm is not subject to deadlock.
+
+[start=102]
+102. Explain why the fine-grained list's +add()+ method is linearizable.
+
+[start=103]
+103. Explain why the optimisitc and lazy locking algorithms are not subject to
+deadlock.
+
+[start=105]
+105. Provide the code for +contains()+ method missing from the fine-grained
+algorithm. Explain why your implementation is correct.
+
+[start=106]
+106. Is the optimisitc list implementation still correct if we switch the order
+in which +add()+ locks the +pred+ and +curr+ entries?
+
+[start=108]
+108. Show that in the optimisitc algorithm, the +add()+ method needs to lock
+only +pred+.
+
+[start=110]
+110. Would the lazy algorithm still work if we marked a node as removed simply
+by setting its next filed to null? Why or why not? What about the lock-free
+algorithm.
+
+[start=102]
+112. Your new employee claims that the lazy list's validation method (Fig 9.16)
+can be simplified by dropping the check that +pred.next+ is equal to +curr+.
+After all, the code always sets +pred+ to the old value of +curr+, and before
++pred.next+ can be changed, the new value of +curr+ must be marked, causing
+validation to fail. Explain the error in this reasoning.
+
+[start=105]
+115. In the lock-free algorithm, if an +add()+ method call fails because
++pred+ does not point to +curr+, but +pred+ is not marked, do we need to
+traverse the list again from head in order to attempt to complete the call?
