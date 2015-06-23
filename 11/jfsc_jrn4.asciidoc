@@ -147,7 +147,9 @@ Exercise 112
 ------------
 Your new employee claims that the lazy list?s validation method ( Fig. 9.16 ) can be simplified by dropping the check that pred.next is equal to curr . After all, the code always sets pred to the old value of curr , and before pred.next can be changed, the new value of curr must be marked, causing the validation to fail. Explain the error in this reasoning.
 
-*Resposta:* O funcionário deve pensar nas seguintes possibildiades:
+*Resposta:* Fig. 9. 15O
+
+funcionário deve pensar nas seguintes possibildiades:
 I) É possível que a Thread esteja percorendo elementos que já foram removidos. Assim, pred pode apontar para um elemento já removido
 II)É possível que um novo elemento seja adicionado antes do atual pred.next. Deste modo, a validação não teria o status correto.
 
