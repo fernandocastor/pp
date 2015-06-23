@@ -15,13 +15,13 @@ class BoudedQueue {
 	std::mutex enqLock, deqLock;
 	std::condition_variable_any notEmptyCondition, notFullCondition;
 	std::atomic<int> size;
-	Node<int> *node;
+	Node<T> *node;
 	volatile int head, tail;
 	int capacity;
 
 public:
 	BoudedQueue( int capacity ) {
-		node = new Node<int>[capacity];
+		node = new Node<T>[capacity];
 		this->capacity = capacity;
 		head = 0; tail = -1;
 		size.store(0, std::memory_order_seq_cst);
