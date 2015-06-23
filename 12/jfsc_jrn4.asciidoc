@@ -1,0 +1,67 @@
+PP -Trabalho 12
+===============
+
+Jose Fernando <jfsc@cin.ufpe.br>;
+Josino Rodrigues <jrn4@cin.ufpe.br>
+
+
+Exercise 120
+------------
+**Resposta:** Apesar do algorítmo ser simétrico, a ordem do programa não garante que as operações load e store irão ocorrer de acordo com a ordem codificada. Portanto, é necessário inserir barreira de memória, já que não são utilizadas operações atômicas.
+[source,java]
+----------------
+...
+public void enq(T x){
+  while (tail - head == items.length) {};
+  //barreira
+  items[tail % items.length] = x;
+  tail++;
+}
+
+public void deq(){
+  while (tail - head == 0) {};
+  //barreira
+  Object x = items[head % items.length];
+  head++;
+  return x;
+}
+----------------
+Caso as barreiras não estivessem nos locais sugeridos, não haveria garantia que o spin seria realizado na ordem correta. Ou seja, poderíamos realizar o spin em um passo diferente do 1 ocasionando em uma inconsistência e falta de linearizabilidade no código.
+
+
+Exercise 121
+------------
+**Resposta:** O problema é gerenciar o array. O uso de 2 locks auxiliam, mas lidar com Head e Tail sem lock é um desafio interessante.
+
+codigo: jfsc_jrn.zip[Trabalho12BoundedLock]
+
+
+
+Exercise 122
+------------
+**Resposta:** Sim, caso contrário a escrita concorrente do head traria inconsistência no resultado.
+
+[source,java]
+------------------
+...
+//O problema está nas linhas abaixo. As threads podem sobrepor-se e causar inconsistência no resultado final.
+18. result = head.next.value;
+19. head.next;
+...
+------------------
+
+
+
+Exercise 123
+------------
+**Resposta:**
+
+codigo: jfsc_jrn.zip[Trabalho12Dante]
+
+Exercise 124
+------------
+**Resposta:**
+
+I) Sim, se o método retorna um valor, então seu ponto de linearização ocorre quando é executado o compareAndSet() da linha  39, caso contrário é linearizado na linha 33.
+
+II) sim, um enq() realizado com sucesso é linearizado no instante onde a thread em execução (ou uma thread "auxiliador") chama o compareAndSet() para redirecionar o **tail** para o novo nó (linha 21).
