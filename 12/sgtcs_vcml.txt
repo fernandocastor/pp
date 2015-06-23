@@ -1,0 +1,195 @@
+Silas Garrido - sgtcs@cin.ufpe.br
+Vinicius Lira - vcml@cin.ufpe.br
+
+Exercise 120. Consider the simple lock-free queue for a single enqueuer and a single
+dequeuer, described earlier in Chapter 3. The queue is presented in Fig. 10.20. A Lock-free FIFO queue with
+
+class TwoThreadLockFreeQueue<T> {
+	int head = 0, tail = 0;
+ 	T[] items;
+
+public TwoThreadLockFreeQueue(int capacity) {
+ 	head = 0; tail = 0;
+ 	items = (T[]) new Object[capacity];
+}
+
+public void enq(T x) {
+	while (tail - head == items.length) {};
+	#memory barrier  
+	items[tail % items.length] = x;
+	tail++;
+	#memory barrier 	
+}
+
+public Object deq() {
+	while (tail - head == 0) {};
+	#memory barrier
+ 	Object x = items[head % items.length];
+	head++;
+	#memory barrier
+ 	return x;
+ 	}
+}
+
+This queue is blocking, that is, removing an item from an empty queue or inserting an item to a full one causes the threads to block (spin). 
+The surprising thing about this queue is that it requires only loads and stores and not a more powerful read–modify–write synchronization operation. 
+Does it however require the use of a memory barrier? 
+If not, explain, and if so, where in the code is such a barrier needed and why?
+
+Revisão Memory barrier:
+
+Chapter 3.4 Pag.: 53
+In most modern multiprocessor architectures, memory reads and writes are
+not sequentially consistent: they can be typically reordered in complex ways.Most
+of the time no one can tell, because the vast majority of reads–writes are not used
+for synchronization. In those specific cases where programmers need sequential
+consistency, they must ask for it explicitly. The architectures provide special
+instructions (usually called memory barriers or fences) that instruct the processor
+to propagate updates to and from memory as needed, to ensure that reads and
+writes interact correctly.
+
+Chapter 7.1 Pag.: 144
+Not surprisingly, memory barriers are expensive, about as expensive
+as an atomic compareAndSet() instruction, so we want to minimize their use.
+In fact, synchronization instructions such as getAndSet() or compareAndSet()
+described in earlier chapters include a memory barrier on many architectures, as
+do reads and writes to volatile fields.
+
+Resposta:
+Sim, visto que o memory barrier garante a consitencia sequencial de execução de um código, 
+nesse caso se torna necessário para evitar alterações indevidas na lista no momento em que a thread localiza a posição onde deve 
+inserir/remover o elemento. As instruções indicadas no código não podem ser executadas fora de ordem. 
+
+
+
+
+
+
+
+
+
+
+Exercise 121. Design a bounded lock-based queue implementation using an array instead of a linked list.
+1. Allow parallelism by using two separate locks for head and tail.
+ * class11_BoudedQueue.h
+2. Try to transform your algorithm to be lock-free. Where do you run into difficulty?
+ * O principal problema é controlar as inserções/remoções quando a fila está cheio/vazia. Como colocar uma thread em modo de espera depende das travas, uma solução alternativa para essa tarefa deve ser encontrada. Usar outras estruturas de dados para armazenar as threads em espera é uma possível solução, entretanto, o grande problema é como colocar as threads para entrarem em modo de espera e como fazer que elas retornem às situações em que foram interrompidas.
+
+
+
+
+
+
+
+
+
+Exercise 122. Consider the unbounded lock-based queue’s deq() method in Fig. 10.8.
+Is it necessary to hold the lock when checking that the queue is not empty? Explain.
+
+11 public T deq() throws EmptyException {
+12 T result;
+13 deqLock.lock();
+14 try {
+15 if (head.next == null) {
+16 throw new EmptyException();
+17 }
+18 result = head.next.value;
+19 head = head.next;
+20 } finally {
+21 deqLock.unlock();
+22 }
+23 return result;
+24 }
+Figure 10.8 The UnboundedQueue<T> class: the deq() method.
+
+Resposta:
+Sim.
+É necessário obter o lock para evitar ocorrer NullPointerException.
+Tal situação pode ocorrer caso só tenha 1 elemento na lista e mais de uma thread tenta removê-lo.
+
+
+
+
+
+
+
+
+
+Exercise 123. In Dante’s Inferno, he describes a visit to Hell. In a very recently discovered chapter, he encounters five people sitting at a table with a pot of stew in the middle. Although each one holds a spoon that reaches the pot, each spoon’s handle is much longer than each person’s arm, so no one can feed him- or herself. They are famished and desperate.
+Dante then suggests “why do not you feed one another?”
+The rest of the chapter is lost.
+1. Write an algorithm to allow these unfortunates to feed one another. Two or more people may not feed the same person at the same time. Your algorithm must be, well, starvation-free.
+ * class11_Dante.cpp
+2. Discuss the advantages and disadvantages of your algorithm. Is it centralized, decentralized, high or low in contention, deterministic or randomized?
+ * Foi utilizada uma lista circular na qual todos alimentam seus sucessores e são alimentados pelos seus antecessores. Como todos podem pegar comida ao mesmo tempo, o algoritmo será descentralizado, sem contenção e deterministico. Não existirá espera para que as pessoas se alimentem.
+
+
+
+
+
+
+
+
+
+Exercise 124. Consider the linearization points of the enq() and deq() methods of the lock-free queue:
+
+1. Can we choose the point at which the returned value is read from a node as the linearization point of a successful deq()?
+
+26 public T deq() throws EmptyException {
+27 while (true) {
+28 	Node first = head.get();
+29 	Node last = tail.get();
+30 	Node next = first.next.get();
+31 	if (first == head.get()) {
+32 		if (first == last) {
+33 			if (next == null) {
+34 				throw new EmptyException();
+35 			}
+36 			tail.compareAndSet(last, next);
+37 		} else {
+38 		T value = next.value;
+39 		if (head.compareAndSet(first, next))
+40 			return value;
+41 		}
+42 	}
+43 }
+44 }
+Figure 10.11 The LockFreeQueue<T> class: the deq() method.
+
+Revisão: 
+Linearization point, a single atomic step where the method call “takes
+effect.” This step can be a read, a write, or a more complex atomic operation.
+To simplify matters, we follow the convention (for now)
+that the linearization point for any method call that acquires a lock is the instant
+the lock is acquired.
+
+Resposta:
+O ponto onde o valor de retorno é lido de um nó é a linha 38.
+Porém não seria correto declarar a linha 38 como sendo o ponto de linealização, pois não é o ponto em que a operação tem efeito.
+A linha seguinte também é importante para manutenção da fila.
+
+2. Can we choose the linearization point of the enq() method to be the point at which the tail field is updated, 
+possibly by other threads (consider if it is within the enq()’s execution interval)? Argue your case.
+
+9 public void enq(T value) {
+10 Node node = new Node(value);
+11 while (true) {
+12 	Node last = tail.get();
+13 	Node next = last.next.get();
+14 	if (last == tail.get()) {
+15 			if (next == null) {
+16 				if (last.next.compareAndSet(next, node)) {
+17 					tail.compareAndSet(last, node);
+18 					return;
+19 				}
+20 				} else {
+21 					tail.compareAndSet(last, next);
+22 				}
+23 			}
+24 	}
+25 }
+Figure 10.10 The LockFreeQueue<T> class: the enq() method.
+
+Resposta:
+Sim, a execução do método tem efeito nas linhas 17 e 21 onde o campo de tail é alterado para o novo nó. 
+A partir desse ponto a alteração na lista é visivel para as outras threads.
