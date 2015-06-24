@@ -12,7 +12,7 @@ Questão:
 single dequeuer, described earlier in Chapter 3. The queue is
 presented below.
 
-[source, java]
+[source, java, numbered]
 --------------
 class TwoThreadLockFreeQueue<T> {
   int head = 0, tail = 0;
@@ -40,10 +40,14 @@ class TwoThreadLockFreeQueue<T> {
 
 This queue is blocking, that is, removing an item from an empty queue or
 inserting an item to a full one causes the threads to block (spin). The
-surprising thing about this queue is that it requires only loads and stores
-and not a more powerful read-modify-write synchronization operation. Does it
-however require the use of a memory barrier? If not, explain, and if so, where in the code
-is such barrier needed and why?
+surprising thing about this queue is that it requires only loads and stores and
+not a more powerful read-modify-write synchronization operation. Does it
+however require the use of a memory barrier? If not, explain, and if so, where
+in the code is such barrier needed and why?
+
+Nos métodos +enq()+ e +deq()+ logo abaixo do incremento de +head+ e +tail+ de forma
+a propagar a alteração do atributo para a memória assim outras threads terem seus
+valores atualizados.
 
 [start=121]
 121. Design a bounded lock-based queue implementation using an array instead of a linked list.
