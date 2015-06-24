@@ -1,9 +1,8 @@
 ﻿Programação Paralela - Trabalho 10
 ==================================
 
-Daker Fernandes <dakerfp@gmail.com>
-
-Emiliano Firmino <emiliano.firmino@gmail.com>
+- Daker Fernandes <dakerfp@gmail.com>
+- Emiliano Firmino <emiliano.firmino@gmail.com>
 
 Questão:
 --------
@@ -12,6 +11,8 @@ Questão:
 93. Reimplement the SimpleReadWriteLock class using Java *syncronized*,
 +wait()+, +notify()+, and +notifyAll()+ constructs in place of explicit locks
 and conditions.
+
+link:dakerfp_ecdmf/SimpleReadWriteLock.java[]
 
 Hint: you must figure out how methods of the inner read-write lock classes can
 lock the outer SimpleReadWriteLock object
@@ -41,9 +42,25 @@ leaveMale();
 [start=1]
 1. Implement this class using locks and conditional variables.
 
-2. Implement this class using *syncronized*, +wait()+, +notify()+, and +notifyAll()+.
+link:dakerfp_ecdmf/Bathroom.java[]
 
-For each implementation, explain why its satisfies mutual exclusion and Starvation
+- Na definição não é obrigatório que seja possível mais de um homem ou mulher entre no
+banheiro então optou-se por implementar lock simples onde apenas uma __pessoa__ possa
+entrar na zona crítica e a próxima é escolhida via fifo.
+
+- Somente uma pessoa pode entrar no banheiro por vez, portanto satisfaz a exclusão mútua
+entre sexos.
+
+- A ordem de chegada ao lock é preservada, dado que quem adiquire o lock em algum momento
+vai liberá-lo, sempre o próximo irá adquirir o lock portanto satisfaz o starvation-freedom.
+
+2. Implement this class using *synchronized*, +wait()+, +notify()+, and +notifyAll()+.
+
+link:dakerfp_ecdmf/Bathroom2.java[]
+
+- Mesmo protocolo que foi usado na implementação por locks e conditional variables.
+
+For each implementation, explain why its satisfies mutual exclusion and starvation
 freedom.
 
 [start=98]
@@ -58,3 +75,5 @@ it calls +countDown()+, which decrement the counter. Each passive thread calls
 
 Provide a +CountDownLatch+ implementation. Do not worry about reusing the
 +CountDownLatch+ object.
+
+link:dakerfp_ecdmf/CountDownLatch.java[]
