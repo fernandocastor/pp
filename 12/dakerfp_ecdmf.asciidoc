@@ -110,6 +110,11 @@ class ArrayUnboundedQueue<T> {
 122. Consider the unbounded lock-based queue's +deq()+ method in Fig. 10.8. Is it necessary
 to hold the lock when checking that the queue is not empty? Explain.
 
+Sim, é necessário.
+Caso contrário é possível que uma thread A ao chegar à linha 19 enquanto uma thread B verifica
+que é possível (head.next != null). Em seguida a thread A remove o último elemento e a thread B
+tenta remover o elemento sentinela.
+
 [start=123]
 123. In Dante's Inferno, he describes a visit to Hell. In a very recently discovered chapter,
 he encounters five people sitting at a table with a pot of stew in the middle. Although each
