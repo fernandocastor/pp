@@ -58,6 +58,12 @@ link:dakerfp_ecdmf/BoundedQueue.java[]
 
 II) Try to transform you algorithm to be lock-free. Where do you run into difficulty?
 
+link:dakerfp_ecdmf/LockFreeBoundedQueue.java[]
+
+A dificuldade é definir os critérios onde os índices são válidos para serem lidos ou escritos.
+Tivemos que adicionar mais duas variáveis atômicas: a primeira representando quantos elementos
+ainda podem ser inseridos; a segunda representa quais os indíces válidos para a leitura.
+
 [start=122]
 122. Consider the unbounded lock-based queue's +deq()+ method in Fig. 10.8. Is it necessary
 to hold the lock when checking that the queue is not empty? Explain.
