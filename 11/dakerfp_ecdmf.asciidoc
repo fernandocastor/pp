@@ -1,9 +1,8 @@
 ﻿Programação Paralela - Trabalho 11
 ==================================
 
-Daker Fernandes <dakerfp@gmail.com>
-
-Emiliano Firmino <emiliano.firmino@gmail.com>
+- Daker Fernandes <dakerfp@gmail.com>
+- Emiliano Firmino <emiliano.firmino@gmail.com>
 
 Questão:
 --------
