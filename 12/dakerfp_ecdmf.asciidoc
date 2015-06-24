@@ -53,6 +53,9 @@ valores atualizados.
 121. Design a bounded lock-based queue implementation using an array instead of a linked list.
 
 I) Allow parallelism by using two separate locks for head and tail.
+
+link:dakerfp_ecdmf/BoundedQueue.java[]
+
 II) Try to transform you algorithm to be lock-free. Where do you run into difficulty?
 
 [source, java, numbered]
@@ -130,12 +133,41 @@ may not feed the same person at the same time. Your algorithm must be, well, sta
 II) Discuss the advantage and disavantage of your algorithm. Is it centralized, decentralized,
 high or low in contention, determistic or randomized?
 
+Uma solução para o problema é que cada um alimente o próximo a direita, dessa
+forma nunca uma das pessoas será alimentada por duas pessoas ao mesmo tempo
+dado.
+
+[source, c]
+----
+#define N 5
+
+HungerPerson people[N];
+
+void feed_next(int id) {
+    int next = (id + 1) / N;
+    for (;;) {
+        people[next].feed();
+    }
+}
+----
+
+A vantagem é cada uma das pessoas estará alimentada sempre que precisar. A
+solução é descentralizada dado que a decisão de quem alimentar é feita
+independentemente, apresenta baixa conteção e é não deterministico.
+
 [start=124]
 124. Consider the linearization points of the +enq()+ and +deq()+ methods of the lock-free queue:
 
 I) Can we choose the point at which the returned value is read from a note as the linearization
 point of succesful +deq()+?
 
+Não, porque o ponto de linearização é onde a memória é alterada por a efeito
+colateral da chamada de função ou atribuição de valor. Portanto o ponto de
+linearização é quando é chamado o compareAndSet para alterar a fila.
+
 II) Can we choose the linearization points of the +enq()+ method to be the point at which the +tail+
-field is updated, possibly by other therads (consider if it is with the +enq()+'s execution interval)?
+field is updated, possibly by other theards (consider if it is with the +enq()+'s execution interval)?
 Argue your case.
+
+Sim, a atualização do atributo +field+ é o ponto de linearização de +enq()+ que altera a memória
+e assim sendo necessário propagar as alterações as outras CPUs.
