@@ -1,6 +1,8 @@
-﻿Programação Paralela - Trabalho 5
+﻿Programação Paralela - Trabalho 6
 =================================
-Daker Fernandes <dakerfp@gmail.com>; Emiliano Firmino <emiliano.firmino@gmail.com>
+
+- Daker Fernandes <dakerfp@gmail.com>
+- Emiliano Firmino <emiliano.firmino@gmail.com>
 
 Questão:
 --------
