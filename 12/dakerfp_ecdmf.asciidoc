@@ -58,57 +58,6 @@ link:dakerfp_ecdmf/BoundedQueue.java[]
 
 II) Try to transform you algorithm to be lock-free. Where do you run into difficulty?
 
-[source, java, numbered]
---------------
-class ArrayUnboundedQueue<T> {
-  Lock lockHead, lockTail;
-  Condition notEmpty;
-  Condition notFull;
-  int head = 0, tail = 0;
-  T[] items;
-
-  public ArrayUnboundedQueue(int capacity) {
-    head = 0; tail = 0;
-    lockHead = new ReentrantLock();
-    lockTail = new ReentrantLock();
-    notEmpty = lockHead.newCondition();
-    notFull = lockTail.newCondition();
-    items = (T[]) new Object[capacity];
-  }
-
-  public void enq(T x) {
-    tailLock.lock();
-    try {
-      while (tail - head == items.length) {
-        notFull.await();
-      }
-      items[tail % items.length] = x;
-      tail++;
-      if (tail - head == 1)
-        notEmpty.signal();
-    } finally {
-      tailLock.unlock();
-    }
-  }
-
-  public Object deq() {
-    headLock.lock();
-    try {
-      while (tail - head == 0) {
-        notEmpty.await();
-      }
-      Object x = items[head % items.length];
-      head++;
-      if (tail - head == items.length - 1)
-        notFull.signal();
-      return x;
-    } finally {
-      headLock.unlock();
-    }
-  }
-}
---------------
-
 [start=122]
 122. Consider the unbounded lock-based queue's +deq()+ method in Fig. 10.8. Is it necessary
 to hold the lock when checking that the queue is not empty? Explain.
