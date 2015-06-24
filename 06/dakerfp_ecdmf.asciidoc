@@ -31,10 +31,10 @@ e gerado um ranking com as dez palavras mais utilizadas nele.
 Fontes:
 ^^^^^^^
 
-* link:Sequencial[topn_lite.cpp]
-* link:Paralelo_Shell[parallel.sh]
-* link:Paralelo_Fork[topn_lite2.cpp]
-* link:Paralelo_Thread[topn_lite3.cpp]
+* link:Sequencial[daker_ecdmf/topn_lite.cpp]
+* link:Paralelo_Shell[daker_ecdmf/parallel.sh]
+* link:Paralelo_Fork[daker_ecdmf/topn_lite2.cpp]
+* link:Paralelo_Thread[daker_ecdmf/topn_lite3.cpp]
 
 Execução:
 ^^^^^^^^^
