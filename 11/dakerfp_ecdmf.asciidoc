@@ -99,3 +99,6 @@ respeitada como suposto pelo funcionário.
 115. In the lock-free algorithm, if an +add()+ method call fails because
 +pred+ does not point to +curr+, but +pred+ is not marked, do we need to
 traverse the list again from head in order to attempt to complete the call?
+
+Não, basta fazer uma busca partindo do nó atual porque temos a ordem crescente do
+hash como invariante.
