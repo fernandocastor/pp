@@ -90,6 +90,11 @@ After all, the code always sets +pred+ to the old value of +curr+, and before
 +pred.next+ can be changed, the new value of +curr+ must be marked, causing
 validation to fail. Explain the error in this reasoning.
 
+No interim da leitura e da validação outros elementos podem ter sido removidos
+por outras threads e o ponteiro leria posições inválidas. Há também a possibilidade 
+de outros elementos terem sido adicionados antes, logo essa invariante não seria 
+respeitada como suposto pelo funcionário.
+
 [start=115]
 115. In the lock-free algorithm, if an +add()+ method call fails because
 +pred+ does not point to +curr+, but +pred+ is not marked, do we need to
