@@ -1,0 +1,104 @@
+﻿Programação Paralela - Trabalho 11
+==================================
+
+- Daker Fernandes <dakerfp@gmail.com>
+- Emiliano Firmino <emiliano.firmino@gmail.com>
+
+Questão:
+--------
+
+[start=101]
+101. Explain why the fine-grained locking algorithm is not subject to deadlock.
+
+Usando __fine-grained locking__ os recursos do objeto são individualmente
+protegidos por __locks__ diferentes. Qualquer alteração em um dos recursos não
+interfere no __lock__ de outro recurso portanto como cada um é independente do
+outro não existe risco de deadlock.
+
+[start=102]
+102. Explain why the fine-grained list's +add()+ method is linearizable.
+
+O __lock__ é limitado ao item atual que está traversando permitindo que mais de
+um thread acesse a lista concorrentemente desde que não estejam no mesmo item
+da lista.
+
+[start=103]
+103. Explain why the optimistic and lazy locking algorithms are not subject to
+deadlock.
+
+Ambas as estratégias somente alteram quando os __locks__ são adquiridos,
+e exploram otimização na qual o __lock__ é adquirido o mais tardar
+possível.
+
+[start=105]
+105. Provide the code for +contains()+ method missing from the fine-grained
+algorithm. Explain why your implementation is correct.
+
+[source,java]
+---------------
+public boolean contains(T item) {
+    int key = item.hashCode();
+    head.lock();
+    Node pred = head;
+    try {
+        Node curr = pred.next;
+        curr.lock();
+        try {
+            while (curr.key < key) {
+                pred.unlock();
+                pred = curr;
+                curr = curr.next();
+                curr.lock();
+            }
+            return curr.key == key;
+        } finally {
+            curr.unlock();
+        }
+    } finally {
+        pred.unlock();
+    }
+}
+---------------
+
+[start=106]
+106. Is the optimistic list implementation still correct if we switch the order
+in which +add()+ locks the +pred+ and +curr+ entries?
+
+Ordem dos locks não aparenta afetar a corretude dado a validação verifica
+se houve mudança.
+
+[start=108]
+108. Show that in the optimistic algorithm, the +add()+ method needs to lock
+only +pred+.
+
++pred+ é o único dos nodes que é alterado durante o +add()+, pois o +pred+ aponta
+para o próximo node na lista. consequentemente este o único necessário sincronizar
+durante a adição de um novo node.
+
+[start=110]
+110. Would the lazy algorithm still work if we marked a node as removed simply
+by setting its next filed to null? Why or why not? What about the lock-free
+algorithm.
+
+Não, se apenas marcar o next como null, caso exista uma thread percorrendo o a
+lista esteja no elemento que foi removido ela causará NullPointerException.
+
+[start=112]
+112. Your new employee claims that the lazy list's validation method (Fig 9.16)
+can be simplified by dropping the check that +pred.next+ is equal to +curr+.
+After all, the code always sets +pred+ to the old value of +curr+, and before
++pred.next+ can be changed, the new value of +curr+ must be marked, causing
+validation to fail. Explain the error in this reasoning.
+
+No interim da leitura e da validação outros elementos podem ter sido removidos
+por outras threads e o ponteiro leria posições inválidas. Há também a possibilidade 
+de outros elementos terem sido adicionados antes, logo essa invariante não seria 
+respeitada como suposto pelo funcionário.
+
+[start=115]
+115. In the lock-free algorithm, if an +add()+ method call fails because
++pred+ does not point to +curr+, but +pred+ is not marked, do we need to
+traverse the list again from head in order to attempt to complete the call?
+
+Não, basta fazer uma busca partindo do nó atual porque temos a ordem crescente do
+hash como invariante.

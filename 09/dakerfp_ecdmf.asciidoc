@@ -235,7 +235,7 @@ does not acquire the lock). Give implementation for
 public class TASLock implements java.util.concurrent.locks.Lock {
     private AtomicBoolean state = new AtomicBoolean(false);
     // ...
-    boolean isLocked() {
+    public boolean isLocked() {
         return state.get();
     }
     // ...
@@ -248,7 +248,7 @@ public class TASLock implements java.util.concurrent.locks.Lock {
 public CLHLock implements java.util.concurrent.locks.Lock {
     private AtomicReference<QNode> tail = new AtomicReference<QNode>(null);
     // ...
-    boolean isLocked {
+    public boolean isLocked {
         QNode node = tail.get();
         return node != null && node.locked;
     }
@@ -262,7 +262,7 @@ public CLHLock implements java.util.concurrent.locks.Lock {
 public MCSLock implements java.util.concurrent.locks.Lock {
     private AtomicReference<QNode> tail = new AtomicReference<QNode>(null);
     // ...
-    boolean isLocked {
+    public boolean isLocked {
         QNode node = tail.get();
         return node != null && node.locked;
     }

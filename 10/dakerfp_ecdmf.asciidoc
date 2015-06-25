@@ -1,0 +1,79 @@
+﻿Programação Paralela - Trabalho 10
+==================================
+
+- Daker Fernandes <dakerfp@gmail.com>
+- Emiliano Firmino <emiliano.firmino@gmail.com>
+
+Questão:
+--------
+
+[start=93]
+93. Reimplement the SimpleReadWriteLock class using Java *syncronized*,
++wait()+, +notify()+, and +notifyAll()+ constructs in place of explicit locks
+and conditions.
+
+link:dakerfp_ecdmf/SimpleReadWriteLock.java[]
+
+Hint: you must figure out how methods of the inner read-write lock classes can
+lock the outer SimpleReadWriteLock object
+
+[start=96]
+96. In the __shared bathroom problem__, there are two classes of threads,
+called __male__ and __female__. There is a single __bathroom__ resource that
+must be used in the following way:
+
+[start=1]
+1. Mutual exclusion: persons of opposite sex may not occupy the bathroom
+simultaneously,
+
+2. Starvation-freedom: everyone who needs to use the bathroom eventually enters.
+
+The protocol is implemented via the following four procedures: +enterMale()+
+delays the caller until it is ok for a male to enter the bathroom, +leaveMale()+ is
+called when a male leaves the bathroom while +enterFemale()+ and +leaveFemale()+ do
+the same for females. For example,
+
+-------------------
+enterMale();
+teeth.brush(toothpaste);
+leaveMale();
+-------------------
+
+[start=1]
+1. Implement this class using locks and conditional variables.
+
+link:dakerfp_ecdmf/Bathroom.java[]
+
+- Na definição não é obrigatório que seja possível mais de um homem ou mulher entre no
+banheiro então optou-se por implementar lock simples onde apenas uma __pessoa__ possa
+entrar na zona crítica e a próxima é escolhida via fifo.
+
+- Somente uma pessoa pode entrar no banheiro por vez, portanto satisfaz a exclusão mútua
+entre sexos.
+
+- A ordem de chegada ao lock é preservada, dado que quem adiquire o lock em algum momento
+vai liberá-lo, sempre o próximo irá adquirir o lock portanto satisfaz o starvation-freedom.
+
+2. Implement this class using *synchronized*, +wait()+, +notify()+, and +notifyAll()+.
+
+link:dakerfp_ecdmf/Bathroom2.java[]
+
+- Mesmo protocolo que foi usado na implementação por locks e conditional variables.
+
+For each implementation, explain why its satisfies mutual exclusion and starvation
+freedom.
+
+[start=98]
+98. Consider an application with distinct sets of __active__ and __passive__
+threads, where we want to block the passive threads until all acive threads
+give permission for the passive threads to proceed.
+
+A +CountDownLatch+ encapsulates a counter, initialized to be n, the number of
+active threads. When an active methods is ready for the passive threads to run,
+it calls +countDown()+, which decrement the counter. Each passive thread calls
++await()+, which blocks the thread until the counter reaches zero. (See Fig. 8.16)
+
+Provide a +CountDownLatch+ implementation. Do not worry about reusing the
++CountDownLatch+ object.
+
+link:dakerfp_ecdmf/CountDownLatch.java[]
